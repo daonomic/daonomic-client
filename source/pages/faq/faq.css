@@ -1,0 +1,20 @@
+@import '~/config/styles/media-queries.css';
+@import '~/components/spoiler/spoiler-config.css';
+
+.title {
+  padding-left: var(--spoiler-horizontal-padding-mobile);
+  padding-right: var(--spoiler-horizontal-padding-mobile);
+  padding-top: 10px;
+  padding-bottom: 15px;
+
+  @media (--desktop) {
+    padding-left: var(--spoiler-horizontal-padding);
+    padding-right: var(--spoiler-horizontal-padding);
+    padding-top: 15px;
+    padding-bottom: 25px;
+  }
+}
+
+.list {
+  padding-bottom: 20px;
+}

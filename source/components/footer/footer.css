@@ -1,0 +1,39 @@
+@import '~/config/styles/colors.css';
+
+.root {
+  display: block;
+  width: 100%;
+  padding-top: 30px;
+  color: var(--color-nav-link);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid rgba(150, 155, 158, .24);
+  visibility: hidden;
+}
+
+.logo {
+  display: block;
+}
+
+.logo path {
+  fill: currentColor;
+}
+
+.link {
+  color: currentColor;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.link:hover,
+.link:focus {
+  color: var(--color-nav-link-hover);
+  transition: none;
+}

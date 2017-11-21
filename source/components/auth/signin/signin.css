@@ -1,0 +1,7 @@
+@import '~/config/styles/colors.css';
+
+.link {
+  margin-left: 30px;
+  color: var(--color-text-muted);
+  opacity: 0.64;
+}

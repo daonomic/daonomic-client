@@ -1,0 +1,23 @@
+@import '~/config/styles/colors.css';
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.center {
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color-text-link);
+}
+
+.link:hover,
+.link:focus {
+  text-decoration: underline;
+}
+
+.word-break-all {
+  word-break: break-all;
+}

@@ -1,0 +1,10 @@
+@import '~/config/styles/sizes.css';
+
+.root {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--size-site-width);
+  margin: auto;
+  padding-left: var(--size-column-gutter);
+  padding-right: var(--size-column-gutter);
+}

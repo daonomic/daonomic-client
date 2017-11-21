@@ -1,0 +1,26 @@
+@import '~/config/styles/media-queries.css';
+@import '~/config/styles/colors.css';
+
+.title {
+  padding-bottom: 30px;
+
+  @media (--desktop) {
+    padding-bottom: 40px;
+  }
+}
+
+.row {
+  padding-bottom: 20px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.error {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--color-danger);
+}

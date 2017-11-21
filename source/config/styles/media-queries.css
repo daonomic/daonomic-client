@@ -1,0 +1,2 @@
+@custom-media --tablet (width >= 480px);
+@custom-media --desktop (width >= 960px);

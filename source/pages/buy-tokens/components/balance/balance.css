@@ -1,0 +1,17 @@
+@import '~/config/styles/colors.css';
+
+.root {
+  color: #fff;
+  background-color: var(--color-primary);
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  opacity: .64;
+}
+
+.balance {
+  font-weight: 600;
+  font-size: 24px;
+}

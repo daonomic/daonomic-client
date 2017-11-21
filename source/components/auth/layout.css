@@ -1,0 +1,19 @@
+@import '~/config/styles/sizes.css';
+@import '~/config/styles/media-queries.css';
+
+.content {
+  padding-top: 30px;
+
+  @media (--desktop) {
+    padding-top: 60px;
+  }
+}
+
+.container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(var(--size-main-column) + var(--size-column-gutter) * 2);
+  margin: auto;
+  padding-left: var(--size-column-gutter);
+  padding-right: var(--size-column-gutter);
+}

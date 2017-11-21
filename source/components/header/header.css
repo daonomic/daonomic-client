@@ -1,0 +1,43 @@
+@import '~/config/styles/media-queries';
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media (--desktop) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.left {
+  order: 1;
+
+  @media (--desktop) {
+    display: none;
+  }
+}
+
+.navigation {
+  order: 2;
+  flex: 1 1 100%;
+  display: none;
+  padding-top: 20px;
+
+  @media (--desktop) {
+    order: 1;
+    display: block;
+    padding-top: 0;
+    flex-basis: auto;
+  }
+}
+
+.navigation_expanded {
+  display: block;
+}
+
+.right {
+  order: 1;
+}
