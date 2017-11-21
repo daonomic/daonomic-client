@@ -1,0 +1,29 @@
+@import '~/config/styles/colors.css';
+
+.root {
+  font-size: 14px;
+}
+
+.title {
+  padding-bottom: 12px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.price {
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+
+.sold {
+  padding-top: 10px;
+}
+
+.section:not(:last-child) {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-borders);
+}
+
+.section:not(:first-child) {
+  padding-top: 14px;
+}

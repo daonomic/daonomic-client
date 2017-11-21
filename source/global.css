@@ -1,0 +1,20 @@
+@import '~/config/styles/colors.css';
+
+html,
+body {
+  box-sizing: border-box;
+  height: 100%;
+  font-family: Open Sans, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  background-color: var(--color-page-bg);
+  color: var(--color-text);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}

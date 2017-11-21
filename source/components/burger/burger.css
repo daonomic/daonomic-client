@@ -1,0 +1,72 @@
+@import '~/config/styles/colors.css';
+
+:root {
+  --burger-line-width: 5px;
+}
+
+.root {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: calc(var(--burger-line-width) * 6);
+  height: calc(var(--burger-line-width) * 6);
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+.inner,
+.inner::before,
+.inner::after {
+  display: block;
+  width: 100%;
+  height: var(--burger-line-width);
+  background-color: #000;
+  border-radius: var(--burger-line-width);
+}
+
+.root:hover .inner,
+.root:focus .inner,
+.root:hover .inner::before,
+.root:focus .inner::before,
+.root:hover .inner::after,
+.root:focus .inner::after {
+  background-color: var(--color-primary);
+}
+
+.inner {
+  position: relative;
+}
+
+.root_active .inner,
+.root_active:hover .inner,
+.root_active:focus .inner {
+  background-color: transparent;
+}
+
+.inner::before,
+.inner::after {
+  content: '';
+  position: absolute;
+}
+
+.inner::before {
+  top: calc(var(--burger-line-width) * -2);
+}
+
+.root_active .inner::before {
+  top: 0;
+  transform: rotate(135deg);
+}
+
+.inner::after {
+  bottom: calc(var(--burger-line-width) * -2);
+}
+
+.root_active .inner::after {
+  bottom: 0;
+  transform: rotate(-135deg);
+}

@@ -1,0 +1,55 @@
+@import '~/config/styles/colors.css';
+@import '~/config/styles/media-queries.css';
+
+.root {
+  border-radius: 6px;
+  background-color: var(--color-panel-bg);
+  box-shadow: 0 1px 2px 0 var(--color-panel-shadow);
+}
+
+.root_padding_normal {
+  padding: 10px 15px;
+
+  @media (--desktop) {
+    padding: 15px 20px;
+  }
+}
+
+.root_padding_large {
+  padding: 20px 30px;
+
+  @media (--desktop) {
+    padding: 30px 40px;
+  }
+}
+
+.root + .root {
+  margin-top: 16px;
+}
+
+.separator {
+  display: block;
+  height: 1px;
+  background-color: var(--color-borders);
+}
+
+.root_padding_normal .separator {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+.root_padding_large .separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: -30px;
+  margin-right: -30px;
+
+  @media (--desktop) {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: -40px;
+    margin-right: -40px;
+  }
+}

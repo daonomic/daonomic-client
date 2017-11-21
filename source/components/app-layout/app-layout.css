@@ -1,0 +1,14 @@
+@import '~/config/styles/sizes.css';
+
+.root {
+  display: block;
+}
+
+.container {
+  composes: root from '~/components/container/container.css';
+}
+
+.header {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}

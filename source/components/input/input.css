@@ -1,0 +1,95 @@
+@import '~/config/styles/colors.css';
+
+:root {
+  --input-height: 40px;
+  --label-height: 17px;
+  --color-gray: #8492a5;
+}
+
+.field {
+  box-sizing: border-box;
+  position: relative;
+  height: calc(var(--input-height) + var(--label-height));
+  padding-top: var(--label-height);
+}
+
+.input {
+  box-sizing: border-box;
+  appearance: none;
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: var(--input-height);
+  line-height: 1;
+  font-size: 16px;
+  line-height: 1.125;
+  outline: 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-borders);
+  background-color: transparent;
+  transition: border .2s;
+}
+
+.input:-webkit-autofill {
+  /* this prevents autofilled input background-color change in Chrome */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.root_invalid .input:not(:focus) {
+  border-bottom-color: var(--color-danger);
+}
+
+.input:focus {
+  border-bottom-color: var(--color-primary);
+  box-shadow: 0 1px 0 var(--color-primary);
+}
+
+.input::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  height: 1px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.input:focus::after {
+  opacity: 1;
+}
+
+.label {
+  box-sizing: border-box;
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 18px;
+  transform: translateY(calc(var(--label-height) / 2 + var(--input-height) / 2));
+  line-height: var(--label-height);
+  color: var(--color-gray);
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.input:focus ~ .label {
+  color: var(--color-primary);
+}
+
+.root_invalid .label {
+  color: var(--color-danger);
+}
+
+.label_fixed {
+  transform: translateY(0);
+  font-size: 12px;
+}
+
+.error {
+  margin: 0;
+  padding-top: 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-danger);
+}

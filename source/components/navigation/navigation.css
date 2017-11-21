@@ -1,0 +1,55 @@
+@import '~/config/styles/colors.css';
+@import '~/config/styles/media-queries';
+
+.root {
+  display: block;
+  width: 100%;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @media (--desktop) {
+    display: flex;
+  }
+}
+
+.item {
+  @media (--desktop) {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.link {
+  display: block;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-nav-link);
+  border-bottom: 2px solid transparent;
+  transition: color .2s;
+
+  @media (--desktop) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.link:hover,
+.link:focus {
+  color: var(--color-nav-link-hover);
+  transition: none;
+}
+
+.link_active,
+.link_active:hover,
+.link_active:focus {
+  color: var(--color-nav-link-active);
+  cursor: default;
+  border-bottom: 2px solid var(--color-primary);
+}

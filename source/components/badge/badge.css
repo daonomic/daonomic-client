@@ -1,0 +1,10 @@
+@import '~/config/styles/colors.css';
+
+.root {
+  display: inline-block;
+  padding: .2142857143em .5714285714em;
+  line-height: 1.35;
+  border-radius: 4px;
+  color: #fff;
+  background-color: var(--color-primary);
+}
