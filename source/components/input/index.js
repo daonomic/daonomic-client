@@ -14,6 +14,7 @@ export default class Input extends PureComponent {
     type: PropTypes.string,
     className: PropTypes.string,
     error: PropTypes.string,
+    disabled: PropTypes.bool,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
   };
@@ -22,6 +23,7 @@ export default class Input extends PureComponent {
     type: 'text',
     className: '',
     error: '',
+    disabled: false,
     onFocus: () => {},
     onBlur: () => {},
   };
@@ -69,6 +71,7 @@ export default class Input extends PureComponent {
       className,
       value,
       error,
+      disabled,
       ...restProps
     } = this.props;
     const { isFocused } = this.state;
@@ -77,6 +80,7 @@ export default class Input extends PureComponent {
       <div
         className={cn(styles.root, {
           [styles.root_invalid]: Boolean(error),
+          [styles.root_disabled]: disabled,
         })}
       >
         <div className={styles.field}>
@@ -84,6 +88,7 @@ export default class Input extends PureComponent {
             {...restProps}
             value={value}
             id={id}
+            disabled={disabled}
             className={cn(className, styles.input)}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

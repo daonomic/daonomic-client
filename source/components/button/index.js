@@ -14,12 +14,14 @@ class Button extends PureComponent {
   static propTypes = {
     size: PropTypes.oneOf(Object.values(sizes)),
     className: PropTypes.string,
+    tagName: PropTypes.string,
     children: PropTypes.node,
   };
 
   static defaultProps = {
     size: sizes.normal,
     className: '',
+    tagName: 'button',
     children: null,
   };
 
@@ -27,17 +29,15 @@ class Button extends PureComponent {
     const {
       className,
       size,
+      tagName,
       ...restProps
     } = this.props;
 
-    return (
-      <button
-        className={cn(className, styles.root, {
-          [styles[`root_size_${size}`]]: size,
-        })}
-        {...restProps}
-      />
-    );
+    restProps.className = cn(className, styles.root, {
+      [styles[`root_size_${size}`]]: size,
+    });
+
+    return React.createElement(tagName, restProps);
   }
 }
 

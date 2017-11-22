@@ -50,6 +50,12 @@ export default class Routes extends Component {
 
               <Route
                 exact
+                path={pages.app.createWallet.getPath()}
+                component={pages.app.createWallet.component}
+              />
+
+              <Route
+                exact
                 path={pages.app.faq.getPath()}
                 component={pages.app.faq.component}
               />

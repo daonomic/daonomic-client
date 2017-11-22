@@ -9,7 +9,7 @@ storiesOf('Input', module)
   .add('with error', () => (
     <Input.Uncontrolled
       label="E-mail"
-      value="dev@0v1se.com."
+      value="test@email.com."
       error="Incorrect e-mail"
     />
   ));

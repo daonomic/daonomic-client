@@ -6,6 +6,16 @@
   --color-gray: #8492a5;
 }
 
+.root_disabled {
+  opacity: .7;
+}
+
+.root_disabled,
+.root_disabled .field,
+.root_disabled .input {
+  cursor: not-allowed;
+}
+
 .field {
   box-sizing: border-box;
   position: relative;

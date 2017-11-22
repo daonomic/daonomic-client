@@ -24,7 +24,7 @@ export default class Faq extends PureComponent {
     const { entries } = this.props;
 
     return (
-      <div className={styles.root}>
+      <div>
         <Panel>
           <Heading
             tagName="h1"

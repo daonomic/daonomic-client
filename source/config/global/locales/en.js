@@ -50,7 +50,7 @@ window.config.locales.en = {
 
   wallet: {
     title: 'Step 1: Your Ethereum Wallet',
-    annotation: 'In order to recieve {{ tokenName }} tokens you need to give your Etherium Wallet Adress.',
+    annotation: 'In order to recieve {{ tokenName }} tokens you need to give your Ethereum Wallet Adress.',
     noticeTitle: 'Important',
     noticeText: 'We are not able to send tokens to Exchange Ethereum wallets.',
     ethereumAddress: 'Ethereum address',

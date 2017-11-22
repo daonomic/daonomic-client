@@ -6,30 +6,28 @@ import saleTimelines from '~/config/sale-timeline';
 import styles from './sale-timeline.css';
 
 export default class SaleTimeline extends Component {
-  renderSteps = (timeline) => (
-    timeline.map(({
-      date,
-      text,
-      percent,
-      isActive,
-    }) => (
-      <li key={date} className={cn(styles.item, { [styles['item_is-active']]: isActive })}>
-        <div className={styles.row}>
-          {date}
+  renderSteps = (timeline) => timeline.map(({
+    date,
+    text,
+    percent,
+    isActive,
+  }) => (
+    <li key={date} className={cn(styles.item, { [styles['item_is-active']]: isActive })}>
+      <div className={styles.row}>
+        {date}
 
-          {isActive ?
-            <span className={styles.now}>{' '}Now</span> :
-            null
-          }
-        </div>
-        <div className={styles.row}>
-          {text}
-          {' '}
-          <Badge className={cn({ [styles['badge_is-not-active']]: !isActive })}>{percent}</Badge>
-        </div>
-      </li>
-    ))
-  );
+        {isActive ?
+          <span className={styles.now}>{' '}Now</span> :
+          null
+        }
+      </div>
+      <div className={styles.row}>
+        {text}
+        {' '}
+        <Badge className={cn({ [styles['badge_is-not-active']]: !isActive })}>{percent}</Badge>
+      </div>
+    </li>
+  ));
 
   render() {
     if (saleTimelines.length === 0) {
@@ -37,7 +35,7 @@ export default class SaleTimeline extends Component {
     }
 
     return saleTimelines.map(({ title, steps }) => (
-      <Panel className={styles.root}>
+      <Panel key={title} className={styles.root}>
         <h3 className={styles.title}>
           {title}
         </h3>
