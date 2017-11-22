@@ -5,7 +5,6 @@ i18next
   .use(reactI18nextModule)
   .init({
     lng: 'en',
-    debug: true,
     defaultNS: 'common',
   });
 

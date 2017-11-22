@@ -1,25 +1,37 @@
 window.config = Object.assign(window.config || {}, {
   sale: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
   common: {
-    contactEmail: 'support@domain',
-    termsOfServiceURL: 'domain/terms',
+    contactEmail: 'dev@0v1se.com',
+    termsOfServiceURL: 'terms.url',
   },
   faq: [
     {
+      question: 'What is the Hirematch Token',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
+    },
+    {
+      question: 'How is HireMatch using blockchain technology',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
+    },
+    {
       question: 'How Can I invest?',
-      answer: 'Answer for the question',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
     },
     {
       question: 'What do you already have?',
-      answer: 'Answer for the question',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
     },
     {
       question: 'Why we should trust you?',
-      answer: 'Answer for the question',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
     },
     {
       question: 'How collected funds will be used?',
-      answer: 'Answer for the question',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
+    },
+    {
+      question: 'How can I Aquire Hire Tokens?',
+      answer: 'The use of blockchain technology is reflected in our platform by two major elements: Job Posters (Companies and Recruiters) and Agents (Those who match, verify and submit talent). Blockchain technology, specifically the Smart Contract ensures that agreements between job posters and agents issued on our platform are unique, secure, automatic and transparent.',
     },
   ],
   saleTimeline: [
