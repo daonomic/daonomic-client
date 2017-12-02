@@ -1,5 +1,4 @@
 @import '~/config/styles/sizes.css';
-@import '~/config/styles/media-queries';
 
 .root {
   @media (--desktop) {

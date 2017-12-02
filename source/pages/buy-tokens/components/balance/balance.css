@@ -1,8 +1,6 @@
-@import '~/config/styles/colors.css';
-
 .root {
-  color: #fff;
-  background-color: var(--color-primary);
+  color: var(--theme-primary-opposite);
+  background-color: var(--theme-primary);
 }
 
 .title {

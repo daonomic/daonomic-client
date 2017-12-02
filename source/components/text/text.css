@@ -1,7 +1,5 @@
-@import '~/config/styles/colors.css';
-
 .muted {
-  color: var(--color-text-muted);
+  color: var(--theme-muted);
 }
 
 .center {
@@ -10,7 +8,7 @@
 
 .link {
   text-decoration: none;
-  color: var(--color-text-link);
+  color: var(--theme-text-link);
 }
 
 .link:hover,

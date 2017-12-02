@@ -1,6 +1,12 @@
 const postcssImport = require('postcss-import');
 const createResolver = require('postcss-import-webpack-resolver');
-const cssnext = require('postcss-cssnext');
+const nesting = require('postcss-nesting');
+const customMedia = require('postcss-custom-media');
+const customProperties = require('postcss-custom-properties');
+const calc = require('postcss-calc');
+const colorFunction = require('postcss-color-function');
+const flexbugsFixes = require('postcss-flexbugs-fixes');
+const autoprefixer = require('autoprefixer');
 const csso = require('postcss-csso');
 const webpackConfig = require('./webpack/base.config');
 
@@ -11,7 +17,13 @@ module.exports = {
         alias: webpackConfig.resolve.alias,
       }),
     }),
-    cssnext(),
+    nesting(),
+    customMedia(),
+    customProperties(),
+    calc(),
+    colorFunction(),
+    flexbugsFixes(),
+    autoprefixer(),
     csso(),
   ],
 };

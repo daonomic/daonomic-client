@@ -1,6 +1,7 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const baseConfig = require('./base.config');
+const { themeImportDeclaration } = require('./common');
 
 const extractCSS = new ExtractTextPlugin('app.css');
 
@@ -29,6 +30,10 @@ module.exports = {
             },
           },
           'postcss-loader',
+          {
+            loader: 'webpack-append',
+            query: themeImportDeclaration,
+          },
         ]),
       },
     ],

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import Panel from '~/components/panel';
-import Badge from '~/components/badge';
+import Badge from 'daonomic-ui/source/badge';
+import Panel from 'daonomic-ui/source/panel';
 import saleTimelines from '~/config/sale-timeline';
 import styles from './sale-timeline.css';
 
@@ -12,7 +12,12 @@ export default class SaleTimeline extends Component {
     percent,
     isActive,
   }) => (
-    <li key={date} className={cn(styles.item, { [styles['item_is-active']]: isActive })}>
+    <li
+      key={date}
+      className={cn(styles.item, {
+        [styles.item_active]: isActive,
+      })}
+    >
       <div className={styles.row}>
         {date}
 
@@ -24,7 +29,13 @@ export default class SaleTimeline extends Component {
       <div className={styles.row}>
         {text}
         {' '}
-        <Badge className={cn({ [styles['badge_is-not-active']]: !isActive })}>{percent}</Badge>
+        <Badge
+          className={cn({
+            [styles.badge_inactive]: !isActive,
+          })}
+        >
+          {percent}
+        </Badge>
       </div>
     </li>
   ));

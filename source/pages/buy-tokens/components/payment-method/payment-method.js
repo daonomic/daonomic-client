@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer, PropTypes as MobxPropTypes } from 'mobx-react';
+import Panel from 'daonomic-ui/source/panel';
+import Select from 'daonomic-ui/source/select';
 import Translation from '~/components/translation';
 import RenderChildren from '~/components/render-children';
-import Panel from '~/components/panel';
 import Heading from '~/components/heading';
-import Select from '~/components/select';
 import textStyles from '~/components/text/text.css';
 import styles from './payment-method.css';
 
@@ -163,7 +163,7 @@ export default class PaymentMethod extends Component {
   };
 
   render = () => (
-    <Panel paddingSize={Panel.paddingSizes.large}>
+    <Panel paddingSize="large">
       <Heading
         className={styles.title}
         tagName="h2"
