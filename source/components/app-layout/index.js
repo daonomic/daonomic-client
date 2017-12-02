@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import Page from 'daonomic-ui/source/page';
 import Header from '~/components/header';
 import Footer from '~/components/footer';
-import Page from '~/components/page';
 import styles from './app-layout.css';
 
 export default class AppLayout extends PureComponent {

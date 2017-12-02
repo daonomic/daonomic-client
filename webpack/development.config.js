@@ -1,7 +1,7 @@
 const glob = require('glob');
 const webpack = require('webpack');
 const baseConfig = require('./base.config');
-const { sourceDirPath } = require('./common');
+const { sourceDir, themeImportDeclaration } = require('./common');
 
 module.exports = {
   ...baseConfig,
@@ -13,7 +13,7 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
 
-    ...glob.sync(`${sourceDirPath}/config/global/**/*.js`),
+    ...glob.sync(`${sourceDir}/config/global/**/*.js`),
     ...baseConfig.entry,
   ],
 
@@ -41,6 +41,10 @@ module.exports = {
             },
           },
           'postcss-loader',
+          {
+            loader: 'webpack-append',
+            query: themeImportDeclaration,
+          },
         ],
       },
     ],

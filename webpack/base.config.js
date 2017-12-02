@@ -1,24 +1,23 @@
-const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
-  sourceDirPath,
-  buildDirPath,
+  sourceDir,
+  buildDir,
   nodeEnv,
   isAnalyzeModeEnabled,
 } = require('./common');
 
 const config = {
   entry: [
-    `${sourceDirPath}/polyfills.js`,
-    `${sourceDirPath}/index.js`,
-    `${sourceDirPath}/global.css`,
+    `${sourceDir}/polyfills.js`,
+    `${sourceDir}/index.js`,
+    `${sourceDir}/global.css`,
   ],
 
   output: {
-    path: path.resolve(__dirname, buildDirPath),
+    path: buildDir,
     publicPath: '/',
     filename: 'app.js',
   },
@@ -26,7 +25,7 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      '~': sourceDirPath,
+      '~': sourceDir,
     },
     plugins: [
       new DirectoryNamedWebpackPlugin({
@@ -39,7 +38,10 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules)/,
+        include: [
+          sourceDir,
+          /daonomic-ui/,
+        ],
         use: 'babel-loader',
       },
       {
@@ -82,7 +84,7 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
     }),
     new HtmlWebpackPlugin({
-      template: `${sourceDirPath}/index.html`,
+      template: `${sourceDir}/index.html`,
       hash: true,
       minify: {
         collapseWhitespace: true,

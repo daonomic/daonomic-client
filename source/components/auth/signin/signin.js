@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import Button from 'daonomic-ui/source/button';
+import Input from 'daonomic-ui/source/input';
+import Panel from 'daonomic-ui/source/panel';
 import Translation from '~/components/translation';
-import Panel from '~/components/panel';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
-import Input from '~/components/input';
-import Button from '~/components/button';
 import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
@@ -61,7 +61,7 @@ export default class SignIn extends PureComponent {
 
     return (
       <Layout>
-        <Panel paddingSize={Panel.paddingSizes.large}>
+        <Panel paddingSize="large">
           <form onSubmit={onSubmit}>
             <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
               <Translation id="auth:signInHeading" />
