@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer, inject } from 'mobx-react';
+import Button from 'daonomic-ui/source/button';
+import Input from 'daonomic-ui/source/input';
+import Panel from 'daonomic-ui/source/panel';
 import Translation from '~/components/translation';
-import Panel from '~/components/panel';
 import Heading from '~/components/heading';
-import Input from '~/components/input';
-import Button from '~/components/button';
 import styles from './ethereum-wallet.css';
 
 @inject(({ walletAddress }) => ({
@@ -42,7 +42,7 @@ export default class EthereumWallet extends Component {
     const isSaveDisabled = address.trim() === '' || isSaving || isSaved;
 
     return (
-      <Panel paddingSize={Panel.paddingSizes.large}>
+      <Panel paddingSize="large">
         <Heading
           className={styles.title}
           tagName="h2"

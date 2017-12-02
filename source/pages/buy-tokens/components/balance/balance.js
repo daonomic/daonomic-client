@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
+import Panel from 'daonomic-ui/source/panel';
 import Translation from '~/components/translation';
-import Panel from '~/components/panel';
 import styles from './balance.css';
 
 @inject(({ walletBalance }) => ({

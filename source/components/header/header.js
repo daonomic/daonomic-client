@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
+import Button from 'daonomic-ui/source/button';
+import Panel from 'daonomic-ui/source/panel';
 import Translation from '~/components/translation';
-import Panel from '~/components/panel';
-import Button from '~/components/button';
 import Navigation from '~/components/navigation';
 import Burger from '~/components/burger';
 import pages from '~/pages';
@@ -98,7 +98,7 @@ export default class Header extends Component {
         </div>
 
         <div className={styles.right}>
-          <Button onClick={this.handleClickLogout} size={Button.sizes.small}>
+          <Button onClick={this.handleClickLogout} size="small">
             <Translation id="auth:logout" />
           </Button>
         </div>
