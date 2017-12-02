@@ -1,0 +1,11 @@
+@import "daonomic-ui/source/theme.css";
+
+:root {
+  --theme-text: #1f2d3d;
+  --theme-text-muted: #8492a5;
+  --theme-text-link: #4382ff;
+
+  --theme-nav-link: color(var(--theme-nav-link-hover) alpha(64%));
+  --theme-nav-link-hover: #8492a5;
+  --theme-nav-link-active: #202d3c;
+}

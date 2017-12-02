@@ -4,10 +4,10 @@ import { observable, action } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { saveAs } from 'file-saver';
 import cn from 'classnames';
-import Panel from '~/components/panel';
+import Button from 'daonomic-ui/source/button';
+import Input from 'daonomic-ui/source/input';
+import Panel from 'daonomic-ui/source/panel';
 import Heading from '~/components/heading';
-import Input from '~/components/input';
-import Button from '~/components/button';
 import textStyles from '~/components/text/text.css';
 import styles from './create-wallet.css';
 
@@ -142,7 +142,7 @@ export default class CreateWallet extends Component {
   };
 
   render = () => (
-    <Panel paddingSize={Panel.paddingSizes.large}>
+    <Panel paddingSize="large">
       <Heading
         tagName="h1"
         size={Heading.sizes.normal}

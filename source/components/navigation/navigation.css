@@ -1,6 +1,3 @@
-@import '~/config/styles/colors.css';
-@import '~/config/styles/media-queries';
-
 .root {
   display: block;
   width: 100%;
@@ -30,7 +27,7 @@
   text-decoration: none;
   text-align: center;
   font-weight: 600;
-  color: var(--color-nav-link);
+  color: var(--theme-nav-link);
   border-bottom: 2px solid transparent;
   transition: color .2s;
 
@@ -42,14 +39,14 @@
 
 .link:hover,
 .link:focus {
-  color: var(--color-nav-link-hover);
+  color: var(--theme-nav-link-hover);
   transition: none;
 }
 
 .link_active,
 .link_active:hover,
 .link_active:focus {
-  color: var(--color-nav-link-active);
+  color: var(--theme-nav-link-active);
   cursor: default;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--theme-primary);
 }

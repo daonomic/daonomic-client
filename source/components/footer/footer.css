@@ -1,10 +1,8 @@
-@import '~/config/styles/colors.css';
-
 .root {
   display: block;
   width: 100%;
   padding-top: 30px;
-  color: var(--color-nav-link);
+  color: var(--theme-nav-link);
 }
 
 .inner {
@@ -34,6 +32,6 @@
 
 .link:hover,
 .link:focus {
-  color: var(--color-nav-link-hover);
+  color: var(--theme-nav-link-hover);
   transition: none;
 }
