@@ -24,7 +24,7 @@
     "qa"
   ],
   "author": "Dev dev@0v1se.com",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@storybook/react": "3.2.14",
     "autoprefixer": "7.1.6",
