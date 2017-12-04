@@ -1,8 +1,8 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/api.mock';
-import { AuthStore } from '~/stores/auth/auth';
-import { WalletAddressStore } from '~/stores/wallet/address/address';
-import { WalletBalanceStore } from './balance';
+import { AuthStore } from '~/stores/auth';
+import { WalletAddressStore } from '~/stores/wallet/address';
+import { WalletBalanceStore } from './';
 
 describe('wallet balance store', () => {
   test('should not load balance if wallet address is not saved yet', () => {

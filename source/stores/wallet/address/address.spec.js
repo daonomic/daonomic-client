@@ -1,7 +1,7 @@
 import { when } from 'mobx';
 import mockedApi from '~/api/api.mock';
-import { AuthStore } from '~/stores/auth/auth';
-import { WalletAddressStore } from './address';
+import { AuthStore } from '~/stores/auth';
+import { WalletAddressStore } from './';
 
 describe('wallet store', () => {
   describe('not authenticated', () => {

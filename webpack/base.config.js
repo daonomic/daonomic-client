@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   sourceDir,
@@ -27,11 +26,6 @@ const config = {
     alias: {
       '~': sourceDir,
     },
-    plugins: [
-      new DirectoryNamedWebpackPlugin({
-        honorIndex: true,
-      }),
-    ],
   },
 
   module: {

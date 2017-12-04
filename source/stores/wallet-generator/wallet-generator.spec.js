@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import walletGenerator from './wallet-generator';
+import walletGenerator from './';
 
 describe('walletGenerator', () => {
   test('should not generate wallet initially', () => {
