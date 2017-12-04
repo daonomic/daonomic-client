@@ -26,7 +26,7 @@
   "author": "Dev dev@0v1se.com",
   "license": "GPL-3.0",
   "devDependencies": {
-    "@storybook/react": "3.2.14",
+    "@storybook/react": "3.2.17",
     "autoprefixer": "7.2.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "8.0.3",
