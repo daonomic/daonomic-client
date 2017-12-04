@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer, PropTypes as MobxPropTypes } from 'mobx-react';
 import Panel from 'daonomic-ui/source/panel';
 import Select from 'daonomic-ui/source/select';
 import Translation from '~/components/translation';
-import RenderChildren from '~/components/render-children';
 import Heading from '~/components/heading';
 import textStyles from '~/components/text/text.css';
 import styles from './payment-method.css';
@@ -121,7 +120,7 @@ export default class PaymentMethod extends Component {
     }
 
     return (
-      <RenderChildren>
+      <Fragment>
         <Heading
           tagName="h3"
           size={Heading.sizes.small}
@@ -136,7 +135,7 @@ export default class PaymentMethod extends Component {
         ))}
 
         <Panel.Separator />
-      </RenderChildren>
+      </Fragment>
     );
   };
 
@@ -144,7 +143,7 @@ export default class PaymentMethod extends Component {
     const { walletAddress } = this.props;
 
     return (
-      <RenderChildren>
+      <Fragment>
         <Heading
           tagName="h3"
           size={Heading.sizes.small}
@@ -158,7 +157,7 @@ export default class PaymentMethod extends Component {
             {walletAddress}
           </div>
         </div>
-      </RenderChildren>
+      </Fragment>
     );
   };
 
