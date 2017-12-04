@@ -1,8 +1,8 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/api.mock';
-import { AuthStore } from '~/stores/auth/auth';
-import { WalletAddressStore } from '~/stores/wallet/address/address';
-import { PaymentStore } from './payment';
+import { AuthStore } from '~/stores/auth';
+import { WalletAddressStore } from '~/stores/wallet/address';
+import { PaymentStore } from './';
 
 jest.useFakeTimers();
 

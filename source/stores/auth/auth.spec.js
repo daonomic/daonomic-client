@@ -1,6 +1,6 @@
 import { when } from 'mobx';
-import { AuthStore } from '~/stores/auth/auth';
 import mockedApi from '~/api/api.mock';
+import { AuthStore } from './';
 
 describe('auth store', () => {
   const testEmail = 'pupkin@yandex.ru';
