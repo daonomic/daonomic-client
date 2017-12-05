@@ -30,7 +30,7 @@ export default class Routes extends Component {
         <Route
           exact
           component={pages.createNewPassword.component}
-          path={pages.createNewPassword.getPath()}
+          path={pages.createNewPassword.getPath(':token')}
         />
 
         <Redirect

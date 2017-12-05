@@ -26,7 +26,7 @@ export default {
   },
 
   createNewPassword: {
-    getPath: () => '/sign/create-new-password/:token',
+    getPath: (token) => `/sign/create-new-password/${token}`,
     component: CreateNewPassword,
   },
 
