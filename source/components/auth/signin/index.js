@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Button from 'daonomic-ui/source/button';
@@ -12,7 +12,7 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 
-export default class SignIn extends PureComponent {
+export default class SignIn extends Component {
   static propTypes = {
     password: PropTypes.string,
     email: PropTypes.string,
@@ -95,9 +95,10 @@ export default class SignIn extends PureComponent {
             </div>
 
             <div className={commonStyles.footer}>
-              <Button disabled={isLoading}>
+              <Button type="submit" disabled={isLoading}>
                 <Translation id="auth:signInSubmit" />
               </Button>
+
               <Link href="/sign/reset-password" className={styles.link}>
                 <Translation id="auth:forgotPassword" />
               </Link>

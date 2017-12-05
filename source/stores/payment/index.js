@@ -143,13 +143,14 @@ export class PaymentStore {
 
     reaction(
       () => this.selectedMethodAddress,
-      () => {
-        generateQRCode(this.selectedMethodAddress)
-          .then((code) => {
+      (address) => {
+        if (address) {
+          generateQRCode(address).then((generatedQrCode) => {
             runInAction(() => {
-              this.selectedMethodAddressQRCode = code;
+              this.selectedMethodAddressQRCode = generatedQrCode;
             });
           });
+        }
       },
     );
   }

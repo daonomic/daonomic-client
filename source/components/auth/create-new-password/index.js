@@ -99,7 +99,7 @@ export default class CreateNewPassword extends PureComponent {
           </div>
 
           <div className={commonStyles.footer}>
-            <Button disabled={isSaving}>
+            <Button type="submit" disabled={isSaving}>
               <Translation id="auth:submitNewPassword" />
             </Button>
           </div>
