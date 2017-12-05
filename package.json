@@ -8,11 +8,10 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server",
+    "start": "cross-env NODE_ENV=development API=development DEBUG_ENABLED=true webpack-dev-server",
     "storybook": "start-storybook -p 9001",
     "prebuild": "rm -rf ./build",
     "build": "cross-env NODE_ENV=production webpack && npm run build:copy-config",
-    "build:production-debug": "cross-env NODE_ENV=production-debug webpack && npm run build:copy-config",
     "build:copy-config": "cp -R ./source/config/global/* ./build",
     "build:analyze": "cross-env NODE_ENV=production ANALYZE=true npm run build",
     "test": "jest --verbose",

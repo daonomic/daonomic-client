@@ -6,8 +6,6 @@ const { sourceDir, themeImportDeclaration } = require('./common');
 module.exports = {
   ...baseConfig,
 
-  devtool: 'source-map',
-
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3000',
