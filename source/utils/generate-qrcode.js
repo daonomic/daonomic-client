@@ -1,14 +1,14 @@
 import QRCode from 'qrcode';
 
-export default (raw) => (
-  new Promise((resolve, reject) => {
-    QRCode.toDataURL(raw, { errorCorrectionLevel: 'H' }, (err, code) => {
-      if (err) {
-        reject(err);
+export default function generateQrCode(rawData) {
+  return new Promise((resolve, reject) => {
+    QRCode.toDataURL(rawData, { errorCorrectionLevel: 'H' }, (error, generatedQrCode) => {
+      if (error) {
+        reject(error);
         return;
       }
 
-      resolve(code);
+      resolve(generatedQrCode);
     });
-  })
-);
+  });
+}

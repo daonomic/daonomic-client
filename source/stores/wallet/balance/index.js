@@ -30,8 +30,7 @@ export class WalletBalanceStore {
         this.loadBalance();
         balanceUpdateIntervalId = setInterval(() => this.loadBalance(), WalletBalanceStore.balanceUpdateInterval);
       } else {
-        this.balanceState = dataStates.initial;
-        this.balance = 0;
+        this.resetBalance();
       }
     });
   }
@@ -52,6 +51,11 @@ export class WalletBalanceStore {
           this.balanceState = dataStates.failed;
         });
       });
+  };
+
+  @action resetBalance = () => {
+    this.balanceState = dataStates.initial;
+    this.balance = 0;
   };
 }
 

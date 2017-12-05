@@ -58,7 +58,7 @@ export default class SignUp extends Component {
         </div>
 
         <div className={commonStyles.footer}>
-          <Button disabled={isLoading}>
+          <Button type="submit" disabled={isLoading}>
             <Translation id="auth:signUpSubmit" />
           </Button>
         </div>
