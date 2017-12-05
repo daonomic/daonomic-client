@@ -11,7 +11,14 @@ module.exports = {
   plugins: [
     ...baseConfig.plugins,
     extractCSS,
-    new UglifyJsPlugin(),
+    new UglifyJsPlugin({
+      sourceMap: true,
+      uglifyOptions: {
+        output: {
+          comments: false,
+        },
+      },
+    }),
   ],
 
   module: {

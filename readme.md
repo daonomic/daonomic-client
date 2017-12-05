@@ -5,10 +5,11 @@
 In order to develop and build this project you need Node.js `^8.9.0` and NPM `^5.5.1` installed.
 
 ```shell
-npm install # install all dependencies
-npm start # starts dev server
-npm run storybook # starts components library server
-npm run build # builds production version of the project
-npm run build:development # builds development version of the project
-npm run qa # runs linters and tests
+npm install # installs project dependencies
+
+npm start # starts development server
+
+npm run build # builds project
+DEBUG_ENABLED=true npm run build # builds project with sourcemaps for debugging
+API=development npm run build # builds project but switches it to use the development API server
 ```

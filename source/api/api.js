@@ -2,7 +2,7 @@ import axios from 'axios';
 import sale from '~/config/sale';
 import auth from '~/stores/auth';
 
-const apiSubDomain = process.env.NODE_ENV === 'development' ? 'dev' : 'api';
+const apiSubDomain = process.env.API === 'development' ? 'dev' : 'api';
 const daonomicUrl = `https://${apiSubDomain}.daonomic.io/v1`;
 const daoxUrl = `https://${apiSubDomain}.daox.io/v1`;
 

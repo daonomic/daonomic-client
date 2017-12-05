@@ -2,9 +2,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
+  api,
   sourceDir,
   buildDir,
   nodeEnv,
+  isDebugEnabled,
   isAnalyzeModeEnabled,
 } = require('./common');
 
@@ -76,6 +78,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+      'process.env.API': JSON.stringify(api),
     }),
     new HtmlWebpackPlugin({
       template: `${sourceDir}/index.html`,
@@ -92,6 +95,10 @@ if (isAnalyzeModeEnabled) {
     ...config.plugins,
     new BundleAnalyzerPlugin(),
   ];
+}
+
+if (isDebugEnabled) {
+  config.devtool = 'source-map';
 }
 
 module.exports = config;
