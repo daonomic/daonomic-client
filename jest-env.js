@@ -1,2 +1,2 @@
 global.window = {};
-require('./source/config/global/config');
+require('./assets/config');

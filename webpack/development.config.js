@@ -1,7 +1,6 @@
-const glob = require('glob');
 const webpack = require('webpack');
 const baseConfig = require('./base.config');
-const { sourceDir, themeImportDeclaration } = require('./common');
+const { assetsDir, themeImportDeclaration } = require('./common');
 
 module.exports = {
   ...baseConfig,
@@ -11,7 +10,6 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
 
-    ...glob.sync(`${sourceDir}/config/global/**/*.js`),
     ...baseConfig.entry,
   ],
 
@@ -53,5 +51,6 @@ module.exports = {
     port: 3000,
     historyApiFallback: true,
     hot: true,
+    contentBase: assetsDir,
   },
 };
