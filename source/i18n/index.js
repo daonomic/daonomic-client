@@ -12,7 +12,7 @@ i18next
       'common',
       'auth',
       'faq',
-      'payment-methods',
+      'paymentMethods',
       'wallet',
       'widgets',
     ],
