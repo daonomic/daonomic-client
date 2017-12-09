@@ -1,37 +1,63 @@
 import axios from 'axios';
-import sale from '~/config/sale';
+import { sale, realm } from '~/config/common';
 import auth from '~/stores/auth';
 
+const defaultOptions = {
+  get headers() { // auth token can be changed, so we need to recalculate headers before every request
+    return {
+      'X-REALM': realm,
+      'X-AUTH-TOKEN': auth.token,
+    };
+  },
+};
 const apiSubDomain = process.env.API === 'development' ? 'dev-api' : 'api';
-const daonomicUrl = `https://${apiSubDomain}.daonomic.io/v1`;
-const daoxUrl = `https://${apiSubDomain}.daox.io/v1`;
-
 const daonomicApi = axios.create({
-  baseURL: daonomicUrl,
+  baseURL: `https://${apiSubDomain}.daonomic.io/v1`,
 });
 const daoxApi = axios.create({
-  baseURL: daoxUrl,
-});
-
-const getDefaultOptions = () => ({
-  headers: {
-    'X-AUTH-TOKEN': auth.token,
-  },
+  baseURL: `https://${apiSubDomain}.daox.io/v1`,
 });
 
 export default {
   auth: {
-    login: ({ email, password }) => daonomicApi.post('/login', { username: email, password }),
-    register: ({ email }) => daonomicApi.post('/register', { email }),
-    resetPassword: ({ email }) => daonomicApi.post('/password/change', { email }),
-    createNewPassword: ({ token, password, confirmedPassword }) => daonomicApi.post(`/password/change/${token}`, { password, password2: confirmedPassword }),
+    login: ({ email, password }) => daonomicApi.post(
+      '/login',
+      { username: email, password },
+      defaultOptions,
+    ),
+    register: ({ email }) => daonomicApi.post(
+      '/register',
+      { email },
+      defaultOptions,
+    ),
+    resetPassword: ({ email }) => daonomicApi.post(
+      '/password/change',
+      { email },
+      defaultOptions,
+    ),
+    createNewPassword: ({ token, password, confirmedPassword }) => daonomicApi.post(
+      `/password/change/${token}`,
+      {
+        password,
+        password2: confirmedPassword,
+      },
+      defaultOptions,
+    ),
   },
   address: {
-    get: () => daonomicApi.get('/address', getDefaultOptions()),
-    set: ({ address }) => daonomicApi.post('/address', { address }, getDefaultOptions()),
+    get: () => daonomicApi.get('/address', defaultOptions),
+    set: ({ address }) => daonomicApi.post(
+      '/address',
+      { address },
+      defaultOptions,
+    ),
   },
-  getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, getDefaultOptions()),
-  issueToken: ({ token, to, data }) => daoxApi.post(`/tokens/${token}/issue`, { to, data }, getDefaultOptions()),
-  getIssueRequestStatus: ({ id }) => daoxApi.get(`/requests/${id}/status`),
-  getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, getDefaultOptions()),
+  getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
+  issueToken: ({ token, to, data }) => daoxApi.post(
+    `/tokens/${token}/issue`,
+    { to, data },
+    defaultOptions,
+  ),
+  getIssueRequestStatus: ({ id }) => daoxApi.get(`/requests/${id}/status`, defaultOptions),
+  getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
 };

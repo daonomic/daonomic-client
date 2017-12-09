@@ -2,7 +2,7 @@ import { observable, computed, action, reaction, autorun, runInAction } from 'mo
 import api from '~/api/api';
 import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
-import sale from '~/config/sale';
+import { sale } from '~/config/common';
 import auth from '~/stores/auth';
 import walletAddress from '~/stores/wallet/address';
 
