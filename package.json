@@ -73,7 +73,7 @@
     "axios": "0.17.0",
     "classnames": "2.2.5",
     "core-js": "2.5.1",
-    "daonomic-ui": "1.0.2",
+    "daonomic-ui": "1.0.3",
     "ethers-wallet": "2.1.4",
     "file-saver": "1.3.3",
     "i18next": "10.0.7",
