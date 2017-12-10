@@ -12,7 +12,6 @@ const {
 
 const config = {
   entry: [
-    `${sourceDir}/polyfills.js`,
     `${sourceDir}/index.js`,
     `${sourceDir}/global.css`,
   ],
