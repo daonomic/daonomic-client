@@ -1,4 +1,4 @@
-import generateQRCode from './generate-qrcode';
+import generateQRCode from './';
 
 describe('QRCode generator', () => {
   const promises = [
