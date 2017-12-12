@@ -96,6 +96,8 @@ export default {
       id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
       total: 20,
       sold: 10,
+      startDate: Date.now() - 1000,
+      endDate: Date.now() * 10,
       paymentMethods: [
         {
           id: 'ETH',
@@ -123,6 +125,8 @@ export default {
       id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
       total: 20,
       sold: 10,
+      startDate: Date.now() - 1000,
+      endDate: Date.now() * 10,
       paymentMethods: [
         {
           id: 'BTC',

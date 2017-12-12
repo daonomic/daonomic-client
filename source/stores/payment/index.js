@@ -21,15 +21,6 @@ export class PaymentStore {
     return this.dataState === dataStates.loaded;
   }
 
-  @observable tokensCount = {
-    sold: 0,
-    total: 0,
-
-    get notLimited() {
-      return this.total === 0;
-    },
-  };
-
   @observable methods = [];
 
   @computed get prices() {
@@ -161,16 +152,18 @@ export class PaymentStore {
     this.api
       .getIcoInfo()
       .then(({ data }) => data)
-      .then(action(({ sold = 0, total = 0, paymentMethods }) => {
-        this.dataState = dataStates.loaded;
-        this.tokensCount.sold = sold;
-        this.tokensCount.total = total;
-        this.methods = paymentMethods;
-        this.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
-      }))
-      .catch(action(() => {
-        this.dataState = dataStates.failed;
-      }));
+      .then(({ paymentMethods }) => {
+        runInAction(() => {
+          this.dataState = dataStates.loaded;
+          this.methods = paymentMethods;
+          this.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
+        });
+      })
+      .catch(() => {
+        runInAction(() => {
+          this.dataState = dataStates.failed;
+        });
+      });
   };
 
   @action setMethod = (methodId) => {

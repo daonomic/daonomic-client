@@ -40,11 +40,8 @@ describe('payment store', () => {
     expect(payment.isLoading).toBe(true);
 
     when(
-      () => !payment.isLoading,
+      () => payment.isLoaded,
       () => {
-        expect(payment.isLoaded).toBe(true);
-        expect(payment.tokensCount.sold).toBe(10);
-        expect(payment.tokensCount.total).toBe(20);
         expect(payment.methods.length).toBe(2);
         expect(payment.selectedMethodId).toBe('ETH');
         done();
