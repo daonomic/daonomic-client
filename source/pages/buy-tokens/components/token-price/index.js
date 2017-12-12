@@ -9,8 +9,8 @@ import textStyles from '~/components/text/text.css';
 import formatNumber from '~/i18n/format-number';
 import styles from './token-price.css';
 
-@inject(({ payment }) => ({
-  tokensCount: payment.tokensCount,
+@inject(({ payment, sale }) => ({
+  tokensCount: sale.tokensCount,
   prices: payment.prices,
 }))
 @observer

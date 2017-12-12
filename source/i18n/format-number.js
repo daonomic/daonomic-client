@@ -1,5 +1,5 @@
-const numberFormat = new Intl.NumberFormat('en', {
+const numberFormatter = new Intl.NumberFormat('en', {
   maximumFractionDigits: 20,
 });
 
-export default numberFormat.format;
+export default numberFormatter.format;

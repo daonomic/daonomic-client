@@ -3,5 +3,7 @@
   "tokenPrice": "Token Price",
   "tokensSold": "Tokens Sold",
   "cantFindWhatLookingFor": "Can’t find what are you looking for?",
-  "emailUs": "Email Us"
+  "emailUs": "Email Us",
+  "saleStarts": "Sale starts {{ date }}",
+  "saleFinished": "Sale is finished!"
 }
