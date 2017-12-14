@@ -11,6 +11,7 @@ import EthereumWallet from './components/ethereum-wallet';
 import PaymentMethod from './components/payment-method';
 import TokenPrice from './components/token-price';
 import Balance from './components/balance';
+import styles from './buy-tokens.css';
 
 @inject(({ sale, walletAddress }) => ({
   sale,
@@ -43,7 +44,7 @@ class BuyTokens extends Component {
 
   renderPreloader = () => (
     <Panel paddingSize="large">
-      <Heading tagName="h1">
+      <Heading tagName="h1" className={styles.placeholder}>
         <Translation id="loading" />...
       </Heading>
     </Panel>
@@ -61,7 +62,7 @@ class BuyTokens extends Component {
 
     return (
       <Panel paddingSize="large">
-        <Heading tagName="h1">
+        <Heading tagName="h1" className={styles.placeholder}>
           <Translation
             id="widgets:saleStarts"
             data={{
@@ -75,7 +76,7 @@ class BuyTokens extends Component {
 
   renderFinishedSaleContent = () => (
     <Panel paddingSize="large">
-      <Heading tagName="h1">
+      <Heading tagName="h1" className={styles.placeholder}>
         <Translation id="widgets:saleFinished" />
       </Heading>
     </Panel>
