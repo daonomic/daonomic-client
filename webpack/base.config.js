@@ -35,7 +35,7 @@ const config = {
         test: /\.jsx?$/,
         include: [
           sourceDir,
-          /daonomic-ui/,
+          /@daonomic\/ui/,
         ],
         use: 'babel-loader',
       },

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import Button from 'daonomic-ui/source/button';
-import Input from 'daonomic-ui/source/input';
-import Panel from 'daonomic-ui/source/panel';
+import Button from '@daonomic/ui/source/button';
+import Input from '@daonomic/ui/source/input';
+import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';

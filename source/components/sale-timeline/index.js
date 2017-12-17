@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import Badge from 'daonomic-ui/source/badge';
-import Panel from 'daonomic-ui/source/panel';
+import Badge from '@daonomic/ui/source/badge';
+import Panel from '@daonomic/ui/source/panel';
 import saleTimelines from '~/config/sale-timeline';
 import styles from './sale-timeline.css';
 

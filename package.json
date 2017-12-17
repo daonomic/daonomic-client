@@ -70,9 +70,9 @@
     "webpack-dev-server": "2.9.5"
   },
   "dependencies": {
+    "@daonomic/ui": "2.0.0",
     "axios": "0.17.0",
     "classnames": "2.2.5",
-    "daonomic-ui": "1.0.3",
     "ethers-wallet": "2.1.4",
     "file-saver": "1.3.3",
     "i18next": "10.0.7",

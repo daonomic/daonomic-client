@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Panel from 'daonomic-ui/source/panel';
+import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Spoiler from '~/components/spoiler';

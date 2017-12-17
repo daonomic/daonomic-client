@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer, PropTypes as MobxPropTypes } from 'mobx-react';
-import Panel from 'daonomic-ui/source/panel';
-import Select from 'daonomic-ui/source/select';
+import Panel from '@daonomic/ui/source/panel';
+import Select from '@daonomic/ui/source/select';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import textStyles from '~/components/text/text.css';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import Panel from 'daonomic-ui/source/panel';
+import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import formatNumber from '~/i18n/format-number';
 import styles from './balance.css';

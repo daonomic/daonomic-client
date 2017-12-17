@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import classNames from 'classnames';
-import Panel from 'daonomic-ui/source/panel';
+import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import textStyles from '~/components/text/text.css';
 import { contactEmail } from '~/config/common';

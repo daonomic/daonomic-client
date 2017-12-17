@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer, inject } from 'mobx-react';
-import Badge from 'daonomic-ui/source/badge';
-import Meter from 'daonomic-ui/source/meter';
-import Panel from 'daonomic-ui/source/panel';
+import Badge from '@daonomic/ui/source/badge';
+import Meter from '@daonomic/ui/source/meter';
+import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import textStyles from '~/components/text/text.css';
 import formatNumber from '~/i18n/format-number';
