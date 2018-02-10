@@ -14,9 +14,6 @@ const apiSubDomain = process.env.API === 'development' ? 'dev-api' : 'api';
 const daonomicApi = axios.create({
   baseURL: `https://${apiSubDomain}.daonomic.io/v1`,
 });
-const daoxApi = axios.create({
-  baseURL: `https://${apiSubDomain}.daox.io/v1`,
-});
 
 export default {
   auth: {
@@ -53,11 +50,7 @@ export default {
     ),
   },
   getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
-  issueToken: ({ token, to, data }) => daoxApi.post(
-    `/tokens/${token}/issue`,
-    { to, data },
-    defaultOptions,
-  ),
-  getIssueRequestStatus: ({ id }) => daoxApi.get(`/requests/${id}/status`, defaultOptions),
+  issueToken: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
+  getIssueRequestStatus: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
   getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
 };

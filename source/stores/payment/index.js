@@ -33,7 +33,6 @@ export class PaymentStore {
   @observable selectedMethodId = null;
   @observable addressesByMethodId = new Map();
   @observable paymentsByMethodId = new Map();
-  @observable issueRequestsIdsByMethodId = new Map();
   @observable selectedMethodAddressQRCode = null;
 
   @computed get selectedMethod() {
@@ -46,10 +45,6 @@ export class PaymentStore {
 
   @computed get selectedMethodPayments() {
     return this.paymentsByMethodId.get(this.selectedMethodId) || [];
-  }
-
-  @computed get selectedMethodIssueRequestId() {
-    return this.issueRequestsIdsByMethodId.get(this.selectedMethodId);
   }
 
   constructor(options) {
@@ -71,7 +66,6 @@ export class PaymentStore {
         if (shouldRun) {
           this.addressesByMethodId.clear();
           this.paymentsByMethodId.clear();
-          this.issueRequestsIdsByMethodId.clear();
         }
       },
     );
@@ -80,49 +74,43 @@ export class PaymentStore {
     reaction(
       () => this.isLoaded && this.walletAddress.isSaved && this.selectedMethodId,
       () => {
-        const { id, daox, token } = this.selectedMethod;
+        const { id, token } = this.selectedMethod;
 
         if (!this.isLoaded || !this.walletAddress.isSaved || this.addressesByMethodId.get(id)) {
           return;
         }
 
-        if (daox) {
-          this.api
-            .issueToken({
-              token,
-              to: this.sale,
-              data: this.walletAddress.address,
-            })
-            .then(({ data }) => {
-              runInAction(() => {
-                this.issueRequestsIdsByMethodId.set(id, data.id);
-                this.addressesByMethodId.set(id, data.externalAddress);
-              });
+        this.api
+          .issueToken({
+            saleId: this.sale,
+            tokenId: token,
+          })
+          .then(({ data }) => {
+            runInAction(() => {
+              this.addressesByMethodId.set(id, data.address);
             });
-        } else {
-          runInAction(() => this.addressesByMethodId.set(id, this.sale));
-        }
+          });
       },
     );
 
     let issueRequestStatusIntervalId = null;
 
     reaction(
-      () => this.selectedMethodIssueRequestId && this.auth.isAuthenticated,
+      () => this.selectedMethodAddress && this.auth.isAuthenticated,
       (shouldRun) => {
         clearInterval(issueRequestStatusIntervalId);
-        const { selectedMethodIssueRequestId } = this;
+        const { selectedMethod } = this;
 
         if (!shouldRun) {
           return;
         }
 
-        const updateIssueRequestStatus = () => this.api.getIssueRequestStatus({ id: selectedMethodIssueRequestId }).then(({ data }) => {
-          const actualSelectedMethodIssueRequestId = this.selectedMethodIssueRequestId;
+        const updateIssueRequestStatus = () => this.api.getIssueRequestStatus({ saleId: this.sale, tokenId: selectedMethod.token }).then(({ data }) => {
+          const actualSelectedMethod = this.selectedMethod;
 
-          if (selectedMethodIssueRequestId === actualSelectedMethodIssueRequestId) {
+          if (selectedMethod.token === actualSelectedMethod.token) {
             runInAction(() => {
-              this.paymentsByMethodId.set(this.selectedMethodId, data);
+              this.paymentsByMethodId.set(actualSelectedMethod.id, data);
             });
           }
         });
