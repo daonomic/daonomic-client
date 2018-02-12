@@ -50,7 +50,7 @@ export default {
     ),
   },
   getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
-  issueToken: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
-  getIssueRequestStatus: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
+  getPaymentAddress: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
+  getPaymentStatus: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
   getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
 };

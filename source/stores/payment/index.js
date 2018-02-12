@@ -81,7 +81,7 @@ export class PaymentStore {
         }
 
         this.api
-          .issueToken({
+          .getPaymentAddress({
             saleId: this.sale,
             tokenId: token,
           })
@@ -105,7 +105,7 @@ export class PaymentStore {
           return;
         }
 
-        const updateIssueRequestStatus = () => this.api.getIssueRequestStatus({ saleId: this.sale, tokenId: selectedMethod.token }).then(({ data }) => {
+        const updateIssueRequestStatus = () => this.api.getPaymentStatus({ saleId: this.sale, tokenId: selectedMethod.token }).then(({ data }) => {
           const actualSelectedMethod = this.selectedMethod;
 
           if (selectedMethod.token === actualSelectedMethod.token) {

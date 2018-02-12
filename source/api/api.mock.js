@@ -140,7 +140,7 @@ export default {
     }),
     fail: createFailResponse,
   }),
-  issueToken: createMockRoute({
+  getPaymentAddress: createMockRoute({
     success: () => createResponse({
       address: 'msWLqbLYmWr21neydLNWwLccTPjDTmmXbM',
       commissionPercent: 1,
@@ -148,7 +148,7 @@ export default {
     }),
     fail: createFailResponse,
   }),
-  getIssueRequestStatus: createMockRoute({
+  getPaymentStatus: createMockRoute({
     success: (() => {
       let lastPaymentId = 0;
       const createPayment = () => ({
