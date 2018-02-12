@@ -59,7 +59,7 @@ export class SaleStore {
       .then(({ data }) => data)
       .then((data) => {
         const {
-          sold = 0,
+          current: sold = 0,
           total = 0,
           startDate = 0,
           endDate = 0,

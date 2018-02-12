@@ -95,7 +95,7 @@ export default {
     success: () => createResponse({
       id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
       total: 20,
-      sold: 10,
+      current: 10,
       startDate: Date.now() - 1000,
       endDate: Date.now() * 10,
       paymentMethods: [
@@ -118,7 +118,7 @@ export default {
     successBtcFirst: () => createResponse({
       id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
       total: 20,
-      sold: 10,
+      current: 10,
       startDate: Date.now() - 1000,
       endDate: Date.now() * 10,
       paymentMethods: [
