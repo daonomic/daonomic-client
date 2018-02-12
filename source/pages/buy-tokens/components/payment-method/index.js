@@ -130,7 +130,7 @@ export default class PaymentMethod extends Component {
 
         {selectedPaymentMethodPayments.map((payment) => (
           <div key={payment.id}>
-            {payment.value} {selectedPaymentMethod.id}, <Translation id={`paymentMethods:${payment.status.toLowerCase()}`} />
+            {payment.value} {selectedPaymentMethod.id}, <Translation id={`paymentMethods:${this.renderPaymentStatus(payment)}`} />
           </div>
         ))}
 
@@ -159,6 +159,22 @@ export default class PaymentMethod extends Component {
         </div>
       </Fragment>
     );
+  };
+
+  renderPaymentStatus = (payment) => {
+    switch (payment.status) {
+      case 'COMPLETED': {
+        return 'finished';
+      }
+
+      case 'ERROR': {
+        return 'error';
+      }
+
+      default: {
+        return 'pending';
+      }
+    }
   };
 
   render = () => (
