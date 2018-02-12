@@ -31,7 +31,7 @@ export default class PaymentMethod extends Component {
     selectedPaymentMethodAddress: PropTypes.string,
     selectedPaymentMethodPayments: MobxPropTypes.arrayOrObservableArrayOf(PropTypes.shape({
       value: PropTypes.number.isRequired,
-      finished: PropTypes.bool.isRequired,
+      status: PropTypes.string.isRequired,
     })).isRequired,
     selectedPaymentMethodAddressQRCode: PropTypes.string,
     paymentMethods: MobxPropTypes.observableArrayOf(paymentMethodShape).isRequired,
@@ -130,7 +130,7 @@ export default class PaymentMethod extends Component {
 
         {selectedPaymentMethodPayments.map((payment) => (
           <div key={payment.id}>
-            {payment.value} {selectedPaymentMethod.id}, {payment.finished ? <Translation id="paymentMethods:statusFinished" /> : <Translation id="paymentMethods:statusPending" />}
+            {payment.value} {selectedPaymentMethod.id}, <Translation id={`paymentMethods:${payment.status.toLowerCase()}`} />
           </div>
         ))}
 

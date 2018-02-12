@@ -155,7 +155,7 @@ export default {
         id: lastPaymentId++,
         value: 0.1,
         blocks: 1,
-        finished: true,
+        status: 'COMPLETED',
         externalTxId: '0x67d593344f68d04d2dd6189b7e53de122bff648ad2c575a24526536562d6def1',
         txHash: '0x5d0ce34f2d5e6a716775876243552fb6df7528bbc4190b46ef8f74d729accea2',
       });
