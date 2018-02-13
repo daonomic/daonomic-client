@@ -1,7 +1,7 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const baseConfig = require('./base.config');
-const { themeImportDeclaration } = require('./common');
+const { themeImportDeclaration } = require('../config');
 
 const extractCSS = new ExtractTextPlugin('app.css');
 

@@ -8,7 +8,7 @@ const {
   nodeEnv,
   isDebugEnabled,
   isAnalyzeModeEnabled,
-} = require('./common');
+} = require('../config');
 
 const config = {
   entry: [

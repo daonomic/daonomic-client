@@ -8,7 +8,7 @@ const colorFunction = require('postcss-color-function');
 const flexbugsFixes = require('postcss-flexbugs-fixes');
 const autoprefixer = require('autoprefixer');
 const csso = require('postcss-csso');
-const webpackConfig = require('./webpack/base.config');
+const webpackConfig = require('./webpack.config');
 
 module.exports = {
   plugins: [

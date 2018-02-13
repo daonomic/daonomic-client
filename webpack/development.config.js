@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const baseConfig = require('./base.config');
-const { assetsDir, themeImportDeclaration } = require('./common');
+const { assetsDir, themeImportDeclaration } = require('../config');
 
 module.exports = {
   ...baseConfig,
