@@ -1,31 +1,31 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/api.mock';
 import { AuthStore } from '~/stores/auth';
-import { WalletAddressStore } from '~/stores/wallet/address';
+import { KycStore } from '~/stores/kyc';
 import { WalletBalanceStore } from './';
 
 describe('wallet balance store', () => {
   test('should not load balance if wallet address is not saved yet', () => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
-    const walletBalance = new WalletBalanceStore({ api, walletAddress });
+    const kyc = new KycStore({ api, auth });
+    const walletBalance = new WalletBalanceStore({ api, kyc });
 
-    expect(walletAddress.isSaved).toBe(false);
+    expect(kyc.isSaved).toBe(false);
     expect(walletBalance.isLoading).toBe(false);
   });
 
   test('should automatically load balance if wallet address has just been saved', (done) => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
-    const walletBalance = new WalletBalanceStore({ api, walletAddress });
+    const kyc = new KycStore({ api, auth });
+    const walletBalance = new WalletBalanceStore({ api, kyc });
 
     expect(walletBalance.balance).toBe(0);
 
-    walletAddress.setAddress('test address');
-    walletAddress.saveAddress();
+    kyc.updateFormField('address', 'test address');
+    kyc.saveData();
 
     when(
-      () => walletAddress.isSaved && walletBalance.isLoading,
+      () => kyc.isSaved && walletBalance.isLoading,
       () => {
         when(
           () => walletBalance.isLoaded,
@@ -42,11 +42,11 @@ describe('wallet balance store', () => {
     jest.useFakeTimers();
 
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
-    const walletBalance = new WalletBalanceStore({ api, walletAddress });
+    const kyc = new KycStore({ api, auth });
+    const walletBalance = new WalletBalanceStore({ api, kyc });
 
-    walletAddress.setAddress('test address');
-    walletAddress.saveAddress();
+    kyc.updateFormField('address', 'test address');
+    kyc.saveData();
 
     let balanceUpdatesCount = 0;
 
@@ -66,15 +66,15 @@ describe('wallet balance store', () => {
     );
   });
 
-  test('should cancel loading and reset balance if saved walletAddress has been reset', (done) => {
+  test('should cancel loading and reset balance if saved kyc address has been reset', (done) => {
     jest.useFakeTimers();
 
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
-    const walletBalance = new WalletBalanceStore({ api, walletAddress });
+    const kyc = new KycStore({ api, auth });
+    const walletBalance = new WalletBalanceStore({ api, kyc });
 
-    walletAddress.setAddress('test address');
-    walletAddress.saveAddress();
+    kyc.updateFormField('address', 'test address');
+    kyc.saveData();
 
     let balanceUpdatesCount = 0;
 
@@ -91,7 +91,7 @@ describe('wallet balance store', () => {
     when(
       () => walletBalance.isLoaded && balanceUpdatesCount === 3,
       () => {
-        walletAddress.setAddress('');
+        kyc.updateFormField('address', '');
 
         when(
           () => !walletBalance.isLoaded && walletBalance.balance === 0,

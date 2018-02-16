@@ -21,6 +21,8 @@
     "max-len": 0,
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
+    "react/require-default-props": 0,
+    "jsx-a11y/label-has-for": 0,
     "no-return-assign": 0,
     "indent": ["error", 2, {
       "SwitchCase": 1
@@ -46,12 +48,7 @@
       ]
     }],
     "react/require-extension": "off",
-    "react/prefer-es6-class": ["warn", "always"],
-    "jsx-a11y/label-has-for": [2, {
-      "required": {
-          "every": ["id"]
-      }
-    }]
+    "react/prefer-es6-class": ["warn", "always"]
   }
 }
 

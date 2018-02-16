@@ -1,7 +1,7 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/api.mock';
 import { AuthStore } from '~/stores/auth';
-import { WalletAddressStore } from '~/stores/wallet/address';
+import { KycStore } from '~/stores/kyc';
 import { PaymentStore } from './';
 
 jest.useFakeTimers();
@@ -11,11 +11,11 @@ describe('payment store', () => {
 
   test('should not load anything if not authenticated', () => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
+    const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
       api,
       auth,
-      walletAddress,
+      kyc,
       sale: testSale,
     });
 
@@ -26,11 +26,11 @@ describe('payment store', () => {
 
   test('should load data immediately after authentication', (done) => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
+    const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
       api,
       auth,
-      walletAddress,
+      kyc,
       sale: testSale,
     });
 
@@ -51,11 +51,11 @@ describe('payment store', () => {
 
   test('should load payment address', (done) => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
+    const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
       api,
       auth,
-      walletAddress,
+      kyc,
       sale: testSale,
     });
 
@@ -63,7 +63,7 @@ describe('payment store', () => {
     auth.setToken('test token');
 
     when(
-      () => auth.isAuthenticated && walletAddress.isSaved && payment.isLoaded && payment.addressesByMethodId.size > 0 && payment.selectedMethodAddressQRCode !== null,
+      () => auth.isAuthenticated && kyc.isSaved && payment.isLoaded && payment.addressesByMethodId.size > 0 && payment.selectedMethodAddressQRCode !== null,
       () => {
         expect(payment.selectedMethodId).toBe('BTC');
         expect(payment.selectedMethodAddress).toBe('msWLqbLYmWr21neydLNWwLccTPjDTmmXbM');
@@ -77,11 +77,11 @@ describe('payment store', () => {
 
   test('should update payments regularly', (done) => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
+    const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
       api,
       auth,
-      walletAddress,
+      kyc,
       sale: testSale,
     });
 
@@ -111,11 +111,11 @@ describe('payment store', () => {
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status', (done) => {
     const auth = new AuthStore({ api });
-    const walletAddress = new WalletAddressStore({ api, auth });
+    const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
       api,
       auth,
-      walletAddress,
+      kyc,
       sale: testSale,
     });
 
@@ -131,7 +131,7 @@ describe('payment store', () => {
           paymentsUpdateCount += 1;
 
           if (paymentsUpdateCount === 2) {
-            walletAddress.setAddress('');
+            kyc.updateFormField('address', '');
           }
 
           jest.runOnlyPendingTimers();

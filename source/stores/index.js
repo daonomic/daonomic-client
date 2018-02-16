@@ -1,14 +1,15 @@
 import auth from './auth';
 import walletBalance from './wallet/balance';
-import walletAddress from './wallet/address';
+import kyc from './kyc';
 import payment from './payment';
 import sale from './sale';
 import walletGenerator from './wallet-generator';
 
+window.kyc = kyc;
 export default {
   auth,
   walletBalance,
-  walletAddress,
+  kyc,
   payment,
   sale,
   walletGenerator,

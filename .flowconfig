@@ -1,0 +1,15 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+module.name_mapper='.*\(.css\)' -> 'CSSModule'
+module.name_mapper='^~/' -> '<PROJECT_ROOT>/source/'
+module.system=haste
+esproposal.decorators=ignore
+
+[strict]

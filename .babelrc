@@ -1,12 +1,13 @@
 {
   "presets": [
     ["es2015", { "modules": false }],
+    "flow",
     "react",
     "stage-1"
   ],
   "env": {
     "test": {
-      "presets": ["es2015", "react"],
+      "presets": ["es2015", "flow", "react"],
       "plugins": [
         "transform-decorators-legacy",
         "syntax-object-rest-spread",

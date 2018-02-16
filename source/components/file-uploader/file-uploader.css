@@ -1,0 +1,18 @@
+.root {
+  list-style: none;
+}
+
+.list {
+  padding-top: 1rem;
+  list-style: none;
+}
+
+.item {
+  padding-bottom: 0.25rem;
+}
+
+.error {
+  padding-top: .5em;
+  font-size: .85em;
+  color: var(--theme-danger);
+}

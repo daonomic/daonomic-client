@@ -1,7 +1,7 @@
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import dataStates from '~/utils/data-states';
 import apiAdapter from '~/api/api';
-import walletAddress from '~/stores/wallet/address';
+import kyc from '~/stores/kyc';
 
 export class WalletBalanceStore {
   static balanceUpdateInterval = 3000;
@@ -19,14 +19,14 @@ export class WalletBalanceStore {
 
   constructor(options) {
     this.api = options.api;
-    this.walletAddress = options.walletAddress;
+    this.kyc = options.kyc;
 
     let balanceUpdateIntervalId = null;
 
     autorun(() => {
       clearInterval(balanceUpdateIntervalId);
 
-      if (this.walletAddress.isSaved) {
+      if (this.kyc.isSaved) {
         this.loadBalance();
         balanceUpdateIntervalId = setInterval(() => this.loadBalance(), WalletBalanceStore.balanceUpdateInterval);
       } else {
@@ -59,4 +59,4 @@ export class WalletBalanceStore {
   };
 }
 
-export default new WalletBalanceStore({ api: apiAdapter, walletAddress });
+export default new WalletBalanceStore({ api: apiAdapter, kyc });

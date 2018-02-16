@@ -39,6 +39,20 @@ export class SaleStore {
     },
   };
 
+  @observable kycFormSchema = [];
+  @observable kycFormData = new Map();
+
+  @computed get kycForm() {
+    return this.kycFormSchema.map((field) => ({
+      ...field,
+      value: this.kycFormData.get(field.name),
+    }));
+  }
+
+  @computed get isKycEnabled() {
+    return this.kycFormSchema.length > 0;
+  }
+
   constructor(options) {
     this.auth = options.auth;
     this.api = options.api;
@@ -63,6 +77,7 @@ export class SaleStore {
           total = 0,
           startDate = 0,
           endDate = 0,
+          kyc = [],
         } = data;
 
         runInAction(() => {
@@ -71,6 +86,21 @@ export class SaleStore {
           this.endTimestamp = endDate;
           this.tokensCount.sold = sold;
           this.tokensCount.total = total;
+          this.kycFormSchema = kyc;
+
+          kyc.forEach((field) => {
+            let defaultValue = '';
+
+            if (field.values) {
+              [defaultValue] = field.values;
+            } else if (field.type === 'FILE') {
+              defaultValue = [];
+            } else if (field.type === 'BOOLEAN') {
+              defaultValue = false;
+            }
+
+            this.kycFormData.set(field.name, defaultValue);
+          });
         });
       })
       .catch(() => {
@@ -78,6 +108,10 @@ export class SaleStore {
           this.dataState = dataStates.failed;
         });
       });
+  };
+
+  @action updateKycFormField = (name, value) => {
+    this.kycFormData.set(name, value);
   };
 }
 

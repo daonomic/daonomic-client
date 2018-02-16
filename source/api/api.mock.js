@@ -32,23 +32,6 @@ function createFailResponse(status = 400, data = {}) {
 }
 
 export default {
-  address: {
-    get: createMockRoute({
-      success: () => createResponse({
-        address: '12345',
-      }),
-      fail: createFailResponse,
-      failNotAuthorized: () => createFailResponse(403),
-    }),
-    set: createMockRoute({
-      success: () => createResponse({}),
-      fail: () => createFailResponse(400, {
-        fieldErrors: {
-          address: ['Should be a hex address with 20 bytes length'],
-        },
-      }),
-    }),
-  },
   auth: {
     login: createMockRoute({
       success: createResponse,
@@ -114,6 +97,36 @@ export default {
           rate: 593.3333,
         },
       ],
+      kyc: [
+        {
+          name: 'country',
+          label: 'Country of origin',
+          type: 'STRING',
+          values: [
+            'Russia',
+            'USA',
+          ],
+          required: true,
+        },
+        {
+          name: 'firstName',
+          label: 'First Name',
+          type: 'STRING',
+          required: true,
+        },
+        {
+          name: 'terms',
+          label: 'I agree to the terms and conditions<br/><a href="https://zenome.io/download/zenome-legal-terms.pdf">https://zenome.io/download/zenome-legal-terms.pdf</a>',
+          type: 'BOOLEAN',
+          required: true,
+        },
+        {
+          name: 'passport',
+          label: 'Your passport scan, with sensitive information physically covered',
+          type: 'FILE',
+          required: true,
+        },
+      ],
     }),
     successBtcFirst: () => createResponse({
       id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
@@ -140,6 +153,25 @@ export default {
     }),
     fail: createFailResponse,
   }),
+  kycData: {
+    get: createMockRoute({
+      success: () => createResponse({
+        allowed: true,
+        data: {
+          address: '12345',
+        },
+      }),
+      fail: createFailResponse,
+    }),
+    set: createMockRoute({
+      success: () => createResponse({}),
+      fail: () => createFailResponse(400, {
+        fieldErrors: {
+          address: ['Address is required'],
+        },
+      }),
+    }),
+  },
   getPaymentAddress: createMockRoute({
     success: () => createResponse({
       address: 'msWLqbLYmWr21neydLNWwLccTPjDTmmXbM',

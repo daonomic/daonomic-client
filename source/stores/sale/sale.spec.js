@@ -41,6 +41,7 @@ describe('sale store', () => {
         expect(sale.tokensCount.total).toBe(20);
         expect(sale.isStarted).toBe(true);
         expect(sale.isFinished).toBe(false);
+        expect(sale.isKycEnabled).toBe(true);
         expect();
         done();
       },

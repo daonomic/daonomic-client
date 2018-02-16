@@ -14,8 +14,8 @@ const paymentMethodShape = PropTypes.shape({
   address: PropTypes.string,
 });
 
-@inject(({ payment, walletAddress }) => ({
-  walletAddress: walletAddress.address,
+@inject(({ payment, kyc }) => ({
+  walletAddress: kyc.formData.get('address'),
   selectedPaymentMethod: payment.selectedMethod,
   selectedPaymentMethodAddress: payment.selectedMethodAddress,
   selectedPaymentMethodAddressQRCode: payment.selectedMethodAddressQRCode,

@@ -1,6 +1,18 @@
+// @flow
 import axios from 'axios';
 import { sale, realm } from '~/config/common';
 import auth from '~/stores/auth';
+import type {
+  GetKycDataResponse,
+  SetKycDataParams,
+  SetKycDataResponse,
+  SetKycDataResponseError,
+} from '~/types/kyc';
+import {
+  AuthParams,
+  PasswordResetParams,
+  PaymentParams,
+} from './types';
 
 const defaultOptions = {
   get headers() { // auth token can be changed, so we need to recalculate headers before every request
@@ -17,22 +29,22 @@ const daonomicApi = axios.create({
 
 export default {
   auth: {
-    login: ({ email, password }) => daonomicApi.post(
+    login: ({ email, password }: AuthParams) => daonomicApi.post(
       '/login',
       { username: email, password },
       defaultOptions,
     ),
-    register: ({ email }) => daonomicApi.post(
+    register: ({ email }: AuthParams) => daonomicApi.post(
       '/register',
       { email },
       defaultOptions,
     ),
-    resetPassword: ({ email }) => daonomicApi.post(
+    resetPassword: ({ email }: AuthParams) => daonomicApi.post(
       '/password/change',
       { email },
       defaultOptions,
     ),
-    createNewPassword: ({ token, password, confirmedPassword }) => daonomicApi.post(
+    createNewPassword: ({ token, password, confirmedPassword }: PasswordResetParams) => daonomicApi.post(
       `/password/change/${token}`,
       {
         password,
@@ -41,16 +53,26 @@ export default {
       defaultOptions,
     ),
   },
-  address: {
-    get: () => daonomicApi.get('/address', defaultOptions),
-    set: ({ address }) => daonomicApi.post(
-      '/address',
-      { address },
-      defaultOptions,
-    ),
+  kycData: {
+    get: (): Promise<GetKycDataResponse> => daonomicApi.get('/data', defaultOptions),
+    set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> => daonomicApi.post('/data', data, defaultOptions),
   },
   getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
-  getPaymentAddress: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
-  getPaymentStatus: ({ saleId, tokenId }) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
+  getPaymentAddress: ({ saleId, tokenId }: PaymentParams) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
+  getPaymentStatus: ({ saleId, tokenId }: PaymentParams) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
   getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
+  files: {
+    upload: ({ files, onUploadProgress }: { files: File[], onUploadProgress: (event: ProgressEvent) => void }) => {
+      const formData = new FormData();
+
+      files.forEach((file) => {
+        formData.append('file[]', file);
+      });
+
+      return daonomicApi.post('/files', formData, {
+        ...defaultOptions,
+        onUploadProgress,
+      });
+    },
+  },
 };

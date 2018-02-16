@@ -4,7 +4,7 @@ import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
 import { sale } from '~/config/common';
 import auth from '~/stores/auth';
-import walletAddress from '~/stores/wallet/address';
+import kyc from '~/stores/kyc';
 
 export class PaymentStore {
   @observable dataState = dataStates.initial;
@@ -50,7 +50,7 @@ export class PaymentStore {
   constructor(options) {
     this.auth = options.auth;
     this.api = options.api;
-    this.walletAddress = options.walletAddress;
+    this.kyc = options.kyc;
     this.sale = options.sale;
 
     autorun(() => {
@@ -59,9 +59,9 @@ export class PaymentStore {
       }
     });
 
-    // Clear loaded payment addresses on wallet change
+    // Clear loaded payment addresses on kyc change
     reaction(
-      () => !this.walletAddress.isSaved,
+      () => !this.kyc.isSaved,
       (shouldRun) => {
         if (shouldRun) {
           this.addressesByMethodId.clear();
@@ -70,13 +70,13 @@ export class PaymentStore {
       },
     );
 
-    // Load and set payment method address on selected method change or wallet change
+    // Load and set payment method address on selected method change or kyc change
     reaction(
-      () => this.isLoaded && this.walletAddress.isSaved && this.selectedMethodId,
+      () => this.isLoaded && this.kyc.isSaved && this.selectedMethodId,
       () => {
         const { id, token } = this.selectedMethod;
 
-        if (!this.isLoaded || !this.walletAddress.isSaved || this.addressesByMethodId.get(id)) {
+        if (!this.isLoaded || !this.kyc.isSaved || this.addressesByMethodId.get(id)) {
           return;
         }
 
@@ -162,6 +162,6 @@ export class PaymentStore {
 export default new PaymentStore({
   auth,
   sale,
-  walletAddress,
+  kyc,
   api,
 });

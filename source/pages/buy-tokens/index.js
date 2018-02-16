@@ -13,9 +13,9 @@ import TokenPrice from './components/token-price';
 import Balance from './components/balance';
 import styles from './buy-tokens.css';
 
-@inject(({ sale, walletAddress }) => ({
+@inject(({ sale, kyc }) => ({
   sale,
-  isWalletSaved: walletAddress.isSaved,
+  isWalletSaved: kyc.isSaved,
 }))
 @observer
 class BuyTokens extends Component {
@@ -44,7 +44,7 @@ class BuyTokens extends Component {
 
   renderPreloader = () => (
     <Panel paddingSize="large">
-      <Heading tagName="h1" className={styles.placeholder}>
+      <Heading tagName="h1" className={styles.placeholder} size={Heading.sizes.large}>
         <Translation id="loading" />...
       </Heading>
     </Panel>
