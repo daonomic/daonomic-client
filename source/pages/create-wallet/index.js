@@ -145,7 +145,7 @@ export default class CreateWallet extends Component {
     <Panel paddingSize="large">
       <Heading
         tagName="h1"
-        size={Heading.sizes.normal}
+        size="normal"
         className={styles.title}
       >
         Create New Ethereum Wallet

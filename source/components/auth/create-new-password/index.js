@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -11,34 +11,29 @@ import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 
-export default class CreateNewPassword extends PureComponent {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    isSaving: PropTypes.bool,
-    onChangePassword: PropTypes.func,
-    onChangeConfirmedPassword: PropTypes.func,
-    isNewPasswordCreated: PropTypes.bool,
-    password: PropTypes.string,
-    confirmedPassword: PropTypes.string,
-    errors: PropTypes.shape({
-      password: PropTypes.string,
-      confirmedPassword: PropTypes.string,
-      common: PropTypes.string,
-    }),
-  };
+type Props = {
+  isSaving?: boolean,
+  isNewPasswordCreated?: boolean,
+  password?: string,
+  confirmedPassword?: string,
+  errors?: {
+    password?: string,
+    confirmedPassword?: string,
+    common?: string,
+  },
+  onChangePassword: (event: Event) => void,
+  onChangeConfirmedPassword: (event: Event) => void,
+  onSubmit: (event: Event) => void,
+};
 
+export default class CreateNewPassword extends React.PureComponent<Props, {}> {
   static defaultProps = {
     password: '',
     confirmedPassword: '',
-    errors: {},
-    onChangePassword: () => {},
-    onChangeConfirmedPassword: () => {},
-    isNewPasswordCreated: false,
-    isSaving: false,
   };
 
   renderCommonError = () => {
-    const { common } = this.props.errors;
+    const { common } = this.props.errors || {};
 
     if (common) {
       return (
@@ -67,7 +62,7 @@ export default class CreateNewPassword extends PureComponent {
     return (
       <Panel paddingSize="large">
         <form onSubmit={onSubmit}>
-          <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+          <Heading size="large" tagName="h1" className={commonStyles.title}>
             <Translation id="auth:createNewPasswordTitle" />
           </Heading>
 
@@ -80,7 +75,7 @@ export default class CreateNewPassword extends PureComponent {
               type="password"
               autoComplete="new-password"
               label={Translation.text('auth:newPassword')}
-              error={errors.password}
+              error={(errors || {}).password}
               onChange={onChangePassword}
               disabled={isSaving}
             />
@@ -92,7 +87,7 @@ export default class CreateNewPassword extends PureComponent {
               value={confirmedPassword}
               type="password"
               label={Translation.text('auth:confirmNewPassword')}
-              error={errors.confirmedPassword}
+              error={(errors || {}).confirmedPassword}
               onChange={onChangeConfirmedPassword}
               disabled={isSaving}
             />
@@ -110,7 +105,7 @@ export default class CreateNewPassword extends PureComponent {
 
   renderSuccessMessage = () => (
     <Panel paddingSize="large">
-      <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+      <Heading size="large" tagName="h1" className={commonStyles.title}>
         <Translation id="auth:createNewPasswordTitle" />
       </Heading>
 

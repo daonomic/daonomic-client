@@ -28,7 +28,7 @@ export default class Faq extends PureComponent {
         <Panel>
           <Heading
             tagName="h1"
-            size={Heading.sizes.normal}
+            size="normal"
             className={styles.title}
           >
             <Translation id="faq:title" />

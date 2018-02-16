@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+// @flow
+import * as React from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
 import { translate } from 'react-i18next';
 import PrivateRoute from '~/components/private-route';
 import pages from '~/pages';
 
 @translate([], { wait: true })
-export default class Routes extends Component {
+export default class Routes extends React.Component<{}, {}> {
   render() {
     return (
       <Switch>

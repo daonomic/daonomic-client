@@ -1,29 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './heading.css';
 
-const sizes = {
-  small: 'small',
-  normal: 'normal',
-  large: 'large',
+type Props = {
+  className?: string,
+  children: React.Node,
+  tagName: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
+  size: 'small' | 'normal' | 'large',
 };
 
-export default class Heading extends PureComponent {
-  static sizes = sizes;
-
-  static propTypes = {
-    tagName: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
-    size: PropTypes.oneOf(Object.values(sizes)).isRequired,
-    className: PropTypes.string,
-    children: PropTypes.node,
-  };
-
-  static defaultProps = {
-    className: '',
-    children: null,
-  };
-
+export default class Heading extends React.PureComponent<Props, {}> {
   render() {
     const {
       tagName,

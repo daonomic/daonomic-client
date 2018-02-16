@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -12,21 +12,21 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 
-export default class SignIn extends Component {
-  static propTypes = {
-    password: PropTypes.string,
-    email: PropTypes.string,
-    errors: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      password: PropTypes.string.isRequired,
-      common: PropTypes.string.isRequired,
-    }).isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onChangeEmail: PropTypes.func.isRequired,
-    onChangePassword: PropTypes.func.isRequired,
-  };
+type Props = {
+  password?: string,
+  email?: string,
+  errors: {
+    email: string,
+    password: string,
+    common: string,
+  },
+  isLoading: boolean,
+  onSubmit: (event: Event) => void,
+  onChangeEmail: (event: Event) => void,
+  onChangePassword: (event: Event) => void,
+};
 
+export default class SignIn extends React.Component<Props, {}> {
   static defaultProps = {
     email: '',
     password: '',
@@ -63,7 +63,7 @@ export default class SignIn extends Component {
       <Layout>
         <Panel paddingSize="large">
           <form onSubmit={onSubmit}>
-            <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+            <Heading size="large" tagName="h1" className={commonStyles.title}>
               <Translation id="auth:signInHeading" />
             </Heading>
 

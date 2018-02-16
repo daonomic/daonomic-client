@@ -1,21 +1,19 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './spoiler.css';
 
-export default class Spoiler extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    title: PropTypes.string,
-    children: PropTypes.node,
-  };
+type Props = {
+  className?: string,
+  title?: string,
+  children: React.Node,
+};
 
-  static defaultProps = {
-    className: '',
-    title: '',
-    children: null,
-  };
+type State = {
+  isExpanded: boolean,
+};
 
+export default class Spoiler extends React.PureComponent<Props, State> {
   state = {
     isExpanded: false,
   };

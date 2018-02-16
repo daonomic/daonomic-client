@@ -1,15 +1,11 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 
-export default class Logo extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-  };
+type Props = {
+  className?: string,
+};
 
-  static defaultProps = {
-    className: '',
-  };
-
+export default class Logo extends React.PureComponent<Props, {}> {
   render() {
     const {
       className,

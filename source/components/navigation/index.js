@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './navigation.css';
 import NavigationItem from './navigation-item';
 
-export default class Navigation extends Component {
+type Props = {
+  className?: string,
+  children: React.Node,
+};
+
+export default class Navigation extends React.Component<Props, {}> {
   static Item = NavigationItem;
-
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-  };
-
-  static defaultProps = {
-    className: '',
-    children: null,
-  };
 
   render() {
     const {

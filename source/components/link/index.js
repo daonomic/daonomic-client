@@ -1,19 +1,15 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import textStyles from '~/components/text/text.css';
 
-export default class Link extends PureComponent {
-  static propTypes = {
-    href: PropTypes.string.isRequired,
-    className: PropTypes.string,
-  };
+type Props = {
+  href: string,
+  className?: string,
+};
 
-  static defaultProps = {
-    className: '',
-  };
-
+export default class Link extends React.PureComponent<Props, {}> {
   render() {
     const { href, className, ...restProps } = this.props;
 

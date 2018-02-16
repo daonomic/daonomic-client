@@ -1,19 +1,15 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import Page from '@daonomic/ui/source/page';
 import Footer from '~/components/footer';
 import styles from './layout.css';
 
-export default class Layout extends PureComponent {
-  static propTypes = {
-    children: PropTypes.node,
-  };
+type Props = {
+  children: React.Node,
+};
 
-  static defaultProps = {
-    children: null,
-  };
-
+export default class Layout extends React.PureComponent<Props, {}> {
   render() {
     const { children } = this.props;
 

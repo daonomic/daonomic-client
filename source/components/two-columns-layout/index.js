@@ -1,23 +1,18 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './two-columns-layout.css';
 import Left from './left';
 import Right from './right';
 
-export default class TwoColumnsLayout extends PureComponent {
+type Props = {
+  className?: string,
+  children: React.Node,
+};
+
+export default class TwoColumnsLayout extends React.PureComponent<Props, {}> {
   static Left = Left;
   static Right = Right;
-
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-  };
-
-  static defaultProps = {
-    className: '',
-    children: null,
-  };
 
   render() {
     const {

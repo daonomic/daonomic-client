@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
-@inject(({ auth }) => ({
-  isAuthenticated: auth.isAuthenticated,
-}))
+type Props = {
+  children: React.Node,
+  isAuthenticated: boolean,
+};
+
 @observer
-export default class PrivateRoute extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    isAuthenticated: PropTypes.bool.isRequired,
-  }
-
-  static defaultProps = {
-    children: null,
-  };
-
+class PrivateRoute extends React.Component<Props, {}> {
   render() {
     const { isAuthenticated, children, ...rest } = this.props;
 
@@ -40,3 +33,7 @@ export default class PrivateRoute extends Component {
     );
   }
 }
+
+export default inject(({ auth }) => ({
+  isAuthenticated: auth.isAuthenticated,
+}))(PrivateRoute);

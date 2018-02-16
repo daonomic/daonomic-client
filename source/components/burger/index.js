@@ -1,19 +1,17 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './burger.css';
 
-export default class Burger extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-    isActive: PropTypes.bool,
-  };
+type Props = {
+  className?: string,
+  children: React.Node,
+  isActive: boolean,
+};
 
+export default class Burger extends React.PureComponent<Props, {}> {
   static defaultProps = {
-    className: '',
     children: 'Toggle menu',
-    isActive: false,
   };
 
   render() {

@@ -1,25 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import styles from './navigation.css';
 
-export default class NavigationItem extends Component {
-  static propTypes = {
-    href: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    isActive: PropTypes.bool,
-    onClick: PropTypes.func,
-  };
+type Props = {
+  className?: string,
+  children: React.Node,
+  href: string,
+  isActive?: boolean,
+  onClick: (url: string) => void,
+};
 
-  static defaultProps = {
-    className: '',
-    children: null,
-    isActive: false,
-    onClick: () => {},
-  };
-
-  handleClick = (event) => {
+export default class NavigationItem extends React.Component<Props, {}> {
+  handleClick = (event: MouseEvent) => {
     const { href, onClick } = this.props;
     const shouldOpenInNewTab = event.metaKey || event.ctrlKey || event.button === 1;
 

@@ -123,7 +123,7 @@ export default class PaymentMethod extends Component {
       <Fragment>
         <Heading
           tagName="h3"
-          size={Heading.sizes.small}
+          size="small"
         >
           <Translation id="paymentMethods:statusesTitle" />
         </Heading>
@@ -146,7 +146,7 @@ export default class PaymentMethod extends Component {
       <Fragment>
         <Heading
           tagName="h3"
-          size={Heading.sizes.small}
+          size="small"
         >
           <Translation id="paymentMethods:instructionTitle" />
         </Heading>
@@ -182,7 +182,7 @@ export default class PaymentMethod extends Component {
       <Heading
         className={styles.title}
         tagName="h2"
-        size={Heading.sizes.normal}
+        size="normal"
       >
         <Translation id="paymentMethods:title" />
       </Heading>

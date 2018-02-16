@@ -44,7 +44,7 @@ class BuyTokens extends Component {
 
   renderPreloader = () => (
     <Panel paddingSize="large">
-      <Heading tagName="h1" className={styles.placeholder} size={Heading.sizes.large}>
+      <Heading tagName="h1" className={styles.placeholder} size="large">
         <Translation id="loading" />...
       </Heading>
     </Panel>

@@ -1,20 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import Translation from '~/components/translation';
 import { termsOfServiceURL } from '~/config/common';
 import Logo from '~/components/logo';
 import styles from './footer.css';
 
-export default class Footer extends PureComponent {
-  static propTypes = {
-    className: PropTypes.string,
-  };
+type Props = {
+  className?: string,
+};
 
-  static defaultProps = {
-    className: '',
-  };
-
+export default class Footer extends React.PureComponent<Props, {}> {
   renderTermsOfServiceLink = () => {
     if (!termsOfServiceURL) {
       return null;

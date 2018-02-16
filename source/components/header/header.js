@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
@@ -10,31 +10,28 @@ import Burger from '~/components/burger';
 import pages from '~/pages';
 import styles from './header.css';
 
-@inject(({ auth }) => ({
-  onLogout: auth.logout,
-}))
+type Props = {
+  className?: string,
+  currentPagePath: string,
+  onChangeCurrentPage: (url: string) => void,
+  onLogout: () => void,
+};
+
+type State = {
+  isNavigationExpanded: boolean,
+};
+
 @observer
-export default class Header extends Component {
-  static propTypes = {
-    currentPagePath: PropTypes.string.isRequired,
-    onChangeCurrentPage: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    onLogout: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    className: '',
-  };
-
+class Header extends React.Component<Props, State> {
   state = {
     isNavigationExpanded: false,
   };
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: Props) => {
     this.collapseNavigationIfCurrentPageChanged(prevProps.currentPagePath);
   };
 
-  collapseNavigationIfCurrentPageChanged = (prevPagePath) => {
+  collapseNavigationIfCurrentPageChanged = (prevPagePath: string) => {
     const { currentPagePath } = this.props;
 
     if (prevPagePath !== currentPagePath) {
@@ -106,3 +103,7 @@ export default class Header extends Component {
     );
   };
 }
+
+export default inject(({ auth }) => ({
+  onLogout: auth.logout,
+}))(Header);

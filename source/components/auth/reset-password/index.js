@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+// @flow
+import * as React from 'react';
 import Link from '~/components/link';
-import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -11,29 +11,21 @@ import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 
-export default class ResetPassword extends PureComponent {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    isSaving: PropTypes.bool,
-    isPasswordReset: PropTypes.bool,
-    onChangeEmail: PropTypes.func,
-    email: PropTypes.string,
-    errors: PropTypes.shape({
-      email: PropTypes.string,
-      common: PropTypes.string,
-    }),
-  };
+type Props = {
+  isSaving?: boolean,
+  isPasswordReset?: boolean,
+  email?: string,
+  errors?: {
+    email?: string,
+    common?: string,
+  },
+  onChangeEmail: (event: Event) => void,
+  onSubmit: (event: Event) => void,
+};
 
-  static defaultProps = {
-    email: '',
-    errors: {},
-    onChangeEmail: () => {},
-    isPasswordReset: false,
-    isSaving: false,
-  };
-
+export default class ResetPassword extends React.PureComponent<Props, {}> {
   renderCommonError = () => {
-    const { common } = this.props.errors;
+    const { common } = this.props.errors || {};
 
     if (common) {
       return (
@@ -60,7 +52,7 @@ export default class ResetPassword extends PureComponent {
     return (
       <Panel paddingSize="large">
         <form onSubmit={onSubmit}>
-          <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+          <Heading size="large" tagName="h1" className={commonStyles.title}>
             <Translation id="auth:forgotPassword" />
           </Heading>
 
@@ -80,7 +72,7 @@ export default class ResetPassword extends PureComponent {
               value={email}
               type="email"
               label={Translation.text('auth:email')}
-              error={errors.email}
+              error={(errors || {}).email}
               onChange={onChangeEmail}
               disabled={isSaving}
             />
@@ -98,7 +90,7 @@ export default class ResetPassword extends PureComponent {
 
   renderSuccessMessage = () => (
     <Panel paddingSize="large">
-      <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+      <Heading size="large" tagName="h1" className={commonStyles.title}>
         <Translation id="auth:successfulResetTitle" />
       </Heading>
       <p className={textStyles.muted}>

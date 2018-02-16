@@ -57,7 +57,7 @@ export default class EthereumWallet extends Component {
     <Heading
       className={styles.title}
       tagName="h2"
-      size={Heading.sizes.normal}
+      size="normal"
     >
       <Translation id={translationKey} />
     </Heading>

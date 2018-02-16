@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -11,16 +11,16 @@ import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 
-export default class SignUp extends Component {
-  static propTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    email: PropTypes.string,
-    error: PropTypes.string.isRequired,
-    isRegistered: PropTypes.bool.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onChangeEmail: PropTypes.func.isRequired,
-  };
+type Props = {
+  isLoading: boolean,
+  email?: string,
+  error: string,
+  isRegistered: boolean,
+  onSubmit: (event: Event) => void,
+  onChangeEmail: (event: Event) => void,
+};
 
+export default class SignUp extends React.Component<Props, {}> {
   static defaultProps = {
     email: '',
   };
@@ -41,7 +41,7 @@ export default class SignUp extends Component {
 
     return (
       <form onSubmit={onSubmit}>
-        <Heading size={Heading.sizes.large} tagName="h1" className={commonStyles.title}>
+        <Heading size="large" tagName="h1" className={commonStyles.title}>
           <Translation id="auth:signUpHeading" />
         </Heading>
 

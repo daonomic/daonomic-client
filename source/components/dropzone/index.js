@@ -1,7 +1,8 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import Dropzone from 'react-dropzone';
 
-export default function StyledDropzone(props) {
+export default function StyledDropzone(props: {}) {
   return (
     <Dropzone
       {...props}
