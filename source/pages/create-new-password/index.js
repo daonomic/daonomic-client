@@ -31,11 +31,11 @@ class CreateNewPasswordPage extends Component {
   };
 
   @action setConfirmedPassword = (password) => {
-    this.confirmedPassword = password;
+    this.confirmationPassword = password;
   };
 
   @observable password;
-  @observable confirmedPassword;
+  @observable confirmationPassword;
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -45,7 +45,7 @@ class CreateNewPasswordPage extends Component {
     this.props.createNewPassword({
       token,
       password: this.password,
-      confirmedPassword: this.confirmedPassword,
+      confirmationPassword: this.confirmationPassword,
     });
   };
 
@@ -73,7 +73,7 @@ class CreateNewPasswordPage extends Component {
         isSaving={isSaving}
         errors={errors}
         password={this.password}
-        confirmedPassword={this.confirmedPassword}
+        confirmationPassword={this.confirmationPassword}
       />
     );
   }

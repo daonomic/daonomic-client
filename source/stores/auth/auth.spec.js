@@ -136,7 +136,7 @@ describe('auth store', () => {
         api: mockedApi,
       });
 
-      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmedPassword: 1234 });
+      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmationPassword: 1234 });
       expect(authStore.isLoading).toBe(true);
 
       when(
@@ -151,11 +151,11 @@ describe('auth store', () => {
         api: mockedApi,
       });
 
-      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmedPassword: 4322 });
+      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmationPassword: 4322 });
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isNewPasswordCreated === false && authStore.errors.confirmedPassword !== '',
+        () => authStore.isLoading === false && authStore.isNewPasswordCreated === false && authStore.errors.confirmationPassword !== '',
         done,
       );
     });

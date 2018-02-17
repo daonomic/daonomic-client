@@ -1,5 +1,6 @@
+// @flow
 export default {
-  getItem(key) {
+  getItem(key: string): ?string {
     let result = null;
 
     try {
@@ -9,25 +10,25 @@ export default {
     return result;
   },
 
-  setItem(key, value) {
+  setItem(key: string, value: string): void {
     try {
       window.localStorage.setItem(key, value);
     } catch (error) {} // eslint-disable-line no-empty
   },
 
-  removeItem(key) {
+  removeItem(key: string): void {
     try {
       window.localStorage.removeItem(key);
     } catch (error) {} // eslint-disable-line no-empty
   },
 
-  clear() {
+  clear(): void {
     try {
       window.localStorage.clear();
     } catch (error) {} // eslint-disable-line no-empty
   },
 
-  get length() {
+  get length(): number {
     let result = 0;
 
     try {

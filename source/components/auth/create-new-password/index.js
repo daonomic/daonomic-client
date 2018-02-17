@@ -15,10 +15,10 @@ type Props = {
   isSaving?: boolean,
   isNewPasswordCreated?: boolean,
   password?: string,
-  confirmedPassword?: string,
+  confirmationPassword?: string,
   errors?: {
     password?: string,
-    confirmedPassword?: string,
+    confirmationPassword?: string,
     common?: string,
   },
   onChangePassword: (event: Event) => void,
@@ -29,7 +29,7 @@ type Props = {
 export default class CreateNewPassword extends React.PureComponent<Props, {}> {
   static defaultProps = {
     password: '',
-    confirmedPassword: '',
+    confirmationPassword: '',
   };
 
   renderCommonError = () => {
@@ -55,7 +55,7 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
       onChangePassword,
       onChangeConfirmedPassword,
       password,
-      confirmedPassword,
+      confirmationPassword,
       errors,
     } = this.props;
 
@@ -84,10 +84,10 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
           <div className={commonStyles.row}>
             <Input
               required
-              value={confirmedPassword}
+              value={confirmationPassword}
               type="password"
               label={Translation.text('auth:confirmNewPassword')}
-              error={(errors || {}).confirmedPassword}
+              error={(errors || {}).confirmationPassword}
               onChange={onChangeConfirmedPassword}
               disabled={isSaving}
             />

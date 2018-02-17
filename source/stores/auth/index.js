@@ -1,10 +1,23 @@
+// @flow
 import { observable, action, computed, reaction, runInAction } from 'mobx';
 import apiAdapter from '~/api/api';
 import localStorage from '~/utils/local-storage';
+import type {
+  AuthToken,
+  Email,
+  AuthParams,
+  PasswordRecoveryParams,
+} from '~/types/auth';
+
+type AuthStoreParams = {
+  api: typeof apiAdapter,
+};
 
 export class AuthStore {
-  @observable token = localStorage.getItem('token');
-  @observable email = localStorage.getItem('email');
+  api: typeof apiAdapter;
+
+  @observable token: AuthToken = localStorage.getItem('token');
+  @observable email: Email = localStorage.getItem('email') || '';
   @observable isRegistered = false;
   @observable isPasswordReset = false;
   @observable isNewPasswordCreated = false;
@@ -12,11 +25,11 @@ export class AuthStore {
   @observable errors = {
     email: '',
     password: '',
-    confirmedPassword: '',
+    confirmationPassword: '',
     common: '',
   };
 
-  constructor({ api }) {
+  constructor({ api }: AuthStoreParams) {
     this.api = api;
 
     reaction(
@@ -42,19 +55,19 @@ export class AuthStore {
     );
   }
 
-  @computed get isAuthenticated() {
+  @computed get isAuthenticated(): boolean {
     return this.token !== null;
   }
 
-  @action setToken = (token) => {
+  @action setToken = (token: AuthToken) => {
     this.token = token;
   };
 
-  @action setEmail = (email) => {
+  @action setEmail = (email: Email) => {
     this.email = email;
   };
 
-  @action login = ({ email, password }) => {
+  @action login = ({ email, password }: AuthParams) => {
     this.resetErrors();
     this.logout();
     this.isLoading = true;
@@ -86,7 +99,7 @@ export class AuthStore {
       });
   };
 
-  @action register = ({ email }) => {
+  @action register = ({ email }: AuthParams) => {
     this.resetErrors();
     this.isLoading = true;
 
@@ -114,7 +127,7 @@ export class AuthStore {
       });
   };
 
-  @action resetPassword = ({ email }) => {
+  @action resetPassword = ({ email }: AuthParams) => {
     this.isLoading = true;
 
     return this.api.auth.resetPassword({ email })
@@ -136,11 +149,11 @@ export class AuthStore {
       });
   };
 
-  @action createNewPassword = ({ token, password, confirmedPassword }) => {
+  @action createNewPassword = ({ token, password, confirmationPassword }: PasswordRecoveryParams) => {
     this.isLoading = true;
     this.isPasswordReset = false;
 
-    return this.api.auth.createNewPassword({ token, password, confirmedPassword })
+    return this.api.auth.createNewPassword({ token, password, confirmationPassword })
       .then(() => {
         runInAction(() => {
           this.isLoading = false;
@@ -155,7 +168,7 @@ export class AuthStore {
 
           if (fieldErrors) {
             this.errors.password = (fieldErrors.password || []).pop() || '';
-            this.errors.confirmedPassword = (fieldErrors.password2 || []).pop() || '';
+            this.errors.confirmationPassword = (fieldErrors.password2 || []).pop() || '';
           } else if (reason) {
             this.errors.common = reason;
           }
@@ -170,7 +183,7 @@ export class AuthStore {
   @action resetErrors = () => {
     this.errors.email = '';
     this.errors.password = '';
-    this.errors.confirmedPassword = '';
+    this.errors.confirmationPassword = '';
     this.errors.common = '';
   };
 

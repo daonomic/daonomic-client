@@ -8,9 +8,11 @@ import type {
   SetKycDataResponse,
   SetKycDataResponseError,
 } from '~/types/kyc';
-import {
+import type {
   AuthParams,
-  PasswordResetParams,
+  PasswordRecoveryParams,
+} from '~/types/auth';
+import {
   PaymentParams,
 } from './types';
 
@@ -44,11 +46,11 @@ export default {
       { email },
       defaultOptions,
     ),
-    createNewPassword: ({ token, password, confirmedPassword }: PasswordResetParams) => daonomicApi.post(
+    createNewPassword: ({ token, password, confirmationPassword }: PasswordRecoveryParams) => daonomicApi.post(
       `/password/change/${token}`,
       {
         password,
-        password2: confirmedPassword,
+        password2: confirmationPassword,
       },
       defaultOptions,
     ),
