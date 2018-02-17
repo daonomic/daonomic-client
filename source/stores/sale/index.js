@@ -1,32 +1,43 @@
+// @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import api from '~/api/api';
-import dataStates from '~/utils/data-states';
 import { sale } from '~/config/common';
 import auth from '~/stores/auth';
+import type { DataState } from '~/types/common';
+
+type SaleStoreOptions = {
+  auth: typeof auth,
+  api: typeof api,
+  sale: typeof sale,
+};
 
 export class SaleStore {
-  @observable dataState = dataStates.initial;
+  auth: typeof auth;
+  api: typeof api;
+  sale: typeof sale;
 
-  @computed get isFailed() {
-    return this.dataState === dataStates.failed;
+  @observable dataState: DataState = 'initial';
+
+  @computed get isFailed(): boolean {
+    return this.dataState === 'failed';
   }
 
-  @computed get isLoading() {
-    return this.dataState === dataStates.loading;
+  @computed get isLoading(): boolean {
+    return this.dataState === 'loading';
   }
 
-  @computed get isLoaded() {
-    return this.dataState === dataStates.loaded;
+  @computed get isLoaded(): boolean {
+    return this.dataState === 'loaded';
   }
 
   @observable startTimestamp = 0;
   @observable endTimestamp = 0;
 
-  @computed get isStarted() {
+  @computed get isStarted(): boolean {
     return Date.now() >= this.startTimestamp;
   }
 
-  @computed get isFinished() {
+  @computed get isFinished(): boolean {
     return Date.now() >= this.endTimestamp;
   }
 
@@ -34,26 +45,12 @@ export class SaleStore {
     sold: 0,
     total: 0,
 
-    get notLimited() {
+    get notLimited(): boolean {
       return this.total === 0;
     },
   };
 
-  @observable kycFormSchema = [];
-  @observable kycFormData = new Map();
-
-  @computed get kycForm() {
-    return this.kycFormSchema.map((field) => ({
-      ...field,
-      value: this.kycFormData.get(field.name),
-    }));
-  }
-
-  @computed get isKycEnabled() {
-    return this.kycFormSchema.length > 0;
-  }
-
-  constructor(options) {
+  constructor(options: SaleStoreOptions) {
     this.auth = options.auth;
     this.api = options.api;
     this.sale = options.sale;
@@ -66,7 +63,7 @@ export class SaleStore {
   }
 
   @action loadInfo = () => {
-    this.dataState = dataStates.loading;
+    this.dataState = 'loading';
 
     this.api
       .getIcoInfo()
@@ -77,41 +74,21 @@ export class SaleStore {
           total = 0,
           startDate = 0,
           endDate = 0,
-          kyc = [],
         } = data;
 
         runInAction(() => {
-          this.dataState = dataStates.loaded;
+          this.dataState = 'loaded';
           this.startTimestamp = startDate;
           this.endTimestamp = endDate;
           this.tokensCount.sold = sold;
           this.tokensCount.total = total;
-          this.kycFormSchema = kyc;
-
-          kyc.forEach((field) => {
-            let defaultValue = '';
-
-            if (field.values) {
-              [defaultValue] = field.values;
-            } else if (field.type === 'FILE') {
-              defaultValue = [];
-            } else if (field.type === 'BOOLEAN') {
-              defaultValue = false;
-            }
-
-            this.kycFormData.set(field.name, defaultValue);
-          });
         });
       })
       .catch(() => {
         runInAction(() => {
-          this.dataState = dataStates.failed;
+          this.dataState = 'failed';
         });
       });
-  };
-
-  @action updateKycFormField = (name, value) => {
-    this.kycFormData.set(name, value);
   };
 }
 
