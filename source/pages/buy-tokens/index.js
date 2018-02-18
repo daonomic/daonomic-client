@@ -7,7 +7,7 @@ import Panel from '@daonomic/ui/source/panel';
 import SaleTimeline from '~/components/sale-timeline';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
-import EthereumWallet from './components/ethereum-wallet';
+import Kyc from './components/kyc';
 import PaymentMethod from './components/payment-method';
 import TokenPrice from './components/token-price';
 import Balance from './components/balance';
@@ -15,7 +15,7 @@ import styles from './buy-tokens.css';
 
 @inject(({ sale, kyc }) => ({
   sale,
-  isWalletSaved: kyc.isSaved,
+  isKycAllowed: kyc.isAllowed,
 }))
 @observer
 class BuyTokens extends Component {
@@ -27,13 +27,13 @@ class BuyTokens extends Component {
       startTimestamp: PropTypes.number.isRequired,
       endTimestamp: PropTypes.number.isRequired,
     }).isRequired,
-    isWalletSaved: PropTypes.bool.isRequired,
+    isKycAllowed: PropTypes.bool.isRequired,
   };
 
   renderPaymentMethod = () => {
-    const { isWalletSaved } = this.props;
+    const { isKycAllowed } = this.props;
 
-    if (!isWalletSaved) {
+    if (!isKycAllowed) {
       return null;
     }
 
@@ -52,7 +52,7 @@ class BuyTokens extends Component {
 
   renderActiveSaleContent = () => (
     <Fragment>
-      <EthereumWallet />
+      <Kyc />
       {this.renderPaymentMethod()}
     </Fragment>
   );

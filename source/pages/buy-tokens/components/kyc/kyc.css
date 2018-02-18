@@ -23,3 +23,7 @@
     padding-top: 30px;
   }
 }
+
+.red {
+  color: var(--theme-danger);
+}

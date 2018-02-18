@@ -4,5 +4,6 @@
   "annotation": "In order to recieve {{ tokenName }} tokens you need to give your Ethereum Wallet Adress.",
   "ethereumAddress": "Ethereum address",
   "save": "Save",
-  "saved": "Saved"
+  "saved": "Saved",
+  "kycOnReview": "Your data is being reviewed. Please, wait for approval."
 }

@@ -23,7 +23,13 @@ export class KycStore {
   @observable dataState: DataState = 'initial';
   @observable savingState: DataState = 'initial';
 
+  @observable denialReason: string = '';
+  @observable isDenied = false;
   @observable isAllowed = false;
+
+  @computed get isOnReview(): boolean {
+    return this.isSaved && !this.isAllowed && !this.isDenied;
+  }
 
   @observable formSchema: KycFormField[] = [];
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
@@ -110,12 +116,20 @@ export class KycStore {
       .then((response) => {
         this.dataState = 'loaded';
 
-        const { allowed, data } = response.data;
+        const {
+          allowed,
+          status,
+          denialReason,
+          data,
+        } = response.data;
 
         runInAction(() => {
           this.isAllowed = allowed;
+          this.isDenied = status === 'DENIED';
+          this.denialReason = denialReason || '';
 
           if (data) {
+            this.savingState = 'loaded';
             Object.keys(data).forEach((fieldName) => {
               this.formData.set(fieldName, data[fieldName]);
             });

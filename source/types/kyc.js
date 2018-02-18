@@ -11,6 +11,8 @@ export type KycFormField = {
 export type GetKycDataResponse = {
   data: {
     allowed: boolean,
+    denialReason?: string,
+    status: 'NOT_SET' | 'NO_KYC' | 'ON_REVIEW' | 'DENIED' | 'CONFIRMED' | 'PROCESSING' | 'COMPLETED',
     data?: {
       [key: KycFormFieldName]: KycFormFieldValue
     },

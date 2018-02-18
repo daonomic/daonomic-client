@@ -15,7 +15,7 @@ import type {
   KycFormFieldName,
   KycFormFieldValue,
 } from '~/types/kyc';
-import styles from './ethereum-wallet.css';
+import styles from './kyc.css';
 
 type ExtendedKycFormField = KycFormField & {
   value: KycFormFieldValue,
@@ -27,6 +27,9 @@ type Props = {
   kycForm: ExtendedKycFormField[],
   isSaving: boolean,
   isSaved: boolean,
+  isAllowed: boolean,
+  isDenied: boolean,
+  denialReason: string,
   onChangeKycFormField: (name: KycFormFieldName, value: KycFormFieldValue) => void,
   onSave: () => void,
 };
@@ -36,11 +39,14 @@ type Props = {
   kycForm: kyc.form,
   isSaving: kyc.isSaving,
   isSaved: kyc.isSaved,
+  isAllowed: kyc.isAllowed,
+  isDenied: kyc.isDenied,
+  denialReason: kyc.denialReason,
   onChangeKycFormField: kyc.updateFormField,
   onSave: kyc.saveData,
 }))
 @observer
-export default class EthereumWallet extends Component<Props, {}> {
+export default class Kyc extends Component<Props, {}> {
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -58,6 +64,36 @@ export default class EthereumWallet extends Component<Props, {}> {
       <Translation id={translationKey} />
     </Heading>
   );
+
+  renderStatus = () => {
+    const {
+      isSaved,
+      isAllowed,
+      isDenied,
+      denialReason,
+    } = this.props;
+    let content = null;
+
+    if (isAllowed || !isSaved) {
+      return null;
+    } else if (isDenied) {
+      content = (
+        <span className={styles.red}>
+          {denialReason}
+        </span>
+      );
+    } else {
+      content = (
+        <Translation id="wallet:kycOnReview" />
+      );
+    }
+
+    return (
+      <p className={styles.paragraph}>
+        {content}
+      </p>
+    );
+  };
 
   renderKycField = (field: ExtendedKycFormField) => {
     const {
@@ -164,6 +200,7 @@ export default class EthereumWallet extends Component<Props, {}> {
     return (
       <Panel paddingSize="large">
         {this.renderHeading(isKycEnabled ? 'wallet:kycTitle' : 'wallet:title')}
+        {this.renderStatus()}
         {kycForm.map(this.renderKycField)}
         {this.renderFooter()}
       </Panel>
