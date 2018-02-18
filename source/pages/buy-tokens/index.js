@@ -15,13 +15,14 @@ import styles from './buy-tokens.css';
 
 @inject(({ sale, kyc }) => ({
   sale,
+  isLoaded: sale.isLoaded && kyc.isLoaded,
   isKycAllowed: kyc.isAllowed,
 }))
 @observer
 class BuyTokens extends Component {
   static propTypes = {
+    isLoaded: PropTypes.bool.isRequired,
     sale: PropTypes.shape({
-      isLoaded: PropTypes.bool.isRequired,
       isStarted: PropTypes.bool.isRequired,
       isFinished: PropTypes.bool.isRequired,
       startTimestamp: PropTypes.number.isRequired,
@@ -83,7 +84,8 @@ class BuyTokens extends Component {
   );
 
   renderContent = () => {
-    const { isLoaded, isStarted, isFinished } = this.props.sale;
+    const { isLoaded } = this.props;
+    const { isStarted, isFinished } = this.props.sale;
 
     if (!isLoaded) {
       return this.renderPreloader();

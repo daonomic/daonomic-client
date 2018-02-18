@@ -25,9 +25,12 @@ const defaultOptions = {
   },
 };
 const apiSubDomain = process.env.API === 'development' ? 'dev-api' : 'api';
+const baseApiUrl = `https://${apiSubDomain}.daonomic.io/v1`;
 const daonomicApi = axios.create({
-  baseURL: `https://${apiSubDomain}.daonomic.io/v1`,
+  baseURL: baseApiUrl,
 });
+
+export const getFileUrl = (id: string) => `${baseApiUrl}/files/${id}`;
 
 export default {
   auth: {
@@ -76,5 +79,6 @@ export default {
         onUploadProgress,
       });
     },
+    get: (id: string) => daonomicApi.get(getFileUrl(id), defaultOptions),
   },
 };

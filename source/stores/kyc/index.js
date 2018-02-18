@@ -93,7 +93,7 @@ export class KycStore {
             if (field.values) {
               [defaultValue] = field.values;
             } else if (field.type === 'FILE') {
-              defaultValue = '';
+              defaultValue = [];
             } else if (field.type === 'BOOLEAN') {
               defaultValue = false;
             }
@@ -114,8 +114,6 @@ export class KycStore {
 
     this.api.kycData.get()
       .then((response) => {
-        this.dataState = 'loaded';
-
         const {
           allowed,
           status,
@@ -124,6 +122,7 @@ export class KycStore {
         } = response.data;
 
         runInAction(() => {
+          this.dataState = 'loaded';
           this.isAllowed = allowed;
           this.isDenied = status === 'DENIED';
           this.denialReason = denialReason || '';

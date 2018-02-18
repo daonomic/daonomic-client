@@ -1,5 +1,5 @@
 // @flow
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -9,6 +9,7 @@ import FileUploader from '~/components/file-uploader';
 import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
+import removeDuplicates from '~/utils/remove-duplicates';
 import kycStore from '~/stores/kyc';
 import type {
   KycFormField,
@@ -35,6 +36,7 @@ type Props = {
 };
 
 @inject(({ kyc }: { kyc: typeof kycStore }) => ({
+  isLoaded: kyc.isLoaded,
   isKycEnabled: kyc.isEnabled,
   kycForm: kyc.form,
   isSaving: kyc.isSaving,
@@ -120,21 +122,23 @@ export default class Kyc extends Component<Props, {}> {
       content = (
         <Checkbox
           name={name}
-          value={value}
+          checked={value}
           error={error}
           label={label}
           onChange={this.handleChangeKycField}
         />
       );
     } else if (type === 'FILE') {
+      const filesIds: string[] = value instanceof Array ? value : [];
+
       content = (
-        <Fragment>
-          <FileUploader
-            label={label}
-            error={error}
-            onAddFiles={(newFilesIds) => this.props.onChangeKycFormField(name, newFilesIds[0])}
-          />
-        </Fragment>
+        <FileUploader
+          label={label}
+          error={error}
+          filesIds={typeof value === 'string' ? [value] : value}
+          onAddFiles={(newFilesIds) => this.props.onChangeKycFormField(name, removeDuplicates([...filesIds, ...newFilesIds]))}
+          onRemoveFile={(removedFileId) => this.props.onChangeKycFormField(name, filesIds.filter((fileId) => fileId !== removedFileId))}
+        />
       );
     } else {
       content = (

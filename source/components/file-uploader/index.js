@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import api from '~/api/api';
+import api, { getFileUrl } from '~/api/api';
 import Dropzone from '~/components/dropzone';
 import listToHash from '~/utils/list-to-hash';
+import removeDuplicates from '~/utils/remove-duplicates';
+import omit from '~/utils/omit';
 import styles from './file-uploader.css';
 
 const getFileHash = (file) => `${file.name}${file.size}`;
@@ -11,13 +13,23 @@ export default class FileUploader extends PureComponent {
   static propTypes = {
     label: PropTypes.string,
     error: PropTypes.string,
+    filesIds: PropTypes.arrayOf(PropTypes.string),
     onAddFiles: PropTypes.func.isRequired,
+    onRemoveFile: PropTypes.func.isRequired,
   };
 
   state = {
     filesIds: [],
     filesById: {},
     filesUploadProgressById: {},
+  };
+
+  componentDidMount = () => {
+    const { filesIds } = this.props;
+
+    if ((filesIds || []).length > 0) {
+      this.loadExternalFiles(filesIds);
+    }
   };
 
   setFilesUploadProgress = ({ files, progress }) => {
@@ -30,6 +42,29 @@ export default class FileUploader extends PureComponent {
       filesUploadProgressById: {
         ...state.filesUploadProgressById,
         ...listToHash('id', (item) => item.progress)(filesProgress),
+      },
+    }));
+  };
+
+  loadExternalFiles = (filesIds) => {
+    const files = filesIds.map((id) => ({
+      id,
+      preview: getFileUrl(id),
+    }));
+    const filesUploadProgress = filesIds.map((id) => ({
+      id,
+      progress: 1,
+    }));
+
+    this.setState((state) => ({
+      filesIds: removeDuplicates([...state.filesIds, ...filesIds]),
+      filesById: {
+        ...state.filesById,
+        ...listToHash('id')(files),
+      },
+      filesUploadProgressById: {
+        ...state.filesUploadProgressById,
+        ...listToHash('id', (x) => x.progress)(filesUploadProgress),
       },
     }));
   };
@@ -76,9 +111,47 @@ export default class FileUploader extends PureComponent {
     }, () => this.uploadFiles(newFiles));
   };
 
-  renderFile = (file, { uploadProgress }) => (
-    <div className={styles.file}>
-      {file.name}, {Math.min(Math.round(uploadProgress * 100), 100)}%
+  handleRemoveFile = (id) => {
+    this.setState((state) => ({
+      filesIds: state.filesIds.filter((fileId) => fileId !== id),
+      filesById: omit([id])(state.filesById),
+      filesUploadProgressById: omit([id])(state.filesUploadProgressById),
+    }));
+
+    this.props.onRemoveFile(id);
+  };
+
+  renderProgress = (value) => {
+    if (value >= 1) {
+      return null;
+    }
+
+    return (
+      <div className={styles.progress}>
+        {Math.min(Math.round(value * 100), 100)}%
+      </div>
+    );
+  };
+
+  renderButtonRemove = ({ uploadProgress, id }) => {
+    if (uploadProgress < 1) {
+      return null;
+    }
+
+    return (
+      <button className={styles.delete} onClick={() => this.handleRemoveFile(id)}>
+        Delete file
+      </button>
+    );
+  };
+
+  renderFile = (file, { id, uploadProgress }) => (
+    <div
+      className={styles.image}
+      style={{ backgroundImage: `url(${file.preview})` }}
+    >
+      {this.renderProgress(uploadProgress)}
+      {this.renderButtonRemove({ uploadProgress, id })}
     </div>
   );
 
@@ -94,6 +167,7 @@ export default class FileUploader extends PureComponent {
         {filesIds.map((id) => (
           <li key={id} className={styles.item}>
             {this.renderFile(filesById[id], {
+              id,
               uploadProgress: filesUploadProgressById[id],
             })}
           </li>
