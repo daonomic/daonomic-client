@@ -26,7 +26,7 @@ export class KycStore {
   @observable isAllowed = false;
 
   @observable formSchema: KycFormField[] = [];
-  @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map([['address', '']]);
+  @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
   @observable formErrors: Map<KycFormFieldName, string> = new Map();
 
   @computed get form(): Array<KycFormField & { value: KycFormFieldValue, error: string }> {
@@ -38,7 +38,7 @@ export class KycStore {
   }
 
   @computed get isEnabled(): boolean {
-    return this.formSchema.length > 0;
+    return this.formSchema.length > 1;
   }
 
   @computed get isSaving(): boolean {

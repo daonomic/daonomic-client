@@ -1,6 +1,6 @@
+// @flow
 import React, { Fragment, Component } from 'react';
-import PropTypes from 'prop-types';
-import { observer, inject, PropTypes as MobxPropTypes } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
 import Select from '@daonomic/ui/source/select';
@@ -9,51 +9,47 @@ import FileUploader from '~/components/file-uploader';
 import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
+import kycStore from '~/stores/kyc';
+import type {
+  KycFormField,
+  KycFormFieldName,
+  KycFormFieldValue,
+} from '~/types/kyc';
 import styles from './ethereum-wallet.css';
 
-@inject(({ kyc }) => ({
+type ExtendedKycFormField = KycFormField & {
+  value: KycFormFieldValue,
+  error: string,
+};
+
+type Props = {
+  isKycEnabled: boolean,
+  kycForm: ExtendedKycFormField[],
+  isSaving: boolean,
+  isSaved: boolean,
+  onChangeKycFormField: (name: KycFormFieldName, value: KycFormFieldValue) => void,
+  onSave: () => void,
+};
+
+@inject(({ kyc }: { kyc: typeof kycStore }) => ({
   isKycEnabled: kyc.isEnabled,
   kycForm: kyc.form,
-  address: kyc.formData.get('address'),
-  error: kyc.formErrors.get('address'),
   isSaving: kyc.isSaving,
   isSaved: kyc.isSaved,
-  onChangeAddress: (value) => kyc.updateFormField('address', value),
   onChangeKycFormField: kyc.updateFormField,
   onSave: kyc.saveData,
 }))
 @observer
-export default class EthereumWallet extends Component {
-  static propTypes = {
-    isKycEnabled: PropTypes.bool.isRequired,
-    kycForm: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string,
-      label: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string, MobxPropTypes.arrayOrObservableArray]),
-      error: PropTypes.string,
-      values: MobxPropTypes.arrayOrObservableArrayOf(PropTypes.string),
-    })),
-    address: PropTypes.string.isRequired,
-    error: PropTypes.string.isRequired,
-    isSaving: PropTypes.bool.isRequired,
-    isSaved: PropTypes.bool.isRequired,
-    onChangeAddress: PropTypes.func.isRequired,
-    onChangeKycFormField: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-  };
-
-  handleChangeAddress = (event) => {
-    this.props.onChangeAddress(event.target.value);
-  };
-
-  handleChangeKycField = ({ target }) => {
+export default class EthereumWallet extends Component<Props, {}> {
+  handleChangeKycField = (event: { target: HTMLInputElement }) => {
+    const { target } = event;
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
     this.props.onChangeKycFormField(name, value);
   };
 
-  renderHeading = (translationKey) => (
+  renderHeading = (translationKey: string) => (
     <Heading
       className={styles.title}
       tagName="h2"
@@ -63,47 +59,7 @@ export default class EthereumWallet extends Component {
     </Heading>
   );
 
-  renderWalletAddress = () => {
-    const {
-      address,
-      error,
-    } = this.props;
-
-    return (
-      <Fragment>
-        <p className={styles.paragraph}>
-          <Translation
-            id="wallet:annotation"
-            data={{
-              tokenName: Translation.text('tokenName'),
-            }}
-          />
-        </p>
-
-        <Input
-          label={Translation.text('wallet:ethereumAddress')}
-          value={address}
-          error={error}
-          onChange={this.handleChangeAddress}
-        />
-      </Fragment>
-    );
-  };
-
-  renderKycForm = () => {
-    const { kycForm } = this.props;
-
-    return (
-      <Fragment>
-        {this.renderHeading('wallet:kycTitle')}
-        {kycForm.map(this.renderKycField)}
-        {this.renderWalletAddress()}
-        {this.renderFooter()}
-      </Fragment>
-    );
-  };
-
-  renderKycField = (field) => {
+  renderKycField = (field: ExtendedKycFormField) => {
     const {
       name,
       label,
@@ -158,19 +114,36 @@ export default class EthereumWallet extends Component {
 
     return (
       <div key={name} className={styles.paragraph}>
+        {this.renderKycFieldAnnotation(field)}
         {content}
       </div>
     );
   };
 
+  renderKycFieldAnnotation = (field: ExtendedKycFormField) => {
+    if (field.name === 'address') {
+      return (
+        <p className={styles.paragraph}>
+          <Translation
+            id="wallet:annotation"
+            data={{
+              tokenName: Translation.text('tokenName'),
+            }}
+          />
+        </p>
+      );
+    }
+
+    return null;
+  };
+
   renderFooter = () => {
     const {
-      address,
       isSaving,
       isSaved,
       onSave,
     } = this.props;
-    const isSaveDisabled = address.trim() === '' || isSaving || isSaved;
+    const isSaveDisabled = isSaving || isSaved;
 
     return (
       <div className={styles.footer}>
@@ -185,20 +158,14 @@ export default class EthereumWallet extends Component {
     );
   };
 
-  renderSimpleForm = () => (
-    <Fragment>
-      {this.renderHeading('wallet:title')}
-      {this.renderWalletAddress()}
-      {this.renderFooter()}
-    </Fragment>
-  );
-
   render() {
-    const { isKycEnabled } = this.props;
+    const { kycForm, isKycEnabled } = this.props;
 
     return (
       <Panel paddingSize="large">
-        {isKycEnabled ? this.renderKycForm() : this.renderSimpleForm()}
+        {this.renderHeading(isKycEnabled ? 'wallet:kycTitle' : 'wallet:title')}
+        {kycForm.map(this.renderKycField)}
+        {this.renderFooter()}
       </Panel>
     );
   }
