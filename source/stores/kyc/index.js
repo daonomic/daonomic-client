@@ -6,6 +6,7 @@ import {
   autorun,
   runInAction,
 } from 'mobx';
+import axios from 'axios';
 import api from '~/api/api';
 import type { DataState } from '~/types/common';
 import auth from '~/stores/auth';
@@ -22,6 +23,8 @@ export class KycStore {
 
   @observable dataState: DataState = 'initial';
   @observable savingState: DataState = 'initial';
+
+  @observable kycFilesUrl = '';
 
   @observable denialReason: string = '';
   @observable isDenied = false;
@@ -81,11 +84,12 @@ export class KycStore {
 
     return this.api.getIcoInfo()
       .then(({ data }) => {
-        const { kyc = [] } = data;
+        const { kyc = [], kycUrl } = data;
 
         runInAction(() => {
           this.dataState = 'loaded';
           this.formSchema = kyc;
+          this.kycFilesUrl = kycUrl;
 
           kyc.forEach((field: KycFormField) => {
             let defaultValue = '';
@@ -188,6 +192,20 @@ export class KycStore {
     this.formData = new Map();
     this.formErrors = new Map();
   };
+
+  uploadFiles = ({ files, onUploadProgress }: { files: File[], onUploadProgress: (event: ProgressEvent) => void }) => {
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append('file[]', file);
+    });
+
+    return axios.post(`${this.kycFilesUrl}/files`, formData, {
+      onUploadProgress,
+    });
+  };
+
+  getFileUrlById = (id: string): string => `${this.kycFilesUrl}/files/${id}`;
 }
 
 export default new KycStore({ api, auth });

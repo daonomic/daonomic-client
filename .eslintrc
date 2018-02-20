@@ -24,6 +24,7 @@
     "react/require-default-props": 0,
     "jsx-a11y/label-has-for": 0,
     "no-return-assign": 0,
+    "arrow-body-style": 0,
     "indent": ["error", 2, {
       "SwitchCase": 1
     }],

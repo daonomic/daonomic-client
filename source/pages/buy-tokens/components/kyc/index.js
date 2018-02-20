@@ -5,7 +5,7 @@ import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
 import Select from '@daonomic/ui/source/select';
 import Panel from '@daonomic/ui/source/panel';
-import FileUploader from '~/components/file-uploader';
+import ImageUploader from '~/components/image-uploader';
 import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
@@ -31,6 +31,8 @@ type Props = {
   isAllowed: boolean,
   isDenied: boolean,
   denialReason: string,
+  getFileUrlById: (id: string) => string,
+  uploadFiles: typeof kycStore.uploadFiles,
   onChangeKycFormField: (name: KycFormFieldName, value: KycFormFieldValue) => void,
   onSave: () => void,
 };
@@ -44,6 +46,8 @@ type Props = {
   isAllowed: kyc.isAllowed,
   isDenied: kyc.isDenied,
   denialReason: kyc.denialReason,
+  getFileUrlById: kyc.getFileUrlById,
+  uploadFiles: kyc.uploadFiles,
   onChangeKycFormField: kyc.updateFormField,
   onSave: kyc.saveData,
 }))
@@ -109,11 +113,16 @@ export default class Kyc extends Component<Props, {}> {
     let content;
 
     if (values) {
+      const options = values.map((optionValue, index) => ({
+        id: index,
+        value: optionValue,
+      }));
+
       content = (
         <Select value={value} name={name} onChange={this.handleChangeKycField}>
-          {values.map((fieldValue) => (
-            <option key={fieldValue} value={fieldValue}>
-              {fieldValue}
+          {options.map(({ id, value: optionValue }) => (
+            <option key={id} value={optionValue}>
+              {optionValue}
             </option>
           ))}
         </Select>
@@ -129,13 +138,16 @@ export default class Kyc extends Component<Props, {}> {
         />
       );
     } else if (type === 'FILE') {
-      const filesIds: string[] = value instanceof Array ? value : [];
+      const { getFileUrlById, uploadFiles } = this.props;
+      const filesIds: string[] = value instanceof Array ? [...value] : [];
 
       content = (
-        <FileUploader
+        <ImageUploader
           label={label}
           error={error}
-          filesIds={typeof value === 'string' ? [value] : value}
+          filesIds={filesIds}
+          getFileUrlById={getFileUrlById}
+          uploadFiles={uploadFiles}
           onAddFiles={(newFilesIds) => this.props.onChangeKycFormField(name, removeDuplicates([...filesIds, ...newFilesIds]))}
           onRemoveFile={(removedFileId) => this.props.onChangeKycFormField(name, filesIds.filter((fileId) => fileId !== removedFileId))}
         />

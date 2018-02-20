@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import api, { getFileUrl } from '~/api/api';
 import Dropzone from '~/components/dropzone';
 import listToHash from '~/utils/list-to-hash';
 import removeDuplicates from '~/utils/remove-duplicates';
 import omit from '~/utils/omit';
-import styles from './file-uploader.css';
+import styles from './image-uploader.css';
 
 const getFileHash = (file) => `${file.name}${file.size}`;
 
-export default class FileUploader extends PureComponent {
+export default class ImageUploader extends PureComponent {
   static propTypes = {
     label: PropTypes.string,
     error: PropTypes.string,
     filesIds: PropTypes.arrayOf(PropTypes.string),
+    getFileUrlById: PropTypes.func.isRequired,
+    uploadFiles: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onRemoveFile: PropTypes.func.isRequired,
   };
@@ -47,9 +48,11 @@ export default class FileUploader extends PureComponent {
   };
 
   loadExternalFiles = (filesIds) => {
+    const { getFileUrlById } = this.props;
+
     const files = filesIds.map((id) => ({
       id,
-      preview: getFileUrl(id),
+      preview: getFileUrlById(id),
     }));
     const filesUploadProgress = filesIds.map((id) => ({
       id,
@@ -75,7 +78,7 @@ export default class FileUploader extends PureComponent {
       progress: 0,
     });
 
-    api.files.upload({
+    this.props.uploadFiles({
       files: files.map(({ file }) => file),
       onUploadProgress: (progressEvent) => {
         this.setFilesUploadProgress({

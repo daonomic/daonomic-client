@@ -11,6 +11,7 @@ export default function StyledDropzone(props: {}) {
         border: '1px dashed #d0d0d0',
         color: 'rgba(0, 0, 0, .7)',
         padding: '1rem',
+        cursor: 'pointer',
       }}
     />
   );

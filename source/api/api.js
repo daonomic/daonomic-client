@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { sale, realm } from '~/config/common';
 import auth from '~/stores/auth';
+import cacheResult from '~/utils/cache-result';
 import type {
   GetKycDataResponse,
   SetKycDataParams,
@@ -12,9 +13,7 @@ import type {
   AuthParams,
   PasswordRecoveryParams,
 } from '~/types/auth';
-import {
-  PaymentParams,
-} from './types';
+import { PaymentParams } from './types';
 
 const defaultOptions = {
   get headers() { // auth token can be changed, so we need to recalculate headers before every request
@@ -29,8 +28,6 @@ const baseApiUrl = `https://${apiSubDomain}.daonomic.io/v1`;
 const daonomicApi = axios.create({
   baseURL: baseApiUrl,
 });
-
-export const getFileUrl = (id: string) => `${baseApiUrl}/files/${id}`;
 
 export default {
   auth: {
@@ -62,23 +59,8 @@ export default {
     get: (): Promise<GetKycDataResponse> => daonomicApi.get('/data', defaultOptions),
     set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> => daonomicApi.post('/data', data, defaultOptions),
   },
-  getIcoInfo: () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
+  getIcoInfo: cacheResult(() => daonomicApi.get(`/sales/${sale}`, defaultOptions), 5000),
   getPaymentAddress: ({ saleId, tokenId }: PaymentParams) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
   getPaymentStatus: ({ saleId, tokenId }: PaymentParams) => daonomicApi.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
   getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
-  files: {
-    upload: ({ files, onUploadProgress }: { files: File[], onUploadProgress: (event: ProgressEvent) => void }) => {
-      const formData = new FormData();
-
-      files.forEach((file) => {
-        formData.append('file[]', file);
-      });
-
-      return daonomicApi.post('/files', formData, {
-        ...defaultOptions,
-        onUploadProgress,
-      });
-    },
-    get: (id: string) => daonomicApi.get(getFileUrl(id), defaultOptions),
-  },
 };
