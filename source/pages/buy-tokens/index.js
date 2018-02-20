@@ -16,7 +16,7 @@ import styles from './buy-tokens.css';
 @inject(({ sale, kyc }) => ({
   sale,
   isLoaded: sale.isLoaded && kyc.isLoaded,
-  isKycAllowed: kyc.isAllowed,
+  isAllowedToPay: kyc.isEnabled ? kyc.isAllowed : kyc.isSaved,
 }))
 @observer
 class BuyTokens extends Component {
@@ -28,13 +28,13 @@ class BuyTokens extends Component {
       startTimestamp: PropTypes.number.isRequired,
       endTimestamp: PropTypes.number.isRequired,
     }).isRequired,
-    isKycAllowed: PropTypes.bool.isRequired,
+    isAllowedToPay: PropTypes.bool.isRequired,
   };
 
   renderPaymentMethod = () => {
-    const { isKycAllowed } = this.props;
+    const { isAllowedToPay } = this.props;
 
-    if (!isKycAllowed) {
+    if (!isAllowedToPay) {
       return null;
     }
 
