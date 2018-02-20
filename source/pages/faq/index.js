@@ -37,7 +37,11 @@ export default class Faq extends PureComponent {
           <div className={styles.list}>
             {entries.map(({ question, answer }) => (
               <Spoiler key={question} title={question}>
-                {answer}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: answer,
+                  }}
+                />
               </Spoiler>
             ))}
           </div>
