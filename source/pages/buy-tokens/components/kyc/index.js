@@ -20,7 +20,7 @@ import styles from './kyc.css';
 
 type ExtendedKycFormField = KycFormField & {
   value: KycFormFieldValue,
-  error: string,
+  error: string
 };
 
 type Props = {
@@ -33,8 +33,11 @@ type Props = {
   denialReason: string,
   getFileUrlById: (id: string) => string,
   uploadFiles: typeof kycStore.uploadFiles,
-  onChangeKycFormField: (name: KycFormFieldName, value: KycFormFieldValue) => void,
-  onSave: () => void,
+  onChangeKycFormField: (
+    name: KycFormFieldName,
+    value: KycFormFieldValue
+  ) => void,
+  onSave: () => void
 };
 
 @inject(({ kyc }: { kyc: typeof kycStore }) => ({
@@ -62,53 +65,31 @@ export default class Kyc extends Component<Props, {}> {
   };
 
   renderHeading = (translationKey: string) => (
-    <Heading
-      className={styles.title}
-      tagName="h2"
-      size="normal"
-    >
+    <Heading className={styles.title} tagName="h2" size="normal">
       <Translation id={translationKey} />
     </Heading>
   );
 
   renderStatus = () => {
     const {
-      isSaved,
-      isAllowed,
-      isDenied,
-      denialReason,
+      isSaved, isAllowed, isDenied, denialReason,
     } = this.props;
     let content = null;
 
     if (isAllowed || !isSaved) {
       return null;
     } else if (isDenied) {
-      content = (
-        <span className={styles.red}>
-          {denialReason}
-        </span>
-      );
+      content = <span className={styles.red}>{denialReason}</span>;
     } else {
-      content = (
-        <Translation id="wallet:kycOnReview" />
-      );
+      content = <Translation id="wallet:kycOnReview" />;
     }
 
-    return (
-      <p className={styles.paragraph}>
-        {content}
-      </p>
-    );
+    return <p className={styles.paragraph}>{content}</p>;
   };
 
   renderKycField = (field: ExtendedKycFormField) => {
     const {
-      name,
-      label,
-      value,
-      error,
-      type,
-      values,
+      name, label, value, error, type, values,
     } = field;
     let content;
 
@@ -120,6 +101,8 @@ export default class Kyc extends Component<Props, {}> {
 
       content = (
         <Select value={value} name={name} onChange={this.handleChangeKycField}>
+          <option value="DEFAULT">Select please</option>
+
           {options.map(({ id, value: optionValue }) => (
             <option key={id} value={optionValue}>
               {optionValue}
@@ -148,8 +131,18 @@ export default class Kyc extends Component<Props, {}> {
           filesIds={filesIds}
           getFileUrlById={getFileUrlById}
           uploadFiles={uploadFiles}
-          onAddFiles={(newFilesIds) => this.props.onChangeKycFormField(name, removeDuplicates([...filesIds, ...newFilesIds]))}
-          onRemoveFile={(removedFileId) => this.props.onChangeKycFormField(name, filesIds.filter((fileId) => fileId !== removedFileId))}
+          onAddFiles={(newFilesIds) =>
+            this.props.onChangeKycFormField(
+              name,
+              removeDuplicates([...filesIds, ...newFilesIds]),
+            )
+          }
+          onRemoveFile={(removedFileId) =>
+            this.props.onChangeKycFormField(
+              name,
+              filesIds.filter((fileId) => fileId !== removedFileId),
+            )
+          }
         />
       );
     } else {
@@ -190,21 +183,20 @@ export default class Kyc extends Component<Props, {}> {
   };
 
   renderFooter = () => {
-    const {
-      isSaving,
-      isSaved,
-      onSave,
-    } = this.props;
-    const isSaveDisabled = isSaving || isSaved;
+    const { isSaving, isSaved, onSave } = this.props;
+    const isSaveDisabled =
+      isSaving ||
+      isSaved ||
+      this.props.kycForm.some((field) => field.values && field.value === 'DEFAULT');
 
     return (
       <div className={styles.footer}>
         <Button disabled={isSaveDisabled} onClick={onSave}>
-          {isSaved ?
+          {isSaved ? (
             <Translation id="wallet:saved" />
-            :
+          ) : (
             <Translation id="wallet:save" />
-          }
+          )}
         </Button>
       </div>
     );

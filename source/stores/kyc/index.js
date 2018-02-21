@@ -1,11 +1,5 @@
 // @flow
-import {
-  observable,
-  computed,
-  action,
-  autorun,
-  runInAction,
-} from 'mobx';
+import { observable, computed, action, autorun, runInAction } from 'mobx';
 import axios from 'axios';
 import api from '~/api/api';
 import type { DataState } from '~/types/common';
@@ -30,7 +24,8 @@ export class KycStore {
   @observable isDenied = false;
   @observable isAllowed = false;
 
-  @computed get isOnReview(): boolean {
+  @computed
+  get isOnReview(): boolean {
     return this.isSaved && !this.isAllowed && !this.isDenied;
   }
 
@@ -38,7 +33,10 @@ export class KycStore {
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
   @observable formErrors: Map<KycFormFieldName, string> = new Map();
 
-  @computed get form(): Array<KycFormField & { value: KycFormFieldValue, error: string }> {
+  @computed
+  get form(): Array<
+    KycFormField & { value: KycFormFieldValue, error: string }
+    > {
     return this.formSchema.map((field) => ({
       ...field,
       value: this.formData.get(field.name),
@@ -46,23 +44,28 @@ export class KycStore {
     }));
   }
 
-  @computed get isEnabled(): boolean {
+  @computed
+  get isEnabled(): boolean {
     return this.formSchema.length > 1;
   }
 
-  @computed get isSaving(): boolean {
+  @computed
+  get isSaving(): boolean {
     return this.savingState === 'loading';
   }
 
-  @computed get isSaved(): boolean {
+  @computed
+  get isSaved(): boolean {
     return this.savingState === 'loaded';
   }
 
-  @computed get isLoading(): boolean {
+  @computed
+  get isLoading(): boolean {
     return this.dataState === 'loading';
   }
 
-  @computed get isLoaded(): boolean {
+  @computed
+  get isLoaded(): boolean {
     return this.dataState === 'loaded';
   }
 
@@ -79,10 +82,12 @@ export class KycStore {
     });
   }
 
-  @action loadKycInfo = (): Promise<*> => {
+  @action
+  loadKycInfo = (): Promise<*> => {
     this.dataState = 'loading';
 
-    return this.api.getIcoInfo()
+    return this.api
+      .getIcoInfo()
       .then(({ data }) => {
         const { kyc = [], kycUrl } = data;
 
@@ -95,7 +100,8 @@ export class KycStore {
             let defaultValue = '';
 
             if (field.values) {
-              [defaultValue] = field.values;
+              defaultValue = 'DEFAULT';
+              // [defaultValue] = field.values;
             } else if (field.type === 'FILE') {
               defaultValue = [];
             } else if (field.type === 'BOOLEAN') {
@@ -113,16 +119,15 @@ export class KycStore {
       });
   };
 
-  @action loadData = () => {
+  @action
+  loadData = () => {
     this.dataState = 'loading';
 
-    this.api.kycData.get()
+    this.api.kycData
+      .get()
       .then((response) => {
         const {
-          allowed,
-          status,
-          denialReason,
-          data,
+          allowed, status, denialReason, data,
         } = response.data;
 
         runInAction(() => {
@@ -150,16 +155,21 @@ export class KycStore {
       });
   };
 
-  @action saveData = () => {
+  @action
+  saveData = () => {
     this.savingState = 'loading';
     this.formErrors = new Map();
     const formData: [KycFormFieldName, KycFormFieldValue][] = Array.from(this.formData.entries());
-    const data = formData.reduce((result, [key, value]) => ({
-      ...result,
-      [key]: value,
-    }), {});
+    const data = formData.reduce(
+      (result, [key, value]) => ({
+        ...result,
+        [key]: value,
+      }),
+      {},
+    );
 
-    this.api.kycData.set(data)
+    this.api.kycData
+      .set(data)
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';
@@ -182,18 +192,26 @@ export class KycStore {
       });
   };
 
-  @action updateFormField = (name: KycFormFieldName, value: KycFormFieldValue) => {
+  @action
+  updateFormField = (name: KycFormFieldName, value: KycFormFieldValue) => {
     this.savingState = 'initial';
     this.formData.set(name, value);
     this.formErrors.delete(name);
   };
 
-  @action resetData = () => {
+  @action
+  resetData = () => {
     this.formData = new Map();
     this.formErrors = new Map();
   };
 
-  uploadFiles = ({ files, onUploadProgress }: { files: File[], onUploadProgress: (event: ProgressEvent) => void }) => {
+  uploadFiles = ({
+    files,
+    onUploadProgress,
+  }: {
+    files: File[],
+    onUploadProgress: (event: ProgressEvent) => void
+  }) => {
     const formData = new FormData();
 
     files.forEach((file) => {
