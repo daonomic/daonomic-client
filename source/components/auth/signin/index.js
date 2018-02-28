@@ -18,12 +18,12 @@ type Props = {
   errors: {
     email: string,
     password: string,
-    common: string,
+    common: string
   },
   isLoading: boolean,
   onSubmit: (event: Event) => void,
   onChangeEmail: (event: Event) => void,
-  onChangePassword: (event: Event) => void,
+  onChangePassword: (event: Event) => void
 };
 
 export default class SignIn extends React.Component<Props, {}> {
@@ -38,15 +38,13 @@ export default class SignIn extends React.Component<Props, {}> {
     if (common) {
       return (
         <div className={commonStyles.row}>
-          <p className={commonStyles.error}>
-            {common}
-          </p>
+          <p className={commonStyles.error}>{common}</p>
         </div>
       );
     }
 
     return null;
-  }
+  };
 
   render() {
     const {
@@ -107,8 +105,7 @@ export default class SignIn extends React.Component<Props, {}> {
         </Panel>
 
         <Panel className={cn(textStyles.muted, textStyles.center)}>
-          <Translation id="auth:dontHaveAccount" />
-          {' '}
+          <Translation id="auth:dontHaveAccount" />{' '}
           <Link href="/sign/up">
             <Translation id="auth:signUpHeading" />&nbsp;⟩
           </Link>

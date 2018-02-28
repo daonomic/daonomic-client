@@ -64,6 +64,12 @@ export default class Kyc extends Component<Props, {}> {
     this.props.onChangeKycFormField(name, value);
   };
 
+  handleSave = (event) => {
+    event.preventDefault();
+
+    this.props.onSave(event);
+  };
+
   renderHeading = (translationKey: string) => (
     <Heading className={styles.title} tagName="h2" size="normal">
       <Translation id={translationKey} />
@@ -89,7 +95,7 @@ export default class Kyc extends Component<Props, {}> {
 
   renderKycField = (field: ExtendedKycFormField) => {
     const {
-      name, label, value, error, type, values,
+      name, label, value, error, type, values, required,
     } = field;
     let content;
 
@@ -117,6 +123,7 @@ export default class Kyc extends Component<Props, {}> {
           checked={value}
           error={error}
           label={label}
+          required={required}
           onChange={this.handleChangeKycField}
         />
       );
@@ -153,6 +160,7 @@ export default class Kyc extends Component<Props, {}> {
           value={value}
           error={error}
           onChange={this.handleChangeKycField}
+          required={required}
         />
       );
     }
@@ -183,7 +191,7 @@ export default class Kyc extends Component<Props, {}> {
   };
 
   renderFooter = () => {
-    const { isSaving, isSaved, onSave } = this.props;
+    const { isSaving, isSaved } = this.props;
     const isSaveDisabled =
       isSaving ||
       isSaved ||
@@ -191,7 +199,7 @@ export default class Kyc extends Component<Props, {}> {
 
     return (
       <div className={styles.footer}>
-        <Button disabled={isSaveDisabled} onClick={onSave}>
+        <Button type="submit" disabled={isSaveDisabled}>
           {isSaved ? (
             <Translation id="wallet:saved" />
           ) : (
@@ -207,10 +215,12 @@ export default class Kyc extends Component<Props, {}> {
 
     return (
       <Panel paddingSize="large">
-        {this.renderHeading(isKycEnabled ? 'wallet:kycTitle' : 'wallet:title')}
-        {this.renderStatus()}
-        {kycForm.map(this.renderKycField)}
-        {this.renderFooter()}
+        <form onSubmit={this.handleSave}>
+          {this.renderHeading(isKycEnabled ? 'wallet:kycTitle' : 'wallet:title')}
+          {this.renderStatus()}
+          {kycForm.map(this.renderKycField)}
+          {this.renderFooter()}
+        </form>
       </Panel>
     );
   }

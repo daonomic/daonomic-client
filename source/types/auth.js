@@ -3,14 +3,15 @@ export type AuthToken = ?string;
 export type PasswordRecoveryToken = string;
 export type Email = string;
 export type Password = string;
+export type Id = ?string;
 
 export type AuthParams = {|
   email: Email,
-  password?: Password,
+  password?: Password
 |};
 
 export type PasswordRecoveryParams = {|
   token: PasswordRecoveryToken,
   password: Password,
-  confirmationPassword: Password,
+  confirmationPassword: Password
 |};

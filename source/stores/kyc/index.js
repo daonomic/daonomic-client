@@ -124,7 +124,7 @@ export class KycStore {
     this.dataState = 'loading';
 
     this.api.kycData
-      .get()
+      .getClient()
       .then((response) => {
         const {
           allowed, status, denialReason, data,
@@ -169,7 +169,7 @@ export class KycStore {
     );
 
     this.api.kycData
-      .set(data)
+      .setClient(data)
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';

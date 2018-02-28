@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   api,
+  clientApi,
   sourceDir,
   buildDir,
   nodeEnv,
@@ -11,10 +12,7 @@ const {
 } = require('../config');
 
 const config = {
-  entry: [
-    `${sourceDir}/index.js`,
-    `${sourceDir}/global.css`,
-  ],
+  entry: [`${sourceDir}/index.js`, `${sourceDir}/global.css`],
 
   output: {
     path: buildDir,
@@ -33,10 +31,7 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          sourceDir,
-          /@daonomic\/ui/,
-        ],
+        include: [sourceDir, /@daonomic\/ui/],
         use: 'babel-loader',
       },
       {
@@ -78,6 +73,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.API': JSON.stringify(api),
+      'process.env.CLIENT_API': JSON.stringify(clientApi),
     }),
     new HtmlWebpackPlugin({
       template: `${sourceDir}/index.html`,
@@ -90,10 +86,7 @@ const config = {
 };
 
 if (isAnalyzeModeEnabled) {
-  config.plugins = [
-    ...config.plugins,
-    new BundleAnalyzerPlugin(),
-  ];
+  config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
 }
 
 if (isDebugEnabled) {
