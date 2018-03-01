@@ -57,21 +57,15 @@ export default {
       ),
   },
   kycData: {
-    get: (): Promise<GetKycDataResponse> =>
-      daonomicApi.get('/data', defaultOptions),
+    get: () => daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
+    set: ({ address }) =>
+      daonomicApi.post(`/sales/${sale}/address`, { address }, defaultOptions),
     getClient: (): Promise<GetKycDataResponse> =>
       clientApi
         .get(`/users/${localStorage.getItem('id') || ''}`)
-        .then((response) => ({
-          ...response,
-          data: {
-            data: response.data,
-            status: 'ON_REVIEW', // TODO: asd
-          },
-        }))
         .catch(() => ({ data: {} })),
-    set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
-      daonomicApi.post('/data', data, defaultOptions),
+    // set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
+    //   daonomicApi.post('/data', data, defaultOptions),
     setClient: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
       clientApi.post(
         `/users/${localStorage.getItem('id') || ''}`,

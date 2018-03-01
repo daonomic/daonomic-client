@@ -123,12 +123,12 @@ export class KycStore {
   loadData = () => {
     this.dataState = 'loading';
 
-    this.api.kycData
-      .getClient()
-      .then((response) => {
-        const {
-          allowed, status, denialReason, data,
-        } = response.data;
+    Promise.all([this.api.kycData.getClient(), this.api.kycData.get()])
+      .then(([kycDataResp, statusResp]) => {
+        console.log(kycDataResp);
+        const { data } = kycDataResp;
+        const { status, denialReason } = statusResp.data;
+        const allowed = status === 'NO_KYC' || status === 'COMPLETED';
 
         runInAction(() => {
           this.dataState = 'loaded';
@@ -168,8 +168,10 @@ export class KycStore {
       {},
     );
 
-    this.api.kycData
-      .setClient(data)
+    Promise.all([
+      this.api.kycData.setClient(data),
+      this.api.kycData.set({ address: data.address }),
+    ])
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';
