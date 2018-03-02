@@ -18,12 +18,12 @@ type Props = {
   errors: {
     email: string,
     password: string,
-    common: string
+    common: string,
   },
   isLoading: boolean,
   onSubmit: (event: Event) => void,
   onChangeEmail: (event: Event) => void,
-  onChangePassword: (event: Event) => void
+  onChangePassword: (event: Event) => void,
 };
 
 export default class SignIn extends React.Component<Props, {}> {

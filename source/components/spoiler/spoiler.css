@@ -18,7 +18,7 @@
 .root_expanded {
   border-radius: 6px;
   border-top-color: transparent;
-  background-color: rgba(71, 134, 255, .04);
+  background-color: rgba(71, 134, 255, 0.04);
 }
 
 .root_expanded + .root {
@@ -40,7 +40,9 @@
   padding: 0;
   padding-top: var(--spoiler-half-vertical-padding-mobile);
   padding-bottom: var(--spoiler-half-vertical-padding-mobile);
-  padding-right: calc(var(--spoiler-icon-size) + var(--spoiler-horizontal-padding));
+  padding-right: calc(
+    var(--spoiler-icon-size) + var(--spoiler-horizontal-padding)
+  );
   text-align: left;
   font-family: inherit;
   font-size: inherit;

@@ -1,4 +1,11 @@
-import { observable, computed, action, reaction, autorun, runInAction } from 'mobx';
+import {
+  observable,
+  computed,
+  action,
+  reaction,
+  autorun,
+  runInAction,
+} from 'mobx';
 import api from '~/api/api';
 import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
@@ -9,21 +16,25 @@ import kyc from '~/stores/kyc';
 export class PaymentStore {
   @observable dataState = dataStates.initial;
 
-  @computed get isFailed() {
+  @computed
+  get isFailed() {
     return this.dataState === dataStates.failed;
   }
 
-  @computed get isLoading() {
+  @computed
+  get isLoading() {
     return this.dataState === dataStates.loading;
   }
 
-  @computed get isLoaded() {
+  @computed
+  get isLoaded() {
     return this.dataState === dataStates.loaded;
   }
 
   @observable methods = [];
 
-  @computed get prices() {
+  @computed
+  get prices() {
     return this.methods.map(({ id, rate }) => ({
       rate,
       label: id,
@@ -35,15 +46,20 @@ export class PaymentStore {
   @observable paymentsByMethodId = new Map();
   @observable selectedMethodAddressQRCode = null;
 
-  @computed get selectedMethod() {
-    return this.methods.find((method) => method.id === this.selectedMethodId) || {};
+  @computed
+  get selectedMethod() {
+    return (
+      this.methods.find((method) => method.id === this.selectedMethodId) || {}
+    );
   }
 
-  @computed get selectedMethodAddress() {
+  @computed
+  get selectedMethodAddress() {
     return this.addressesByMethodId.get(this.selectedMethodId);
   }
 
-  @computed get selectedMethodPayments() {
+  @computed
+  get selectedMethodPayments() {
     return this.paymentsByMethodId.get(this.selectedMethodId) || [];
   }
 
@@ -76,7 +92,11 @@ export class PaymentStore {
       () => {
         const { id, token } = this.selectedMethod;
 
-        if (!this.isLoaded || !this.kyc.isSaved || this.addressesByMethodId.get(id)) {
+        if (
+          !this.isLoaded ||
+          !this.kyc.isSaved ||
+          this.addressesByMethodId.get(id)
+        ) {
           return;
         }
 
@@ -105,17 +125,26 @@ export class PaymentStore {
           return;
         }
 
-        const updateIssueRequestStatus = () => this.api.getPaymentStatus({ saleId: this.sale, tokenId: selectedMethod.token }).then(({ data }) => {
-          const actualSelectedMethod = this.selectedMethod;
+        const updateIssueRequestStatus = () =>
+          this.api
+            .getPaymentStatus({
+              saleId: this.sale,
+              tokenId: selectedMethod.token,
+            })
+            .then(({ data }) => {
+              const actualSelectedMethod = this.selectedMethod;
 
-          if (selectedMethod.token === actualSelectedMethod.token) {
-            runInAction(() => {
-              this.paymentsByMethodId.set(actualSelectedMethod.id, data);
+              if (selectedMethod.token === actualSelectedMethod.token) {
+                runInAction(() => {
+                  this.paymentsByMethodId.set(actualSelectedMethod.id, data);
+                });
+              }
             });
-          }
-        });
 
-        issueRequestStatusIntervalId = setInterval(updateIssueRequestStatus, 3000);
+        issueRequestStatusIntervalId = setInterval(
+          updateIssueRequestStatus,
+          3000,
+        );
         updateIssueRequestStatus();
       },
     );
@@ -134,7 +163,8 @@ export class PaymentStore {
     );
   }
 
-  @action loadInfo = () => {
+  @action
+  loadInfo = () => {
     this.dataState = dataStates.loading;
 
     this.api
@@ -154,7 +184,8 @@ export class PaymentStore {
       });
   };
 
-  @action setMethod = (methodId) => {
+  @action
+  setMethod = (methodId) => {
     this.selectedMethodId = methodId;
   };
 }

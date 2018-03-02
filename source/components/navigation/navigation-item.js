@@ -14,7 +14,8 @@ type Props = {
 export default class NavigationItem extends React.Component<Props, {}> {
   handleClick = (event: MouseEvent) => {
     const { href, onClick } = this.props;
-    const shouldOpenInNewTab = event.metaKey || event.ctrlKey || event.button === 1;
+    const shouldOpenInNewTab =
+      event.metaKey || event.ctrlKey || event.button === 1;
 
     if (!event.defaultPrevented && !shouldOpenInNewTab) {
       event.preventDefault();
@@ -23,12 +24,7 @@ export default class NavigationItem extends React.Component<Props, {}> {
   };
 
   render() {
-    const {
-      className,
-      children,
-      isActive,
-      href,
-    } = this.props;
+    const { className, children, isActive, href } = this.props;
 
     return (
       <a

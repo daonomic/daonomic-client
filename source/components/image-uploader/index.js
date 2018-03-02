@@ -78,22 +78,24 @@ export default class ImageUploader extends PureComponent {
       progress: 0,
     });
 
-    this.props.uploadFiles({
-      files: files.map(({ file }) => file),
-      onUploadProgress: (progressEvent) => {
+    this.props
+      .uploadFiles({
+        files: files.map(({ file }) => file),
+        onUploadProgress: (progressEvent) => {
+          this.setFilesUploadProgress({
+            files,
+            progress: progressEvent.loaded / progressEvent.total,
+          });
+        },
+      })
+      .then(({ data }) => {
         this.setFilesUploadProgress({
           files,
-          progress: progressEvent.loaded / progressEvent.total,
+          progress: 1,
         });
-      },
-    }).then(({ data }) => {
-      this.setFilesUploadProgress({
-        files,
-        progress: 1,
-      });
 
-      this.props.onAddFiles(data.map(({ id }) => id));
-    });
+        this.props.onAddFiles(data.map(({ id }) => id));
+      });
   };
 
   handleDropFiles = (acceptedFiles) => {
@@ -105,13 +107,16 @@ export default class ImageUploader extends PureComponent {
       }))
       .filter(({ id }) => !currentFilesIds.includes(id));
 
-    this.setState({
-      filesIds: currentFilesIds.concat(newFiles.map(({ id }) => id)),
-      filesById: {
-        ...filesById,
-        ...listToHash('id', ({ file }) => file)(newFiles),
+    this.setState(
+      {
+        filesIds: currentFilesIds.concat(newFiles.map(({ id }) => id)),
+        filesById: {
+          ...filesById,
+          ...listToHash('id', ({ file }) => file)(newFiles),
+        },
       },
-    }, () => this.uploadFiles(newFiles));
+      () => this.uploadFiles(newFiles),
+    );
   };
 
   handleRemoveFile = (id) => {
@@ -142,7 +147,10 @@ export default class ImageUploader extends PureComponent {
     }
 
     return (
-      <button className={styles.delete} onClick={() => this.handleRemoveFile(id)}>
+      <button
+        className={styles.delete}
+        onClick={() => this.handleRemoveFile(id)}
+      >
         Delete file
       </button>
     );
@@ -186,11 +194,7 @@ export default class ImageUploader extends PureComponent {
       return null;
     }
 
-    return (
-      <div className={styles.error}>
-        {error}
-      </div>
-    );
+    return <div className={styles.error}>{error}</div>;
   };
 
   render = () => {

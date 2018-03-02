@@ -10,15 +10,8 @@ type Props = {
 
 export default class RightColumn extends React.PureComponent<Props, {}> {
   render() {
-    const {
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
 
-    return (
-      <div className={cn(className, styles.right)}>
-        {children}
-      </div>
-    );
+    return <div className={cn(className, styles.right)}>{children}</div>;
   }
 }

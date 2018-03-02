@@ -22,7 +22,8 @@ class ResetPasswordPage extends Component {
     isSaving: PropTypes.bool.isRequired,
   };
 
-  @action setEmail = (email) => {
+  @action
+  setEmail = (email) => {
     this.email = email;
   };
 
@@ -38,11 +39,7 @@ class ResetPasswordPage extends Component {
   };
 
   render() {
-    const {
-      isSaving,
-      errors,
-      isPasswordReset,
-    } = this.props;
+    const { isSaving, errors, isPasswordReset } = this.props;
 
     return (
       <ResetPassword

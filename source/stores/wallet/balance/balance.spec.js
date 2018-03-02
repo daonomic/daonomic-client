@@ -60,10 +60,7 @@ describe('wallet balance store', () => {
       },
     );
 
-    when(
-      () => walletBalance.isLoaded && balanceUpdatesCount === 3,
-      done,
-    );
+    when(() => walletBalance.isLoaded && balanceUpdatesCount === 3, done);
   });
 
   test('should cancel loading and reset balance if saved kyc address has been reset', (done) => {

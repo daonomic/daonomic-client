@@ -11,17 +11,15 @@ const targetNode = document.getElementById('app');
 
 function render() {
   ReactDOM.render(
-    (
-      <AppContainer>
-        <I18nextProvider i18n={i18n}>
-          <MobxProvider>
-            <BrowserRouter>
-              <Routes />
-            </BrowserRouter>
-          </MobxProvider>
-        </I18nextProvider>
-      </AppContainer>
-    ),
+    <AppContainer>
+      <I18nextProvider i18n={i18n}>
+        <MobxProvider>
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
+        </MobxProvider>
+      </I18nextProvider>
+    </AppContainer>,
     targetNode,
   );
 }

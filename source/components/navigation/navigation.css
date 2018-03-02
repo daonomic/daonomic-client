@@ -29,7 +29,7 @@
   font-weight: 600;
   color: var(--theme-nav-link);
   border-bottom: 2px solid transparent;
-  transition: color .2s;
+  transition: color 0.2s;
 
   @media (--desktop) {
     padding-top: 20px;

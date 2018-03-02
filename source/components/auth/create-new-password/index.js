@@ -38,15 +38,13 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
     if (common) {
       return (
         <div className={commonStyles.row}>
-          <p className={commonStyles.error}>
-            {common}
-          </p>
+          <p className={commonStyles.error}>{common}</p>
         </div>
       );
     }
 
     return null;
-  }
+  };
 
   renderForm = () => {
     const {
@@ -128,8 +126,7 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
       {this.renderContent()}
 
       <Panel className={cn(textStyles.muted, textStyles.center)}>
-        <Translation id="auth:alreadyHaveAccount" />
-        {' '}
+        <Translation id="auth:alreadyHaveAccount" />{' '}
         <Link href="/sign/in">
           <Translation id="auth:signInHeading" />&nbsp;⟩
         </Link>

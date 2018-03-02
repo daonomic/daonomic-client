@@ -15,12 +15,7 @@ export default class Burger extends React.PureComponent<Props, {}> {
   };
 
   render() {
-    const {
-      className,
-      children,
-      isActive,
-      ...restProps
-    } = this.props;
+    const { className, children, isActive, ...restProps } = this.props;
 
     return (
       <button
@@ -29,9 +24,7 @@ export default class Burger extends React.PureComponent<Props, {}> {
         })}
         {...restProps}
       >
-        <span className={styles.inner}>
-          {children}
-        </span>
+        <span className={styles.inner}>{children}</span>
       </button>
     );
   }

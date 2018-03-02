@@ -8,7 +8,5 @@ import stores from '~/stores';
 useStrict(true);
 
 export default function MobxProvider(props: {}) {
-  return (
-    <Provider {...props} {...stores} />
-  );
+  return <Provider {...props} {...stores} />;
 }

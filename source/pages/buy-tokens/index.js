@@ -38,9 +38,7 @@ class BuyTokens extends Component {
       return null;
     }
 
-    return (
-      <PaymentMethod />
-    );
+    return <PaymentMethod />;
   };
 
   renderPreloader = () => (
@@ -104,9 +102,7 @@ class BuyTokens extends Component {
 
   render = () => (
     <TwoColumnsLayout>
-      <TwoColumnsLayout.Left>
-        {this.renderContent()}
-      </TwoColumnsLayout.Left>
+      <TwoColumnsLayout.Left>{this.renderContent()}</TwoColumnsLayout.Left>
 
       <TwoColumnsLayout.Right>
         <Balance />

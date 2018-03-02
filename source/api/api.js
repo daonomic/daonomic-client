@@ -66,7 +66,9 @@ export default {
         .catch(() => ({ data: {} })),
     // set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
     //   daonomicApi.post('/data', data, defaultOptions),
-    setClient: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
+    setClient: (
+      data: SetKycDataParams,
+    ): Promise<SetKycDataResponse | SetKycDataResponseError> =>
       clientApi.post(
         `/users/${localStorage.getItem('id') || ''}`,
         data,

@@ -3,7 +3,9 @@
   --spoiler-vertical-padding: 25px;
   --spoiler-vertical-padding-mobile: 15px;
   --spoiler-half-vertical-padding: calc(var(--spoiler-vertical-padding) / 2);
-  --spoiler-half-vertical-padding-mobile: calc(var(--spoiler-vertical-padding-mobile) / 2);
+  --spoiler-half-vertical-padding-mobile: calc(
+    var(--spoiler-vertical-padding-mobile) / 2
+  );
   --spoiler-horizontal-padding: 30px;
   --spoiler-horizontal-padding-mobile: 20px;
 }

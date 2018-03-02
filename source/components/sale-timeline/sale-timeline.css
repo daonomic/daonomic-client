@@ -16,7 +16,7 @@
   padding-left: 21px;
   padding-bottom: 20px;
   list-style: none;
-  border-left: rgba(132, 146, 165, .24) 1px solid;
+  border-left: rgba(132, 146, 165, 0.24) 1px solid;
 }
 
 .item:last-child {
@@ -45,7 +45,7 @@
 }
 
 .badge_inactive {
-  background-color: rgba(192, 204, 217, .16);
+  background-color: rgba(192, 204, 217, 0.16);
   color: var(--theme-muted);
 }
 

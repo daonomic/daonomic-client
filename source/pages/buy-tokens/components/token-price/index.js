@@ -21,10 +21,12 @@ export default class TokenPrice extends Component {
       total: PropTypes.number.isRequired,
       notLimited: PropTypes.bool.isRequired,
     }).isRequired,
-    prices: PropTypes.arrayOf(PropTypes.shape({
-      rate: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired,
-    })).isRequired,
+    prices: PropTypes.arrayOf(
+      PropTypes.shape({
+        rate: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
   };
 
   renderTokensCount = () => {
@@ -40,11 +42,10 @@ export default class TokenPrice extends Component {
           <Translation id="widgets:tokensSold" />
         </h3>
 
-        <Meter value={(tokensCount.sold / tokensCount.total) || 0} />
+        <Meter value={tokensCount.sold / tokensCount.total || 0} />
 
         <p className={styles.sold}>
-          {formatNumber(tokensCount.sold)} <Translation id="tokenName" />
-          {' '}
+          {formatNumber(tokensCount.sold)} <Translation id="tokenName" />{' '}
           <span className={textStyles.muted}>
             of {formatNumber(tokensCount.total)}
           </span>
@@ -68,12 +69,7 @@ export default class TokenPrice extends Component {
 
         {prices.map(({ rate, label }) => (
           <p key={label} className={styles.price}>
-            1 {label} =
-            {' '}
-            <Badge>
-              {formatNumber(rate)}
-            </Badge>
-            {' '}
+            1 {label} = <Badge>{formatNumber(rate)}</Badge>{' '}
             <Translation id="tokenName" />
           </p>
         ))}

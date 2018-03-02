@@ -16,9 +16,7 @@ export default class Layout extends React.PureComponent<Props, {}> {
     return (
       <Page>
         <Page.Content>
-          <div className={cn(styles.container, styles.content)}>
-            {children}
-          </div>
+          <div className={cn(styles.container, styles.content)}>{children}</div>
         </Page.Content>
 
         <Page.Footer>

@@ -1,6 +1,8 @@
 :root {
   --size-column-gutter: 16px;
   --size-site-content-width: 960px;
-  --size-site-width: calc(var(--size-site-content-width) + var(--size-column-gutter) * 2);
+  --size-site-width: calc(
+    var(--size-site-content-width) + var(--size-column-gutter) * 2
+  );
   --size-main-column: 620px;
 }

@@ -20,7 +20,7 @@ import styles from './kyc.css';
 
 type ExtendedKycFormField = KycFormField & {
   value: KycFormFieldValue,
-  error: string
+  error: string,
 };
 
 type Props = {
@@ -35,9 +35,9 @@ type Props = {
   uploadFiles: typeof kycStore.uploadFiles,
   onChangeKycFormField: (
     name: KycFormFieldName,
-    value: KycFormFieldValue
+    value: KycFormFieldValue,
   ) => void,
-  onSave: () => void
+  onSave: () => void,
 };
 
 @inject(({ kyc }: { kyc: typeof kycStore }) => ({
@@ -77,9 +77,7 @@ export default class Kyc extends Component<Props, {}> {
   );
 
   renderStatus = () => {
-    const {
-      isSaved, isAllowed, isDenied, denialReason,
-    } = this.props;
+    const { isSaved, isAllowed, isDenied, denialReason } = this.props;
     let content = null;
 
     if (isAllowed || !isSaved) {
@@ -94,9 +92,7 @@ export default class Kyc extends Component<Props, {}> {
   };
 
   renderKycField = (field: ExtendedKycFormField) => {
-    const {
-      name, label, value, error, type, values, required,
-    } = field;
+    const { name, label, value, error, type, values, required } = field;
     let content;
 
     if (values) {
@@ -195,7 +191,9 @@ export default class Kyc extends Component<Props, {}> {
     const isSaveDisabled =
       isSaving ||
       isSaved ||
-      this.props.kycForm.some((field) => field.values && field.value === 'DEFAULT');
+      this.props.kycForm.some(
+        (field) => field.values && field.value === 'DEFAULT',
+      );
 
     return (
       <div className={styles.footer}>
@@ -216,7 +214,9 @@ export default class Kyc extends Component<Props, {}> {
     return (
       <Panel paddingSize="large">
         <form onSubmit={this.handleSave}>
-          {this.renderHeading(isKycEnabled ? 'wallet:kycTitle' : 'wallet:title')}
+          {this.renderHeading(
+            isKycEnabled ? 'wallet:kycTitle' : 'wallet:title',
+          )}
           {this.renderStatus()}
           {kycForm.map(this.renderKycField)}
           {this.renderFooter()}

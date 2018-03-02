@@ -8,14 +8,7 @@ i18next
   .init({
     lng: 'en',
     fallbackLng: 'en',
-    ns: [
-      'common',
-      'auth',
-      'faq',
-      'paymentMethods',
-      'wallet',
-      'widgets',
-    ],
+    ns: ['common', 'auth', 'faq', 'paymentMethods', 'wallet', 'widgets'],
     defaultNS: 'common',
   });
 

@@ -2,15 +2,10 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import TwoColumnsLayout from './';
 
-storiesOf('TwoColumnsLayout', module)
-  .add('default', () => (
-    <TwoColumnsLayout>
-      <TwoColumnsLayout.Left>
-        left
-      </TwoColumnsLayout.Left>
+storiesOf('TwoColumnsLayout', module).add('default', () => (
+  <TwoColumnsLayout>
+    <TwoColumnsLayout.Left>left</TwoColumnsLayout.Left>
 
-      <TwoColumnsLayout.Right>
-        right
-      </TwoColumnsLayout.Right>
-    </TwoColumnsLayout>
-  ));
+    <TwoColumnsLayout.Right>right</TwoColumnsLayout.Right>
+  </TwoColumnsLayout>
+));

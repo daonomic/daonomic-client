@@ -11,6 +11,11 @@ import type {
   SetKycDataResponseError,
 } from '~/types/kyc';
 
+type ExtendedKycFormField = KycFormField & {
+  value: KycFormFieldValue,
+  error: string,
+};
+
 export class KycStore {
   api: typeof api;
   auth: typeof auth;
@@ -34,9 +39,7 @@ export class KycStore {
   @observable formErrors: Map<KycFormFieldName, string> = new Map();
 
   @computed
-  get form(): Array<
-    KycFormField & { value: KycFormFieldValue, error: string }
-    > {
+  get form(): Array<ExtendedKycFormField> {
     return this.formSchema.map((field) => ({
       ...field,
       value: this.formData.get(field.name),
@@ -159,7 +162,9 @@ export class KycStore {
   saveData = () => {
     this.savingState = 'loading';
     this.formErrors = new Map();
-    const formData: [KycFormFieldName, KycFormFieldValue][] = Array.from(this.formData.entries());
+    const formData: [KycFormFieldName, KycFormFieldValue][] = Array.from(
+      this.formData.entries(),
+    );
     const data = formData.reduce(
       (result, [key, value]) => ({
         ...result,
@@ -212,7 +217,7 @@ export class KycStore {
     onUploadProgress,
   }: {
     files: File[],
-    onUploadProgress: (event: ProgressEvent) => void
+    onUploadProgress: (event: ProgressEvent) => void,
   }) => {
     const formData = new FormData();
 

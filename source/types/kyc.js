@@ -5,16 +5,23 @@ export type KycFormField = {
   name: KycFormFieldName,
   label: string,
   type: 'STRING' | 'FILE' | 'BOOLEAN' | 'SELECT',
-  values?: string[]
+  values?: string[],
 };
 
 export type GetKycDataResponse = {
   data: {
     allowed: boolean,
     denialReason?: string,
-    status: 'NOT_SET' | 'NO_KYC' | 'ON_REVIEW' | 'DENIED' | 'CONFIRMED' | 'PROCESSING' | 'COMPLETED',
+    status:
+      | 'NOT_SET'
+      | 'NO_KYC'
+      | 'ON_REVIEW'
+      | 'DENIED'
+      | 'CONFIRMED'
+      | 'PROCESSING'
+      | 'COMPLETED',
     data?: {
-      [key: KycFormFieldName]: KycFormFieldValue
+      [key: KycFormFieldName]: KycFormFieldValue,
     },
   },
 };
@@ -24,16 +31,15 @@ export type SetKycDataParams = {
 };
 
 export type SetKycDataResponse = {
-  data: {}
+  data: {},
 };
 
 export type SetKycDataResponseError = {
   response: {
     data: {
       fieldErrors?: {
-        [key: KycFormFieldName]: string[]
-      }
-    }
-  }
+        [key: KycFormFieldName]: string[],
+      },
+    },
+  },
 };
-

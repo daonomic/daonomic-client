@@ -34,17 +34,19 @@ export default class SignInPage extends React.Component {
 
   state = {
     redirectToReferrer: false,
-  }
+  };
 
   componentWillMount() {
     this.props.resetErrors();
   }
 
-  @action setEmail = (email) => {
+  @action
+  setEmail = (email) => {
     this.email = email;
   };
 
-  @action setPassword = (password) => {
+  @action
+  setPassword = (password) => {
     this.password = password;
   };
 
@@ -80,9 +82,7 @@ export default class SignInPage extends React.Component {
     const { isLoading, errors } = this.props;
 
     if (redirectToReferrer) {
-      return (
-        <Redirect to={from} />
-      );
+      return <Redirect to={from} />;
     }
 
     return (

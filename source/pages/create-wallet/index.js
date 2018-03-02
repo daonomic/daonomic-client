@@ -17,7 +17,8 @@ import styles from './create-wallet.css';
   progress: walletGenerator.progress,
   generatedWallet: walletGenerator.generatedWallet,
   encryptedWallet: walletGenerator.encryptedWallet,
-  onRequestWalletGeneration: (password) => walletGenerator.generate({ password }),
+  onRequestWalletGeneration: (password) =>
+    walletGenerator.generate({ password }),
 }))
 @observer
 export default class CreateWallet extends Component {
@@ -40,7 +41,8 @@ export default class CreateWallet extends Component {
 
   @observable password = '';
 
-  @action handleChangePassword = (event) => {
+  @action
+  handleChangePassword = (event) => {
     this.password = event.target.value;
   };
 
@@ -82,12 +84,16 @@ export default class CreateWallet extends Component {
         </div>
 
         <p className={styles.paragraph}>
-          Do NOT forget to save this password! It encrypts your private key. This does not act as a seed to generate your keys. You will need this password + your private key to unlock your wallet.
+          Do NOT forget to save this password! It encrypts your private key.
+          This does not act as a seed to generate your keys. You will need this
+          password + your private key to unlock your wallet.
         </p>
 
         <div className={styles.controls}>
           <Button type="submit" disabled={isGenerating}>
-            {isGenerating ? `${Math.round(progress * 100)}%` : 'Create New Wallet'}
+            {isGenerating
+              ? `${Math.round(progress * 100)}%`
+              : 'Create New Wallet'}
           </Button>
         </div>
       </form>
@@ -121,7 +127,9 @@ export default class CreateWallet extends Component {
         {data.map(({ label, value }) => (
           <p key={label} className={styles.paragraph}>
             <b>{label}</b>
-            <span className={cn(textStyles.block, textStyles['word-break-all'])}>
+            <span
+              className={cn(textStyles.block, textStyles['word-break-all'])}
+            >
               {value}
             </span>
           </p>
@@ -131,7 +139,9 @@ export default class CreateWallet extends Component {
           <Button
             tagName="a"
             download="wallet.json"
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(encryptedWallet)}`}
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+              encryptedWallet,
+            )}`}
             onClick={this.handleDownloadKeystore}
           >
             Download Keystore File
@@ -143,11 +153,7 @@ export default class CreateWallet extends Component {
 
   render = () => (
     <Panel paddingSize="large">
-      <Heading
-        tagName="h1"
-        size="normal"
-        className={styles.title}
-      >
+      <Heading tagName="h1" size="normal" className={styles.title}>
         Create New Ethereum Wallet
       </Heading>
 

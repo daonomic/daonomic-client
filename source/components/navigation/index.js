@@ -13,18 +13,13 @@ export default class Navigation extends React.Component<Props, {}> {
   static Item = NavigationItem;
 
   render() {
-    const {
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
 
     return (
       <nav className={cn(className, styles.root)}>
         <ul className={styles.list}>
           {React.Children.map(children, (child) => (
-            <li className={styles.item}>
-              {child}
-            </li>
+            <li className={styles.item}>{child}</li>
           ))}
         </ul>
       </nav>

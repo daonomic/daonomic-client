@@ -11,7 +11,7 @@ import type {
 } from '~/types/auth';
 
 type AuthStoreParams = {
-  api: typeof apiAdapter
+  api: typeof apiAdapter,
 };
 
 export class AuthStore {

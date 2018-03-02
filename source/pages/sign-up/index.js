@@ -21,7 +21,8 @@ export default class SignUpPage extends React.Component {
     isLoading: PropTypes.bool.isRequired,
   };
 
-  @action setEmail = (email) => {
+  @action
+  setEmail = (email) => {
     this.email = email;
   };
 
@@ -37,11 +38,7 @@ export default class SignUpPage extends React.Component {
   };
 
   render() {
-    const {
-      isLoading,
-      errors: { email: error },
-      isRegistered,
-    } = this.props;
+    const { isLoading, errors: { email: error }, isRegistered } = this.props;
 
     return (
       <SignUp

@@ -23,9 +23,7 @@ export default class AppLayout extends React.PureComponent<Props, {}> {
         </Page.Header>
 
         <Page.Content>
-          <div className={styles.container}>
-            {children}
-          </div>
+          <div className={styles.container}>{children}</div>
         </Page.Content>
 
         <Page.Footer>

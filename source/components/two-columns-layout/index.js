@@ -15,15 +15,8 @@ export default class TwoColumnsLayout extends React.PureComponent<Props, {}> {
   static Right = Right;
 
   render() {
-    const {
-      className,
-      children,
-    } = this.props;
+    const { className, children } = this.props;
 
-    return (
-      <div className={cn(className, styles.root)}>
-        {children}
-      </div>
-    );
+    return <div className={cn(className, styles.root)}>{children}</div>;
   }
 }

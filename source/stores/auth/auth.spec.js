@@ -59,7 +59,10 @@ describe('auth store', () => {
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isRegistered === false && authStore.errors.email !== '',
+        () =>
+          authStore.isLoading === false &&
+          authStore.isRegistered === false &&
+          authStore.errors.email !== '',
         done,
       );
     });
@@ -76,7 +79,8 @@ describe('auth store', () => {
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isAuthenticated === true,
+        () =>
+          authStore.isLoading === false && authStore.isAuthenticated === true,
         done,
       );
     });
@@ -91,7 +95,10 @@ describe('auth store', () => {
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isAuthenticated === false && authStore.errors.email !== '',
+        () =>
+          authStore.isLoading === false &&
+          authStore.isAuthenticated === false &&
+          authStore.errors.email !== '',
         done,
       );
     });
@@ -108,7 +115,8 @@ describe('auth store', () => {
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isPasswordReset === true,
+        () =>
+          authStore.isLoading === false && authStore.isPasswordReset === true,
         done,
       );
     });
@@ -123,7 +131,8 @@ describe('auth store', () => {
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isPasswordReset === false,
+        () =>
+          authStore.isLoading === false && authStore.isPasswordReset === false,
         done,
       );
     });
@@ -136,11 +145,17 @@ describe('auth store', () => {
         api: mockedApi,
       });
 
-      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmationPassword: 1234 });
+      authStore.createNewPassword({
+        token: newPasswordToken,
+        password: 1234,
+        confirmationPassword: 1234,
+      });
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isNewPasswordCreated === true,
+        () =>
+          authStore.isLoading === false &&
+          authStore.isNewPasswordCreated === true,
         done,
       );
     });
@@ -151,11 +166,18 @@ describe('auth store', () => {
         api: mockedApi,
       });
 
-      authStore.createNewPassword({ token: newPasswordToken, password: 1234, confirmationPassword: 4322 });
+      authStore.createNewPassword({
+        token: newPasswordToken,
+        password: 1234,
+        confirmationPassword: 4322,
+      });
       expect(authStore.isLoading).toBe(true);
 
       when(
-        () => authStore.isLoading === false && authStore.isNewPasswordCreated === false && authStore.errors.confirmationPassword !== '',
+        () =>
+          authStore.isLoading === false &&
+          authStore.isNewPasswordCreated === false &&
+          authStore.errors.confirmationPassword !== '',
         done,
       );
     });

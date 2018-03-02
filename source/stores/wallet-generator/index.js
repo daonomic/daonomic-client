@@ -6,15 +6,18 @@ export class WalletGenerator {
   @observable encryptedWallet = '';
   @observable progress = 0;
 
-  @computed get isGenerating() {
+  @computed
+  get isGenerating() {
     return this.generatedWallet === null && this.progress > 0;
   }
 
-  @computed get isGenerated() {
+  @computed
+  get isGenerated() {
     return this.generatedWallet !== null;
   }
 
-  @action generate = ({ password }) => {
+  @action
+  generate = ({ password }) => {
     const randomWallet = Wallet.createRandom({});
 
     randomWallet

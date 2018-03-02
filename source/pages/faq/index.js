@@ -10,10 +10,12 @@ import styles from './faq.css';
 
 export default class Faq extends PureComponent {
   static propTypes = {
-    entries: PropTypes.arrayOf(PropTypes.shape({
-      question: PropTypes.string.isRequired,
-      answer: PropTypes.string.isRequired,
-    })),
+    entries: PropTypes.arrayOf(
+      PropTypes.shape({
+        question: PropTypes.string.isRequired,
+        answer: PropTypes.string.isRequired,
+      }),
+    ),
   };
 
   static defaultProps = {
@@ -26,11 +28,7 @@ export default class Faq extends PureComponent {
     return (
       <div>
         <Panel>
-          <Heading
-            tagName="h1"
-            size="normal"
-            className={styles.title}
-          >
+          <Heading tagName="h1" size="normal" className={styles.title}>
             <Translation id="faq:title" />
           </Heading>
 

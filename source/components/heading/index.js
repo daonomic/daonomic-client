@@ -12,13 +12,7 @@ type Props = {
 
 export default class Heading extends React.PureComponent<Props, {}> {
   render() {
-    const {
-      tagName,
-      size,
-      className,
-      children,
-      ...restProps
-    } = this.props;
+    const { tagName, size, className, children, ...restProps } = this.props;
 
     const attrs = {
       ...restProps,

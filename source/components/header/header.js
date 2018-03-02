@@ -52,23 +52,22 @@ class Header extends React.Component<Props, State> {
   };
 
   renderNavigation = () => {
-    const {
-      currentPagePath,
-      onChangeCurrentPage,
-    } = this.props;
+    const { currentPagePath, onChangeCurrentPage } = this.props;
 
     return (
       <Navigation>
-        {[pages.app.buyTokens, pages.app.createWallet, pages.app.faq].map((page) => (
-          <Navigation.Item
-            key={page.getPath()}
-            isActive={page.getPath() === currentPagePath}
-            href={page.getPath()}
-            onClick={onChangeCurrentPage}
-          >
-            {page.title}
-          </Navigation.Item>
-        ))}
+        {[pages.app.buyTokens, pages.app.createWallet, pages.app.faq].map(
+          (page) => (
+            <Navigation.Item
+              key={page.getPath()}
+              isActive={page.getPath() === currentPagePath}
+              href={page.getPath()}
+              onClick={onChangeCurrentPage}
+            >
+              {page.title}
+            </Navigation.Item>
+          ),
+        )}
       </Navigation>
     );
   };

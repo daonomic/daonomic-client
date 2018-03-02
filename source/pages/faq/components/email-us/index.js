@@ -13,9 +13,11 @@ export default class EmailUs extends PureComponent {
     }
 
     return (
-      <Panel paddingSize="large" className={classNames(styles.root, textStyles.center)}>
-        <Translation id="widgets:cantFindWhatLookingFor" />
-        {' '}
+      <Panel
+        paddingSize="large"
+        className={classNames(styles.root, textStyles.center)}
+      >
+        <Translation id="widgets:cantFindWhatLookingFor" />{' '}
         <a href={`mailto:${contactEmail}`} className={textStyles.link}>
           <Translation id="widgets:emailUs" />&nbsp;⟩
         </a>

@@ -26,11 +26,13 @@ class CreateNewPasswordPage extends Component {
     }).isRequired,
   };
 
-  @action setPassword = (password) => {
+  @action
+  setPassword = (password) => {
     this.password = password;
   };
 
-  @action setConfirmedPassword = (password) => {
+  @action
+  setConfirmedPassword = (password) => {
     this.confirmationPassword = password;
   };
 
@@ -58,11 +60,7 @@ class CreateNewPasswordPage extends Component {
   };
 
   render() {
-    const {
-      isSaving,
-      errors,
-      isNewPasswordCreated,
-    } = this.props;
+    const { isSaving, errors, isNewPasswordCreated } = this.props;
 
     return (
       <CreateNewPassword

@@ -32,9 +32,7 @@ export default class Footer extends React.PureComponent<Props, {}> {
       <div className={cn(className, styles.root)}>
         <div className={styles.inner}>
           <div>
-            <Translation id="poweredBy" />
-            {' '}
-            <Logo className={styles.logo} />
+            <Translation id="poweredBy" /> <Logo className={styles.logo} />
           </div>
 
           {this.renderTermsOfServiceLink()}

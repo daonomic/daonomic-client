@@ -19,10 +19,16 @@ describe('walletGenerator', () => {
       () => walletGenerator.isGenerated,
       () => {
         expect(typeof walletGenerator.generatedWallet.address).toBe('string');
-        expect(walletGenerator.generatedWallet.address.length).toBeGreaterThan(0);
+        expect(walletGenerator.generatedWallet.address.length).toBeGreaterThan(
+          0,
+        );
 
-        expect(typeof walletGenerator.generatedWallet.privateKey).toBe('string');
-        expect(walletGenerator.generatedWallet.privateKey.length).toBeGreaterThan(0);
+        expect(typeof walletGenerator.generatedWallet.privateKey).toBe(
+          'string',
+        );
+        expect(
+          walletGenerator.generatedWallet.privateKey.length,
+        ).toBeGreaterThan(0);
 
         expect(walletGenerator.generatedWallet.password).toBe(testPassword);
 

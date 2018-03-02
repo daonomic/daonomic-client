@@ -27,11 +27,7 @@ export default class Spoiler extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const {
-      className,
-      title,
-      children,
-    } = this.props;
+    const { className, title, children } = this.props;
     const { isExpanded } = this.state;
 
     return (
@@ -51,11 +47,7 @@ export default class Spoiler extends React.PureComponent<Props, State> {
           </button>
         </h3>
 
-        <div
-          aria-hidden={!isExpanded}
-          id={this.id}
-          className={styles.content}
-        >
+        <div aria-hidden={!isExpanded} id={this.id} className={styles.content}>
           {children}
         </div>
       </section>

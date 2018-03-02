@@ -18,30 +18,36 @@ export class SaleStore {
 
   @observable dataState: DataState = 'initial';
 
-  @computed get isFailed(): boolean {
+  @computed
+  get isFailed(): boolean {
     return this.dataState === 'failed';
   }
 
-  @computed get isLoading(): boolean {
+  @computed
+  get isLoading(): boolean {
     return this.dataState === 'loading';
   }
 
-  @computed get isLoaded(): boolean {
+  @computed
+  get isLoaded(): boolean {
     return this.dataState === 'loaded';
   }
 
   @observable startTimestamp = 0;
   @observable endTimestamp = 0;
 
-  @computed get isStarted(): boolean {
+  @computed
+  get isStarted(): boolean {
     return Date.now() >= this.startTimestamp;
   }
 
-  @computed get isFinished(): boolean {
+  @computed
+  get isFinished(): boolean {
     return Date.now() >= this.endTimestamp;
   }
 
-  @observable tokensCount = {
+  @observable
+  tokensCount = {
     sold: 0,
     total: 0,
 
@@ -62,7 +68,8 @@ export class SaleStore {
     });
   }
 
-  @action loadInfo = () => {
+  @action
+  loadInfo = () => {
     this.dataState = 'loading';
 
     this.api

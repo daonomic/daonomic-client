@@ -34,11 +34,7 @@ export default class Routes extends React.Component<{}, {}> {
           path={pages.createNewPassword.getPath(':token')}
         />
 
-        <Redirect
-          exact
-          from="/"
-          to={pages.app.getPath()}
-        />
+        <Redirect exact from="/" to={pages.app.getPath()} />
 
         <PrivateRoute path={pages.app.getPath()}>
           <pages.app.component>
@@ -61,17 +57,12 @@ export default class Routes extends React.Component<{}, {}> {
                 component={pages.app.faq.component}
               />
 
-              <Redirect
-                to={pages.app.buyTokens.getPath()}
-              />
+              <Redirect to={pages.app.buyTokens.getPath()} />
             </Switch>
           </pages.app.component>
         </PrivateRoute>
 
-        <Route
-          path="*"
-          render={() => 'Not found'}
-        />
+        <Route path="*" render={() => 'Not found'} />
       </Switch>
     );
   }

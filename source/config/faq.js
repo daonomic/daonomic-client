@@ -1,7 +1,8 @@
 export default [
   {
     question: 'How Can I invest?',
-    answer: 'Answer with <abbr title="HyperText Markup Language">HTML</abbr> support',
+    answer:
+      'Answer with <abbr title="HyperText Markup Language">HTML</abbr> support',
   },
   {
     question: 'What do you already have?',

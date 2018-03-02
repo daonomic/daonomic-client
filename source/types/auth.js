@@ -7,11 +7,11 @@ export type Id = ?string;
 
 export type AuthParams = {|
   email: Email,
-  password?: Password
+  password?: Password,
 |};
 
 export type PasswordRecoveryParams = {|
   token: PasswordRecoveryToken,
   password: Password,
-  confirmationPassword: Password
+  confirmationPassword: Password,
 |};

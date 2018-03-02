@@ -29,12 +29,15 @@ export default class PaymentMethod extends Component {
     walletAddress: PropTypes.string.isRequired,
     selectedPaymentMethod: paymentMethodShape.isRequired,
     selectedPaymentMethodAddress: PropTypes.string,
-    selectedPaymentMethodPayments: MobxPropTypes.arrayOrObservableArrayOf(PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      status: PropTypes.string.isRequired,
-    })).isRequired,
+    selectedPaymentMethodPayments: MobxPropTypes.arrayOrObservableArrayOf(
+      PropTypes.shape({
+        value: PropTypes.number.isRequired,
+        status: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
     selectedPaymentMethodAddressQRCode: PropTypes.string,
-    paymentMethods: MobxPropTypes.observableArrayOf(paymentMethodShape).isRequired,
+    paymentMethods: MobxPropTypes.observableArrayOf(paymentMethodShape)
+      .isRequired,
     onChangePaymentMethod: PropTypes.func.isRequired,
   };
 
@@ -105,15 +108,16 @@ export default class PaymentMethod extends Component {
     }
 
     return (
-      <img className={styles.qrcode} src={selectedPaymentMethodAddressQRCode} alt="qrcode" />
+      <img
+        className={styles.qrcode}
+        src={selectedPaymentMethodAddressQRCode}
+        alt="qrcode"
+      />
     );
   };
 
   renderSelectedPaymentMethodPayments = () => {
-    const {
-      selectedPaymentMethod,
-      selectedPaymentMethodPayments,
-    } = this.props;
+    const { selectedPaymentMethod, selectedPaymentMethodPayments } = this.props;
 
     if (selectedPaymentMethodPayments.length === 0) {
       return null;
@@ -121,16 +125,16 @@ export default class PaymentMethod extends Component {
 
     return (
       <Fragment>
-        <Heading
-          tagName="h3"
-          size="small"
-        >
+        <Heading tagName="h3" size="small">
           <Translation id="paymentMethods:statusesTitle" />
         </Heading>
 
         {selectedPaymentMethodPayments.map((payment) => (
           <div key={payment.id}>
-            {payment.value} {selectedPaymentMethod.id}, <Translation id={`paymentMethods:${this.renderPaymentStatus(payment)}`} />
+            {payment.value} {selectedPaymentMethod.id},{' '}
+            <Translation
+              id={`paymentMethods:${this.renderPaymentStatus(payment)}`}
+            />
           </div>
         ))}
 
@@ -144,18 +148,13 @@ export default class PaymentMethod extends Component {
 
     return (
       <Fragment>
-        <Heading
-          tagName="h3"
-          size="small"
-        >
+        <Heading tagName="h3" size="small">
           <Translation id="paymentMethods:instructionTitle" />
         </Heading>
 
         <div>
           <Translation id="paymentMethods:instructionText" />
-          <div className={textStyles['word-break-all']}>
-            {walletAddress}
-          </div>
+          <div className={textStyles['word-break-all']}>{walletAddress}</div>
         </div>
       </Fragment>
     );
@@ -179,11 +178,7 @@ export default class PaymentMethod extends Component {
 
   render = () => (
     <Panel paddingSize="large">
-      <Heading
-        className={styles.title}
-        tagName="h2"
-        size="normal"
-      >
+      <Heading className={styles.title} tagName="h2" size="normal">
         <Translation id="paymentMethods:title" />
       </Heading>
 

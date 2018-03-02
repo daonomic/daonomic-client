@@ -9,11 +9,13 @@ export class WalletBalanceStore {
   @observable balanceState = dataStates.initial;
   @observable balance = 0;
 
-  @computed get isLoading() {
+  @computed
+  get isLoading() {
     return this.balanceState === dataStates.loading;
   }
 
-  @computed get isLoaded() {
+  @computed
+  get isLoaded() {
     return this.balanceState === dataStates.loaded;
   }
 
@@ -28,14 +30,18 @@ export class WalletBalanceStore {
 
       if (this.kyc.isSaved) {
         this.loadBalance();
-        balanceUpdateIntervalId = setInterval(() => this.loadBalance(), WalletBalanceStore.balanceUpdateInterval);
+        balanceUpdateIntervalId = setInterval(
+          () => this.loadBalance(),
+          WalletBalanceStore.balanceUpdateInterval,
+        );
       } else {
         this.resetBalance();
       }
     });
   }
 
-  @action loadBalance = () => {
+  @action
+  loadBalance = () => {
     this.balanceState = dataStates.loading;
 
     this.api
@@ -53,7 +59,8 @@ export class WalletBalanceStore {
       });
   };
 
-  @action resetBalance = () => {
+  @action
+  resetBalance = () => {
     this.balanceState = dataStates.initial;
     this.balance = 0;
   };

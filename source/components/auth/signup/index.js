@@ -88,8 +88,7 @@ export default class SignUp extends React.Component<Props, {}> {
       </Panel>
 
       <Panel className={cn(textStyles.muted, textStyles.center)}>
-        <Translation id="auth:alreadyHaveAccount" />
-        {' '}
+        <Translation id="auth:alreadyHaveAccount" />{' '}
         <Link href="/sign/in">
           <Translation id="auth:signInHeading" />&nbsp;⟩
         </Link>

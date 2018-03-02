@@ -30,24 +30,16 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
     if (common) {
       return (
         <div className={commonStyles.row}>
-          <p className={commonStyles.error}>
-            {common}
-          </p>
+          <p className={commonStyles.error}>{common}</p>
         </div>
       );
     }
 
     return null;
-  }
+  };
 
   renderForm = () => {
-    const {
-      onSubmit,
-      isSaving,
-      onChangeEmail,
-      email,
-      errors,
-    } = this.props;
+    const { onSubmit, isSaving, onChangeEmail, email, errors } = this.props;
 
     return (
       <Panel paddingSize="large">
