@@ -19,7 +19,10 @@
     "lint": "eslint source webpack",
     "flow": "flow",
     "qa": "npm run lint && npm run test && npm run flow",
-    "precommit": "lint-staged && npm run qa",
+    "ensure-git-credentials":
+      "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
+    "postinstall": "npm run ensure-git-credentials",
+    "precommit": "npm run ensure-git-credentials && lint-staged && npm run qa",
     "format": "prettier --write \"./source/**/*.{js,css,json,md}\""
   },
   "lint-staged": {
