@@ -6,6 +6,7 @@ export type KycFormField = {
   label: string,
   type: 'STRING' | 'FILE' | 'BOOLEAN' | 'SELECT',
   values?: string[],
+  required: boolean,
 };
 
 export type GetKycDataResponse = {

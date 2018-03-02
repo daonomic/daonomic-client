@@ -56,22 +56,16 @@ export default {
   },
   kycData: {
     get: () => daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
-    set: ({ address }) =>
+    set: ({ address }: { address: string }) =>
       daonomicApi.post(`/sales/${sale}/address`, { address }, defaultOptions),
     getClient: (): Promise<GetKycDataResponse> =>
       clientApi
         .get(`/users/${localStorage.getItem('id') || ''}`)
         .catch(() => ({ data: {} })),
-    // set: (data: SetKycDataParams): Promise<SetKycDataResponse | SetKycDataResponseError> =>
-    //   daonomicApi.post('/data', data, defaultOptions),
     setClient: (
       data: SetKycDataParams,
     ): Promise<SetKycDataResponse | SetKycDataResponseError> =>
-      clientApi.post(
-        `/users/${localStorage.getItem('id') || ''}`,
-        data,
-        defaultOptions,
-      ),
+      clientApi.post(`/users/${localStorage.getItem('id') || ''}`, data),
   },
   getIcoInfo: cacheResult(
     () => daonomicApi.get(`/sales/${sale}`, defaultOptions),

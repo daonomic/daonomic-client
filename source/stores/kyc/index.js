@@ -159,8 +159,14 @@ export class KycStore {
 
   @action
   saveData = () => {
+    this.validateForm();
+
+    if (this.formErrors.size > 0) {
+      return;
+    }
+
     this.savingState = 'loading';
-    this.formErrors = new Map();
+    this.formErrors.clear();
     const formData: [KycFormFieldName, KycFormFieldValue][] = Array.from(
       this.formData.entries(),
     );
@@ -196,6 +202,33 @@ export class KycStore {
           }
         });
       });
+  };
+
+  @action
+  validateForm = () => {
+    const requiredError = 'This field is required';
+
+    this.formErrors.clear();
+
+    this.form.forEach(
+      ({ value, name, type, required }: ExtendedKycFormField) => {
+        switch (type) {
+          case 'FILE': {
+            if (required && value.length === 0) {
+              this.formErrors.set(name, requiredError);
+            }
+
+            break;
+          }
+
+          default: {
+            if (required && !value) {
+              this.formErrors.set(name, requiredError);
+            }
+          }
+        }
+      },
+    );
   };
 
   @action
