@@ -1,29 +1,22 @@
-const postcssImport = require('postcss-import');
 const createResolver = require('postcss-import-webpack-resolver');
-const nesting = require('postcss-nesting');
-const customMedia = require('postcss-custom-media');
-const customProperties = require('postcss-custom-properties');
-const calc = require('postcss-calc');
-const colorFunction = require('postcss-color-function');
-const flexbugsFixes = require('postcss-flexbugs-fixes');
-const autoprefixer = require('autoprefixer');
-const csso = require('postcss-csso');
 const webpackConfig = require('./webpack.config');
 
 module.exports = {
-  plugins: [
-    postcssImport({
+  plugins: {
+    'postcss-import': {
       resolve: createResolver({
         alias: webpackConfig.resolve.alias,
       }),
-    }),
-    nesting(),
-    customMedia(),
-    customProperties(),
-    calc(),
-    colorFunction(),
-    flexbugsFixes(),
-    autoprefixer(),
-    csso(),
-  ],
+    },
+    'postcss-nesting': {},
+    'postcss-custom-media': {},
+    'postcss-custom-properties': {
+      preserve: false,
+    },
+    'postcss-calc': {},
+    'postcss-color-function': {},
+    'postcss-flexbugs-fixes': {},
+    autoprefixer: {},
+    'postcss-csso': {},
+  },
 };
