@@ -28,8 +28,6 @@ const daonomicApi = axios.create({
   baseURL: baseApiUrl,
 });
 
-console.log(process.env, process.env.CLIENT_API);
-
 const clientApi = axios.create({
   baseURL: process.env.CLIENT_API,
 });

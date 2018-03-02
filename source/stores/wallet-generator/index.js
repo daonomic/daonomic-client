@@ -27,7 +27,6 @@ export class WalletGenerator {
         });
       })
       .then((encryptedWallet) => {
-        console.log(typeof encryptedWallet);
         runInAction(() => {
           this.generatedWallet = {
             ...randomWallet,

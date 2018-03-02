@@ -128,7 +128,6 @@ export class KycStore {
 
     Promise.all([this.api.kycData.getClient(), this.api.kycData.get()])
       .then(([kycDataResp, statusResp]) => {
-        console.log(kycDataResp);
         const { data } = kycDataResp;
         const { status, denialReason } = statusResp.data;
         const allowed = status === 'NO_KYC' || status === 'COMPLETED';
