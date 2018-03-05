@@ -1,14 +1,15 @@
-const { NODE_ENV = 'development' } = process.env;
+const { nodeEnv, defaultNodeEnv } = require('./config');
 
 let config;
 
 try {
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  config = require(`./webpack/${NODE_ENV}.config`);
+  config = require(`./webpack/${nodeEnv}.config`);
 } catch (error) {
-  console.error(`Cannot find webpack config for ${NODE_ENV} environment, using base config as a fallback\n`);
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  config = require('./webpack/base.config');
+  // eslint-disable-next-line no-console
+  console.error(
+    `Cannot find webpack config for ${nodeEnv} environment, using ${defaultNodeEnv} config as a fallback\n`,
+  );
+  config = require(`./webpack/${defaultNodeEnv}.config`);
 }
 
 module.exports = config;

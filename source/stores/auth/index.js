@@ -5,7 +5,7 @@ import localStorage from '~/utils/local-storage';
 import type {
   AuthToken,
   Email,
-  Id,
+  UserId,
   AuthParams,
   PasswordRecoveryParams,
 } from '~/types/auth';
@@ -17,9 +17,9 @@ type AuthStoreParams = {
 export class AuthStore {
   api: typeof apiAdapter;
 
-  @observable token: AuthToken = localStorage.getItem('token');
+  @observable token: AuthToken = localStorage.getItem('token') || '';
   @observable email: Email = localStorage.getItem('email') || '';
-  @observable id: Id = localStorage.getItem('id');
+  @observable id: UserId = localStorage.getItem('id') || '';
   @observable isRegistered = false;
   @observable isPasswordReset = false;
   @observable isNewPasswordCreated = false;
@@ -55,7 +55,7 @@ export class AuthStore {
     return this.token !== null;
   }
 
-  @action setId = (id: Id) => (this.id = id);
+  @action setId = (id: UserId) => (this.id = id);
   @action setToken = (token: AuthToken) => (this.token = token);
   @action setEmail = (email: Email) => (this.email = email);
 
@@ -198,8 +198,8 @@ export class AuthStore {
   @action
   logout = () => {
     this.email = '';
-    this.token = null;
-    this.id = null;
+    this.token = '';
+    this.id = '';
   };
 }
 

@@ -1,8 +1,8 @@
 // @flow
-export default function cacheResult(
-  fn: () => mixed,
+export default function cacheResult<T>(
+  fn: () => T,
   timeout: number = 0,
-): Function {
+): () => T {
   let lastCallTimestamp = 0;
   let lastResult;
 

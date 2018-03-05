@@ -1,9 +1,11 @@
 {
   "title": "Step 1: Your Ethereum Wallet",
   "kycTitle": "Step 1: Verify Your Identity",
-  "annotation": "In order to recieve {{ tokenName }} tokens you need to give your Ethereum Wallet Address.",
+  "annotation":
+    "In order to recieve {{ tokenName }} tokens you need to give your Ethereum Wallet Address.",
   "ethereumAddress": "Ethereum address",
   "save": "Save",
   "saved": "Saved",
-  "kycOnReview": "Your data is being reviewed. Please, wait for approval."
+  "kycOnReview": "Your data is being reviewed. Please, wait for approval.",
+  "kycDenied": "Your data was denied. Please, fix and resubmit your data."
 }

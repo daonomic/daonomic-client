@@ -4,13 +4,15 @@ import { sale, realm } from '~/config/common';
 import auth from '~/stores/auth';
 import cacheResult from '~/utils/cache-result';
 import type {
-  GetKycDataResponse,
+  GetKycAddressAndStatusResponse,
+  SetKycAddressParams,
+  GetKycUserDataResponse,
   SetKycDataParams,
   SetKycDataResponse,
   SetKycDataResponseError,
 } from '~/types/kyc';
 import type { AuthParams, PasswordRecoveryParams } from '~/types/auth';
-import { PaymentParams } from './types';
+import type { PaymentParams, GetIcoInfoResponse } from './types';
 
 const defaultOptions = {
   get headers() {
@@ -54,21 +56,28 @@ export default {
         defaultOptions,
       ),
   },
+
   kycData: {
-    get: () => daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
-    set: ({ address }: { address: string }) =>
+    getAddressAndStatus: (): Promise<{
+      data: GetKycAddressAndStatusResponse,
+    }> => daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
+    setAddress: ({
+      address,
+    }: SetKycAddressParams): Promise<{
+      data: GetKycAddressAndStatusResponse,
+    }> =>
       daonomicApi.post(`/sales/${sale}/address`, { address }, defaultOptions),
-    getClient: (): Promise<GetKycDataResponse> =>
-      clientApi
-        .get(`/users/${localStorage.getItem('id') || ''}`)
-        .catch(() => ({ data: {} })),
-    setClient: (
+    getUserData: (): Promise<{ data: GetKycUserDataResponse }> =>
+      clientApi.get(`/users/${auth.id}`).catch(() => ({ data: {} })),
+    setUserData: (
       data: SetKycDataParams,
     ): Promise<SetKycDataResponse | SetKycDataResponseError> =>
-      clientApi.post(`/users/${localStorage.getItem('id') || ''}`, data),
+      clientApi.post(`/users/${auth.id}`, data),
   },
+
   getIcoInfo: cacheResult(
-    () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
+    (): Promise<{ data: GetIcoInfoResponse }> =>
+      daonomicApi.get(`/sales/${sale}`, defaultOptions),
     5000,
   ),
   getPaymentAddress: ({ saleId, tokenId }: PaymentParams) =>

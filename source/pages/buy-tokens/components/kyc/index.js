@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import cn from 'classnames';
 import { observer, inject } from 'mobx-react';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
@@ -18,14 +19,9 @@ import type {
 } from '~/types/kyc';
 import styles from './kyc.css';
 
-type ExtendedKycFormField = KycFormField & {
-  value: KycFormFieldValue,
-  error: string,
-};
-
-type Props = {
+type Props = {|
   isKycEnabled: boolean,
-  kycForm: ExtendedKycFormField[],
+  kycForm: KycFormField[],
   isSaving: boolean,
   isSaved: boolean,
   isAllowed: boolean,
@@ -38,9 +34,9 @@ type Props = {
     value: KycFormFieldValue,
   ) => void,
   onSave: () => void,
-};
+|};
 
-@inject(({ kyc }: { kyc: typeof kycStore }) => ({
+@inject(({ kyc }: { kyc: typeof kycStore }): Props => ({
   isLoaded: kyc.isLoaded,
   isKycEnabled: kyc.isEnabled,
   kycForm: kyc.form,
@@ -55,7 +51,7 @@ type Props = {
   onSave: kyc.saveData,
 }))
 @observer
-export default class Kyc extends Component<Props, {}> {
+export default class Kyc extends Component<Props> {
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -64,10 +60,10 @@ export default class Kyc extends Component<Props, {}> {
     this.props.onChangeKycFormField(name, value);
   };
 
-  handleSave = (event) => {
+  handleSave = (event: Event) => {
     event.preventDefault();
 
-    this.props.onSave(event);
+    this.props.onSave();
   };
 
   renderHeading = (translationKey: string) => (
@@ -78,87 +74,118 @@ export default class Kyc extends Component<Props, {}> {
 
   renderStatus = () => {
     const { isSaved, isAllowed, isDenied, denialReason } = this.props;
-    let content = null;
 
     if (isAllowed || !isSaved) {
       return null;
     } else if (isDenied) {
-      content = <span className={styles.red}>{denialReason}</span>;
+      return (
+        <p className={cn(styles.paragraph, styles.red)}>
+          <Translation id="wallet:kycDenied" />
+          <br />
+          {denialReason && `Denial reason: ${denialReason}`}
+        </p>
+      );
     } else {
-      content = <Translation id="wallet:kycOnReview" />;
+      return (
+        <p className={styles.paragraph}>
+          <Translation id="wallet:kycOnReview" />
+        </p>
+      );
     }
-
-    return <p className={styles.paragraph}>{content}</p>;
   };
 
-  renderKycField = (field: ExtendedKycFormField) => {
-    const { name, label, value, error, type, values, required } = field;
+  renderKycField = (field: KycFormField) => {
+    const { name, label, value, error, required } = field;
     let content;
 
-    if (values) {
-      const options = values.map((optionValue, index) => ({
-        id: index,
-        value: optionValue,
-      }));
+    switch (field.type) {
+      case 'STRING': {
+        if (field.values) {
+          const options = field.values.map((optionValue, index) => ({
+            id: index,
+            value: optionValue,
+          }));
 
-      content = (
-        <Select value={value} name={name} onChange={this.handleChangeKycField}>
-          <option value="DEFAULT">Select please</option>
+          content = (
+            <Select
+              required={required}
+              value={value}
+              name={name}
+              error={error}
+              onChange={this.handleChangeKycField}
+            >
+              <option value="DEFAULT">Select please</option>
 
-          {options.map(({ id, value: optionValue }) => (
-            <option key={id} value={optionValue}>
-              {optionValue}
-            </option>
-          ))}
-        </Select>
-      );
-    } else if (type === 'BOOLEAN') {
-      content = (
-        <Checkbox
-          name={name}
-          checked={value}
-          error={error}
-          label={label}
-          required={required}
-          onChange={this.handleChangeKycField}
-        />
-      );
-    } else if (type === 'FILE') {
-      const { getFileUrlById, uploadFiles } = this.props;
-      const filesIds: string[] = value instanceof Array ? [...value] : [];
+              {options.map(({ id, value: optionValue }) => (
+                <option key={id} value={optionValue}>
+                  {optionValue}
+                </option>
+              ))}
+            </Select>
+          );
+        } else {
+          content = (
+            <Input
+              required={required}
+              name={name}
+              label={label}
+              value={value}
+              error={error}
+              onChange={this.handleChangeKycField}
+            />
+          );
+        }
 
-      content = (
-        <ImageUploader
-          label={label}
-          error={error}
-          filesIds={filesIds}
-          getFileUrlById={getFileUrlById}
-          uploadFiles={uploadFiles}
-          onAddFiles={(newFilesIds) =>
-            this.props.onChangeKycFormField(
-              name,
-              removeDuplicates([...filesIds, ...newFilesIds]),
-            )
-          }
-          onRemoveFile={(removedFileId) =>
-            this.props.onChangeKycFormField(
-              name,
-              filesIds.filter((fileId) => fileId !== removedFileId),
-            )
-          }
-        />
-      );
-    } else {
-      content = (
-        <Input
-          name={name}
-          label={label}
-          value={value}
-          error={error}
-          onChange={this.handleChangeKycField}
-          required={required}
-        />
-      );
+        break;
+      }
+
+      case 'BOOLEAN': {
+        content = (
+          <Checkbox
+            required={required}
+            name={name}
+            checked={value}
+            error={error}
+            label={label}
+            onChange={this.handleChangeKycField}
+          />
+        );
+
+        break;
+      }
+
+      case 'FILE': {
+        const { getFileUrlById, uploadFiles } = this.props;
+        const filesIds: string[] = value instanceof Array ? [...value] : [];
+
+        content = (
+          <ImageUploader
+            label={label}
+            error={error}
+            filesIds={filesIds}
+            getFileUrlById={getFileUrlById}
+            uploadFiles={uploadFiles}
+            onAddFiles={(newFilesIds) =>
+              this.props.onChangeKycFormField(
+                name,
+                removeDuplicates([...filesIds, ...newFilesIds]),
+              )
+            }
+            onRemoveFile={(removedFileId) =>
+              this.props.onChangeKycFormField(
+                name,
+                filesIds.filter((fileId) => fileId !== removedFileId),
+              )
+            }
+          />
+        );
+
+        break;
+      }
+
+      default: {
+        (field: empty);
+      }
     }
 
     return (
@@ -169,7 +196,7 @@ export default class Kyc extends Component<Props, {}> {
     );
   };
 
-  renderKycFieldAnnotation = (field: ExtendedKycFormField) => {
+  renderKycFieldAnnotation = (field: KycFormField) => {
     if (field.name === 'address') {
       return (
         <p className={styles.paragraph}>
@@ -188,16 +215,10 @@ export default class Kyc extends Component<Props, {}> {
 
   renderFooter = () => {
     const { isSaving, isSaved } = this.props;
-    const isSaveDisabled =
-      isSaving ||
-      isSaved ||
-      this.props.kycForm.some(
-        (field) => field.values && field.value === 'DEFAULT',
-      );
 
     return (
       <div className={styles.footer}>
-        <Button type="submit" disabled={isSaveDisabled}>
+        <Button type="submit" disabled={isSaving || isSaved}>
           {isSaved ? (
             <Translation id="wallet:saved" />
           ) : (

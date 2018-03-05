@@ -1,12 +1,16 @@
 const webpack = require('webpack');
 const baseConfig = require('./base.config');
-const { assetsDir, themeImportDeclaration } = require('../config');
+const {
+  devServerPort,
+  assetsDir,
+  themeImportDeclaration,
+} = require('../config');
 
 module.exports = {
   ...baseConfig,
 
   entry: [
-    'webpack-dev-server/client?http://localhost:3000',
+    `webpack-dev-server/client?http://localhost:${devServerPort}`,
     'webpack/hot/only-dev-server',
 
     ...baseConfig.entry,
@@ -47,7 +51,7 @@ module.exports = {
 
   devServer: {
     host: 'localhost',
-    port: 3000,
+    port: devServerPort,
     historyApiFallback: true,
     hot: true,
     contentBase: assetsDir,

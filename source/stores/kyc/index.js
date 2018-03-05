@@ -1,20 +1,19 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import axios from 'axios';
+import { fromPairs } from 'ramda';
 import api from '~/api/api';
 import type { DataState } from '~/types/common';
 import auth from '~/stores/auth';
 import type {
+  UserStatus,
+  BaseKycFormField,
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
   SetKycDataResponseError,
 } from '~/types/kyc';
-
-type ExtendedKycFormField = KycFormField & {
-  value: KycFormFieldValue,
-  error: string,
-};
+import { validateKycForm } from './validation';
 
 export class KycStore {
   api: typeof api;
@@ -25,21 +24,31 @@ export class KycStore {
 
   @observable kycFilesUrl = '';
 
+  @observable status: UserStatus = 'NOT_SET';
   @observable denialReason: string = '';
-  @observable isDenied = false;
-  @observable isAllowed = false;
+
+  @computed
+  get isDenied(): boolean {
+    return this.status === 'DENIED';
+  }
+
+  @computed
+  get isAllowed(): boolean {
+    return this.status === 'ALLOWED';
+  }
 
   @computed
   get isOnReview(): boolean {
-    return this.isSaved && !this.isAllowed && !this.isDenied;
+    return this.status === 'ON_REVIEW';
   }
 
-  @observable formSchema: KycFormField[] = [];
+  @observable formSchema: BaseKycFormField[] = [];
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
   @observable formErrors: Map<KycFormFieldName, string> = new Map();
 
   @computed
-  get form(): Array<ExtendedKycFormField> {
+  get form(): KycFormField[] {
+    // $FlowFixMe
     return this.formSchema.map((field) => ({
       ...field,
       value: this.formData.get(field.name),
@@ -99,12 +108,11 @@ export class KycStore {
           this.formSchema = kyc;
           this.kycFilesUrl = kycUrl;
 
-          kyc.forEach((field: KycFormField) => {
+          kyc.forEach((field) => {
             let defaultValue = '';
 
             if (field.values) {
               defaultValue = 'DEFAULT';
-              // [defaultValue] = field.values;
             } else if (field.type === 'FILE') {
               defaultValue = [];
             } else if (field.type === 'BOOLEAN') {
@@ -126,27 +134,43 @@ export class KycStore {
   loadData = () => {
     this.dataState = 'loading';
 
-    Promise.all([this.api.kycData.getClient(), this.api.kycData.get()])
-      .then(([kycDataResp, statusResp]) => {
-        const { data } = kycDataResp;
-        const { status, denialReason } = statusResp.data;
-        const allowed = status === 'NO_KYC' || status === 'COMPLETED';
+    Promise.all([
+      this.api.kycData.getUserData(),
+      this.api.kycData.getAddressAndStatus(),
+    ])
+      .then(([userDataResponse, statusResponse]) => {
+        const { data: userData } = userDataResponse;
+        const { status, denialReason } = statusResponse.data;
 
         runInAction(() => {
           this.dataState = 'loaded';
-          this.isAllowed = allowed;
-          this.isDenied = status === 'DENIED';
           this.denialReason = denialReason || '';
+          const hasUserData = Object.keys(userData).length > 0;
 
-          if (data) {
-            this.savingState = 'loaded';
-            Object.keys(data).forEach((fieldName) => {
-              this.formData.set(fieldName, data[fieldName]);
-            });
+          switch (status) {
+            case 'NO_KYC':
+            case 'COMPLETED': {
+              this.status = 'ALLOWED';
+              break;
+            }
+
+            case 'DENIED': {
+              this.status = 'DENIED';
+              break;
+            }
+
+            default: {
+              if (hasUserData) {
+                this.status === 'ON_REVIEW';
+              }
+            }
           }
 
-          if (data && allowed) {
+          if (hasUserData) {
             this.savingState = 'loaded';
+            Object.keys(userData).forEach((fieldName) => {
+              this.formData.set(fieldName, userData[fieldName]);
+            });
           }
         });
       })
@@ -165,22 +189,13 @@ export class KycStore {
       return;
     }
 
-    this.savingState = 'loading';
-    this.formErrors.clear();
-    const formData: [KycFormFieldName, KycFormFieldValue][] = Array.from(
-      this.formData.entries(),
-    );
-    const data = formData.reduce(
-      (result, [key, value]) => ({
-        ...result,
-        [key]: value,
-      }),
-      {},
-    );
+    const userData = fromPairs(Array.from(this.formData.entries()));
 
+    this.formErrors.clear();
+    this.savingState = 'loading';
     Promise.all([
-      this.api.kycData.setClient(data),
-      this.api.kycData.set({ address: data.address }),
+      this.api.kycData.setUserData(userData),
+      this.api.kycData.setAddress({ address: userData.address }),
     ])
       .then(() => {
         runInAction(() => {
@@ -206,29 +221,13 @@ export class KycStore {
 
   @action
   validateForm = () => {
-    const requiredError = 'This field is required';
-
     this.formErrors.clear();
 
-    this.form.forEach(
-      ({ value, name, type, required }: ExtendedKycFormField) => {
-        switch (type) {
-          case 'FILE': {
-            if (required && value.length === 0) {
-              this.formErrors.set(name, requiredError);
-            }
+    const validationErrors = validateKycForm(this.form);
 
-            break;
-          }
-
-          default: {
-            if (required && !value) {
-              this.formErrors.set(name, requiredError);
-            }
-          }
-        }
-      },
-    );
+    validationErrors.forEach(({ name, error }) => {
+      this.formErrors.set(name, error);
+    });
   };
 
   @action
