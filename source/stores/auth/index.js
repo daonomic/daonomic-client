@@ -17,7 +17,7 @@ type AuthStoreParams = {
 export class AuthStore {
   api: typeof apiAdapter;
 
-  @observable token: AuthToken = localStorage.getItem('token') || '';
+  @observable token: ?AuthToken = localStorage.getItem('token');
   @observable email: Email = localStorage.getItem('email') || '';
   @observable id: UserId = localStorage.getItem('id') || '';
   @observable isRegistered = false;
@@ -196,9 +196,14 @@ export class AuthStore {
   };
 
   @action
+  resetRegistrationData = () => {
+    this.isRegistered = false;
+  };
+
+  @action
   logout = () => {
     this.email = '';
-    this.token = '';
+    this.token = null;
     this.id = '';
   };
 }

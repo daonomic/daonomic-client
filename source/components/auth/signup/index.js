@@ -11,14 +11,14 @@ import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 
-type Props = {
+type Props = {|
   isLoading: boolean,
   email?: string,
   error: string,
   isRegistered: boolean,
-  onSubmit: (event: Event) => void,
-  onChangeEmail: (event: Event) => void,
-};
+  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => void,
+  onChangeEmail: (event: SyntheticInputEvent<HTMLInputElement>) => void,
+|};
 
 export default class SignUp extends React.Component<Props, {}> {
   static defaultProps = {

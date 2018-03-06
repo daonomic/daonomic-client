@@ -66,6 +66,25 @@ describe('auth store', () => {
         done,
       );
     });
+
+    test('registration data reset', (done) => {
+      mockedApi.auth.register.setResponse('success');
+      const authStore = new AuthStore({
+        api: mockedApi,
+      });
+
+      authStore.register({ email: testEmail });
+      expect(authStore.isLoading).toBe(true);
+
+      when(
+        () => authStore.isLoading === false && authStore.isRegistered === true,
+        () => {
+          authStore.resetRegistrationData();
+          expect(authStore.isRegistered).toBe(false);
+          done();
+        },
+      );
+    });
   });
 
   describe('login', () => {

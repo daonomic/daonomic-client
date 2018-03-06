@@ -1,26 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { action, observable } from 'mobx';
 import SignUp from '~/components/auth/signup';
 
-@inject(({ auth }) => ({
-  register: auth.register,
-  errors: auth.errors,
-  isRegistered: auth.isRegistered,
-  isLoading: auth.isLoading,
-}))
-@observer
-export default class SignUpPage extends React.Component {
-  static propTypes = {
-    register: PropTypes.func.isRequired,
-    isRegistered: PropTypes.bool.isRequired,
-    errors: PropTypes.shape({
-      email: PropTypes.string,
-    }).isRequired,
-    isLoading: PropTypes.bool.isRequired,
-  };
+type Props = {|
+  register: ({ email: string }) => void,
+  isLoading: boolean,
+  isRegistered: boolean,
+  errors: {|
+    email: string,
+  |},
+  onReset: () => void,
+|};
 
+@observer
+class SignUpPage extends React.Component<Props> {
   @action
   setEmail = (email) => {
     this.email = email;
@@ -28,12 +23,16 @@ export default class SignUpPage extends React.Component {
 
   @observable email;
 
-  handleSubmit = (event) => {
+  componentWillUnmount = () => {
+    this.props.onReset();
+  };
+
+  handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.register({ email: this.email });
   };
 
-  handleChangeEmail = (event) => {
+  handleChangeEmail = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.setEmail(event.target.value);
   };
 
@@ -52,3 +51,11 @@ export default class SignUpPage extends React.Component {
     );
   }
 }
+
+export default inject(({ auth }): Props => ({
+  register: auth.register,
+  errors: auth.errors,
+  isRegistered: auth.isRegistered,
+  isLoading: auth.isLoading,
+  onReset: auth.resetRegistrationData,
+}))(SignUpPage);

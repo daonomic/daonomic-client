@@ -1,10 +1,12 @@
 {
   "extends": [
     "eslint:recommended",
+    "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
     "prettier"
   ],
+  "plugins": ["flowtype", "react", "import"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -53,6 +55,14 @@
     "react/require-default-props": 0,
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", 2],
+
+    "flowtype/space-after-type-colon": [
+      2,
+      "always",
+      {
+        "allowLineBreak": true
+      }
+    ],
 
     "import/no-extraneous-dependencies": [
       "error",
