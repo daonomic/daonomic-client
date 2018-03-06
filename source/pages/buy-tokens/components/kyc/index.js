@@ -26,6 +26,8 @@ type Props = {|
   isSaved: boolean,
   isAllowed: boolean,
   isDenied: boolean,
+  isOnReview: boolean,
+  isEditingAllowed: boolean,
   denialReason: string,
   getFileUrlById: (id: string) => string,
   uploadFiles: typeof kycStore.uploadFiles,
@@ -44,6 +46,10 @@ type Props = {|
   isSaved: kyc.isSaved,
   isAllowed: kyc.isAllowed,
   isDenied: kyc.isDenied,
+  isOnReview: kyc.isOnReview,
+  isEditingAllowed:
+    (kyc.isEnabled && !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed) ||
+    !kyc.isEnabled,
   denialReason: kyc.denialReason,
   getFileUrlById: kyc.getFileUrlById,
   uploadFiles: kyc.uploadFiles,
@@ -73,11 +79,9 @@ export default class Kyc extends Component<Props> {
   );
 
   renderStatus = () => {
-    const { isSaved, isAllowed, isDenied, denialReason } = this.props;
+    const { isOnReview, isDenied, denialReason } = this.props;
 
-    if (isAllowed || !isSaved) {
-      return null;
-    } else if (isDenied) {
+    if (isDenied) {
       return (
         <p className={cn(styles.paragraph, styles.red)}>
           <Translation id="wallet:kycDenied" />
@@ -85,7 +89,7 @@ export default class Kyc extends Component<Props> {
           {denialReason && `Denial reason: ${denialReason}`}
         </p>
       );
-    } else {
+    } else if (isOnReview) {
       return (
         <p className={styles.paragraph}>
           <Translation id="wallet:kycOnReview" />
@@ -96,6 +100,7 @@ export default class Kyc extends Component<Props> {
 
   renderKycField = (field: KycFormField) => {
     const { name, label, value, error, required } = field;
+    const { isEditingAllowed } = this.props;
     let content;
 
     switch (field.type) {
@@ -109,6 +114,7 @@ export default class Kyc extends Component<Props> {
           content = (
             <Select
               required={required}
+              disabled={!isEditingAllowed}
               value={value}
               name={name}
               error={error}
@@ -127,6 +133,7 @@ export default class Kyc extends Component<Props> {
           content = (
             <Input
               required={required}
+              disabled={!isEditingAllowed}
               name={name}
               label={label}
               value={value}
@@ -143,6 +150,7 @@ export default class Kyc extends Component<Props> {
         content = (
           <Checkbox
             required={required}
+            disabled={!isEditingAllowed}
             name={name}
             checked={value}
             error={error}
@@ -160,6 +168,7 @@ export default class Kyc extends Component<Props> {
 
         content = (
           <ImageUploader
+            disabled={!isEditingAllowed}
             label={label}
             error={error}
             filesIds={filesIds}
@@ -214,11 +223,11 @@ export default class Kyc extends Component<Props> {
   };
 
   renderFooter = () => {
-    const { isSaving, isSaved } = this.props;
+    const { isSaved, isEditingAllowed } = this.props;
 
     return (
       <div className={styles.footer}>
-        <Button type="submit" disabled={isSaving || isSaved}>
+        <Button type="submit" disabled={!isEditingAllowed}>
           {isSaved ? (
             <Translation id="wallet:saved" />
           ) : (

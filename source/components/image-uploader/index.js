@@ -10,6 +10,7 @@ const getFileHash = (file) => `${file.name}${file.size}`;
 
 export default class ImageUploader extends PureComponent {
   static propTypes = {
+    disabled: PropTypes.bool,
     label: PropTypes.string,
     error: PropTypes.string,
     filesIds: PropTypes.arrayOf(PropTypes.string),
@@ -142,7 +143,7 @@ export default class ImageUploader extends PureComponent {
   };
 
   renderButtonRemove = ({ uploadProgress, id }) => {
-    if (uploadProgress < 1) {
+    if (uploadProgress < 1 || this.props.disabled) {
       return null;
     }
 
@@ -198,18 +199,17 @@ export default class ImageUploader extends PureComponent {
   };
 
   render = () => {
-    const { label } = this.props;
-
     return (
       <div className={styles.root}>
         <Dropzone
+          disabled={this.props.disabled}
           accept="image/png, image/jpeg"
           style={{
             width: '100%',
           }}
           onDrop={this.handleDropFiles}
         >
-          {label}
+          {this.props.label}
         </Dropzone>
 
         {this.renderFiles()}

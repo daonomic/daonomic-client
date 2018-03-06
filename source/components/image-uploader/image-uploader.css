@@ -68,7 +68,3 @@
 .delete:focus {
   opacity: 1;
 }
-
-.image:hover {
-  border-color: rgba(0, 0, 0, 0.5);
-}

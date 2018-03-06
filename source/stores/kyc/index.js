@@ -161,7 +161,7 @@ export class KycStore {
 
             default: {
               if (hasUserData) {
-                this.status === 'ON_REVIEW';
+                this.status = 'ON_REVIEW';
               }
             }
           }
@@ -200,6 +200,7 @@ export class KycStore {
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';
+          this.status = 'ON_REVIEW';
         });
       })
       .catch((error: SetKycDataResponseError) => {

@@ -80,7 +80,7 @@
     "webpack-dev-server": "2.9.5"
   },
   "dependencies": {
-    "@daonomic/ui": "3.0.0",
+    "@daonomic/ui": "3.3.0",
     "axios": "0.18.0",
     "classnames": "2.2.5",
     "ethers-wallet": "2.1.8",

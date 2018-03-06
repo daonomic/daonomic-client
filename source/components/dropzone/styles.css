@@ -1,0 +1,15 @@
+.root {
+  width: 100%;
+  border: 1px dashed var(--theme-control-border);
+  color: var(--theme-control-text);
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.root_disabled {
+  cursor: default;
+  color: var(--theme-muted);
+  border-color: var(--theme-control-disabled-border);
+  background: var(--theme-control-disabled-background);
+  cursor: not-allowed;
+}
