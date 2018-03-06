@@ -47,9 +47,7 @@ type Props = {|
   isAllowed: kyc.isAllowed,
   isDenied: kyc.isDenied,
   isOnReview: kyc.isOnReview,
-  isEditingAllowed:
-    (kyc.isEnabled && !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed) ||
-    !kyc.isEnabled,
+  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
   denialReason: kyc.denialReason,
   getFileUrlById: kyc.getFileUrlById,
   uploadFiles: kyc.uploadFiles,
