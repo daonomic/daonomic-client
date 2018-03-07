@@ -20,7 +20,7 @@ import type {
 import styles from './kyc.css';
 
 type Props = {|
-  isKycEnabled: boolean,
+  isKycExtended: boolean,
   kycForm: KycFormField[],
   isSaving: boolean,
   isSaved: boolean,
@@ -40,7 +40,7 @@ type Props = {|
 
 @inject(({ kyc }: { kyc: typeof kycStore }): Props => ({
   isLoaded: kyc.isLoaded,
-  isKycEnabled: kyc.isEnabled,
+  isKycExtended: kyc.isExtended,
   kycForm: kyc.form,
   isSaving: kyc.isSaving,
   isSaved: kyc.isSaved,
@@ -263,7 +263,7 @@ export default class Kyc extends React.Component<Props> {
       <Panel paddingSize="large">
         <form onSubmit={this.handleSave}>
           {this.renderHeading(
-            this.props.isKycEnabled ? 'wallet:kycTitle' : 'wallet:title',
+            this.props.isKycExtended ? 'wallet:kycTitle' : 'wallet:title',
           )}
           {this.renderStatus()}
           {this.props.kycForm.map(this.renderKycField)}

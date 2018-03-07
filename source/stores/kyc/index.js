@@ -57,7 +57,7 @@ export class KycStore {
   }
 
   @computed
-  get isEnabled(): boolean {
+  get isExtended(): boolean {
     return this.formSchema.length > 1;
   }
 
@@ -138,7 +138,7 @@ export class KycStore {
     ])
       .then(([userDataResponse, statusResponse]) => {
         const { data: userData } = userDataResponse;
-        const { status, denialReason } = statusResponse.data;
+        const { address, status, denialReason } = statusResponse.data;
 
         runInAction(() => {
           this.dataState = 'loaded';
@@ -169,7 +169,11 @@ export class KycStore {
             Object.keys(userData).forEach((fieldName) => {
               this.formData.set(fieldName, userData[fieldName]);
             });
+          } else if (!this.isExtended) {
+            this.savingState = 'loaded';
           }
+
+          this.formData.set('address', address);
         });
       })
       .catch(() => {
@@ -191,9 +195,13 @@ export class KycStore {
 
     this.formErrors.clear();
     this.savingState = 'loading';
+    let savingPromise = Promise.resolve();
 
-    this.api.kycData
-      .setUserData(userData)
+    if (this.isExtended) {
+      savingPromise = this.api.kycData.setUserData(userData);
+    }
+
+    savingPromise
       .then(() => this.api.kycData.setAddress({ address: userData.address }))
       .then(() => {
         runInAction(() => {

@@ -16,7 +16,7 @@ import styles from './buy-tokens.css';
 @inject(({ sale, kyc }) => ({
   sale,
   isLoaded: sale.isLoaded && kyc.isLoaded,
-  isAllowedToPay: kyc.isEnabled ? kyc.isAllowed : kyc.isSaved,
+  isAllowedToPay: kyc.isAllowed,
 }))
 @observer
 class BuyTokens extends Component {
