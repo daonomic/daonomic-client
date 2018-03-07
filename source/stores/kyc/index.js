@@ -11,7 +11,7 @@ import type {
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
-  SetKycDataResponseError,
+  KycValidationErrorResponse,
 } from '~/types/kyc';
 import { validateKycForm } from './validation';
 
@@ -193,17 +193,17 @@ export class KycStore {
 
     this.formErrors.clear();
     this.savingState = 'loading';
-    Promise.all([
-      this.api.kycData.setUserData(userData),
-      this.api.kycData.setAddress({ address: userData.address }),
-    ])
+
+    this.api.kycData
+      .setUserData(userData)
+      .then(() => this.api.kycData.setAddress({ address: userData.address }))
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';
           this.status = 'ON_REVIEW';
         });
       })
-      .catch((error: SetKycDataResponseError) => {
+      .catch((error: KycValidationErrorResponse) => {
         const { fieldErrors } = error.response.data;
 
         runInAction(() => {

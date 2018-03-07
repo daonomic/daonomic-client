@@ -77,7 +77,7 @@ export class PaymentStore {
 
     // Clear loaded payment addresses on kyc change
     reaction(
-      () => !this.kyc.isSaved,
+      () => !this.kyc.isAllowed,
       (shouldRun) => {
         if (shouldRun) {
           this.addressesByMethodId.clear();
@@ -88,13 +88,13 @@ export class PaymentStore {
 
     // Load and set payment method address on selected method change or kyc change
     reaction(
-      () => this.isLoaded && this.kyc.isSaved && this.selectedMethodId,
+      () => this.isLoaded && this.kyc.isAllowed && this.selectedMethodId,
       () => {
         const { id, token } = this.selectedMethod;
 
         if (
           !this.isLoaded ||
-          !this.kyc.isSaved ||
+          !this.kyc.isAllowed ||
           this.addressesByMethodId.get(id)
         ) {
           return;

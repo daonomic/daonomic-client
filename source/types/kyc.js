@@ -64,7 +64,7 @@ export type SetKycDataResponse = {
   data: {},
 };
 
-export type SetKycDataResponseError = {
+export type KycValidationErrorResponse = {
   response: {
     data: {
       fieldErrors?: {

@@ -9,7 +9,7 @@ import type {
   GetKycUserDataResponse,
   SetKycDataParams,
   SetKycDataResponse,
-  SetKycDataResponseError,
+  KycValidationErrorResponse,
 } from '~/types/kyc';
 import type { AuthParams, PasswordRecoveryParams } from '~/types/auth';
 import type { PaymentParams, GetIcoInfoResponse } from './types';
@@ -71,7 +71,7 @@ export default {
       clientApi.get(`/users/${auth.id}`).catch(() => ({ data: {} })),
     setUserData: (
       data: SetKycDataParams,
-    ): Promise<SetKycDataResponse | SetKycDataResponseError> =>
+    ): Promise<SetKycDataResponse | KycValidationErrorResponse> =>
       clientApi.post(`/users/${auth.id}`, data),
   },
 

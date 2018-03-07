@@ -25,7 +25,7 @@ describe('wallet balance store', () => {
     kyc.saveData();
 
     when(
-      () => kyc.isSaved && walletBalance.isLoading,
+      () => kyc.isAllowed && walletBalance.isLoading,
       () => {
         when(
           () => walletBalance.isLoaded,

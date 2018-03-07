@@ -28,7 +28,7 @@ export class WalletBalanceStore {
     autorun(() => {
       clearInterval(balanceUpdateIntervalId);
 
-      if (this.kyc.isSaved) {
+      if (this.kyc.isAllowed) {
         this.loadBalance();
         balanceUpdateIntervalId = setInterval(
           () => this.loadBalance(),

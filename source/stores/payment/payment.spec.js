@@ -65,7 +65,7 @@ describe('payment store', () => {
     when(
       () =>
         auth.isAuthenticated &&
-        kyc.isSaved &&
+        kyc.isAllowed &&
         payment.isLoaded &&
         payment.addressesByMethodId.size > 0 &&
         payment.selectedMethodAddressQRCode !== null,
