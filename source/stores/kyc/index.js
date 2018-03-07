@@ -206,7 +206,12 @@ export class KycStore {
       .then(() => {
         runInAction(() => {
           this.savingState = 'loaded';
-          this.status = 'ON_REVIEW';
+
+          if (this.isExtended) {
+            this.status = 'ON_REVIEW';
+          } else {
+            this.status = 'ALLOWED';
+          }
         });
       })
       .catch((error: KycValidationErrorResponse) => {
