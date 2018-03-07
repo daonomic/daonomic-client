@@ -111,9 +111,7 @@ export class KycStore {
           kyc.forEach((field) => {
             let defaultValue = '';
 
-            if (field.values) {
-              defaultValue = 'DEFAULT';
-            } else if (field.type === 'FILE') {
+            if (field.type === 'FILE') {
               defaultValue = [];
             } else if (field.type === 'BOOLEAN') {
               defaultValue = false;

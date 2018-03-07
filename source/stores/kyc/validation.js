@@ -31,7 +31,7 @@ const validators = [
     }
   },
   (field: KycFormField): ?ValidationEntry => {
-    if (field.required && (!field.value || field.value === 'DEFAULT')) {
+    if (field.required && !field.value) {
       return {
         name: field.name,
         error: requiredError,

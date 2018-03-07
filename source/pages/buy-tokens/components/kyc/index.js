@@ -118,7 +118,9 @@ export default class Kyc extends Component<Props> {
               error={error}
               onChange={this.handleChangeKycField}
             >
-              <option value="DEFAULT">Select please</option>
+              <option value="" hidden disabled>
+                {label}
+              </option>
 
               {options.map(({ id, value: optionValue }) => (
                 <option key={id} value={optionValue}>
