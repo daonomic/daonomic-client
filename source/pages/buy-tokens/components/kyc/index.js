@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import { observer, inject } from 'mobx-react';
 import Button from '@daonomic/ui/source/button';
@@ -55,7 +55,7 @@ type Props = {|
   onSave: kyc.saveData,
 }))
 @observer
-export default class Kyc extends Component<Props> {
+export default class Kyc extends React.Component<Props> {
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -238,20 +238,38 @@ export default class Kyc extends Component<Props> {
     );
   };
 
-  render() {
-    const { kycForm, isKycEnabled } = this.props;
+  render = () => {
+    if (this.props.isAllowed) {
+      const addressField = this.props.kycForm.find(
+        (field) => field.name === 'address',
+      );
+
+      if (!addressField) {
+        return null;
+      }
+
+      return (
+        <Panel paddingSize="large">
+          <Input
+            disabled
+            label={addressField.label}
+            value={addressField.value}
+          />
+        </Panel>
+      );
+    }
 
     return (
       <Panel paddingSize="large">
         <form onSubmit={this.handleSave}>
           {this.renderHeading(
-            isKycEnabled ? 'wallet:kycTitle' : 'wallet:title',
+            this.props.isKycEnabled ? 'wallet:kycTitle' : 'wallet:title',
           )}
           {this.renderStatus()}
-          {kycForm.map(this.renderKycField)}
+          {this.props.kycForm.map(this.renderKycField)}
           {this.renderFooter()}
         </form>
       </Panel>
     );
-  }
+  };
 }
