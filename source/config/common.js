@@ -5,7 +5,7 @@ const sales = {
   production: '0xf76350f0ad6b7cfce1311ef43e2eef488fd16dad',
 };
 
-export const realm = '5a8d7ce7a302eb3601fdef2c';
+export const realm = '5a6f813d1d20a7d7c95eacb0';
 export const sale: string = sales[process.env.API] || sales.production;
 export const contactEmail = 'dev@0v1se.com';
 export const termsOfServiceURL = 'terms.url';

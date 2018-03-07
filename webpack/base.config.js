@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   api,
-  clientApi,
   sourceDir,
   buildDir,
   nodeEnv,
@@ -73,7 +72,6 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.API': JSON.stringify(api),
-      'process.env.CLIENT_API': JSON.stringify(clientApi),
     }),
     new HtmlWebpackPlugin({
       template: `${sourceDir}/index.html`,

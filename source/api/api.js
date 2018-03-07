@@ -30,10 +30,6 @@ const daonomicApi = axios.create({
   baseURL: baseApiUrl,
 });
 
-const clientApi = axios.create({
-  baseURL: process.env.CLIENT_API,
-});
-
 export default {
   auth: {
     login: ({ email, password }: AuthParams) =>
@@ -67,12 +63,20 @@ export default {
       data: GetKycAddressAndStatusResponse,
     }> =>
       daonomicApi.post(`/sales/${sale}/address`, { address }, defaultOptions),
-    getUserData: (): Promise<{ data: GetKycUserDataResponse }> =>
-      clientApi.get(`/users/${auth.id}`).catch(() => ({ data: {} })),
-    setUserData: (
+    getUserData: ({
+      baseUrl,
+    }: {
+      baseUrl: string,
+    }): Promise<{ data: GetKycUserDataResponse }> =>
+      axios.get(`${baseUrl}/users/${auth.id}`).catch(() => ({ data: {} })),
+    setUserData: ({
+      baseUrl,
+      data,
+    }: {
+      baseUrl: string,
       data: SetKycDataParams,
-    ): Promise<SetKycDataResponse | KycValidationErrorResponse> =>
-      clientApi.post(`/users/${auth.id}`, data),
+    }): Promise<SetKycDataResponse | KycValidationErrorResponse> =>
+      axios.post(`${baseUrl}/users/${auth.id}`, data),
   },
 
   getIcoInfo: cacheResult(

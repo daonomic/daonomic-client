@@ -22,7 +22,7 @@ export class KycStore {
   @observable dataState: DataState = 'initial';
   @observable savingState: DataState = 'initial';
 
-  @observable kycFilesUrl = '';
+  @observable kycServerUrl = '';
 
   @observable status: UserStatus = 'NOT_SET';
   @observable denialReason: string = '';
@@ -106,7 +106,7 @@ export class KycStore {
         runInAction(() => {
           this.dataState = 'loaded';
           this.formSchema = kyc;
-          this.kycFilesUrl = kycUrl;
+          this.kycServerUrl = kycUrl;
 
           kyc.forEach((field) => {
             let defaultValue = '';
@@ -133,7 +133,7 @@ export class KycStore {
     this.dataState = 'loading';
 
     Promise.all([
-      this.api.kycData.getUserData(),
+      this.api.kycData.getUserData({ baseUrl: this.kycServerUrl }),
       this.api.kycData.getAddressAndStatus(),
     ])
       .then(([userDataResponse, statusResponse]) => {
@@ -198,7 +198,10 @@ export class KycStore {
     let savingPromise = Promise.resolve();
 
     if (this.isExtended) {
-      savingPromise = this.api.kycData.setUserData(userData);
+      savingPromise = this.api.kycData.setUserData({
+        data: userData,
+        baseUrl: this.kycServerUrl,
+      });
     }
 
     savingPromise
@@ -268,12 +271,12 @@ export class KycStore {
       formData.append('file[]', file);
     });
 
-    return axios.post(`${this.kycFilesUrl}/files`, formData, {
+    return axios.post(`${this.kycServerUrl}/files`, formData, {
       onUploadProgress,
     });
   };
 
-  getFileUrlById = (id: string): string => `${this.kycFilesUrl}/files/${id}`;
+  getFileUrlById = (id: string): string => `${this.kycServerUrl}/files/${id}`;
 }
 
 export default new KycStore({ api, auth });
