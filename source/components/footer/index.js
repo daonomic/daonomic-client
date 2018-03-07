@@ -2,7 +2,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Translation from '~/components/translation';
-import { termsOfServiceURL } from '~/config/common';
+import { termsOfServiceURL } from '~/config';
 import Logo from '~/components/logo';
 import styles from './footer.css';
 

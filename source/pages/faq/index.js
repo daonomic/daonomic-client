@@ -1,25 +1,21 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import Panel from '@daonomic/ui/source/panel';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Spoiler from '~/components/spoiler';
-import faqEntries from '~/config/faq';
+import { faq } from '~/config';
+import type { FaqEntry } from '~/types/faq';
 import EmailUs from './components/email-us';
 import styles from './faq.css';
 
-export default class Faq extends PureComponent {
-  static propTypes = {
-    entries: PropTypes.arrayOf(
-      PropTypes.shape({
-        question: PropTypes.string.isRequired,
-        answer: PropTypes.string.isRequired,
-      }),
-    ),
-  };
+type Props = {
+  entries: FaqEntry[],
+};
 
+export default class Faq extends React.PureComponent<Props> {
   static defaultProps = {
-    entries: faqEntries,
+    entries: faq,
   };
 
   render() {

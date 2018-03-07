@@ -1,7 +1,7 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import api from '~/api/api';
-import { sale } from '~/config/common';
+import { sale } from '~/config';
 import auth from '~/stores/auth';
 import type { DataState } from '~/types/common';
 

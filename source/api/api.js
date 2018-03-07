@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios';
-import { sale, realm } from '~/config/common';
+import { sale, realm } from '~/config';
 import auth from '~/stores/auth';
 import cacheResult from '~/utils/cache-result';
 import type {

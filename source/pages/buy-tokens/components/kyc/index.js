@@ -12,6 +12,7 @@ import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
 import kycStore from '~/stores/kyc';
+import { tokenName } from '~/config';
 import type {
   KycFormField,
   KycFormFieldName,
@@ -209,12 +210,7 @@ export default class Kyc extends React.Component<Props> {
     if (field.name === 'address') {
       return (
         <p className={styles.paragraph}>
-          <Translation
-            id="wallet:annotation"
-            data={{
-              tokenName: Translation.text('tokenName'),
-            }}
-          />
+          <Translation id="wallet:annotation" data={{ tokenName }} />
         </p>
       );
     }

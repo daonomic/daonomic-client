@@ -9,7 +9,7 @@ import {
 import api from '~/api/api';
 import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
-import { sale } from '~/config/common';
+import { sale } from '~/config';
 import auth from '~/stores/auth';
 import kyc from '~/stores/kyc';
 
