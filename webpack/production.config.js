@@ -5,9 +5,7 @@ const { themeImportDeclaration } = require('../config');
 
 const extractCSS = new ExtractTextPlugin('app.css');
 
-module.exports = {
-  ...baseConfig,
-
+module.exports = Object.assign({}, baseConfig, {
   plugins: [
     ...baseConfig.plugins,
     extractCSS,
@@ -21,8 +19,7 @@ module.exports = {
     }),
   ],
 
-  module: {
-    ...baseConfig.module,
+  module: Object.assign({}, baseConfig.module, {
     rules: [
       ...baseConfig.module.rules,
       {
@@ -44,5 +41,5 @@ module.exports = {
         ]),
       },
     ],
-  },
-};
+  }),
+});

@@ -6,6 +6,8 @@ try {
   config = require(`./webpack/${nodeEnv}.config`);
 } catch (error) {
   // eslint-disable-next-line no-console
+  console.error(error);
+  // eslint-disable-next-line no-console
   console.error(
     `Cannot find webpack config for ${nodeEnv} environment, using ${defaultNodeEnv} config as a fallback\n`,
   );

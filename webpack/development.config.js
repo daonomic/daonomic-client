@@ -6,9 +6,7 @@ const {
   themeImportDeclaration,
 } = require('../config');
 
-module.exports = {
-  ...baseConfig,
-
+module.exports = Object.assign({}, baseConfig, {
   entry: [
     `webpack-dev-server/client?http://localhost:${devServerPort}`,
     'webpack/hot/only-dev-server',
@@ -23,8 +21,7 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
   ],
 
-  module: {
-    ...baseConfig.module,
+  module: Object.assign({}, baseConfig.module, {
     rules: [
       ...baseConfig.module.rules,
       {
@@ -47,7 +44,7 @@ module.exports = {
         ],
       },
     ],
-  },
+  }),
 
   devServer: {
     host: 'localhost',
@@ -56,4 +53,4 @@ module.exports = {
     hot: true,
     contentBase: assetsDir,
   },
-};
+});
