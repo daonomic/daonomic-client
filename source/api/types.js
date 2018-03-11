@@ -1,6 +1,10 @@
 // @flow
 import type { BaseKycFormField } from '~/types/kyc';
 
+export type ResponsePromise<Data> = Promise<{|
+  data: Data,
+|}>;
+
 export type PaymentParams = {|
   saleId: string,
   tokenId: string,

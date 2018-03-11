@@ -12,7 +12,11 @@ import type {
   KycValidationErrorResponse,
 } from '~/types/kyc';
 import type { AuthParams, PasswordRecoveryParams } from '~/types/auth';
-import type { PaymentParams, GetIcoInfoResponse } from './types';
+import type {
+  ResponsePromise,
+  PaymentParams,
+  GetIcoInfoResponse,
+} from './types';
 
 const defaultOptions = {
   get headers() {
@@ -54,20 +58,17 @@ export default {
   },
 
   kycData: {
-    getAddressAndStatus: (): Promise<{
-      data: GetKycAddressAndStatusResponse,
-    }> => daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
+    getAddressAndStatus: (): ResponsePromise<GetKycAddressAndStatusResponse> =>
+      daonomicApi.get(`/sales/${sale}/address`, defaultOptions),
     setAddress: ({
       address,
-    }: SetKycAddressParams): Promise<{
-      data: GetKycAddressAndStatusResponse,
-    }> =>
+    }: SetKycAddressParams): ResponsePromise<GetKycAddressAndStatusResponse> =>
       daonomicApi.post(`/sales/${sale}/address`, { address }, defaultOptions),
     getUserData: ({
       baseUrl,
     }: {
       baseUrl: string,
-    }): Promise<{ data: GetKycUserDataResponse }> =>
+    }): ResponsePromise<GetKycUserDataResponse> =>
       axios.get(`${baseUrl}/users/${auth.id}`).catch(() => ({ data: {} })),
     setUserData: ({
       baseUrl,
@@ -75,12 +76,14 @@ export default {
     }: {
       baseUrl: string,
       data: SetKycDataParams,
-    }): Promise<SetKycDataResponse | KycValidationErrorResponse> =>
+    }):
+      | ResponsePromise<SetKycDataResponse>
+      | Promise<KycValidationErrorResponse> =>
       axios.post(`${baseUrl}/users/${auth.id}`, data),
   },
 
   getIcoInfo: cacheResult(
-    (): Promise<{ data: GetIcoInfoResponse }> =>
+    (): ResponsePromise<GetIcoInfoResponse> =>
       daonomicApi.get(`/sales/${sale}`, defaultOptions),
     5000,
   ),

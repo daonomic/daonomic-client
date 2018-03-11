@@ -60,9 +60,7 @@ export type SetKycDataParams = {|
   [key: KycFormFieldName]: KycFormFieldValue,
 |};
 
-export type SetKycDataResponse = {
-  data: {},
-};
+export type SetKycDataResponse = {};
 
 export type KycValidationErrorResponse = {
   response: {
