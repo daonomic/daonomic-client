@@ -1,6 +1,6 @@
 // @flow
 import { observable, action, computed, reaction, runInAction } from 'mobx';
-import apiAdapter from '~/api/api';
+import apiAdapter from '~/api';
 import localStorage from '~/utils/local-storage';
 import type {
   AuthToken,

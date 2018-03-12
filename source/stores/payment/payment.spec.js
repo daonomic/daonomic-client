@@ -1,5 +1,5 @@
 import { when, reaction } from 'mobx';
-import api from '~/api/api.mock';
+import api from '~/api/mock';
 import { AuthStore } from '~/stores/auth';
 import { KycStore } from '~/stores/kyc';
 import { PaymentStore } from './';
@@ -140,7 +140,7 @@ describe('payment store', () => {
           paymentsUpdateCount += 1;
 
           if (paymentsUpdateCount === 2) {
-            kyc.updateFormField('address', '');
+            kyc.resetStatus();
           }
 
           jest.runOnlyPendingTimers();

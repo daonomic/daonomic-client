@@ -1,5 +1,5 @@
 import { when, reaction } from 'mobx';
-import api from '~/api/api.mock';
+import api from '~/api/mock';
 import { AuthStore } from '~/stores/auth';
 import { KycStore } from '~/stores/kyc';
 import { WalletBalanceStore } from './';
@@ -63,7 +63,7 @@ describe('wallet balance store', () => {
     when(() => walletBalance.isLoaded && balanceUpdatesCount === 3, done);
   });
 
-  test('should cancel loading and reset balance if saved kyc address has been reset', (done) => {
+  test('should cancel loading and reset balance if kyc is not allowed anymore', (done) => {
     jest.useFakeTimers();
 
     const auth = new AuthStore({ api });
@@ -88,7 +88,7 @@ describe('wallet balance store', () => {
     when(
       () => walletBalance.isLoaded && balanceUpdatesCount === 3,
       () => {
-        kyc.updateFormField('address', '');
+        kyc.resetStatus();
 
         when(
           () => !walletBalance.isLoaded && walletBalance.balance === 0,

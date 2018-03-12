@@ -1,3 +1,6 @@
+// @flow
+import type { ApiShape } from '~/api/types';
+
 function createMockRoute(responses) {
   let currentResponse = responses.success;
 
@@ -20,8 +23,15 @@ function createResponse(data) {
   return Promise.resolve({ data });
 }
 
+type ResponseError = Error & {
+  response?: {
+    status: number,
+    data: mixed,
+  },
+};
+
 function createFailResponse(status = 400, data = {}) {
-  const error = new Error('Request failed');
+  const error: ResponseError = new Error('Request failed');
 
   error.response = {
     status,
@@ -31,7 +41,7 @@ function createFailResponse(status = 400, data = {}) {
   return Promise.reject(error);
 }
 
-export default {
+const mockApi: ApiShape = {
   auth: {
     login: createMockRoute({
       success: createResponse,
@@ -153,17 +163,15 @@ export default {
     fail: createFailResponse,
   }),
   kycData: {
-    get: createMockRoute({
+    getAddressAndStatus: createMockRoute({
       success: () =>
         createResponse({
-          allowed: true,
-          data: {
-            address: '12345',
-          },
+          address: '12345',
+          status: 'NO_KYC',
         }),
       fail: createFailResponse,
     }),
-    set: createMockRoute({
+    setAddress: createMockRoute({
       success: () => createResponse({}),
       fail: () =>
         createFailResponse(400, {
@@ -171,6 +179,14 @@ export default {
             address: ['Address is required'],
           },
         }),
+    }),
+    getUserData: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
+    setUserData: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
     }),
   },
   getPaymentAddress: createMockRoute({
@@ -205,3 +221,5 @@ export default {
     fail: createFailResponse,
   }),
 };
+
+export default mockApi;

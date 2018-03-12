@@ -6,7 +6,7 @@ import {
   autorun,
   runInAction,
 } from 'mobx';
-import api from '~/api/api';
+import api from '~/api';
 import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
 import { sale } from '~/config';

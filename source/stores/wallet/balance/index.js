@@ -1,6 +1,6 @@
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import dataStates from '~/utils/data-states';
-import apiAdapter from '~/api/api';
+import apiAdapter from '~/api';
 import kyc from '~/stores/kyc';
 
 export class WalletBalanceStore {

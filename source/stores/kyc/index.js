@@ -2,7 +2,7 @@
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
-import api from '~/api/api';
+import api from '~/api';
 import type { DataState } from '~/types/common';
 import auth from '~/stores/auth';
 import type {
@@ -256,6 +256,11 @@ export class KycStore {
   resetData = () => {
     this.formData = new Map();
     this.formErrors = new Map();
+  };
+
+  @action
+  resetStatus = () => {
+    this.status = 'NOT_SET';
   };
 
   uploadFiles = ({

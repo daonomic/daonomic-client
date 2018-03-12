@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import mockedApi from '~/api/api.mock';
+import mockedApi from '~/api/mock';
 import { AuthStore } from './';
 
 describe('auth store', () => {

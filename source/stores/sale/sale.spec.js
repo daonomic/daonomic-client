@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import api from '~/api/api.mock';
+import api from '~/api/mock';
 import { AuthStore } from '~/stores/auth';
 import { SaleStore } from './';
 

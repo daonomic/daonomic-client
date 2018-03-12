@@ -13,6 +13,7 @@ import type {
 } from '~/types/kyc';
 import type { AuthParams, PasswordRecoveryParams } from '~/types/auth';
 import type {
+  ApiShape,
   ResponsePromise,
   PaymentParams,
   GetIcoInfoResponse,
@@ -34,7 +35,7 @@ const daonomicApi = axios.create({
   baseURL: baseApiUrl,
 });
 
-export default {
+const api: ApiShape = {
   auth: {
     login: ({ email, password }: AuthParams) =>
       daonomicApi.post('/login', { username: email, password }, defaultOptions),
@@ -99,3 +100,5 @@ export default {
     ),
   getBalance: () => daonomicApi.get(`/sales/${sale}/balance`, defaultOptions),
 };
+
+export default api;
