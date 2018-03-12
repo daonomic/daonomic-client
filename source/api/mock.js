@@ -4,8 +4,8 @@ import type { ApiShape } from '~/api/types';
 function createMockRoute(responses) {
   let currentResponse = responses.success;
 
-  function route(...params) {
-    return currentResponse(...params);
+  function route(): Promise<any> {
+    return currentResponse();
   }
 
   route.setResponse = (responseName) => {
@@ -19,7 +19,7 @@ function createMockRoute(responses) {
   return route;
 }
 
-function createResponse(data) {
+function createResponse(data = {}) {
   return Promise.resolve({ data });
 }
 

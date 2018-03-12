@@ -88,7 +88,48 @@ describe('wallet balance store', () => {
     when(
       () => walletBalance.isLoaded && balanceUpdatesCount === 3,
       () => {
-        kyc.resetStatus();
+        kyc.reset();
+
+        when(
+          () => !walletBalance.isLoaded && walletBalance.balance === 0,
+          () => {
+            expect(balanceUpdatesCount).toBe(4);
+            done();
+          },
+        );
+      },
+    );
+  });
+
+  test('should cancel loading and reset balance if user logs out', (done) => {
+    jest.useFakeTimers();
+
+    const auth = new AuthStore({ api });
+
+    auth.setToken('test token');
+
+    const kyc = new KycStore({ api, auth });
+    const walletBalance = new WalletBalanceStore({ api, kyc });
+
+    kyc.updateFormField('address', 'test address');
+    kyc.saveData();
+
+    let balanceUpdatesCount = 0;
+
+    reaction(
+      () => walletBalance.isLoaded,
+      (isLoaded) => {
+        if (isLoaded) {
+          balanceUpdatesCount += 1;
+          jest.runOnlyPendingTimers();
+        }
+      },
+    );
+
+    when(
+      () => walletBalance.isLoaded && balanceUpdatesCount === 3,
+      () => {
+        auth.logout();
 
         when(
           () => !walletBalance.isLoaded && walletBalance.balance === 0,

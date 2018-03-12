@@ -58,7 +58,11 @@ export class KycStore {
 
   @computed
   get isExtended(): boolean {
-    return this.formSchema.length > 1;
+    return (
+      this.formSchema.filter(
+        (field) => !['address', 'addressConfirmation'].includes(field.name),
+      ).length > 0
+    );
   }
 
   @computed
@@ -89,7 +93,7 @@ export class KycStore {
       if (this.auth.isAuthenticated) {
         this.loadKycInfo().then(this.loadData);
       } else {
-        this.resetData();
+        this.reset();
       }
     });
   }
@@ -105,10 +109,23 @@ export class KycStore {
 
         runInAction(() => {
           this.dataState = 'loaded';
-          this.formSchema = kyc;
+          this.formSchema = kyc.reduce((result, field) => {
+            result.push(field);
+
+            if (field.name === 'address') {
+              result.push({
+                type: 'STRING',
+                name: 'addressConfirmation',
+                label: `${field.label} confirmation`,
+                required: true,
+              });
+            }
+
+            return result;
+          }, []);
           this.kycServerUrl = kycUrl;
 
-          kyc.forEach((field) => {
+          this.formSchema.forEach((field) => {
             let defaultValue = '';
 
             if (field.type === 'FILE') {
@@ -169,7 +186,7 @@ export class KycStore {
             Object.keys(userData).forEach((fieldName) => {
               this.formData.set(fieldName, userData[fieldName]);
             });
-          } else if (!this.isExtended) {
+          } else if (!this.isExtended && address) {
             this.savingState = 'loaded';
           }
 
@@ -253,14 +270,14 @@ export class KycStore {
   };
 
   @action
-  resetData = () => {
+  reset = () => {
+    this.dataState = 'initial';
+    this.savingState = 'initial';
+    this.kycServerUrl = '';
+    this.status = 'NOT_SET';
+    this.formSchema = [];
     this.formData = new Map();
     this.formErrors = new Map();
-  };
-
-  @action
-  resetStatus = () => {
-    this.status = 'NOT_SET';
   };
 
   uploadFiles = ({

@@ -5,6 +5,20 @@ export type ResponsePromise<Data> = Promise<{|
   data: Data,
 |}>;
 
+export type PaymentParams = {|
+  saleId: string,
+  tokenId: string,
+|};
+
+export type GetIcoInfoResponse = {|
+  kyc: BaseKycFormField[],
+  kycUrl: string,
+  current: number,
+  total: number,
+  startDate: number,
+  endDate: number,
+|};
+
 export type ApiShape = {|
   auth: {|
     login: Function,
@@ -20,22 +34,8 @@ export type ApiShape = {|
     setUserData: Function,
   |},
 
-  getIcoInfo: Function,
-  getPaymentAddress: Function,
-  getPaymentStatus: Function,
-  getBalance: Function,
-|};
-
-export type PaymentParams = {|
-  saleId: string,
-  tokenId: string,
-|};
-
-export type GetIcoInfoResponse = {|
-  kyc: BaseKycFormField[],
-  kycUrl: string,
-  current: number,
-  total: number,
-  startDate: number,
-  endDate: number,
+  getIcoInfo: () => ResponsePromise<GetIcoInfoResponse>,
+  getPaymentAddress: (params: PaymentParams) => ResponsePromise<{}>,
+  getPaymentStatus: (params: PaymentParams) => ResponsePromise<{}>,
+  getBalance: () => ResponsePromise<{}>,
 |};

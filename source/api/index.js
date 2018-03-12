@@ -12,12 +12,7 @@ import type {
   KycValidationErrorResponse,
 } from '~/types/kyc';
 import type { AuthParams, PasswordRecoveryParams } from '~/types/auth';
-import type {
-  ApiShape,
-  ResponsePromise,
-  PaymentParams,
-  GetIcoInfoResponse,
-} from './types';
+import type { ApiShape, ResponsePromise } from './types';
 
 const defaultOptions = {
   get headers() {
@@ -84,16 +79,15 @@ const api: ApiShape = {
   },
 
   getIcoInfo: cacheResult(
-    (): ResponsePromise<GetIcoInfoResponse> =>
-      daonomicApi.get(`/sales/${sale}`, defaultOptions),
+    () => daonomicApi.get(`/sales/${sale}`, defaultOptions),
     5000,
   ),
-  getPaymentAddress: ({ saleId, tokenId }: PaymentParams) =>
+  getPaymentAddress: ({ saleId, tokenId }) =>
     daonomicApi.get(
       `/sales/${saleId}/payment/${tokenId}/address`,
       defaultOptions,
     ),
-  getPaymentStatus: ({ saleId, tokenId }: PaymentParams) =>
+  getPaymentStatus: ({ saleId, tokenId }) =>
     daonomicApi.get(
       `/sales/${saleId}/payment/${tokenId}/status`,
       defaultOptions,

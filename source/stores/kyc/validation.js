@@ -8,8 +8,15 @@ type ValidationEntry = {|
   error: string,
 |};
 
-const validators = [
-  (field: KycFormField): ?ValidationEntry => {
+type ValidatorParams = {|
+  field: KycFormField,
+  allFields: KycFormField[],
+|};
+
+type Validator = (params: ValidatorParams) => ?ValidationEntry;
+
+const validators: Validator[] = [
+  ({ field }) => {
     if (field.type === 'FILE' && field.required && field.value.length === 0) {
       return {
         name: field.name,
@@ -17,10 +24,10 @@ const validators = [
       };
     }
   },
-  (field: KycFormField): ?ValidationEntry => {
+  ({ field, allFields }) => {
     if (field.type === 'STRING') {
       if (
-        field.name === 'address' &&
+        ['address', 'addressConfirmation'].includes(field.name) &&
         (field.value.slice(0, 2) !== '0x' || field.value.slice(2).length !== 40)
       ) {
         return {
@@ -28,9 +35,22 @@ const validators = [
           error: 'should be hex address with 20-bytes length',
         };
       }
+
+      if (field.name === 'addressConfirmation') {
+        const addressField = allFields.find(
+          (field) => field.name === 'address',
+        );
+
+        if (addressField && field.value !== addressField.value) {
+          return {
+            name: field.name,
+            error: "Addresses don't match",
+          };
+        }
+      }
     }
   },
-  (field: KycFormField): ?ValidationEntry => {
+  ({ field }) => {
     if (field.required && !field.value) {
       return {
         name: field.name,
@@ -43,9 +63,9 @@ const validators = [
 export function validateKycForm(form: KycFormField[]): ValidationEntry[] {
   const errors = [];
 
-  form.forEach((field) => {
+  form.forEach((field, _, allFields) => {
     const [fieldValidationResult] = validators
-      .map((validator) => validator(field))
+      .map((validator) => validator({ field, allFields }))
       .filter(Boolean);
 
     if (fieldValidationResult) {
@@ -55,3 +75,5 @@ export function validateKycForm(form: KycFormField[]): ValidationEntry[] {
 
   return errors;
 }
+
+window.validateKycForm = validateKycForm;

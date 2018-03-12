@@ -210,7 +210,10 @@ export default class Kyc extends React.Component<Props> {
     if (field.name === 'address') {
       return (
         <p className={styles.paragraph}>
-          <Translation id="wallet:annotation" data={{ tokenName }} />
+          <Translation id="wallet:addressAnnotation" data={{ tokenName }} />{' '}
+          <strong>
+            <Translation id="wallet:addressWarning" />
+          </strong>
         </p>
       );
     }

@@ -1,8 +1,9 @@
 {
   "title": "Step 1: Your Ethereum Wallet",
   "kycTitle": "Step 1: Verify Your Identity",
-  "annotation":
+  "addressAnnotation":
     "In order to recieve {{ tokenName }} tokens you need to give your Ethereum Wallet Address.",
+  "addressWarning": "Note: address could not be changed after approval!",
   "ethereumAddress": "Ethereum address",
   "save": "Save",
   "saved": "Saved",

@@ -76,15 +76,12 @@ export class PaymentStore {
     });
 
     // Clear loaded payment addresses on kyc change
-    reaction(
-      () => !this.kyc.isAllowed,
-      (shouldRun) => {
-        if (shouldRun) {
-          this.addressesByMethodId.clear();
-          this.paymentsByMethodId.clear();
-        }
-      },
-    );
+    autorun(() => {
+      if (!this.kyc.isAllowed) {
+        this.addressesByMethodId.clear();
+        this.paymentsByMethodId.clear();
+      }
+    });
 
     // Load and set payment method address on selected method change or kyc change
     reaction(
@@ -115,18 +112,22 @@ export class PaymentStore {
 
     let issueRequestStatusIntervalId = null;
 
+    autorun(() => {
+      if (!this.auth.isAuthenticated) {
+        clearInterval(issueRequestStatusIntervalId);
+      }
+    });
+
     reaction(
       () => this.selectedMethodAddress,
       (address) => {
-        const shouldRun = address && this.auth.isAuthenticated;
-
         clearInterval(issueRequestStatusIntervalId);
-        const { selectedMethod } = this;
 
-        if (!shouldRun) {
+        if (!address) {
           return;
         }
 
+        const { selectedMethod } = this;
         const updateIssueRequestStatus = () =>
           this.api
             .getPaymentStatus({

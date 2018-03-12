@@ -118,7 +118,7 @@ describe('payment store', () => {
     );
   });
 
-  test('should reset loaded payment addresses and issue requests, and stop loading issue request status', (done) => {
+  test('should reset loaded payment addresses and issue requests, and stop loading issue request status if kyc is not allowed anymore', (done) => {
     const auth = new AuthStore({ api });
     const kyc = new KycStore({ api, auth });
     const payment = new PaymentStore({
@@ -140,7 +140,45 @@ describe('payment store', () => {
           paymentsUpdateCount += 1;
 
           if (paymentsUpdateCount === 2) {
-            kyc.resetStatus();
+            kyc.reset();
+          }
+
+          jest.runOnlyPendingTimers();
+        } else {
+          expect(paymentsUpdateCount).toBe(2);
+          expect(payment.addressesByMethodId.size).toBe(0);
+          expect(payment.paymentsByMethodId.size).toBe(0);
+
+          api.getIcoInfo.reset();
+          done();
+        }
+      },
+    );
+  });
+
+  test('should reset loaded payment addresses and issue requests, and stop loading issue request status if user logs out', (done) => {
+    const auth = new AuthStore({ api });
+    const kyc = new KycStore({ api, auth });
+    const payment = new PaymentStore({
+      api,
+      auth,
+      kyc,
+      sale: testSale,
+    });
+
+    api.getIcoInfo.setResponse('successBtcFirst');
+    auth.setToken('test token');
+
+    let paymentsUpdateCount = 0;
+
+    reaction(
+      () => payment.selectedMethodPayments.length,
+      (paymentsCount) => {
+        if (paymentsCount !== 0) {
+          paymentsUpdateCount += 1;
+
+          if (paymentsUpdateCount === 2) {
+            auth.logout();
           }
 
           jest.runOnlyPendingTimers();
