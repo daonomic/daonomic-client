@@ -5,7 +5,6 @@ import payment from './payment';
 import sale from './sale';
 import walletGenerator from './wallet-generator';
 
-window.kyc = kyc;
 export default {
   auth,
   walletBalance,

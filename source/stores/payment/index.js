@@ -116,8 +116,10 @@ export class PaymentStore {
     let issueRequestStatusIntervalId = null;
 
     reaction(
-      () => this.selectedMethodAddress && this.auth.isAuthenticated,
-      (shouldRun) => {
+      () => this.selectedMethodAddress,
+      (address) => {
+        const shouldRun = address && this.auth.isAuthenticated;
+
         clearInterval(issueRequestStatusIntervalId);
         const { selectedMethod } = this;
 
