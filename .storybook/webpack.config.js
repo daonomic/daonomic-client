@@ -1,6 +1,9 @@
 const path = require('path');
-const { sourceDir, themeImportDeclaration, globalStylesImportDeclaration } = require('../config');
-const postcssLoaderOptions = require('../postcss.config');
+const {
+  sourceDir,
+  themeImportDeclaration,
+  globalStylesImportDeclaration,
+} = require('../config');
 const webpackConfig = require('../webpack.config');
 
 module.exports = {
@@ -10,18 +13,12 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          sourceDir,
-          /@daonomic\/ui/,
-        ],
+        include: [sourceDir, /@daonomic\/ui/],
         use: 'babel-loader',
       },
       {
         test: /\.css$/,
-        include: [
-          sourceDir,
-          /@daonomic\/ui/,
-        ],
+        include: [sourceDir, /@daonomic\/ui/],
         use: [
           'style-loader',
           {
@@ -32,10 +29,7 @@ module.exports = {
               localIdentName: '[name]-[local]-[hash:base64:5]',
             },
           },
-          {
-            loader: 'postcss-loader',
-            options: postcssLoaderOptions,
-          },
+          'postcss-loader',
           {
             loader: 'webpack-append',
             query: globalStylesImportDeclaration,
