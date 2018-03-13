@@ -1,6 +1,6 @@
 // @flow
-declare module CSSModule { // eslint-disable-line no-unused-vars
+declare module CSSModule {
   declare export default {
-    [key: string]: string
+    [key: string]: string,
   };
 }
