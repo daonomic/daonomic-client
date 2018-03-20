@@ -2,6 +2,7 @@
 import { observable, action, computed, reaction, runInAction } from 'mobx';
 import apiAdapter from '~/api';
 import localStorage from '~/utils/local-storage';
+import { getNewPasswordCreationPagePathForBackend } from '~/pages/paths';
 import type {
   AuthToken,
   Email,
@@ -130,7 +131,10 @@ export class AuthStore {
     this.isLoading = true;
 
     return this.api.auth
-      .resetPassword({ email })
+      .resetPassword({
+        email,
+        passwordRestorationPagePath: getNewPasswordCreationPagePathForBackend(),
+      })
       .then(() => {
         runInAction(() => {
           this.isLoading = false;

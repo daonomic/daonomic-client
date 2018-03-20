@@ -23,7 +23,10 @@ export type ApiShape = {|
   auth: {|
     login: Function,
     register: Function,
-    resetPassword: Function,
+    resetPassword: ({
+      email: string,
+      passwordRestorationPagePath: string,
+    }) => ResponsePromise<{}>,
     createNewPassword: Function,
   |},
 

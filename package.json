@@ -8,8 +8,7 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start":
-      "cross-env NODE_ENV=development API=development DEBUG_ENABLED=true webpack-dev-server",
+    "start": "cross-env NODE_ENV=development API=development DEBUG_ENABLED=true webpack-dev-server",
     "storybook": "NODE_ENV=development start-storybook -p 9001",
     "prebuild": "rm -rf ./build && mkdir ./build && npm run build:copy-assets",
     "build": "cross-env NODE_ENV=production webpack",
@@ -19,14 +18,16 @@
     "lint": "eslint source webpack",
     "flow": "flow",
     "qa": "npm run lint && npm run test && npm run flow",
-    "ensure-git-credentials":
-      "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
+    "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials",
     "precommit": "npm run ensure-git-credentials && lint-staged && npm run qa",
     "format": "prettier --write \"./source/**/*.{js,css,json,md}\""
   },
   "lint-staged": {
-    "*.{js,json,md,css}": ["prettier --write", "git add"]
+    "*.{js,json,md,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "author": "Dev dev@0v1se.com",
   "license": "GPL-3.0",
@@ -46,7 +47,7 @@
     "babel-preset-react": "6.24.1",
     "cross-env": "5.1.4",
     "css-loader": "0.28.10",
-    "eslint": "4.18.2",
+    "eslint": "4.19.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-import-resolver-webpack": "0.8.4",
     "eslint-plugin-flowtype": "2.46.1",
@@ -54,7 +55,7 @@
     "eslint-plugin-react": "7.7.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.11",
-    "flow-bin": "0.67.1",
+    "flow-bin": "0.68.0",
     "html-webpack-plugin": "2.30.1",
     "husky": "0.14.3",
     "jest": "22.4.2",
@@ -67,12 +68,12 @@
     "postcss-flexbugs-fixes": "3.3.0",
     "postcss-import": "11.1.0",
     "postcss-import-webpack-resolver": "1.0.1",
-    "postcss-loader": "2.1.1",
+    "postcss-loader": "2.1.2",
     "postcss-nesting": "4.2.1",
     "prettier": "1.11.1",
     "react-test-renderer": "16.2.0",
-    "style-loader": "0.20.2",
-    "uglifyjs-webpack-plugin": "1.2.3",
+    "style-loader": "0.20.3",
+    "uglifyjs-webpack-plugin": "1.2.4",
     "url-loader": "0.6.2",
     "webpack": "3.10.0",
     "webpack-append": "0.1.2",
@@ -80,11 +81,11 @@
     "webpack-dev-server": "2.9.5"
   },
   "dependencies": {
-    "@daonomic/ui": "3.3.0",
+    "@daonomic/ui": "3.5.0",
     "axios": "0.18.0",
     "classnames": "2.2.5",
     "ethers-wallet": "2.1.8",
-    "file-saver": "1.3.3",
+    "file-saver": "1.3.4",
     "i18next": "10.5.0",
     "i18next-xhr-backend": "1.5.1",
     "mobx": "3.6.1",

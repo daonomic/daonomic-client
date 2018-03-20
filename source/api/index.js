@@ -36,8 +36,12 @@ const api: ApiShape = {
       daonomicApi.post('/login', { username: email, password }, defaultOptions),
     register: ({ email }: AuthParams) =>
       daonomicApi.post('/register', { email }, defaultOptions),
-    resetPassword: ({ email }: AuthParams) =>
-      daonomicApi.post('/password/change', { email }, defaultOptions),
+    resetPassword: ({ email, passwordRestorationPagePath }) =>
+      daonomicApi.post(
+        '/password/change',
+        { email, changePasswordPath: passwordRestorationPagePath },
+        defaultOptions,
+      ),
     createNewPassword: ({
       token,
       password,

@@ -6,48 +6,56 @@ import BuyTokens from '~/pages/buy-tokens';
 import CreateWallet from '~/pages/create-wallet';
 import Faq from '~/pages/faq';
 import AppLayout from '~/components/app-layout';
-
-const appPrefix = '/app';
+import {
+  getSignInPagePath,
+  getSignUpPagePath,
+  getPasswordResetPagePath,
+  getNewPasswordCreationPagePath,
+  getAppPath,
+  getBuyTokensPagePath,
+  getWalletCreationPagePath,
+  getFaqPagePath,
+} from './paths';
 
 export default {
   signin: {
-    getPath: () => '/sign/in',
+    getPath: getSignInPagePath,
     component: SignIn,
   },
 
   signup: {
-    getPath: () => '/sign/up',
+    getPath: getSignUpPagePath,
     component: SignUp,
   },
 
   sendResetInstructions: {
-    getPath: () => '/sign/reset-password',
+    getPath: getPasswordResetPagePath,
     component: ResetPassword,
   },
 
   createNewPassword: {
-    getPath: (token) => `/sign/create-new-password/${token}`,
+    getPath: getNewPasswordCreationPagePath,
     component: CreateNewPassword,
   },
 
   app: {
-    getPath: () => appPrefix,
+    getPath: getAppPath,
     component: AppLayout,
 
     buyTokens: {
-      getPath: () => `${appPrefix}/buy`,
+      getPath: getBuyTokensPagePath,
       title: 'Buy Tokens',
       component: BuyTokens,
     },
 
     createWallet: {
-      getPath: () => `${appPrefix}/create-wallet`,
+      getPath: getWalletCreationPagePath,
       title: 'Create Wallet',
       component: CreateWallet,
     },
 
     faq: {
-      getPath: () => `${appPrefix}/faq`,
+      getPath: getFaqPagePath,
       title: 'For Investors',
       component: Faq,
     },
