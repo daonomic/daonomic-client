@@ -1,12 +1,12 @@
 // @flow
 
 const sales = {
-  development: '0xaee0eb707a23fee852c43b5eb22030a25a729937',
+  development: '0x657aaaa7ad8e67dde416b86c50087fbbedb18d96',
   production: '0xf76350f0ad6b7cfce1311ef43e2eef488fd16dad',
 };
 
 const realms = {
-  development: '5a6f813d1d20a7d7c95eacb0',
+  development: '5ab2b8cbdfe522288436cb60',
   production: '5a6f813d1d20a7d7c95eacb0',
 };
 
