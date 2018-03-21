@@ -10,7 +10,7 @@ type Props = {
   children: React.Node,
 };
 
-export default class AppLayout extends React.PureComponent<Props, {}> {
+export default class AppLayout extends React.Component<Props, {}> {
   render() {
     const { children } = this.props;
 
