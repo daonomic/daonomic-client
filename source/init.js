@@ -12,7 +12,7 @@ import { paymentProvider } from '~/stores/payment';
 import { saleProvider } from '~/stores/sale';
 import { walletBalanceProvider } from '~/stores/wallet/balance';
 import { walletGeneratorProvider } from '~/stores/wallet-generator';
-import { balanceUpdatingService } from '~/stores/services/balance-updating';
+import { balanceUpdatingService } from '~/services/balance-updating';
 
 export function init() {
   return startup(
