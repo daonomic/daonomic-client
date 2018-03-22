@@ -8,7 +8,7 @@ import formatNumber from '~/i18n/format-number';
 import styles from './balance.css';
 
 @inject(({ walletBalance }) => ({
-  balance: walletBalance.balance,
+  balance: walletBalance.state.balance,
 }))
 @observer
 export default class Balance extends Component {

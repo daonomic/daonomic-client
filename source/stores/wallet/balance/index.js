@@ -1,69 +1,53 @@
-import { observable, computed, action, autorun, runInAction } from 'mobx';
-import dataStates from '~/utils/data-states';
-import apiAdapter from '~/api';
-import kyc from '~/stores/kyc';
+// @flow
+import { observable, computed, action, runInAction } from 'mobx';
+import { createViewModel } from 'mobx-utils';
+import type { IApi } from '~/api/types';
+import type { IWalletBalanceState } from './types';
+
+class WalletBalanceState implements IWalletBalanceState {
+  @observable balanceState = 'initial';
+  @observable balance = 0;
+}
 
 export class WalletBalanceStore {
-  static balanceUpdateInterval = 3000;
+  api: IApi;
 
-  @observable balanceState = dataStates.initial;
-  @observable balance = 0;
+  state = createViewModel(new WalletBalanceState());
 
   @computed
-  get isLoading() {
-    return this.balanceState === dataStates.loading;
+  get isLoading(): boolean {
+    return this.state.balanceState === 'loading';
   }
 
   @computed
-  get isLoaded() {
-    return this.balanceState === dataStates.loaded;
+  get isLoaded(): boolean {
+    return this.state.balanceState === 'loaded';
   }
 
-  constructor(options) {
+  constructor(options: { api: IApi }) {
     this.api = options.api;
-    this.kyc = options.kyc;
-
-    let balanceUpdateIntervalId = null;
-
-    autorun(() => {
-      clearInterval(balanceUpdateIntervalId);
-
-      if (this.kyc.isAllowed) {
-        this.loadBalance();
-        balanceUpdateIntervalId = setInterval(
-          () => this.loadBalance(),
-          WalletBalanceStore.balanceUpdateInterval,
-        );
-      } else {
-        this.resetBalance();
-      }
-    });
   }
 
   @action
   loadBalance = () => {
-    this.balanceState = dataStates.loading;
+    this.state.balanceState = 'loading';
 
     this.api
       .getBalance()
       .then(({ data }) => {
         runInAction(() => {
-          this.balanceState = dataStates.loaded;
-          this.balance = data.balance;
+          this.state.balanceState = 'loaded';
+          this.state.balance = data.balance;
         });
       })
       .catch(() => {
         runInAction(() => {
-          this.balanceState = dataStates.failed;
+          this.state.balanceState = 'failed';
         });
       });
   };
-
-  @action
-  resetBalance = () => {
-    this.balanceState = dataStates.initial;
-    this.balance = 0;
-  };
 }
 
-export default new WalletBalanceStore({ api: apiAdapter, kyc });
+export function walletBalanceProvider(api: IApi): WalletBalanceStore {
+  return new WalletBalanceStore({ api });
+}

@@ -14,17 +14,8 @@ const paymentMethodShape = PropTypes.shape({
   address: PropTypes.string,
 });
 
-@inject(({ payment, kyc }) => ({
-  walletAddress: kyc.formData.get('address'),
-  selectedPaymentMethod: payment.selectedMethod,
-  selectedPaymentMethodAddress: payment.selectedMethodAddress,
-  selectedPaymentMethodAddressQRCode: payment.selectedMethodAddressQRCode,
-  selectedPaymentMethodPayments: payment.selectedMethodPayments,
-  paymentMethods: payment.methods,
-  onChangePaymentMethod: payment.setMethod,
-}))
 @observer
-export default class PaymentMethod extends Component {
+class PaymentMethod extends Component {
   static propTypes = {
     walletAddress: PropTypes.string.isRequired,
     selectedPaymentMethod: paymentMethodShape.isRequired,
@@ -191,3 +182,13 @@ export default class PaymentMethod extends Component {
     </Panel>
   );
 }
+
+export default inject(({ payment, kyc }) => ({
+  walletAddress: kyc.state.formData.get('address'),
+  selectedPaymentMethod: payment.selectedMethod,
+  selectedPaymentMethodAddress: payment.selectedMethodAddress,
+  selectedPaymentMethodAddressQRCode: payment.state.selectedMethodAddressQRCode,
+  selectedPaymentMethodPayments: payment.selectedMethodPayments,
+  paymentMethods: payment.state.methods,
+  onChangePaymentMethod: payment.setMethod,
+}))(PaymentMethod);

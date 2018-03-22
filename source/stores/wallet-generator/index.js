@@ -38,4 +38,6 @@ export class WalletGenerator {
   };
 }
 
-export default new WalletGenerator();
+export function walletGeneratorProvider() {
+  return new WalletGenerator();
+}

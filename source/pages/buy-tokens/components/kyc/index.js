@@ -11,14 +11,14 @@ import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
-import kycStore from '~/stores/kyc';
 import { tokenName } from '~/config';
+import styles from './kyc.css';
+import type { KycStore } from '~/stores/kyc';
 import type {
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
 } from '~/types/kyc';
-import styles from './kyc.css';
 
 type Props = {|
   isKycExtended: boolean,
@@ -31,7 +31,10 @@ type Props = {|
   isEditingAllowed: boolean,
   denialReason: string,
   getFileUrlById: (id: string) => string,
-  uploadFiles: typeof kycStore.uploadFiles,
+  uploadFiles: (params: {
+    files: File[],
+    onUploadProgress: (event: ProgressEvent) => void,
+  }) => Promise<{}>,
   onChangeKycFormField: (
     name: KycFormFieldName,
     value: KycFormFieldValue,
@@ -39,24 +42,8 @@ type Props = {|
   onSave: () => void,
 |};
 
-@inject(({ kyc }: { kyc: typeof kycStore }): Props => ({
-  isLoaded: kyc.isLoaded,
-  isKycExtended: kyc.isExtended,
-  kycForm: kyc.form,
-  isSaving: kyc.isSaving,
-  isSaved: kyc.isSaved,
-  isAllowed: kyc.isAllowed,
-  isDenied: kyc.isDenied,
-  isOnReview: kyc.isOnReview,
-  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
-  denialReason: kyc.denialReason,
-  getFileUrlById: kyc.getFileUrlById,
-  uploadFiles: kyc.uploadFiles,
-  onChangeKycFormField: kyc.updateFormField,
-  onSave: kyc.saveData,
-}))
 @observer
-export default class Kyc extends React.Component<Props> {
+class Kyc extends React.Component<Props> {
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -253,6 +240,7 @@ export default class Kyc extends React.Component<Props> {
             disabled
             label={addressField.label}
             value={addressField.value}
+            onChange={() => {}}
           />
         </Panel>
       );
@@ -272,3 +260,19 @@ export default class Kyc extends React.Component<Props> {
     );
   };
 }
+
+export default inject(({ kyc }: { kyc: KycStore }): Props => ({
+  isKycExtended: kyc.isExtended,
+  kycForm: kyc.form,
+  isSaving: kyc.isSaving,
+  isSaved: kyc.isSaved,
+  isAllowed: kyc.isAllowed,
+  isDenied: kyc.isDenied,
+  isOnReview: kyc.isOnReview,
+  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
+  denialReason: kyc.state.denialReason,
+  getFileUrlById: kyc.getFileUrlById,
+  uploadFiles: kyc.uploadFiles,
+  onChangeKycFormField: kyc.updateFormField,
+  onSave: kyc.saveData,
+}))(Kyc);
