@@ -1,5 +1,5 @@
 // @flow
-import type { ApiShape } from '~/api/types';
+import type { IApi } from '~/api/types';
 
 function createMockRoute(responses) {
   let currentResponse = responses.success;
@@ -41,7 +41,7 @@ function createFailResponse(status = 400, data = {}) {
   return Promise.reject(error);
 }
 
-const mockApi: ApiShape = {
+const mockApi: IApi = {
   auth: {
     login: createMockRoute({
       success: createResponse,

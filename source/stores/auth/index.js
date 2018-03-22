@@ -1,8 +1,8 @@
 // @flow
 import { observable, action, computed, reaction, runInAction } from 'mobx';
-import apiAdapter from '~/api';
 import localStorage from '~/utils/local-storage';
 import { getNewPasswordCreationPagePathForBackend } from '~/pages/paths';
+import type { IApi } from '~/api/types';
 import type {
   AuthToken,
   Email,
@@ -10,17 +10,14 @@ import type {
   AuthParams,
   PasswordRecoveryParams,
 } from '~/types/auth';
+import type { IAuth, IAuthToken } from './types';
 
-type AuthStoreParams = {
-  api: typeof apiAdapter,
-};
+export class AuthStore implements IAuth {
+  api: IApi;
+  token: IAuthToken;
 
-export class AuthStore {
-  api: typeof apiAdapter;
-
-  @observable token: ?AuthToken = localStorage.getItem('token');
-  @observable email: Email = localStorage.getItem('email') || '';
-  @observable id: UserId = localStorage.getItem('id') || '';
+  @observable email = localStorage.getItem('email') || '';
+  @observable id = localStorage.getItem('id') || '';
   @observable isRegistered = false;
   @observable isPasswordReset = false;
   @observable isNewPasswordCreated = false;
@@ -33,6 +30,11 @@ export class AuthStore {
     common: '',
   };
 
+  @computed
+  get isAuthenticated(): boolean {
+    return this.token.value !== null;
+  }
+
   makeSaveReaction = (getter: () => ?string, name: string) => {
     reaction(getter, (value: ?string) => {
       if (value) {
@@ -43,22 +45,28 @@ export class AuthStore {
     });
   };
 
-  constructor({ api }: AuthStoreParams) {
+  constructor({ api, authToken }: { api: IApi, authToken: IAuthToken }) {
     this.api = api;
+    this.token = observable(authToken);
 
-    this.makeSaveReaction(() => this.token, 'token');
     this.makeSaveReaction(() => this.email, 'email');
     this.makeSaveReaction(() => this.id, 'id');
   }
 
-  @computed
-  get isAuthenticated(): boolean {
-    return this.token !== null;
-  }
+  @action
+  setId = (id: UserId) => {
+    this.id = id;
+  };
 
-  @action setId = (id: UserId) => (this.id = id);
-  @action setToken = (token: AuthToken) => (this.token = token);
-  @action setEmail = (email: Email) => (this.email = email);
+  @action
+  setToken = (token: AuthToken) => {
+    this.token.set(token);
+  };
+
+  @action
+  setEmail = (email: Email) => {
+    this.email = email;
+  };
 
   @action
   login = ({ email, password }: AuthParams) => {
@@ -71,7 +79,7 @@ export class AuthStore {
       .then(({ data }) => {
         runInAction(() => {
           this.isLoading = false;
-          this.token = data.token;
+          this.token.set(data.token);
           this.email = email;
           this.id = data.id;
         });
@@ -207,9 +215,11 @@ export class AuthStore {
   @action
   logout = () => {
     this.email = '';
-    this.token = null;
     this.id = '';
+    this.token.reset();
   };
 }
 
-export default new AuthStore({ api: apiAdapter });
+export function authProvider(api: IApi, authToken: IAuthToken): AuthStore {
+  return new AuthStore({ api, authToken });
+}

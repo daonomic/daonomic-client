@@ -11,14 +11,14 @@ import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
-import kycStore from '~/stores/kyc';
 import { tokenName } from '~/config';
+import styles from './kyc.css';
+import type { IKyc } from '~/stores/kyc/types';
 import type {
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
 } from '~/types/kyc';
-import styles from './kyc.css';
 
 type Props = {|
   isKycExtended: boolean,
@@ -31,7 +31,10 @@ type Props = {|
   isEditingAllowed: boolean,
   denialReason: string,
   getFileUrlById: (id: string) => string,
-  uploadFiles: typeof kycStore.uploadFiles,
+  uploadFiles: (params: {
+    files: File[],
+    onUploadProgress: (event: ProgressEvent) => void,
+  }) => Promise<{}>,
   onChangeKycFormField: (
     name: KycFormFieldName,
     value: KycFormFieldValue,
@@ -39,7 +42,7 @@ type Props = {|
   onSave: () => void,
 |};
 
-@inject(({ kyc }: { kyc: typeof kycStore }): Props => ({
+@inject(({ kyc }: { kyc: IKyc }): Props => ({
   isLoaded: kyc.isLoaded,
   isKycExtended: kyc.isExtended,
   kycForm: kyc.form,
@@ -253,6 +256,7 @@ export default class Kyc extends React.Component<Props> {
             disabled
             label={addressField.label}
             value={addressField.value}
+            onChange={() => {}}
           />
         </Panel>
       );

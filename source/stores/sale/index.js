@@ -1,19 +1,19 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
-import api from '~/api';
 import { sale } from '~/config';
-import auth from '~/stores/auth';
+import type { IAuth } from '~/stores/auth/types';
+import type { IApi } from '~/api/types';
 import type { DataState } from '~/types/common';
 
 type SaleStoreOptions = {
-  auth: typeof auth,
-  api: typeof api,
+  auth: IAuth,
+  api: IApi,
   sale: typeof sale,
 };
 
 export class SaleStore {
-  auth: typeof auth;
-  api: typeof api;
+  auth: IAuth;
+  api: IApi;
   sale: typeof sale;
 
   @observable dataState: DataState = 'initial';
@@ -99,8 +99,10 @@ export class SaleStore {
   };
 }
 
-export default new SaleStore({
-  auth,
-  sale,
-  api,
-});
+export function saleProvider(api: IApi, auth: IAuth, saleId: string) {
+  return new SaleStore({
+    api,
+    auth,
+    sale: saleId,
+  });
+}

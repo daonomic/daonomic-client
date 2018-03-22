@@ -6,12 +6,8 @@ import {
   autorun,
   runInAction,
 } from 'mobx';
-import api from '~/api';
 import dataStates from '~/utils/data-states';
 import generateQRCode from '~/utils/generate-qrcode';
-import { sale } from '~/config';
-import auth from '~/stores/auth';
-import kyc from '~/stores/kyc';
 
 export class PaymentStore {
   @observable dataState = dataStates.initial;
@@ -193,9 +189,11 @@ export class PaymentStore {
   };
 }
 
-export default new PaymentStore({
-  auth,
-  sale,
-  kyc,
-  api,
-});
+export function paymentProvider(api, auth, saleId, kyc) {
+  return new PaymentStore({
+    auth,
+    sale: saleId,
+    kyc,
+    api,
+  });
+}

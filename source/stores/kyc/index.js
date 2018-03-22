@@ -2,30 +2,28 @@
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
-import api from '~/api';
-import type { DataState } from '~/types/common';
-import auth from '~/stores/auth';
+import { validateKycForm } from './validation';
+import type { IAuth } from '~/stores/auth/types';
+import type { IApi } from '~/api/types';
 import type {
-  UserStatus,
-  BaseKycFormField,
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
   KycValidationErrorResponse,
 } from '~/types/kyc';
-import { validateKycForm } from './validation';
+import type { IKyc } from './types';
 
-export class KycStore {
-  api: typeof api;
-  auth: typeof auth;
+export class KycStore implements IKyc {
+  api: IApi;
+  auth: IAuth;
 
-  @observable dataState: DataState = 'initial';
-  @observable savingState: DataState = 'initial';
+  @observable dataState = 'initial';
+  @observable savingState = 'initial';
 
   @observable kycServerUrl = '';
 
-  @observable status: UserStatus = 'NOT_SET';
-  @observable denialReason: string = '';
+  @observable status = 'NOT_SET';
+  @observable denialReason = '';
 
   @computed
   get isDenied(): boolean {
@@ -42,7 +40,7 @@ export class KycStore {
     return this.status === 'ON_REVIEW';
   }
 
-  @observable formSchema: BaseKycFormField[] = [];
+  @observable formSchema = [];
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
   @observable formErrors: Map<KycFormFieldName, string> = new Map();
 
@@ -85,7 +83,7 @@ export class KycStore {
     return this.dataState === 'loaded';
   }
 
-  constructor(options: { api: typeof api, auth: typeof auth }) {
+  constructor(options: { api: IApi, auth: IAuth }) {
     this.api = options.api;
     this.auth = options.auth;
 
@@ -99,7 +97,7 @@ export class KycStore {
   }
 
   @action
-  loadKycInfo = (): Promise<*> => {
+  loadKycInfo = () => {
     this.dataState = 'loading';
 
     return this.api
@@ -150,7 +148,10 @@ export class KycStore {
     this.dataState = 'loading';
 
     Promise.all([
-      this.api.kycData.getUserData({ baseUrl: this.kycServerUrl }),
+      this.api.kycData.getUserData({
+        baseUrl: this.kycServerUrl,
+        userId: this.auth.id,
+      }),
       this.api.kycData.getAddressAndStatus(),
     ])
       .then(([userDataResponse, statusResponse]) => {
@@ -218,6 +219,7 @@ export class KycStore {
       savingPromise = this.api.kycData.setUserData({
         data: userData,
         baseUrl: this.kycServerUrl,
+        userId: this.auth.id,
       });
     }
 
@@ -301,4 +303,6 @@ export class KycStore {
   getFileUrlById = (id: string): string => `${this.kycServerUrl}/files/${id}`;
 }
 
-export default new KycStore({ api, auth });
+export function kycProvider(api: IApi, auth: IAuth) {
+  return new KycStore({ api, auth });
+}

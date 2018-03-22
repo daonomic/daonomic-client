@@ -1,8 +1,9 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/mock';
-import { AuthStore } from '~/stores/auth';
-import { KycStore } from '~/stores/kyc';
-import { PaymentStore } from './';
+import { authTokenProvider } from '~/stores/auth/token';
+import { authProvider } from '~/stores/auth';
+import { kycProvider } from '~/stores/kyc';
+import { paymentProvider } from './';
 
 jest.useFakeTimers();
 
@@ -10,14 +11,9 @@ describe('payment store', () => {
   const testSale = '0×0';
 
   test('should not load anything if not authenticated', () => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     expect(auth.isAuthenticated).toBe(false);
     expect(payment.isLoading).toBe(false);
@@ -25,14 +21,9 @@ describe('payment store', () => {
   });
 
   test('should load data immediately after authentication', (done) => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     auth.setToken('test token');
 
@@ -50,14 +41,9 @@ describe('payment store', () => {
   });
 
   test('should load payment address', (done) => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     api.getIcoInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
@@ -85,14 +71,9 @@ describe('payment store', () => {
   });
 
   test('should update payments regularly', (done) => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     api.getIcoInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
@@ -119,14 +100,9 @@ describe('payment store', () => {
   });
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if kyc is not allowed anymore', (done) => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     api.getIcoInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
@@ -157,14 +133,9 @@ describe('payment store', () => {
   });
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if user logs out', (done) => {
-    const auth = new AuthStore({ api });
-    const kyc = new KycStore({ api, auth });
-    const payment = new PaymentStore({
-      api,
-      auth,
-      kyc,
-      sale: testSale,
-    });
+    const auth = authProvider(api, authTokenProvider());
+    const kyc = kycProvider(api, auth);
+    const payment = paymentProvider(api, auth, testSale, kyc);
 
     api.getIcoInfo.setResponse('successBtcFirst');
     auth.setToken('test token');

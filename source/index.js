@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Root from '~/root';
+import { init } from './init';
 
-ReactDOM.render(<Root />, document.getElementById('app'));
+init();

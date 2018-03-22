@@ -6,10 +6,10 @@ import i18n from '~/i18n';
 import MobxProvider from '~/components/mobx-provider';
 import Routes from '~/pages/routes';
 
-function Root() {
+function Root(props: { stores: {} }) {
   return (
     <I18nextProvider i18n={i18n}>
-      <MobxProvider>
+      <MobxProvider stores={props.stores}>
         <Routes />
       </MobxProvider>
     </I18nextProvider>

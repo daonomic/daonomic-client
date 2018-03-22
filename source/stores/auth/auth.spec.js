@@ -1,6 +1,7 @@
 import { when } from 'mobx';
 import mockedApi from '~/api/mock';
-import { AuthStore } from './';
+import { authTokenProvider } from './token';
+import { authProvider } from './';
 
 describe('auth store', () => {
   const testEmail = 'pupkin@yandex.ru';
@@ -9,21 +10,17 @@ describe('auth store', () => {
 
   describe('setToken', () => {
     test('successful token set', () => {
-      const authStore = new AuthStore({
-        api: {},
-      });
+      const authStore = authProvider({}, authTokenProvider());
 
-      expect(authStore.token).toBe(null);
+      expect(authStore.token.value).toBe(null);
       authStore.setToken('1234');
-      expect(authStore.token).toBe('1234');
+      expect(authStore.token.value).toBe('1234');
     });
   });
 
   describe('logout', () => {
     test('successful logout', () => {
-      const authStore = new AuthStore({
-        api: {},
-      });
+      const authStore = authProvider({}, authTokenProvider());
 
       authStore.setToken('123123');
 
@@ -36,9 +33,7 @@ describe('auth store', () => {
   describe('registration', () => {
     test('successful registration', (done) => {
       mockedApi.auth.register.setResponse('success');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.register({ email: testEmail });
       expect(authStore.isLoading).toBe(true);
@@ -51,9 +46,7 @@ describe('auth store', () => {
 
     test('failed registration', (done) => {
       mockedApi.auth.register.setResponse('fail');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.register({ email: testEmail });
       expect(authStore.isLoading).toBe(true);
@@ -69,9 +62,7 @@ describe('auth store', () => {
 
     test('registration data reset', (done) => {
       mockedApi.auth.register.setResponse('success');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.register({ email: testEmail });
       expect(authStore.isLoading).toBe(true);
@@ -90,9 +81,7 @@ describe('auth store', () => {
   describe('login', () => {
     test('success login', (done) => {
       mockedApi.auth.login.setResponse('success');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.login({ email: testEmail, password: testPassword });
       expect(authStore.isLoading).toBe(true);
@@ -106,9 +95,7 @@ describe('auth store', () => {
 
     test('fail login', (done) => {
       mockedApi.auth.login.setResponse('fail');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.login({ email: testEmail, password: testPassword });
       expect(authStore.isLoading).toBe(true);
@@ -126,9 +113,7 @@ describe('auth store', () => {
   describe('password reset', () => {
     test('successful password reset', (done) => {
       mockedApi.auth.resetPassword.setResponse('success');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.resetPassword({ email: testEmail });
       expect(authStore.isLoading).toBe(true);
@@ -142,9 +127,7 @@ describe('auth store', () => {
 
     test('failed password reset', (done) => {
       mockedApi.auth.resetPassword.setResponse('fail');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.resetPassword({ email: testEmail });
       expect(authStore.isLoading).toBe(true);
@@ -160,9 +143,7 @@ describe('auth store', () => {
   describe('create new password', () => {
     test('successful a new password creating', (done) => {
       mockedApi.auth.createNewPassword.setResponse('success');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.createNewPassword({
         token: newPasswordToken,
@@ -181,9 +162,7 @@ describe('auth store', () => {
 
     test('failed a new password creating', (done) => {
       mockedApi.auth.createNewPassword.setResponse('fail');
-      const authStore = new AuthStore({
-        api: mockedApi,
-      });
+      const authStore = authProvider(mockedApi, authTokenProvider());
 
       authStore.createNewPassword({
         token: newPasswordToken,
