@@ -160,6 +160,57 @@ const mockApi: IApi = {
           },
         ],
       }),
+    successEternal: () =>
+      createResponse({
+        id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
+        total: 20,
+        current: 10,
+        paymentMethods: [
+          {
+            id: 'ETH',
+            token: '0x0000000000000000000000000000000000000000',
+            label: 'Ethereum',
+            price: 0.0375,
+            rate: 26.66667,
+          },
+          {
+            id: 'BTC',
+            token: '0x5cbef5849c3b4d86f6830784fd3f879a2d2e61c7',
+            label: 'Bitcoin',
+            price: 0.0016854,
+            rate: 593.3333,
+          },
+        ],
+        kyc: [
+          {
+            name: 'country',
+            label: 'Country of origin',
+            type: 'STRING',
+            values: ['Russia', 'USA'],
+            required: true,
+          },
+          {
+            name: 'firstName',
+            label: 'First Name',
+            type: 'STRING',
+            required: true,
+          },
+          {
+            name: 'terms',
+            label:
+              'I agree to the terms and conditions<br/><a href="https://zenome.io/download/zenome-legal-terms.pdf">https://zenome.io/download/zenome-legal-terms.pdf</a>',
+            type: 'BOOLEAN',
+            required: true,
+          },
+          {
+            name: 'passport',
+            label:
+              'Your passport scan, with sensitive information physically covered',
+            type: 'FILE',
+            required: true,
+          },
+        ],
+      }),
     fail: createFailResponse,
   }),
   kycData: {

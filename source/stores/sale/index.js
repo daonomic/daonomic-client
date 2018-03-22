@@ -17,8 +17,8 @@ const getInitialTokensCount = () => ({
 
 class SaleStoreState implements ISaleStoreState {
   @observable dataState = 'initial';
-  @observable startTimestamp = 0;
-  @observable endTimestamp = 0;
+  @observable startTimestamp = null;
+  @observable endTimestamp = null;
   @observable tokensCount = getInitialTokensCount();
 }
 
@@ -46,12 +46,20 @@ export class SaleStore {
 
   @computed
   get isStarted(): boolean {
-    return Date.now() >= this.state.startTimestamp;
+    if (this.state.startTimestamp) {
+      return this.state.startTimestamp <= Date.now();
+    } else {
+      return true;
+    }
   }
 
   @computed
   get isFinished(): boolean {
-    return Date.now() >= this.state.endTimestamp;
+    if (this.state.endTimestamp) {
+      return this.state.endTimestamp <= Date.now();
+    } else {
+      return false;
+    }
   }
 
   constructor(options: { auth: IAuth, api: IApi, sale: typeof sale }) {
@@ -86,10 +94,16 @@ export class SaleStore {
 
         runInAction(() => {
           this.state.dataState = 'loaded';
-          this.state.startTimestamp = startDate;
-          this.state.endTimestamp = endDate;
           this.state.tokensCount.sold = sold;
           this.state.tokensCount.total = total;
+
+          if (startDate) {
+            this.state.startTimestamp = startDate;
+          }
+
+          if (endDate) {
+            this.state.endTimestamp = endDate;
+          }
         });
       })
       .catch(() => {

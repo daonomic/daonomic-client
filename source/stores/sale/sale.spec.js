@@ -72,4 +72,28 @@ describe('sale store', () => {
       },
     );
   });
+
+  test('should consider sale as eternal if server returns no start and end timestamps', (done) => {
+    api.getIcoInfo.setResponse('successEternal');
+    const auth = authProvider(api, authTokenProvider());
+    const sale = saleProvider(api, auth, testSale);
+
+    auth.setToken('test token');
+
+    expect(auth.isAuthenticated).toBe(true);
+    expect(sale.isLoading).toBe(true);
+
+    when(
+      () => sale.isLoaded,
+      () => {
+        expect(sale.isStarted).toBe(true);
+        expect(sale.isFinished).toBe(false);
+        expect(sale.state.startTimestamp).toBe(null);
+        expect(sale.state.endTimestamp).toBe(null);
+
+        api.getIcoInfo.reset();
+        done();
+      },
+    );
+  });
 });
