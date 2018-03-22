@@ -11,7 +11,7 @@ import { tokenName } from '~/config';
 import styles from './token-price.css';
 
 @inject(({ payment, sale }) => ({
-  tokensCount: sale.tokensCount,
+  tokensCount: sale.state.tokensCount,
   prices: payment.prices,
 }))
 @observer

@@ -14,7 +14,12 @@ import Balance from './components/balance';
 import styles from './buy-tokens.css';
 
 @inject(({ sale, kyc }) => ({
-  sale,
+  sale: {
+    isStarted: sale.isStarted,
+    isFinished: sale.isFinished,
+    startTimestamp: sale.state.startTimestamp,
+    endTimestamp: sale.state.endTimestamp,
+  },
   isLoaded: sale.isLoaded && kyc.isLoaded,
   isAllowedToPay: kyc.isAllowed,
 }))
