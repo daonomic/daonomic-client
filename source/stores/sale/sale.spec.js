@@ -30,12 +30,45 @@ describe('sale store', () => {
     when(
       () => sale.isLoaded,
       () => {
-        expect(sale.tokensCount.sold).toBe(10);
-        expect(sale.tokensCount.total).toBe(20);
+        expect(sale.state.tokensCount.sold).toBe(10);
+        expect(sale.state.tokensCount.total).toBe(20);
         expect(sale.isStarted).toBe(true);
         expect(sale.isFinished).toBe(false);
         expect();
         done();
+      },
+    );
+  });
+
+  test('should reset loaded data when logged out', (done) => {
+    const auth = authProvider(api, authTokenProvider());
+    const sale = saleProvider(api, auth, testSale);
+
+    auth.setToken('test token');
+
+    expect(auth.isAuthenticated).toBe(true);
+    expect(sale.isLoading).toBe(true);
+
+    when(
+      () => sale.isLoaded,
+      () => {
+        expect(sale.state.tokensCount.sold).toBe(10);
+        expect(sale.state.tokensCount.total).toBe(20);
+        expect(sale.isStarted).toBe(true);
+        expect(sale.isFinished).toBe(false);
+
+        auth.logout();
+
+        when(
+          () => !auth.isAuthenticated,
+          () => {
+            expect(sale.isLoading).toBe(false);
+            expect(sale.isLoaded).toBe(false);
+            expect(sale.state.tokensCount.sold).toBe(0);
+            expect(sale.state.tokensCount.total).toBe(0);
+            done();
+          },
+        );
       },
     );
   });

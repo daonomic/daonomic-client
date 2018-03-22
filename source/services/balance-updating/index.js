@@ -13,7 +13,7 @@ export function balanceUpdatingService(auth, kyc, walletBalance) {
       balanceUpdateIntervalId = setInterval(() => {
         walletBalance.loadBalance();
       }, 3000);
-    } else {
+    } else if (!kyc.isAllowed || !auth.isAuthenticated) {
       walletBalance.state.reset();
     }
   });

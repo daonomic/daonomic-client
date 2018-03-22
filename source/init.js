@@ -18,7 +18,7 @@ export function init() {
   return startup(
     [authTokenProvider],
     [apiProvider, authTokenProvider],
-    [authProvider, apiProvider],
+    [authProvider, apiProvider, authTokenProvider],
     [kycProvider, apiProvider, authProvider],
     [paymentProvider, apiProvider, authProvider, sale, kycProvider],
     [saleProvider, apiProvider, authProvider, sale],

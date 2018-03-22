@@ -14,6 +14,7 @@ import type {
   SetKycDataResponse,
   KycValidationErrorResponse,
 } from '~/types/kyc';
+import type { PaymentMethod } from '~/types/payment';
 
 export type ResponsePromise<Data> = Promise<{|
   data: Data,
@@ -25,6 +26,7 @@ export type PaymentParams = {|
 |};
 
 export type GetIcoInfoResponse = {|
+  paymentMethods: PaymentMethod[],
   kyc: BaseKycFormField[],
   kycUrl: string,
   current: number,
@@ -65,7 +67,11 @@ export interface IApi {
   |};
 
   getIcoInfo: () => ResponsePromise<GetIcoInfoResponse>;
-  getPaymentAddress: (params: PaymentParams) => ResponsePromise<{}>;
-  getPaymentStatus: (params: PaymentParams) => ResponsePromise<{}>;
+  getPaymentAddress: (
+    params: PaymentParams,
+  ) => ResponsePromise<{
+    address: string,
+  }>;
+  getPaymentStatus: (params: PaymentParams) => ResponsePromise<{}[]>;
   getBalance: () => ResponsePromise<{| balance: number |}>;
 }

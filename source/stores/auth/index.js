@@ -47,7 +47,7 @@ export class AuthStore implements IAuth {
 
   constructor({ api, authToken }: { api: IApi, authToken: IAuthToken }) {
     this.api = api;
-    this.token = observable(authToken);
+    this.token = authToken;
 
     this.makeSaveReaction(() => this.email, 'email');
     this.makeSaveReaction(() => this.id, 'id');
@@ -221,5 +221,9 @@ export class AuthStore implements IAuth {
 }
 
 export function authProvider(api: IApi, authToken: IAuthToken): AuthStore {
+  if (!api || !authToken) {
+    throw new TypeError('Required parameters are missing at authProvider');
+  }
+
   return new AuthStore({ api, authToken });
 }

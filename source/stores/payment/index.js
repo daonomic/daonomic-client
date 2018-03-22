@@ -1,3 +1,4 @@
+// @flow
 import {
   observable,
   computed,
@@ -6,64 +7,86 @@ import {
   autorun,
   runInAction,
 } from 'mobx';
-import dataStates from '~/utils/data-states';
+import { createViewModel } from 'mobx-utils';
 import generateQRCode from '~/utils/generate-qrcode';
+import type { IApi } from '~/api/types';
+import type { IAuth } from '~/stores/auth/types';
+import type { KycStore } from '~/stores/kyc';
+import type { PaymentMethod } from '~/types/payment';
+import type { IPaymentStoreState } from './types';
+
+class PaymentStoreState implements IPaymentStoreState {
+  @observable dataState = 'initial';
+  @observable methods = [];
+  @observable selectedMethodId = null;
+  @observable addressesByMethodId: Map<string, string> = new Map();
+  @observable paymentsByMethodId: Map<string, {}[]> = new Map();
+  @observable selectedMethodAddressQRCode = '';
+}
 
 export class PaymentStore {
-  @observable dataState = dataStates.initial;
+  api: IApi;
+  auth: IAuth;
+  kyc: KycStore;
+  sale: string;
+
+  @observable state = createViewModel(new PaymentStoreState());
 
   @computed
-  get isFailed() {
-    return this.dataState === dataStates.failed;
+  get isFailed(): boolean {
+    return this.state.dataState === 'failed';
   }
 
   @computed
-  get isLoading() {
-    return this.dataState === dataStates.loading;
+  get isLoading(): boolean {
+    return this.state.dataState === 'loading';
   }
 
   @computed
-  get isLoaded() {
-    return this.dataState === dataStates.loaded;
+  get isLoaded(): boolean {
+    return this.state.dataState === 'loaded';
   }
 
-  @observable methods = [];
-
   @computed
-  get prices() {
-    return this.methods.map(({ id, rate }) => ({
+  get prices(): { rate: number, label: string }[] {
+    return this.state.methods.map(({ id, rate }) => ({
       rate,
       label: id,
     }));
   }
 
-  @observable selectedMethodId = null;
-  @observable addressesByMethodId = new Map();
-  @observable paymentsByMethodId = new Map();
-  @observable selectedMethodAddressQRCode = null;
-
   @computed
-  get selectedMethod() {
-    return (
-      this.methods.find((method) => method.id === this.selectedMethodId) || {}
+  get selectedMethod(): ?PaymentMethod {
+    return this.state.methods.find(
+      (method) => method.id === this.state.selectedMethodId,
     );
   }
 
   @computed
-  get selectedMethodAddress() {
-    return this.addressesByMethodId.get(this.selectedMethodId);
+  get selectedMethodAddress(): ?string {
+    return this.state.addressesByMethodId.get(
+      this.state.selectedMethodId || '',
+    );
   }
 
   @computed
-  get selectedMethodPayments() {
-    return this.paymentsByMethodId.get(this.selectedMethodId) || [];
+  get selectedMethodPayments(): {}[] {
+    return (
+      this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') || []
+    );
   }
 
-  constructor(options) {
+  constructor(options: {
+    api: IApi,
+    auth: IAuth,
+    kyc: KycStore,
+    sale: string,
+  }) {
     this.auth = options.auth;
     this.api = options.api;
     this.kyc = options.kyc;
     this.sale = options.sale;
+    this.initState();
 
     autorun(() => {
       if (this.auth.isAuthenticated) {
@@ -71,24 +94,20 @@ export class PaymentStore {
       }
     });
 
-    // Clear loaded payment addresses on kyc change
-    autorun(() => {
-      if (!this.kyc.isAllowed) {
-        this.addressesByMethodId.clear();
-        this.paymentsByMethodId.clear();
-      }
-    });
-
     // Load and set payment method address on selected method change or kyc change
     reaction(
-      () => this.isLoaded && this.kyc.isAllowed && this.selectedMethodId,
+      () => this.isLoaded && this.kyc.isAllowed && this.state.selectedMethodId,
       () => {
+        if (!this.selectedMethod) {
+          return;
+        }
+
         const { id, token } = this.selectedMethod;
 
         if (
           !this.isLoaded ||
           !this.kyc.isAllowed ||
-          this.addressesByMethodId.get(id)
+          this.state.addressesByMethodId.get(id)
         ) {
           return;
         }
@@ -100,7 +119,7 @@ export class PaymentStore {
           })
           .then(({ data }) => {
             runInAction(() => {
-              this.addressesByMethodId.set(id, data.address);
+              this.state.addressesByMethodId.set(id, data.address);
             });
           });
       },
@@ -109,21 +128,28 @@ export class PaymentStore {
     let issueRequestStatusIntervalId = null;
 
     autorun(() => {
-      if (!this.auth.isAuthenticated) {
-        clearInterval(issueRequestStatusIntervalId);
+      if (!this.auth.isAuthenticated || !this.kyc.isAllowed) {
+        this.reset();
+
+        if (issueRequestStatusIntervalId) {
+          clearInterval(issueRequestStatusIntervalId);
+        }
       }
     });
 
     reaction(
       () => this.selectedMethodAddress,
       (address) => {
-        clearInterval(issueRequestStatusIntervalId);
-
-        if (!address) {
-          return;
+        if (issueRequestStatusIntervalId) {
+          clearInterval(issueRequestStatusIntervalId);
         }
 
         const { selectedMethod } = this;
+
+        if (!address || !selectedMethod) {
+          return;
+        }
+
         const updateIssueRequestStatus = () =>
           this.api
             .getPaymentStatus({
@@ -133,9 +159,15 @@ export class PaymentStore {
             .then(({ data }) => {
               const actualSelectedMethod = this.selectedMethod;
 
-              if (selectedMethod.token === actualSelectedMethod.token) {
+              if (
+                actualSelectedMethod &&
+                selectedMethod.token === actualSelectedMethod.token
+              ) {
                 runInAction(() => {
-                  this.paymentsByMethodId.set(actualSelectedMethod.id, data);
+                  this.state.paymentsByMethodId.set(
+                    actualSelectedMethod.id,
+                    data,
+                  );
                 });
               }
             });
@@ -154,7 +186,7 @@ export class PaymentStore {
         if (address) {
           generateQRCode(address).then((generatedQrCode) => {
             runInAction(() => {
-              this.selectedMethodAddressQRCode = generatedQrCode;
+              this.state.selectedMethodAddressQRCode = generatedQrCode;
             });
           });
         }
@@ -162,34 +194,50 @@ export class PaymentStore {
     );
   }
 
+  initState = () => {
+    this.state.reset();
+    this.state.addressesByMethodId = new Map();
+    this.state.paymentsByMethodId = new Map();
+  };
+
   @action
   loadInfo = () => {
-    this.dataState = dataStates.loading;
+    this.state.dataState = 'loading';
 
     this.api
       .getIcoInfo()
       .then(({ data }) => data)
       .then(({ paymentMethods }) => {
         runInAction(() => {
-          this.dataState = dataStates.loaded;
-          this.methods = paymentMethods;
-          this.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
+          this.state.dataState = 'loaded';
+          this.state.methods = paymentMethods;
+          this.state.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
         });
       })
       .catch(() => {
         runInAction(() => {
-          this.dataState = dataStates.failed;
+          this.state.dataState = 'failed';
         });
       });
   };
 
   @action
-  setMethod = (methodId) => {
-    this.selectedMethodId = methodId;
+  setMethod = (methodId: string) => {
+    this.state.selectedMethodId = methodId;
+  };
+
+  @action
+  reset = () => {
+    this.initState();
   };
 }
 
-export function paymentProvider(api, auth, saleId, kyc) {
+export function paymentProvider(
+  api: IApi,
+  auth: IAuth,
+  saleId: string,
+  kyc: KycStore,
+) {
   return new PaymentStore({
     auth,
     sale: saleId,

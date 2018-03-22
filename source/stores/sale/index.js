@@ -1,76 +1,77 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
+import { createViewModel } from 'mobx-utils';
 import { sale } from '~/config';
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
-import type { DataState } from '~/types/common';
+import type { ISaleStoreState } from './types';
 
-type SaleStoreOptions = {
-  auth: IAuth,
-  api: IApi,
-  sale: typeof sale,
-};
+const getInitialTokensCount = () => ({
+  sold: 0,
+  total: 0,
+
+  get notLimited(): boolean {
+    return this.total === 0;
+  },
+});
+
+class SaleStoreState implements ISaleStoreState {
+  @observable dataState = 'initial';
+  @observable startTimestamp = 0;
+  @observable endTimestamp = 0;
+  @observable tokensCount = getInitialTokensCount();
+}
 
 export class SaleStore {
   auth: IAuth;
   api: IApi;
   sale: typeof sale;
 
-  @observable dataState: DataState = 'initial';
+  state = createViewModel(new SaleStoreState());
 
   @computed
   get isFailed(): boolean {
-    return this.dataState === 'failed';
+    return this.state.dataState === 'failed';
   }
 
   @computed
   get isLoading(): boolean {
-    return this.dataState === 'loading';
+    return this.state.dataState === 'loading';
   }
 
   @computed
   get isLoaded(): boolean {
-    return this.dataState === 'loaded';
+    return this.state.dataState === 'loaded';
   }
-
-  @observable startTimestamp = 0;
-  @observable endTimestamp = 0;
 
   @computed
   get isStarted(): boolean {
-    return Date.now() >= this.startTimestamp;
+    return Date.now() >= this.state.startTimestamp;
   }
 
   @computed
   get isFinished(): boolean {
-    return Date.now() >= this.endTimestamp;
+    return Date.now() >= this.state.endTimestamp;
   }
 
-  @observable
-  tokensCount = {
-    sold: 0,
-    total: 0,
-
-    get notLimited(): boolean {
-      return this.total === 0;
-    },
-  };
-
-  constructor(options: SaleStoreOptions) {
+  constructor(options: { auth: IAuth, api: IApi, sale: typeof sale }) {
     this.auth = options.auth;
     this.api = options.api;
     this.sale = options.sale;
+    this.initState();
 
     autorun(() => {
       if (this.auth.isAuthenticated) {
         this.loadInfo();
+      } else {
+        this.reset();
       }
     });
   }
 
   @action
   loadInfo = () => {
-    this.dataState = 'loading';
+    this.state.dataState = 'loading';
 
     this.api
       .getIcoInfo()
@@ -84,18 +85,27 @@ export class SaleStore {
         } = data;
 
         runInAction(() => {
-          this.dataState = 'loaded';
-          this.startTimestamp = startDate;
-          this.endTimestamp = endDate;
-          this.tokensCount.sold = sold;
-          this.tokensCount.total = total;
+          this.state.dataState = 'loaded';
+          this.state.startTimestamp = startDate;
+          this.state.endTimestamp = endDate;
+          this.state.tokensCount.sold = sold;
+          this.state.tokensCount.total = total;
         });
       })
       .catch(() => {
         runInAction(() => {
-          this.dataState = 'failed';
+          this.state.dataState = 'failed';
         });
       });
+  };
+
+  initState = () => {
+    this.state.reset();
+    this.state.tokensCount = getInitialTokensCount();
+  };
+
+  reset = () => {
+    this.initState();
   };
 }
 

@@ -13,7 +13,7 @@ import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
 import { tokenName } from '~/config';
 import styles from './kyc.css';
-import type { IKyc } from '~/stores/kyc/types';
+import type { KycStore } from '~/stores/kyc';
 import type {
   KycFormField,
   KycFormFieldName,
@@ -42,24 +42,8 @@ type Props = {|
   onSave: () => void,
 |};
 
-@inject(({ kyc }: { kyc: IKyc }): Props => ({
-  isLoaded: kyc.isLoaded,
-  isKycExtended: kyc.isExtended,
-  kycForm: kyc.form,
-  isSaving: kyc.isSaving,
-  isSaved: kyc.isSaved,
-  isAllowed: kyc.isAllowed,
-  isDenied: kyc.isDenied,
-  isOnReview: kyc.isOnReview,
-  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
-  denialReason: kyc.denialReason,
-  getFileUrlById: kyc.getFileUrlById,
-  uploadFiles: kyc.uploadFiles,
-  onChangeKycFormField: kyc.updateFormField,
-  onSave: kyc.saveData,
-}))
 @observer
-export default class Kyc extends React.Component<Props> {
+class Kyc extends React.Component<Props> {
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -276,3 +260,19 @@ export default class Kyc extends React.Component<Props> {
     );
   };
 }
+
+export default inject(({ kyc }: { kyc: KycStore }): Props => ({
+  isKycExtended: kyc.isExtended,
+  kycForm: kyc.form,
+  isSaving: kyc.isSaving,
+  isSaved: kyc.isSaved,
+  isAllowed: kyc.isAllowed,
+  isDenied: kyc.isDenied,
+  isOnReview: kyc.isOnReview,
+  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
+  denialReason: kyc.state.denialReason,
+  getFileUrlById: kyc.getFileUrlById,
+  uploadFiles: kyc.uploadFiles,
+  onChangeKycFormField: kyc.updateFormField,
+  onSave: kyc.saveData,
+}))(Kyc);
