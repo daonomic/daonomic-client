@@ -6,7 +6,7 @@ export const getPasswordResetPagePath = () => '/sign/reset-password';
 export const getNewPasswordCreationPagePath = (token) =>
   `/sign/create-new-password/${token}`;
 export const getNewPasswordCreationPagePathForBackend = () =>
-  `${currentHash}/sign/create-new-password`;
+  `/${currentHash}/sign/create-new-password`;
 
 const appPrefix = '/app';
 
