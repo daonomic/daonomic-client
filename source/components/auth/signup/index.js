@@ -51,7 +51,7 @@ export default class SignUp extends React.Component<Props, {}> {
             value={email}
             type="email"
             label={Translation.text('auth:email')}
-            error={error}
+            errors={error}
             onChange={onChangeEmail}
             disabled={isLoading}
           />

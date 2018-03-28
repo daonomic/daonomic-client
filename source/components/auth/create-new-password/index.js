@@ -73,7 +73,7 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
               type="password"
               autoComplete="new-password"
               label={Translation.text('auth:newPassword')}
-              error={(errors || {}).password}
+              errors={(errors || {}).password}
               onChange={onChangePassword}
               disabled={isSaving}
             />
@@ -85,7 +85,7 @@ export default class CreateNewPassword extends React.PureComponent<Props, {}> {
               value={confirmationPassword}
               type="password"
               label={Translation.text('auth:confirmNewPassword')}
-              error={(errors || {}).confirmationPassword}
+              errors={(errors || {}).confirmationPassword}
               onChange={onChangeConfirmedPassword}
               disabled={isSaving}
             />

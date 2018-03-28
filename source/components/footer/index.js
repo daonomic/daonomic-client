@@ -3,7 +3,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import Translation from '~/components/translation';
 import { termsOfServiceURL } from '~/config';
-import Logo from '~/components/logo';
+import Logo from '@daonomic/ui/source/logo';
 import styles from './footer.css';
 
 type Props = {
@@ -31,8 +31,15 @@ export default class Footer extends React.PureComponent<Props, {}> {
     return (
       <div className={cn(className, styles.root)}>
         <div className={styles.inner}>
-          <div>
-            <Translation id="poweredBy" /> <Logo className={styles.logo} />
+          <div className={styles.left}>
+            <Translation id="poweredBy" />{' '}
+            <a
+              href="https://daonomic.io"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <Logo className={styles.logo} />
+            </a>
           </div>
 
           {this.renderTermsOfServiceLink()}

@@ -1,4 +1,4 @@
-@import '@daonomic/ui/source/theme.css';
+@import '@daonomic/ui/source/theme/index.css';
 
 :root {
   --theme-text: #1f2d3d;

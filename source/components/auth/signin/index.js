@@ -73,7 +73,7 @@ export default class SignIn extends React.Component<Props, {}> {
                 type="email"
                 label={Translation.text('auth:email')}
                 value={email}
-                error={errors.email}
+                errors={errors.email}
                 onChange={onChangeEmail}
                 disabled={isLoading}
               />
@@ -86,7 +86,7 @@ export default class SignIn extends React.Component<Props, {}> {
                 autoComplete="new-password"
                 label={Translation.text('auth:password')}
                 value={password}
-                error={errors.password}
+                errors={errors.password}
                 onChange={onChangePassword}
                 disabled={isLoading}
               />

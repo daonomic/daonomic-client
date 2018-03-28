@@ -84,6 +84,19 @@ class Kyc extends React.Component<Props> {
     }
   };
 
+  renderForm = () => {
+    if (this.props.isOnReview) {
+      return null;
+    }
+
+    return (
+      <form onSubmit={this.handleSave}>
+        {this.props.kycForm.map(this.renderKycField)}
+        {this.renderFooter()}
+      </form>
+    );
+  };
+
   renderKycField = (field: KycFormField) => {
     const { name, label, value, error, required } = field;
     const { isEditingAllowed } = this.props;
@@ -103,7 +116,7 @@ class Kyc extends React.Component<Props> {
               disabled={!isEditingAllowed}
               value={value}
               name={name}
-              error={error}
+              errors={error}
               onChange={this.handleChangeKycField}
             >
               <option value="" hidden disabled>
@@ -125,7 +138,7 @@ class Kyc extends React.Component<Props> {
               name={name}
               label={label}
               value={value}
-              error={error}
+              errors={error}
               onChange={this.handleChangeKycField}
             />
           );
@@ -141,7 +154,7 @@ class Kyc extends React.Component<Props> {
             disabled={!isEditingAllowed}
             name={name}
             checked={value}
-            error={error}
+            errors={error}
             label={label}
             onChange={this.handleChangeKycField}
           />
@@ -248,14 +261,11 @@ class Kyc extends React.Component<Props> {
 
     return (
       <Panel paddingSize="large">
-        <form onSubmit={this.handleSave}>
-          {this.renderHeading(
-            this.props.isKycExtended ? 'wallet:kycTitle' : 'wallet:title',
-          )}
-          {this.renderStatus()}
-          {this.props.kycForm.map(this.renderKycField)}
-          {this.renderFooter()}
-        </form>
+        {this.renderHeading(
+          this.props.isKycExtended ? 'wallet:kycTitle' : 'wallet:title',
+        )}
+        {this.renderStatus()}
+        {this.renderForm()}
       </Panel>
     );
   };

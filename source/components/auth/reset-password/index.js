@@ -64,7 +64,7 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
               value={email}
               type="email"
               label={Translation.text('auth:email')}
-              error={(errors || {}).email}
+              errors={(errors || {}).email}
               onChange={onChangeEmail}
               disabled={isSaving}
             />
