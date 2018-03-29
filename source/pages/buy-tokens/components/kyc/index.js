@@ -6,6 +6,7 @@ import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
 import Select from '@daonomic/ui/source/select';
 import Panel from '@daonomic/ui/source/panel';
+import Badge from '@daonomic/ui/source/badge';
 import ImageUploader from '~/components/image-uploader';
 import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
@@ -82,6 +83,14 @@ class Kyc extends React.Component<Props> {
         </p>
       );
     }
+  };
+
+  renderStatusBadge = () => {
+    if (this.props.isOnReview) {
+      return <Badge color="danger">Waiting for review</Badge>;
+    }
+
+    return null;
   };
 
   renderForm = () => {
@@ -238,7 +247,7 @@ class Kyc extends React.Component<Props> {
   };
 
   render = () => {
-    if (this.props.isAllowed) {
+    if (this.props.isOnReview || this.props.isAllowed) {
       const addressField = this.props.kycForm.find(
         (field) => field.name === 'address',
       );
@@ -249,6 +258,8 @@ class Kyc extends React.Component<Props> {
 
       return (
         <Panel paddingSize="large">
+          {this.renderStatusBadge()}
+          {this.renderStatus()}
           <Input
             disabled
             label={addressField.label}
