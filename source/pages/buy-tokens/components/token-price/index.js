@@ -4,8 +4,8 @@ import { observer, inject } from 'mobx-react';
 import Badge from '@daonomic/ui/source/badge';
 import Meter from '@daonomic/ui/source/meter';
 import Panel from '@daonomic/ui/source/panel';
+import Text from '@daonomic/ui/source/text';
 import Translation from '~/components/translation';
-import textStyles from '~/components/text/text.css';
 import formatNumber from '~/i18n/format-number';
 import { tokenName } from '~/config';
 import styles from './token-price.css';
@@ -47,9 +47,7 @@ export default class TokenPrice extends Component {
 
         <p className={styles.sold}>
           {formatNumber(tokensCount.sold)} {tokenName}{' '}
-          <span className={textStyles.muted}>
-            of {formatNumber(tokensCount.total)}
-          </span>
+          <Text isMuted>of {formatNumber(tokensCount.total)}</Text>
         </p>
       </div>
     );

@@ -1,13 +1,12 @@
 // @flow
 import * as React from 'react';
-import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
 import Panel from '@daonomic/ui/source/panel';
+import Text from '@daonomic/ui/source/text';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
-import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
@@ -104,11 +103,13 @@ export default class SignIn extends React.Component<Props, {}> {
           </form>
         </Panel>
 
-        <Panel className={cn(textStyles.muted, textStyles.center)}>
-          <Translation id="auth:dontHaveAccount" />{' '}
-          <Link href="/sign/up">
-            <Translation id="auth:signUpHeading" />&nbsp;⟩
-          </Link>
+        <Panel>
+          <Text isMuted align="center" element="p">
+            <Translation id="auth:dontHaveAccount" />{' '}
+            <Link href="/sign/up">
+              <Translation id="auth:signUpHeading" />&nbsp;⟩
+            </Link>
+          </Text>
         </Panel>
       </Layout>
     );

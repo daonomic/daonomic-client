@@ -1,13 +1,12 @@
 // @flow
 import * as React from 'react';
-import cn from 'classnames';
 import Button from '@daonomic/ui/source/button';
 import Input from '@daonomic/ui/source/input';
 import Panel from '@daonomic/ui/source/panel';
+import Text from '@daonomic/ui/source/text';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
-import textStyles from '~/components/text/text.css';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 
@@ -74,9 +73,9 @@ export default class SignUp extends React.Component<Props, {}> {
     }
 
     return (
-      <p className={cn(textStyles.muted, textStyles.center)}>
+      <Text isMuted align="center" element="p">
         <Translation id="auth:signUpSuccess" />
-      </p>
+      </Text>
     );
   };
 
@@ -87,11 +86,13 @@ export default class SignUp extends React.Component<Props, {}> {
         {this.renderSuccessMessage()}
       </Panel>
 
-      <Panel className={cn(textStyles.muted, textStyles.center)}>
-        <Translation id="auth:alreadyHaveAccount" />{' '}
-        <Link href="/sign/in">
-          <Translation id="auth:signInHeading" />&nbsp;⟩
-        </Link>
+      <Panel>
+        <Text isMuted align="center" element="p">
+          <Translation id="auth:alreadyHaveAccount" />{' '}
+          <Link href="/sign/in">
+            <Translation id="auth:signInHeading" />&nbsp;⟩
+          </Link>
+        </Text>
       </Panel>
     </Layout>
   );
