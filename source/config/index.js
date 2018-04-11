@@ -2,11 +2,13 @@
 
 const sales = {
   development: '0xd76bdd62ed8cd391b9d69e27c60408a13d2b65f0',
+  staging: '0xd76bdd62ed8cd391b9d69e27c60408a13d2b65f0',
   production: '0xf76350f0ad6b7cfce1311ef43e2eef488fd16dad',
 };
 
 const realms = {
   development: '5ac3910ddfe522538316ae6f',
+  staging: '5ac3910ddfe522538316ae6f',
   production: '5a6f813d1d20a7d7c95eacb0',
 };
 

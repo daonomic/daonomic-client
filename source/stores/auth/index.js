@@ -51,6 +51,15 @@ export class AuthStore implements IAuth {
 
     this.makeSaveReaction(() => this.email, 'email');
     this.makeSaveReaction(() => this.id, 'id');
+
+    reaction(
+      () => this.token.value,
+      (newToken) => {
+        if (!newToken) {
+          this.reset();
+        }
+      },
+    );
   }
 
   @action
@@ -213,9 +222,13 @@ export class AuthStore implements IAuth {
   };
 
   @action
-  logout = () => {
+  reset = () => {
     this.email = '';
     this.id = '';
+  };
+
+  @action
+  logout = () => {
     this.token.reset();
   };
 }
