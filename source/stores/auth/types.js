@@ -36,7 +36,7 @@ export interface IAuth {
   setEmail: (email: Email) => void;
 
   login: (params: AuthParams) => Promise<{ success: boolean }>;
-  register: (params: AuthParams) => Promise<void>;
+  register: (params: AuthParams) => Promise<{}>;
   resetPassword: (params: AuthParams) => Promise<void>;
   createNewPassword: (params: PasswordRecoveryParams) => Promise<void>;
 

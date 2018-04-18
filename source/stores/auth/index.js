@@ -2,6 +2,7 @@
 import { observable, action, computed, reaction, runInAction } from 'mobx';
 import localStorage from '~/utils/local-storage';
 import { getNewPasswordCreationPagePathForBackend } from '~/pages/paths';
+
 import type { IApi } from '~/api/types';
 import type {
   AuthToken,
@@ -112,35 +113,8 @@ export class AuthStore implements IAuth {
       });
   };
 
-  @action
-  register = ({ email }: AuthParams) => {
-    this.resetErrors();
-    this.isLoading = true;
-
-    return this.api.auth
-      .register({ email })
-      .then(() => {
-        runInAction(() => {
-          this.isLoading = false;
-          this.isRegistered = true;
-        });
-      })
-      .catch(({ response }) => {
-        const fieldErrors =
-          response && response.data && response.data.fieldErrors;
-
-        runInAction(() => {
-          this.isLoading = false;
-
-          if (fieldErrors) {
-            const error = !Array.isArray(fieldErrors.email)
-              ? [fieldErrors.email]
-              : fieldErrors.email;
-
-            this.errors.email = error.join('; ');
-          }
-        });
-      });
+  register = ({ email }: { email: string }) => {
+    return this.api.auth.register({ email });
   };
 
   @action

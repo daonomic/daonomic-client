@@ -4,6 +4,7 @@ import { createViewModel } from 'mobx-utils';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
 import { validateKycForm } from './validation';
+
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
 import type {

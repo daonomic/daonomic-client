@@ -31,50 +31,24 @@ describe('auth store', () => {
   });
 
   describe('registration', () => {
-    test('successful registration', (done) => {
+    test('successful registration', async (done) => {
       mockedApi.auth.register.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () => authStore.isLoading === false && authStore.isRegistered === true,
-        done,
-      );
+      await authStore.register({ email: testEmail });
+      done();
     });
 
-    test('failed registration', (done) => {
+    test('failed registration', async (done) => {
       mockedApi.auth.register.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isRegistered === false &&
-          authStore.errors.email !== '',
-        done,
-      );
-    });
-
-    test('registration data reset', (done) => {
-      mockedApi.auth.register.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
-
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () => authStore.isLoading === false && authStore.isRegistered === true,
-        () => {
-          authStore.resetRegistrationData();
-          expect(authStore.isRegistered).toBe(false);
-          done();
-        },
-      );
+      try {
+        await authStore.register({ email: testEmail });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 

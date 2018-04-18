@@ -16,7 +16,7 @@ import type {
 } from '~/types/kyc';
 import type { PaymentMethod } from '~/types/payment';
 
-export type ResponsePromise<Data> = Promise<{|
+export type Response<Data> = Promise<{|
   data: Data,
 |}>;
 
@@ -37,41 +37,37 @@ export type GetIcoInfoResponse = {|
 
 export interface IApi {
   auth: {|
-    login: (
-      params: AuthParams,
-    ) => ResponsePromise<{ token: AuthToken, id: UserId }>,
-    register: (params: AuthParams) => ResponsePromise<{}>,
+    login: (params: AuthParams) => Response<{ token: AuthToken, id: UserId }>,
+    register: (params: AuthParams) => Response<{}>,
     resetPassword: ({
       email: string,
       passwordRestorationPagePath: string,
-    }) => ResponsePromise<{}>,
-    createNewPassword: (params: PasswordRecoveryParams) => ResponsePromise<{}>,
+    }) => Response<{}>,
+    createNewPassword: (params: PasswordRecoveryParams) => Response<{}>,
   |};
 
   kycData: {|
-    getAddressAndStatus: () => ResponsePromise<GetKycAddressAndStatusResponse>,
+    getAddressAndStatus: () => Response<GetKycAddressAndStatusResponse>,
     setAddress: (
       params: SetKycAddressParams,
-    ) => ResponsePromise<GetKycAddressAndStatusResponse>,
+    ) => Response<GetKycAddressAndStatusResponse>,
     getUserData: (params: {
       baseUrl: string,
       userId: UserId,
-    }) => ResponsePromise<GetKycUserDataResponse>,
+    }) => Response<GetKycUserDataResponse>,
     setUserData: (params: {
       baseUrl: string,
       userId: UserId,
       data: SetKycDataParams,
-    }) =>
-      | ResponsePromise<SetKycDataResponse>
-      | Promise<KycValidationErrorResponse>,
+    }) => Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
   |};
 
-  getIcoInfo: () => ResponsePromise<GetIcoInfoResponse>;
+  getIcoInfo: () => Response<GetIcoInfoResponse>;
   getPaymentAddress: (
     params: PaymentParams,
-  ) => ResponsePromise<{
+  ) => Response<{
     address: string,
   }>;
-  getPaymentStatus: (params: PaymentParams) => ResponsePromise<{}[]>;
-  getBalance: () => ResponsePromise<{| balance: number |}>;
+  getPaymentStatus: (params: PaymentParams) => Response<{}[]>;
+  getBalance: () => Response<{| balance: number |}>;
 }

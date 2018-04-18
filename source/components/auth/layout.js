@@ -5,18 +5,18 @@ import { Page } from '@daonomic/ui';
 import Footer from '~/components/footer';
 import styles from './layout.css';
 
-type Props = {
+type Props = {|
   children: React.Node,
-};
+|};
 
-export default class Layout extends React.PureComponent<Props, {}> {
+export default class Layout extends React.PureComponent<Props> {
   render() {
-    const { children } = this.props;
-
     return (
       <Page>
         <Page.Content>
-          <div className={cn(styles.container, styles.content)}>{children}</div>
+          <div className={cn(styles.container, styles.content)}>
+            {this.props.children}
+          </div>
         </Page.Content>
 
         <Page.Footer>
