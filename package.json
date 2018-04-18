@@ -71,7 +71,7 @@
     "postcss-loader": "2.1.4",
     "postcss-nesting": "4.2.1",
     "prettier": "1.12.1",
-    "react-test-renderer": "16.2.0",
+    "react-test-renderer": "16.3.2",
     "style-loader": "0.21.0",
     "uglifyjs-webpack-plugin": "1.2.5",
     "url-loader": "1.0.1",
@@ -95,10 +95,10 @@
     "prop-types": "15.6.1",
     "qrcode": "1.2.0",
     "ramda": "0.25.0",
-    "react": "16.2.0",
-    "react-dom": "16.2.0",
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
     "react-dropzone": "4.2.9",
-    "react-hot-loader": "4.0.0",
+    "react-hot-loader": "4.1.0",
     "react-i18next": "7.6.0",
     "react-router-dom": "4.2.2"
   }
