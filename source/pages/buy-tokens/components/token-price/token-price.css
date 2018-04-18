@@ -19,7 +19,7 @@
 
 .section:not(:last-child) {
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--theme-borders);
+  border-bottom: 1px solid var(--color-borders);
 }
 
 .section:not(:first-child) {

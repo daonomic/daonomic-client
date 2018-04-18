@@ -8,7 +8,7 @@
   padding-left: 8px;
   font-size: 14px;
   line-height: 1;
-  color: var(--theme-muted);
+  color: var(--color-text-muted);
 }
 
 .item {
@@ -41,16 +41,16 @@
 }
 
 .item_active::before {
-  border-color: var(--theme-primary);
+  border-color: var(--color-primary);
 }
 
 .badge_inactive {
   background-color: rgba(192, 204, 217, 0.16);
-  color: var(--theme-muted);
+  color: var(--color-text-muted);
 }
 
 .now {
-  color: var(--theme-primary);
+  color: var(--color-primary);
 }
 
 .row {

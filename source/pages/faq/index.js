@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react';
-import Panel from '@daonomic/ui/source/panel';
+import { Panel } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Spoiler from '~/components/spoiler';
 import { faq } from '~/config';
-import type { FaqEntry } from '~/types/faq';
 import EmailUs from './components/email-us';
 import styles from './faq.css';
+
+import type { FaqEntry } from '~/types/faq';
 
 type Props = {
   entries: FaqEntry[],

@@ -1,9 +1,6 @@
 // @flow
 import * as React from 'react';
-import Button from '@daonomic/ui/source/button';
-import Input from '@daonomic/ui/source/input';
-import Panel from '@daonomic/ui/source/panel';
-import Text from '@daonomic/ui/source/text';
+import { Button, Input, Panel, Text } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
@@ -81,7 +78,7 @@ export default class SignUp extends React.Component<Props, {}> {
 
   render = () => (
     <Layout>
-      <Panel paddingSize="large">
+      <Panel>
         {this.renderForm()}
         {this.renderSuccessMessage()}
       </Panel>

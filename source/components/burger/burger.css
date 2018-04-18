@@ -32,7 +32,7 @@
 .root:focus .inner::before,
 .root:hover .inner::after,
 .root:focus .inner::after {
-  background-color: var(--theme-primary);
+  background-color: var(--color-primary);
 }
 
 .inner {

@@ -19,5 +19,5 @@
 .error {
   margin: 0;
   line-height: 1.5;
-  color: var(--theme-danger);
+  color: var(--color-danger);
 }

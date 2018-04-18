@@ -1,10 +1,7 @@
 // @flow
 import * as React from 'react';
 import Link from '~/components/link';
-import Button from '@daonomic/ui/source/button';
-import Input from '@daonomic/ui/source/input';
-import Panel from '@daonomic/ui/source/panel';
-import Text from '@daonomic/ui/source/text';
+import { Button, Input, Panel, Text } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Layout from '../layout';
@@ -41,7 +38,7 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
     const { onSubmit, isSaving, onChangeEmail, email, errors } = this.props;
 
     return (
-      <Panel paddingSize="large">
+      <Panel>
         <form onSubmit={onSubmit}>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
             <Translation id="auth:forgotPassword" />
@@ -80,7 +77,7 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
   };
 
   renderSuccessMessage = () => (
-    <Panel paddingSize="large">
+    <Panel>
       <Heading size="large" tagName="h1" className={commonStyles.title}>
         <Translation id="auth:successfulResetTitle" />
       </Heading>

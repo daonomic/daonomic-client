@@ -5,7 +5,7 @@
   padding-bottom: var(--spoiler-half-vertical-padding-mobile);
   padding-left: var(--spoiler-horizontal-padding-mobile);
   padding-right: var(--spoiler-horizontal-padding-mobile);
-  border-top: 1px solid var(--theme-borders);
+  border-top: 1px solid var(--color-borders);
 
   @media (--desktop) {
     padding-top: var(--spoiler-half-vertical-padding);
@@ -29,7 +29,7 @@
 .title {
   margin: 0;
   font-size: 18px;
-  color: var(--theme-primary);
+  color: var(--color-primary);
 }
 
 .button {

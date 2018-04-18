@@ -48,5 +48,5 @@
 .link_active:focus {
   color: var(--theme-nav-link-active);
   cursor: default;
-  border-bottom: 2px solid var(--theme-primary);
+  border-bottom: 2px solid var(--color-primary);
 }

@@ -81,7 +81,7 @@
     "webpack-dev-server": "2.9.5"
   },
   "dependencies": {
-    "@daonomic/ui": "4.2.0",
+    "@daonomic/ui": "7.1.4",
     "@slonoed/startup": "1.0.1",
     "axios": "0.18.0",
     "classnames": "2.2.5",

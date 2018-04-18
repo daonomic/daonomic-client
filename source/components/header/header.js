@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
-import Button from '@daonomic/ui/source/button';
-import Panel from '@daonomic/ui/source/panel';
+import { Button, Panel } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Navigation from '~/components/navigation';
 import Burger from '~/components/burger';
@@ -94,7 +93,7 @@ class Header extends React.Component<Props, State> {
         </div>
 
         <div className={styles.right}>
-          <Button onClick={this.handleClickLogout} size="small">
+          <Button onClick={this.handleClickLogout} size="m">
             <Translation id="auth:logout" />
           </Button>
         </div>
