@@ -67,7 +67,12 @@ const mockApi: IApi = {
     }),
     resetPassword: createMockRoute({
       success: createResponse,
-      fail: createFailResponse,
+      fail: () =>
+        createFailResponse(400, {
+          fieldErrors: {
+            email: ['This email does not exist'],
+          },
+        }),
     }),
     createNewPassword: createMockRoute({
       success: createResponse,

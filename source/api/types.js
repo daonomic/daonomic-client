@@ -1,10 +1,5 @@
 // @flow
-import type {
-  AuthToken,
-  UserId,
-  AuthParams,
-  PasswordRecoveryParams,
-} from '~/types/auth';
+import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import type {
   BaseKycFormField,
   GetKycAddressAndStatusResponse,
@@ -37,13 +32,16 @@ export type GetIcoInfoResponse = {|
 
 export interface IApi {
   auth: {|
-    login: (params: AuthParams) => Response<{ token: AuthToken, id: UserId }>,
-    register: (params: AuthParams) => Response<{}>,
-    resetPassword: ({
+    login({| email: string, password: string |}): Response<{
+      token: AuthToken,
+      id: UserId,
+    }>,
+    register({| email: string |}): Response<{}>,
+    resetPassword({
       email: string,
       passwordRestorationPagePath: string,
-    }) => Response<{}>,
-    createNewPassword: (params: PasswordRecoveryParams) => Response<{}>,
+    }): Response<{}>,
+    createNewPassword(PasswordRecoveryParams): Response<{}>,
   |};
 
   kycData: {|

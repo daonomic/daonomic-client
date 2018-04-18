@@ -1,37 +1,45 @@
 // @flow
 import * as React from 'react';
 import Link from '~/components/link';
-import { Button, Input, Panel, Text } from '@daonomic/ui';
+import { Button, Input, Panel, Text } from '@daonomic/ui/source';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Layout from '../layout';
 import commonStyles from '../common.css';
+import getMarker from '~/utils/get-marker';
 
-type Props = {
-  isSaving?: boolean,
-  isPasswordReset?: boolean,
-  email?: string,
-  errors?: {
-    email?: string,
-    common?: string,
-  },
-  onChangeEmail: (event: Event) => void,
-  onSubmit: (event: Event) => void,
-};
+type Props = {|
+  email: string,
+  errors: {|
+    email: string[],
+    common: string[],
+  |},
+  isSaving: boolean,
+  isPasswordReset: boolean,
+  onChangeEmail: Function,
+  onSubmit: Function,
+|};
 
-export default class ResetPassword extends React.PureComponent<Props, {}> {
+export default class ResetPassword extends React.Component<Props> {
+  marker = getMarker('reset-password');
+
   renderCommonError = () => {
-    const { common } = this.props.errors || {};
+    const { common } = this.props.errors;
 
-    if (common) {
-      return (
-        <div className={commonStyles.row}>
-          <p className={commonStyles.error}>{common}</p>
-        </div>
-      );
+    if (common.length === 0) {
+      return;
     }
 
-    return null;
+    return (
+      <div className={commonStyles.row}>
+        <div
+          className={commonStyles.error}
+          data-marker={this.marker('error')()}
+        >
+          {common.map((error) => <div key={error}>{error}</div>)}
+        </div>
+      </div>
+    );
   };
 
   renderForm = () => {
@@ -39,7 +47,7 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
 
     return (
       <Panel>
-        <form onSubmit={onSubmit}>
+        <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
             <Translation id="auth:forgotPassword" />
           </Heading>
@@ -56,18 +64,23 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
 
           <div className={commonStyles.row}>
             <Input
+              data-marker={this.marker('email')()}
               required
               value={email}
               type="email"
               label={Translation.text('auth:email')}
-              errors={(errors || {}).email}
+              errors={errors.email}
               onChange={onChangeEmail}
               disabled={isSaving}
             />
           </div>
 
           <div className={commonStyles.footer}>
-            <Button type="submit" disabled={isSaving}>
+            <Button
+              data-marker={this.marker('submit')()}
+              type="submit"
+              disabled={isSaving}
+            >
               <Translation id="auth:forgotPasswordSubmit" />
             </Button>
           </div>
@@ -77,10 +90,11 @@ export default class ResetPassword extends React.PureComponent<Props, {}> {
   };
 
   renderSuccessMessage = () => (
-    <Panel>
+    <Panel data-marker={this.marker('success-message')()}>
       <Heading size="large" tagName="h1" className={commonStyles.title}>
         <Translation id="auth:successfulResetTitle" />
       </Heading>
+
       <Text isMuted element="p">
         <Translation id="auth:successfulResetAnnotation" />
       </Text>

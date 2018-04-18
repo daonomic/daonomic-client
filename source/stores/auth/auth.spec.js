@@ -77,32 +77,24 @@ describe('auth store', () => {
   });
 
   describe('password reset', () => {
-    test('successful password reset', (done) => {
+    test('successful password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.resetPassword({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isPasswordReset === true,
-        done,
-      );
+      await authStore.resetPassword({ email: testEmail });
+      done();
     });
 
-    test('failed password reset', (done) => {
+    test('failed password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.resetPassword({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isPasswordReset === false,
-        done,
-      );
+      try {
+        await authStore.resetPassword({ email: testEmail });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 

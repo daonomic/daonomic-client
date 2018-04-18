@@ -8,7 +8,6 @@ import type {
   AuthToken,
   Email,
   UserId,
-  AuthParams,
   PasswordRecoveryParams,
 } from '~/types/auth';
 import type { IAuth, IAuthToken } from './types';
@@ -92,31 +91,11 @@ export class AuthStore implements IAuth {
     return this.api.auth.register({ email });
   };
 
-  @action
-  resetPassword = ({ email }: AuthParams) => {
-    this.isLoading = true;
-
-    return this.api.auth
-      .resetPassword({
-        email,
-        passwordRestorationPagePath: getNewPasswordCreationPagePathForBackend(),
-      })
-      .then(() => {
-        runInAction(() => {
-          this.isLoading = false;
-          this.isPasswordReset = true;
-        });
-      })
-      .catch(({ response }) => {
-        runInAction(() => {
-          this.isLoading = false;
-          const { genericErrors } = response.data || {};
-
-          if (genericErrors) {
-            this.errors.common = (genericErrors || []).pop() || '';
-          }
-        });
-      });
+  resetPassword = ({ email }: { email: string }) => {
+    return this.api.auth.resetPassword({
+      email,
+      passwordRestorationPagePath: getNewPasswordCreationPagePathForBackend(),
+    });
   };
 
   @action

@@ -3,7 +3,6 @@ import type {
   AuthToken,
   Email,
   UserId,
-  AuthParams,
   PasswordRecoveryParams,
 } from '~/types/auth';
 
@@ -37,7 +36,7 @@ export interface IAuth {
 
   login({ email: string, password: string }): Promise<void>;
   register({ email: string }): Promise<{}>;
-  resetPassword: (params: AuthParams) => Promise<void>;
+  resetPassword({ email: string }): Promise<{}>;
   createNewPassword: (params: PasswordRecoveryParams) => Promise<void>;
 
   resetErrors: () => void;
