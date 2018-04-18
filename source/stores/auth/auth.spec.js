@@ -1,4 +1,3 @@
-import { when } from 'mobx';
 import mockedApi from '~/api/mock';
 import { authTokenProvider } from './token';
 import { authProvider } from './';
@@ -99,43 +98,34 @@ describe('auth store', () => {
   });
 
   describe('create new password', () => {
-    test('successful a new password creating', (done) => {
+    test('successful a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.createNewPassword({
+      await authStore.createNewPassword({
         token: newPasswordToken,
         password: 1234,
-        confirmationPassword: 1234,
+        confirmedPassword: 1234,
       });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isNewPasswordCreated === true,
-        done,
-      );
+      done();
     });
 
-    test('failed a new password creating', (done) => {
+    test('failed a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.createNewPassword({
-        token: newPasswordToken,
-        password: 1234,
-        confirmationPassword: 4322,
-      });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isNewPasswordCreated === false &&
-          authStore.errors.confirmationPassword !== '',
-        done,
-      );
+      try {
+        await authStore.createNewPassword({
+          token: newPasswordToken,
+          password: 1234,
+          confirmedPassword: 4322,
+        });
+      } catch (error) {
+        expect(
+          error.response.data.fieldErrors.password2.length,
+        ).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 });

@@ -60,12 +60,12 @@ export function apiProvider(authToken: IAuthToken) {
           { email, changePasswordPath: passwordRestorationPagePath },
           defaultOptions,
         ),
-      createNewPassword: ({ token, password, confirmationPassword }) =>
+      createNewPassword: ({ token, password, confirmedPassword }) =>
         client.post(
           `/password/change/${token}`,
           {
             password,
-            password2: confirmationPassword,
+            password2: confirmedPassword,
           },
           defaultOptions,
         ),
