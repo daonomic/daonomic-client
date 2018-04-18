@@ -53,34 +53,26 @@ describe('auth store', () => {
   });
 
   describe('login', () => {
-    test('success login', (done) => {
+    test('successful login', async (done) => {
       mockedApi.auth.login.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.login({ email: testEmail, password: testPassword });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isAuthenticated === true,
-        done,
-      );
+      await authStore.login({ email: testEmail, password: testPassword });
+      expect(authStore.isAuthenticated).toBe(true);
+      expect(authStore.id).toBe(1);
+      done();
     });
 
-    test('fail login', (done) => {
+    test('failed login', async (done) => {
       mockedApi.auth.login.setResponse('fail');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = new authProvider(mockedApi, authTokenProvider());
 
-      authStore.login({ email: testEmail, password: testPassword });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isAuthenticated === false &&
-          authStore.errors.email !== '',
-        done,
-      );
+      try {
+        await authStore.login({ email: testEmail, password: testPassword });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 

@@ -79,38 +79,13 @@ export class AuthStore implements IAuth {
   };
 
   @action
-  login = ({ email, password }: AuthParams) => {
-    this.resetErrors();
-    this.logout();
-    this.isLoading = true;
-
-    return this.api.auth
-      .login({ email, password })
-      .then(({ data }) => {
-        runInAction(() => {
-          this.isLoading = false;
-          this.token.set(data.token);
-          this.email = email;
-          this.id = data.id;
-        });
-        return { success: true };
-      })
-      .catch(({ response }) => {
-        const { fieldErrors, reason } = response.data || {};
-
-        runInAction(() => {
-          this.isLoading = false;
-
-          if (fieldErrors) {
-            this.errors.email = (fieldErrors.username || []).pop() || '';
-            this.errors.password = (fieldErrors.password || []).pop() || '';
-          } else if (reason) {
-            this.errors.common = reason;
-          }
-        });
-
-        return { success: false };
+  login = ({ email, password }: { email: string, password: string }) => {
+    return this.api.auth.login({ email, password }).then(({ data }) => {
+      runInAction(() => {
+        this.token.set(data.token);
+        this.id = data.id;
       });
+    });
   };
 
   register = ({ email }: { email: string }) => {

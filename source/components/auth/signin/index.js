@@ -4,42 +4,45 @@ import { Button, Input, Panel, Text } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
+import getMarker from '~/utils/get-marker';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 
-type Props = {
-  password?: string,
-  email?: string,
-  errors: {
-    email: string,
-    password: string,
-    common: string,
-  },
+type Props = {|
+  email: string,
+  password: string,
+  errors: {|
+    email: string[],
+    password: string[],
+    common: string[],
+  |},
   isLoading: boolean,
-  onSubmit: (event: Event) => void,
-  onChangeEmail: (event: Event) => void,
-  onChangePassword: (event: Event) => void,
-};
+  onSubmit: Function,
+  onChangeEmail: Function,
+  onChangePassword: Function,
+|};
 
-export default class SignIn extends React.Component<Props, {}> {
-  static defaultProps = {
-    email: '',
-    password: '',
-  };
+export default class SignIn extends React.Component<Props> {
+  marker = getMarker('sign-in');
 
   renderCommonError = () => {
     const { common } = this.props.errors;
 
-    if (common) {
-      return (
-        <div className={commonStyles.row}>
-          <p className={commonStyles.error}>{common}</p>
-        </div>
-      );
+    if (common && common.length === 0) {
+      return null;
     }
 
-    return null;
+    return (
+      <div className={commonStyles.row}>
+        <div
+          className={commonStyles.error}
+          data-marker={this.marker('error')()}
+        >
+          {(common || []).map((error) => <div key={error}>{error}</div>)}
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -56,7 +59,7 @@ export default class SignIn extends React.Component<Props, {}> {
     return (
       <Layout>
         <Panel>
-          <form onSubmit={onSubmit}>
+          <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
             <Heading size="large" tagName="h1" className={commonStyles.title}>
               <Translation id="auth:signInHeading" />
             </Heading>
@@ -65,6 +68,7 @@ export default class SignIn extends React.Component<Props, {}> {
 
             <div className={commonStyles.row}>
               <Input
+                data-marker={this.marker('email')()}
                 required
                 type="email"
                 label={Translation.text('auth:email')}
@@ -77,6 +81,7 @@ export default class SignIn extends React.Component<Props, {}> {
 
             <div className={commonStyles.row}>
               <Input
+                data-marker={this.marker('password')()}
                 required
                 type="password"
                 autoComplete="new-password"
@@ -89,11 +94,19 @@ export default class SignIn extends React.Component<Props, {}> {
             </div>
 
             <div className={commonStyles.footer}>
-              <Button type="submit" disabled={isLoading}>
+              <Button
+                type="submit"
+                disabled={isLoading}
+                data-marker={this.marker('submit')()}
+              >
                 <Translation id="auth:signInSubmit" />
               </Button>
 
-              <Link href="/sign/reset-password" className={styles.link}>
+              <Link
+                href="/sign/reset-password"
+                className={styles.link}
+                data-marker={this.marker('reset-password')()}
+              >
                 <Translation id="auth:forgotPassword" />
               </Link>
             </div>
@@ -103,7 +116,7 @@ export default class SignIn extends React.Component<Props, {}> {
         <Panel>
           <Text isMuted align="center" element="p">
             <Translation id="auth:dontHaveAccount" />{' '}
-            <Link href="/sign/up">
+            <Link data-marker={this.marker('sign-up-link')()} href="/sign/up">
               <Translation id="auth:signUpHeading" />&nbsp;⟩
             </Link>
           </Text>
