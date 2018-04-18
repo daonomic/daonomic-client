@@ -1,6 +1,6 @@
 .root {
-  color: var(--theme-primary-opposite);
-  background-color: var(--theme-primary);
+  color: var(--color-primary-opposite);
+  background-color: var(--color-primary);
 }
 
 .title {

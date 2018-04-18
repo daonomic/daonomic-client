@@ -1,7 +1,6 @@
 @import '@daonomic/ui/source/theme/index.css';
 
 :root {
-  --theme-text: #1f2d3d;
   --theme-text-muted: #8492a5;
   --theme-text-link: #4382ff;
 

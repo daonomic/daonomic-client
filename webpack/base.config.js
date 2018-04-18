@@ -11,7 +11,7 @@ const {
 } = require('../config');
 
 const config = {
-  entry: [`${sourceDir}/index.js`, `${sourceDir}/global.css`],
+  entry: [`${sourceDir}/index.js`, '@daonomic/ui/source/global.css'],
 
   output: {
     path: buildDir,

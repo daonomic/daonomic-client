@@ -1,37 +1,69 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
+import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import { action, observable } from 'mobx';
 import ResetPassword from '~/components/auth/reset-password';
 
-@inject(({ auth }) => ({
-  resetPassword: auth.resetPassword,
-  isSaving: auth.isLoading,
-  errors: auth.errors,
-  isPasswordReset: auth.isPasswordReset,
-}))
+import type { DataState, FormValidationError } from '~/types/common';
+
+type Props = {|
+  resetPassword: Function,
+|};
+
+const initialErrors = {
+  common: [],
+  email: [],
+};
+
 @observer
-class ResetPasswordPage extends Component {
-  static propTypes = {
-    resetPassword: PropTypes.func.isRequired,
-    isPasswordReset: PropTypes.bool.isRequired,
-    errors: PropTypes.shape({
-      email: PropTypes.string,
-      common: PropTypes.string,
-    }).isRequired,
-    isSaving: PropTypes.bool.isRequired,
-  };
+class ResetPasswordPage extends React.Component<Props> {
+  @observable email: string = '';
+  @observable passwordResetState: DataState = 'initial';
+  @observable errors = initialErrors;
+
+  @computed
+  get isLoading(): boolean {
+    return this.passwordResetState === 'loading';
+  }
+
+  @computed
+  get isPasswordReset(): boolean {
+    return this.passwordResetState === 'loaded';
+  }
 
   @action
   setEmail = (email) => {
     this.email = email;
   };
 
-  @observable email;
+  @action
+  resetPassword = () => {
+    this.errors = initialErrors;
+    this.passwordResetState = 'loading';
+    this.props
+      .resetPassword({ email: this.email })
+      .then(() => {
+        runInAction(() => {
+          this.passwordResetState = 'loaded';
+        });
+      })
+      .catch((error: FormValidationError) => {
+        runInAction(() => {
+          const { genericErrors, fieldErrors = {}, reason } =
+            error.response.data || {};
+
+          this.passwordResetState = 'failed';
+          this.errors = {
+            email: fieldErrors.email || [],
+            common: genericErrors || [].concat(reason || []),
+          };
+        });
+      });
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.resetPassword({ email: this.email });
+    this.resetPassword();
   };
 
   handleChangeEmail = (event) => {
@@ -39,19 +71,19 @@ class ResetPasswordPage extends Component {
   };
 
   render() {
-    const { isSaving, errors, isPasswordReset } = this.props;
-
     return (
       <ResetPassword
+        email={this.email}
+        errors={toJS(this.errors)}
+        isSaving={this.isLoading}
+        isPasswordReset={this.isPasswordReset}
         onSubmit={this.handleSubmit}
         onChangeEmail={this.handleChangeEmail}
-        isSaving={isSaving}
-        errors={errors}
-        email={this.email}
-        isPasswordReset={isPasswordReset}
       />
     );
   }
 }
 
-export default ResetPasswordPage;
+export default inject(({ auth }): Props => ({
+  resetPassword: auth.resetPassword,
+}))(ResetPasswordPage);

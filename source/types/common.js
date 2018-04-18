@@ -7,3 +7,17 @@ export type ComponentProps = {
 };
 
 export type DataState = 'initial' | 'loading' | 'loaded' | 'failed';
+
+export type FormValidationResult = {|
+  reason?: string,
+  genericErrors: string[],
+  fieldErrors: {|
+    [key: string]: ?(string[]),
+  |},
+|};
+
+export type FormValidationError = {
+  response: {
+    data: FormValidationResult,
+  },
+};

@@ -2,18 +2,14 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { observer, inject } from 'mobx-react';
-import Button from '@daonomic/ui/source/button';
-import Input from '@daonomic/ui/source/input';
-import Select from '@daonomic/ui/source/select';
-import Panel from '@daonomic/ui/source/panel';
-import Badge from '@daonomic/ui/source/badge';
+import { Button, Input, Select, Panel, Badge, Checkbox } from '@daonomic/ui';
 import ImageUploader from '~/components/image-uploader';
-import Checkbox from '@daonomic/ui/source/checkbox';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
 import { tokenName } from '~/config';
 import styles from './kyc.css';
+
 import type { KycStore } from '~/stores/kyc';
 import type {
   KycFormField,
@@ -257,7 +253,7 @@ class Kyc extends React.Component<Props> {
       }
 
       return (
-        <Panel paddingSize="large">
+        <Panel>
           {this.renderStatusBadge()}
           {this.renderStatus()}
           <Input
@@ -271,7 +267,7 @@ class Kyc extends React.Component<Props> {
     }
 
     return (
-      <Panel paddingSize="large">
+      <Panel>
         {this.renderHeading(
           this.props.isKycExtended ? 'wallet:kycTitle' : 'wallet:title',
         )}

@@ -44,11 +44,15 @@ function createFailResponse(status = 400, data = {}) {
 const mockApi: IApi = {
   auth: {
     login: createMockRoute({
-      success: createResponse,
+      success: () =>
+        createResponse({
+          id: 1,
+          token: '12345',
+        }),
       fail: () =>
         createFailResponse(400, {
           fieldErrors: {
-            username: ['This email does not exist'],
+            email: ['This email does not exist'],
           },
         }),
     }),
@@ -63,7 +67,12 @@ const mockApi: IApi = {
     }),
     resetPassword: createMockRoute({
       success: createResponse,
-      fail: createFailResponse,
+      fail: () =>
+        createFailResponse(400, {
+          fieldErrors: {
+            email: ['This email does not exist'],
+          },
+        }),
     }),
     createNewPassword: createMockRoute({
       success: createResponse,

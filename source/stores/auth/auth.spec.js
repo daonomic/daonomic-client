@@ -1,4 +1,3 @@
-import { when } from 'mobx';
 import mockedApi from '~/api/mock';
 import { authTokenProvider } from './token';
 import { authProvider } from './';
@@ -31,153 +30,102 @@ describe('auth store', () => {
   });
 
   describe('registration', () => {
-    test('successful registration', (done) => {
+    test('successful registration', async (done) => {
       mockedApi.auth.register.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () => authStore.isLoading === false && authStore.isRegistered === true,
-        done,
-      );
+      await authStore.register({ email: testEmail });
+      done();
     });
 
-    test('failed registration', (done) => {
+    test('failed registration', async (done) => {
       mockedApi.auth.register.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isRegistered === false &&
-          authStore.errors.email !== '',
-        done,
-      );
-    });
-
-    test('registration data reset', (done) => {
-      mockedApi.auth.register.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
-
-      authStore.register({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () => authStore.isLoading === false && authStore.isRegistered === true,
-        () => {
-          authStore.resetRegistrationData();
-          expect(authStore.isRegistered).toBe(false);
-          done();
-        },
-      );
+      try {
+        await authStore.register({ email: testEmail });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 
   describe('login', () => {
-    test('success login', (done) => {
+    test('successful login', async (done) => {
       mockedApi.auth.login.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.login({ email: testEmail, password: testPassword });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isAuthenticated === true,
-        done,
-      );
+      await authStore.login({ email: testEmail, password: testPassword });
+      expect(authStore.isAuthenticated).toBe(true);
+      expect(authStore.id).toBe(1);
+      done();
     });
 
-    test('fail login', (done) => {
+    test('failed login', async (done) => {
       mockedApi.auth.login.setResponse('fail');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = new authProvider(mockedApi, authTokenProvider());
 
-      authStore.login({ email: testEmail, password: testPassword });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isAuthenticated === false &&
-          authStore.errors.email !== '',
-        done,
-      );
+      try {
+        await authStore.login({ email: testEmail, password: testPassword });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 
   describe('password reset', () => {
-    test('successful password reset', (done) => {
+    test('successful password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.resetPassword({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isPasswordReset === true,
-        done,
-      );
+      await authStore.resetPassword({ email: testEmail });
+      done();
     });
 
-    test('failed password reset', (done) => {
+    test('failed password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.resetPassword({ email: testEmail });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false && authStore.isPasswordReset === false,
-        done,
-      );
+      try {
+        await authStore.resetPassword({ email: testEmail });
+      } catch (error) {
+        expect(error.response.data.fieldErrors.email.length).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 
   describe('create new password', () => {
-    test('successful a new password creating', (done) => {
+    test('successful a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('success');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.createNewPassword({
+      await authStore.createNewPassword({
         token: newPasswordToken,
         password: 1234,
-        confirmationPassword: 1234,
+        confirmedPassword: 1234,
       });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isNewPasswordCreated === true,
-        done,
-      );
+      done();
     });
 
-    test('failed a new password creating', (done) => {
+    test('failed a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('fail');
       const authStore = authProvider(mockedApi, authTokenProvider());
 
-      authStore.createNewPassword({
-        token: newPasswordToken,
-        password: 1234,
-        confirmationPassword: 4322,
-      });
-      expect(authStore.isLoading).toBe(true);
-
-      when(
-        () =>
-          authStore.isLoading === false &&
-          authStore.isNewPasswordCreated === false &&
-          authStore.errors.confirmationPassword !== '',
-        done,
-      );
+      try {
+        await authStore.createNewPassword({
+          token: newPasswordToken,
+          password: 1234,
+          confirmedPassword: 4322,
+        });
+      } catch (error) {
+        expect(
+          error.response.data.fieldErrors.password2.length,
+        ).toBeGreaterThan(0);
+        done();
+      }
     });
   });
 });

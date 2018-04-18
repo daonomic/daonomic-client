@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import Panel from '@daonomic/ui/source/panel';
-import Text from '@daonomic/ui/source/text';
+import { Panel, Text } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import textStyles from '~/components/text/text.css';
 import { contactEmail } from '~/config';

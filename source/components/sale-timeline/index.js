@@ -1,8 +1,7 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import Badge from '@daonomic/ui/source/badge';
-import Panel from '@daonomic/ui/source/panel';
+import { Badge, Panel } from '@daonomic/ui';
 import { saleTimeline } from '~/config';
 import type { TimelineStep } from '~/types/sale-timeline';
 import styles from './sale-timeline.css';

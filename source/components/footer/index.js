@@ -3,7 +3,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import Translation from '~/components/translation';
 import { termsOfServiceURL } from '~/config';
-import Logo from '@daonomic/ui/source/logo';
+import { Logo } from '@daonomic/ui';
 import styles from './footer.css';
 
 type Props = {
