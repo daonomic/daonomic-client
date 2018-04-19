@@ -2,40 +2,27 @@
 import * as React from 'react';
 import cn from 'classnames';
 import styles from './navigation.css';
+import { UnstyledLink } from '~/components/link';
 
 type Props = {
-  className?: string,
   children: React.Node,
   href: string,
+  className?: string,
   isActive?: boolean,
-  onClick: (url: string) => void,
 };
 
-export default class NavigationItem extends React.Component<Props, {}> {
-  handleClick = (event: MouseEvent) => {
-    const { href, onClick } = this.props;
-    const shouldOpenInNewTab =
-      event.metaKey || event.ctrlKey || event.button === 1;
-
-    if (!event.defaultPrevented && !shouldOpenInNewTab) {
-      event.preventDefault();
-      onClick(href);
-    }
-  };
-
+export default class NavigationItem extends React.Component<Props> {
   render() {
-    const { className, children, isActive, href } = this.props;
+    const { className, isActive, href, ...restProps } = this.props;
 
     return (
-      <a
+      <UnstyledLink
+        {...restProps}
         className={cn(className, styles.link, {
           [styles.link_active]: isActive,
         })}
         href={href}
-        onClick={this.handleClick}
-      >
-        {children}
-      </a>
+      />
     );
   }
 }

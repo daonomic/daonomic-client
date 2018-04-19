@@ -7,6 +7,7 @@ import Link from '~/components/link';
 import getMarker from '~/utils/get-marker';
 import Layout from '../layout';
 import commonStyles from '../common.css';
+import getRouteUrl from '~/router/get-route-url';
 
 type Props = {|
   email: string,
@@ -116,7 +117,10 @@ export default class SignUp extends React.Component<Props> {
       <Panel>
         <Text isMuted align="center" element="p">
           <Translation id="auth:alreadyHaveAccount" />{' '}
-          <Link data-marker={this.marker('sign-in-link')()} href="/sign/in">
+          <Link
+            data-marker={this.marker('sign-in-link')()}
+            href={getRouteUrl('signIn')}
+          >
             <Translation id="auth:signInHeading" />&nbsp;⟩
           </Link>
         </Text>

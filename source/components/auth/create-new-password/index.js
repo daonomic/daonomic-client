@@ -7,6 +7,7 @@ import Link from '~/components/link';
 import Layout from '../layout';
 import getMarker from '~/utils/get-marker';
 import commonStyles from '../common.css';
+import getRouteUrl from '~/router/get-route-url';
 
 type Props = {|
   password: string,
@@ -133,7 +134,7 @@ export default class CreateNewPassword extends React.Component<Props> {
       <Panel>
         <Text isMuted element="p" align="center">
           <Translation id="auth:alreadyHaveAccount" />{' '}
-          <Link href="/sign/in">
+          <Link href={getRouteUrl('signIn')}>
             <Translation id="auth:signInHeading" />&nbsp;⟩
           </Link>
         </Text>
