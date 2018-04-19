@@ -73,9 +73,9 @@ export function apiProvider(authToken: IAuthToken) {
 
     kycData: {
       getAddressAndStatus: () =>
-        client.get(`/sales/${sale}/address`, defaultOptions),
+        client.get(`/sales/${sale}/data`, defaultOptions),
       setAddress: ({ address }) =>
-        client.post(`/sales/${sale}/address`, { address }, defaultOptions),
+        client.post(`/sales/${sale}/data`, { address }, defaultOptions),
       getUserData: ({ baseUrl, userId }) =>
         axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
       setUserData: ({ baseUrl, data, userId }) =>
