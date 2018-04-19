@@ -1,7 +1,7 @@
 // @flow
 import { observable, action, computed, autorun, runInAction } from 'mobx';
 import localStorage from '~/utils/local-storage';
-import { getNewPasswordCreationPagePathForBackend } from '~/pages/paths';
+import getRouteUrl from '~/router/get-route-url';
 
 import type { IApi } from '~/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
@@ -64,7 +64,9 @@ export class AuthStore implements IAuth {
   resetPassword = ({ email }: { email: string }) => {
     return this.api.auth.resetPassword({
       email,
-      passwordRestorationPagePath: getNewPasswordCreationPagePathForBackend(),
+      passwordRestorationPagePath: getRouteUrl('createNewPassword', {
+        token: 'tokenId',
+      }).replace('/tokenId', ''),
     });
   };
 

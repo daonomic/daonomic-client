@@ -75,5 +75,3 @@ export function validateKycForm(form: KycFormField[]): ValidationEntry[] {
 
   return errors;
 }
-
-window.validateKycForm = validateKycForm;

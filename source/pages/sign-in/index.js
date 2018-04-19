@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { observable, action, runInAction, toJS } from 'mobx';
-import { Redirect } from 'react-router-dom';
 import SignIn from '~/components/auth/signin';
 
 import type { FormValidationError } from '~/types/common';
@@ -22,10 +21,6 @@ type Props = InjectedProps & {|
   |},
 |};
 
-type State = {|
-  redirectToReferrer: boolean,
-|};
-
 const initialErrors = {
   email: [],
   password: [],
@@ -33,11 +28,7 @@ const initialErrors = {
 };
 
 @observer
-class SignInPage extends React.Component<Props, State> {
-  state = {
-    redirectToReferrer: false,
-  };
-
+class SignInPage extends React.Component<Props> {
   @observable email: string = '';
   @observable password: string = '';
   @observable isLoading: boolean = false;
@@ -61,9 +52,6 @@ class SignInPage extends React.Component<Props, State> {
       .login({
         email: this.email,
         password: this.password,
-      })
-      .then(() => {
-        this.setState({ redirectToReferrer: true });
       })
       .catch((error: FormValidationError) => {
         runInAction(() => {
@@ -94,13 +82,6 @@ class SignInPage extends React.Component<Props, State> {
   };
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
-
     return (
       <SignIn
         email={this.email}

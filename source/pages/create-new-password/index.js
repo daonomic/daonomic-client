@@ -11,11 +11,7 @@ type InjectedProps = {|
 |};
 
 type Props = InjectedProps & {|
-  match: {
-    params: {
-      token: string,
-    },
-  },
+  token: string,
 |};
 
 const initialErrors = {
@@ -56,7 +52,7 @@ class CreateNewPasswordPage extends React.Component<Props> {
     this.passwordCreationState = 'loading';
     this.props
       .createNewPassword({
-        token: this.props.match.params.token,
+        token: this.props.token,
         password: this.password,
         confirmedPassword: this.confirmedPassword,
       })
