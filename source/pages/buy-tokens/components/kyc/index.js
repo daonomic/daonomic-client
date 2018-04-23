@@ -7,7 +7,7 @@ import ImageUploader from '~/components/image-uploader';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
-import { tokenName } from '~/config';
+import config from '~/config';
 import styles from './kyc.css';
 
 import type { KycStore } from '~/stores/kyc';
@@ -215,7 +215,10 @@ class Kyc extends React.Component<Props> {
     if (field.name === 'address') {
       return (
         <p className={styles.paragraph}>
-          <Translation id="wallet:addressAnnotation" data={{ tokenName }} />{' '}
+          <Translation
+            id="wallet:addressAnnotation"
+            data={{ tokenName: config.tokenName }}
+          />{' '}
           <strong>
             <Translation id="wallet:addressWarning" />
           </strong>

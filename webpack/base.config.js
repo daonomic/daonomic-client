@@ -8,10 +8,13 @@ const {
   nodeEnv,
   isDebugEnabled,
   isAnalyzeModeEnabled,
+  e2eTest,
 } = require('../config');
 
 const config = {
-  entry: [`${sourceDir}/index.js`, '@daonomic/ui/source/global.css'],
+  entry: [`${sourceDir}/index.js`, '@daonomic/ui/source/global.css'].concat(
+    e2eTest ? `${sourceDir}/utils/inject-web3-mock` : [],
+  ),
 
   output: {
     path: buildDir,
@@ -72,6 +75,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.API': JSON.stringify(api),
+      'process.env.E2E_TEST': JSON.stringify(e2eTest),
     }),
     new HtmlWebpackPlugin({
       template: `${sourceDir}/index.html`,

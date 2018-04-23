@@ -2,6 +2,6 @@
 declare var process: {
   env: {
     API: 'production' | 'staging' | 'development',
-    NODE_ENV: string,
+    NODE_ENV: 'production' | 'development',
   },
 };

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import Translation from '~/components/translation';
-import { termsOfServiceURL } from '~/config';
+import config from '~/config';
 import { Logo } from '@daonomic/ui';
 import styles from './footer.css';
 
@@ -12,13 +12,13 @@ type Props = {
 
 export default class Footer extends React.PureComponent<Props, {}> {
   renderTermsOfServiceLink = () => {
-    if (!termsOfServiceURL) {
+    if (!config.termsOfServiceURL) {
       return null;
     }
 
     return (
       <div>
-        <a href={termsOfServiceURL} className={styles.link}>
+        <a href={config.termsOfServiceURL} className={styles.link}>
           <Translation id="termsOfService" />
         </a>
       </div>

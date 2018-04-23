@@ -2,7 +2,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { Badge, Panel } from '@daonomic/ui';
-import { saleTimeline } from '~/config';
+import config from '~/config';
 import type { TimelineStep } from '~/types/sale-timeline';
 import styles from './sale-timeline.css';
 
@@ -34,11 +34,11 @@ export default class SaleTimeline extends React.Component<{}> {
     ));
 
   render() {
-    if (saleTimeline.length === 0) {
+    if (config.saleTimeline.length === 0) {
       return null;
     }
 
-    return saleTimeline.map(({ title, steps }) => (
+    return config.saleTimeline.map(({ title, steps }) => (
       <Panel key={title} className={styles.root}>
         <h3 className={styles.title}>{title}</h3>
 

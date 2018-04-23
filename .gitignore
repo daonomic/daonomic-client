@@ -5,6 +5,7 @@
 # Build
 build/
 storybook-static/
+e2e-tests/results
 
 # Development stuff
 platforms/
@@ -17,6 +18,11 @@ static/index.appcache
 *.pyc
 .vagrant
 .idea
+**/*.iml
 .vscode
 npm-debug.*
 
+/target/
+/.project
+.settings
+.classpath
