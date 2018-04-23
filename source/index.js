@@ -6,6 +6,13 @@ if (process.env.E2E_TEST) {
     config,
     init,
   };
+} else if (
+  process.env.NODE_ENV === 'production' &&
+  typeof (window.Raven || {}).context === 'function'
+) {
+  window.Raven.context(() => {
+    init();
+  });
 } else {
   init();
 }
