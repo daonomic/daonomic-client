@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios';
-import { sale, realm } from '~/config';
+import config from '~/config';
 import cacheResult from '~/utils/cache-result';
 import { baseApiUrl } from '~/config/api';
 
@@ -12,7 +12,7 @@ export function apiProvider(authToken: IAuthToken) {
     get headers() {
       // auth token can be changed, so we need to recalculate headers before every request
       return {
-        'X-REALM': realm,
+        'X-REALM': config.realmId,
         'X-AUTH-TOKEN': authToken.value,
       };
     },
@@ -73,9 +73,13 @@ export function apiProvider(authToken: IAuthToken) {
 
     kycData: {
       getAddressAndStatus: () =>
-        client.get(`/sales/${sale}/data`, defaultOptions),
+        client.get(`/sales/${config.saleId}/data`, defaultOptions),
       setAddress: ({ address }) =>
-        client.post(`/sales/${sale}/data`, { address }, defaultOptions),
+        client.post(
+          `/sales/${config.saleId}/data`,
+          { address },
+          defaultOptions,
+        ),
       getUserData: ({ baseUrl, userId }) =>
         axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
       setUserData: ({ baseUrl, data, userId }) =>
@@ -83,14 +87,15 @@ export function apiProvider(authToken: IAuthToken) {
     },
 
     getIcoInfo: cacheResult(
-      () => client.get(`/sales/${sale}`, defaultOptions),
+      () => client.get(`/sales/${config.saleId}`, defaultOptions),
       5000,
     ),
     getPaymentAddress: ({ saleId, tokenId }) =>
       client.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
     getPaymentStatus: ({ saleId, tokenId }) =>
       client.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
-    getBalance: () => client.get(`/sales/${sale}/balance`, defaultOptions),
+    getBalance: () =>
+      client.get(`/sales/${config.saleId}/balance`, defaultOptions),
   };
 
   return api;

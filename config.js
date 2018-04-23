@@ -15,4 +15,5 @@ module.exports = {
   isAnalyzeModeEnabled: process.env.ANALYZE || false,
   themeImportDeclaration: `@import "${sourceDir}/config/styles/theme.css";`,
   globalStylesImportDeclaration: `@import "${sourceDir}/global.css";`,
+  e2eTest: Boolean(process.env.E2E_TEST),
 };

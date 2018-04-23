@@ -1,7 +1,7 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import { createViewModel } from 'mobx-utils';
-import { sale } from '~/config';
+import config from '~/config';
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
 import type { ISaleStoreState } from './types';
@@ -25,7 +25,7 @@ class SaleStoreState implements ISaleStoreState {
 export class SaleStore {
   auth: IAuth;
   api: IApi;
-  sale: typeof sale;
+  sale: typeof config.saleId;
 
   state = createViewModel(new SaleStoreState());
 
@@ -62,7 +62,7 @@ export class SaleStore {
     }
   }
 
-  constructor(options: { auth: IAuth, api: IApi, sale: typeof sale }) {
+  constructor(options: { auth: IAuth, api: IApi, sale: typeof config.saleId }) {
     this.auth = options.auth;
     this.api = options.api;
     this.sale = options.sale;

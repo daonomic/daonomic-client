@@ -8,6 +8,7 @@ import Navigation from '~/components/navigation';
 import Burger from '~/components/burger';
 import styles from './header.css';
 import getRouteUrl from '~/router/get-route-url';
+import getMarker from '~/utils/get-marker';
 
 type InjectedProps = {|
   currentRouteName: string,
@@ -27,6 +28,8 @@ class Header extends React.Component<Props, State> {
   state = {
     isNavigationExpanded: false,
   };
+
+  marker = getMarker('header');
 
   componentDidUpdate = (prevProps: Props) => {
     this.collapseNavigationIfCurrentRouteChanged(prevProps.currentRouteName);
@@ -77,7 +80,7 @@ class Header extends React.Component<Props, State> {
     const { isNavigationExpanded } = this.state;
 
     return (
-      <Panel className={cn(className, styles.root)}>
+      <Panel data-marker={this.marker()} className={cn(className, styles.root)}>
         <div className={styles.left}>
           <Burger
             isActive={isNavigationExpanded}
@@ -94,7 +97,11 @@ class Header extends React.Component<Props, State> {
         </div>
 
         <div className={styles.right}>
-          <Button onClick={this.handleClickLogout} size="m">
+          <Button
+            data-marker={this.marker('logout')()}
+            onClick={this.handleClickLogout}
+            size="m"
+          >
             <Translation id="auth:logout" />
           </Button>
         </div>

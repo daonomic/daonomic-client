@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import formatNumber from '~/i18n/format-number';
-import { tokenName } from '~/config';
+import config from '~/config';
 import styles from './token-price.css';
 
 @inject(({ payment, sale }) => ({
@@ -43,7 +43,7 @@ export default class TokenPrice extends Component {
         <Meter value={tokensCount.sold / tokensCount.total || 0} />
 
         <p className={styles.sold}>
-          {formatNumber(tokensCount.sold)} {tokenName}{' '}
+          {formatNumber(tokensCount.sold)} {config.tokenName}{' '}
           <Text isMuted>of {formatNumber(tokensCount.total)}</Text>
         </p>
       </div>
@@ -65,7 +65,7 @@ export default class TokenPrice extends Component {
 
         {prices.map(({ rate, label }) => (
           <p key={label} className={styles.price}>
-            1 {label} = <Badge>{formatNumber(rate)}</Badge> {tokenName}
+            1 {label} = <Badge>{formatNumber(rate)}</Badge> {config.tokenName}
           </p>
         ))}
       </div>

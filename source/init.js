@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import startup from '@slonoed/startup';
 import Root from '~/root';
-import { sale } from '~/config';
+import config from '~/config';
 import { routerProvider } from '~/router/store';
 import { authTokenProvider } from '~/stores/auth/token';
 import { apiProvider } from '~/api';
@@ -23,8 +23,8 @@ export function init() {
     [apiProvider, authTokenProvider],
     [authProvider, apiProvider, authTokenProvider],
     [kycProvider, apiProvider, authProvider],
-    [paymentProvider, apiProvider, authProvider, sale, kycProvider],
-    [saleProvider, apiProvider, authProvider, sale],
+    [paymentProvider, apiProvider, authProvider, config.saleId, kycProvider],
+    [saleProvider, apiProvider, authProvider, config.saleId],
     [walletBalanceProvider, apiProvider],
     [walletGeneratorProvider],
     [balanceUpdatingService, authProvider, kycProvider, walletBalanceProvider],

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { tokenName } from '~/config';
+import config from '~/config';
 import { Panel } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import formatNumber from '~/i18n/format-number';
@@ -26,7 +26,7 @@ export default class Balance extends Component {
         </h3>
 
         <p className={styles.balance}>
-          {formatNumber(balance)} {tokenName}
+          {formatNumber(balance)} {config.tokenName}
         </p>
       </Panel>
     );

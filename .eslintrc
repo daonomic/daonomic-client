@@ -21,6 +21,9 @@
     "node": true,
     "jest": true
   },
+  "globals": {
+    "browser": true
+  },
   "settings": {
     "import/resolver": "webpack"
   },
@@ -53,9 +56,11 @@
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
     "react/require-default-props": 0,
+    "react/display-name": 0,
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", 2],
 
+    "flowtype/generic-spacing": 0,
     "flowtype/space-after-type-colon": [
       2,
       "always",
@@ -71,7 +76,8 @@
           "postcss.config.js",
           "**/webpack/**/*.js",
           "**/*.story.js",
-          "**/*.spec.js"
+          "**/*.spec.js",
+          "**/e2e-tests/**/*.js"
         ]
       }
     ]

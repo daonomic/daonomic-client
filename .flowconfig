@@ -1,4 +1,6 @@
 [ignore]
+.*/node_modules/oboe/test/json/incomplete.json
+.*/node_modules/bcryptjs/src/bower.json
 
 [include]
 

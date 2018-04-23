@@ -4,7 +4,7 @@ import { Panel } from '@daonomic/ui';
 import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Spoiler from '~/components/spoiler';
-import { faq } from '~/config';
+import config from '~/config';
 import EmailUs from './components/email-us';
 import styles from './faq.css';
 
@@ -16,7 +16,7 @@ type Props = {
 
 export default class Faq extends React.PureComponent<Props> {
   static defaultProps = {
-    entries: faq,
+    entries: config.faq,
   };
 
   render() {
