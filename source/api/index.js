@@ -1,5 +1,6 @@
 // @flow
 import axios from 'axios';
+import { path } from 'ramda';
 import config from '~/config';
 import cacheResult from '~/utils/cache-result';
 import { baseApiUrl } from '~/config/api';
@@ -21,11 +22,12 @@ export function apiProvider(authToken: IAuthToken) {
   const axiosClient = axios.create({ baseURL: baseApiUrl });
 
   const handleFailedResponse = (error) => {
-    if (error.response.status === 403) {
+    if (path(['response', 'status'], error) === 403) {
       authToken.reset();
       return;
     }
 
+    console.error(error); // eslint-disable-line no-console
     throw error;
   };
 
