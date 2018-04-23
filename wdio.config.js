@@ -42,7 +42,7 @@ exports.config = {
       // 5 instances get started at a time.
       // NOTE: increasing maxInstances may break tests because ./e2e-tests/utils/get-current-ico
       // frequent calls lead to HTTP error 500 responses
-      maxInstances: 2,
+      maxInstances: 1,
       browserName: 'chrome',
     },
   ],
