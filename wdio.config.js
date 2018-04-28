@@ -1,3 +1,5 @@
+const isDebugEnabled = Boolean(process.env.DEBUG_ENABLED);
+
 exports.config = {
   //
   // ==================
@@ -9,6 +11,9 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: ['./e2e-tests/specs/**/*.js'],
+  suites: {
+    auth: ['./e2e-tests/specs/auth/**/*.js'],
+  },
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -29,7 +34,7 @@ exports.config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 6,
+  maxInstances: isDebugEnabled ? 1 : 6,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -48,8 +53,8 @@ exports.config = {
         // to run chrome headless the following flags are required
         // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
         // args: ['--headless', '--disable-gpu'],
-        args: ['--headless', '--disable-gpu'],
-      }
+        args: isDebugEnabled ? [] : ['--headless', '--disable-gpu'],
+      },
     },
   ],
   //
@@ -141,7 +146,7 @@ exports.config = {
   jasmineNodeOpts: {
     //
     // Jasmine default timeout
-    defaultTimeoutInterval: 15000,
+    defaultTimeoutInterval: isDebugEnabled ? 1000 * 60 * 60 * 24 : 1000 * 15,
     //
     // The Jasmine framework allows interception of each assertion in order to log the state of the application
     // or website depending on the result. For example, it is pretty handy to take a screenshot every time
