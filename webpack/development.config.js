@@ -7,6 +7,8 @@ const {
 } = require('../config');
 
 module.exports = Object.assign({}, baseConfig, {
+  mode: 'development',
+
   entry: [
     `webpack-dev-server/client?http://localhost:${devServerPort}`,
     'webpack/hot/only-dev-server',
@@ -14,12 +16,7 @@ module.exports = Object.assign({}, baseConfig, {
     ...baseConfig.entry,
   ],
 
-  plugins: [
-    ...baseConfig.plugins,
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+  plugins: [...baseConfig.plugins, new webpack.HotModuleReplacementPlugin()],
 
   module: Object.assign({}, baseConfig.module, {
     rules: [

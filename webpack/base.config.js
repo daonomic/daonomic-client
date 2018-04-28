@@ -11,6 +11,18 @@ const {
   e2eTest,
 } = require('../config');
 
+// eslint-disable-next-line no-console
+console.log(
+  'Starting build...\n',
+  {
+    api,
+    nodeEnv,
+    isDebugEnabled,
+    e2eTest,
+  },
+  '\n',
+);
+
 const config = {
   entry: [`${sourceDir}/index.js`, '@daonomic/ui/source/global.css'].concat(
     e2eTest ? `${sourceDir}/utils/inject-web3-mock` : [],

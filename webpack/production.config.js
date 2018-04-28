@@ -6,6 +6,8 @@ const { themeImportDeclaration } = require('../config');
 const extractCSS = new ExtractTextPlugin('app.css');
 
 module.exports = Object.assign({}, baseConfig, {
+  mode: 'production',
+
   plugins: [
     ...baseConfig.plugins,
     extractCSS,
