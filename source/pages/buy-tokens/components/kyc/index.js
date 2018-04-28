@@ -4,11 +4,11 @@ import cn from 'classnames';
 import { observer, inject } from 'mobx-react';
 import { Button, Input, Select, Panel, Badge, Checkbox } from '@daonomic/ui';
 import ImageUploader from '~/components/image-uploader';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
 import config from '~/config';
 import styles from './kyc.css';
+import { getTranslation } from '~/i18n';
 
 import type { KycStore } from '~/stores/kyc';
 import type {
@@ -57,7 +57,7 @@ class Kyc extends React.Component<Props> {
 
   renderHeading = (translationKey: string) => (
     <Heading className={styles.title} tagName="h2" size="normal">
-      <Translation id={translationKey} />
+      {getTranslation(translationKey)}
     </Heading>
   );
 
@@ -67,7 +67,7 @@ class Kyc extends React.Component<Props> {
     if (isDenied) {
       return (
         <p className={cn(styles.paragraph, styles.red)}>
-          <Translation id="wallet:kycDenied" />
+          {getTranslation('wallet:kycDenied')}
           <br />
           {denialReason && `Denial reason: ${denialReason}`}
         </p>
@@ -75,7 +75,7 @@ class Kyc extends React.Component<Props> {
     } else if (isOnReview) {
       return (
         <p className={styles.paragraph}>
-          <Translation id="wallet:kycOnReview" />
+          {getTranslation('wallet:kycOnReview')}
         </p>
       );
     }
@@ -215,13 +215,10 @@ class Kyc extends React.Component<Props> {
     if (field.name === 'address') {
       return (
         <p className={styles.paragraph}>
-          <Translation
-            id="wallet:addressAnnotation"
-            data={{ tokenName: config.tokenName }}
-          />{' '}
-          <strong>
-            <Translation id="wallet:addressWarning" />
-          </strong>
+          {getTranslation('wallet:addressAnnotation', {
+            tokenName: config.tokenName,
+          })}{' '}
+          <strong>{getTranslation('wallet:addressWarning')}</strong>
         </p>
       );
     }
@@ -235,11 +232,9 @@ class Kyc extends React.Component<Props> {
     return (
       <div className={styles.footer}>
         <Button type="submit" disabled={!isEditingAllowed}>
-          {isSaved ? (
-            <Translation id="wallet:saved" />
-          ) : (
-            <Translation id="wallet:save" />
-          )}
+          {isSaved
+            ? getTranslation('wallet:saved')
+            : getTranslation('wallet:save')}
         </Button>
       </div>
     );

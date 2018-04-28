@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { translate } from 'react-i18next';
 import { inject } from 'mobx-react';
 import AppLayout from '~/components/app-layout';
 import SignIn from '~/pages/sign-in';
@@ -17,7 +16,6 @@ type Props = {|
   currentRoute: ?Route,
 |};
 
-@translate([], { wait: true })
 class CurrentPage extends React.Component<Props> {
   render() {
     const { currentRoute } = this.props;

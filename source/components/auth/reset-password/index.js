@@ -2,12 +2,12 @@
 import * as React from 'react';
 import Link from '~/components/link';
 import { Button, Input, Panel, Text } from '@daonomic/ui/source';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import getMarker from '~/utils/get-marker';
 import getRouteUrl from '~/router/get-route-url';
+import { getTranslation } from '~/i18n';
 
 type Props = {|
   email: string,
@@ -50,15 +50,15 @@ export default class ResetPassword extends React.Component<Props> {
       <Panel>
         <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
-            <Translation id="auth:forgotPassword" />
+            {getTranslation('auth:forgotPassword')}
           </Heading>
 
           <Text design="muted" element="p" className={commonStyles.row}>
-            <Translation id="auth:forgotPasswordInstruction" />
+            {getTranslation('auth:forgotPasswordInstruction')}
           </Text>
 
           <Text design="muted" element="p" className={commonStyles.row}>
-            <Translation id="auth:forgotPasswordSecurity" />
+            {getTranslation('auth:forgotPasswordSecurity')}
           </Text>
 
           {this.renderCommonError()}
@@ -69,7 +69,7 @@ export default class ResetPassword extends React.Component<Props> {
               required
               value={email}
               type="email"
-              label={Translation.text('auth:email')}
+              label={getTranslation('auth:email')}
               errors={errors.email}
               onChange={onChangeEmail}
               disabled={isSaving}
@@ -82,7 +82,7 @@ export default class ResetPassword extends React.Component<Props> {
               type="submit"
               disabled={isSaving}
             >
-              <Translation id="auth:forgotPasswordSubmit" />
+              {getTranslation('auth:forgotPasswordSubmit')}
             </Button>
           </div>
         </form>
@@ -93,11 +93,11 @@ export default class ResetPassword extends React.Component<Props> {
   renderSuccessMessage = () => (
     <Panel data-marker={this.marker('success-message')()}>
       <Heading size="large" tagName="h1" className={commonStyles.title}>
-        <Translation id="auth:successfulResetTitle" />
+        {getTranslation('auth:successfulResetTitle')}
       </Heading>
 
       <Text design="muted" element="p">
-        <Translation id="auth:successfulResetAnnotation" />
+        {getTranslation('auth:successfulResetAnnotation')}
       </Text>
     </Panel>
   );
@@ -117,7 +117,7 @@ export default class ResetPassword extends React.Component<Props> {
       <Panel>
         <Text design="muted" align="center" element="p">
           <Link href={getRouteUrl('signIn')}>
-            <Translation id="auth:signInHeading" />&nbsp;⟩
+            {getTranslation('auth:signInHeading')}&nbsp;⟩
           </Link>
         </Text>
       </Panel>

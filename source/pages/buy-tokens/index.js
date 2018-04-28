@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { Panel } from '@daonomic/ui';
 import TwoColumnsLayout from '~/components/two-columns-layout';
 import SaleTimeline from '~/components/sale-timeline';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Kyc from './components/kyc';
 import PaymentMethod from './components/payment-method';
@@ -12,6 +11,7 @@ import TokenPrice from './components/token-price';
 import Balance from './components/balance';
 import styles from './buy-tokens.css';
 import formatDate from '~/i18n/format-date';
+import { getTranslation } from '~/i18n';
 
 @inject(({ sale, kyc }) => ({
   sale: {
@@ -49,7 +49,7 @@ class BuyTokens extends Component {
   renderPreloader = () => (
     <Panel>
       <Heading tagName="h1" className={styles.placeholder} size="large">
-        <Translation id="loading" />...
+        {getTranslation('common:loading')}...
       </Heading>
     </Panel>
   );
@@ -67,12 +67,9 @@ class BuyTokens extends Component {
     return (
       <Panel>
         <Heading tagName="h1" className={styles.placeholder}>
-          <Translation
-            id="widgets:saleStarts"
-            data={{
-              date: formatDate(new Date(startTimestamp)),
-            }}
-          />
+          {getTranslation('widgets:saleStarts', {
+            date: formatDate(new Date(startTimestamp)),
+          })}
         </Heading>
       </Panel>
     );
@@ -81,7 +78,7 @@ class BuyTokens extends Component {
   renderFinishedSaleContent = () => (
     <Panel>
       <Heading tagName="h1" className={styles.placeholder}>
-        <Translation id="widgets:saleFinished" />
+        {getTranslation('widgets:saleFinished')}
       </Heading>
     </Panel>
   );

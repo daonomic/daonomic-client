@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import config from '~/config';
 import { Panel } from '@daonomic/ui';
-import Translation from '~/components/translation';
 import formatNumber from '~/i18n/format-number';
 import styles from './balance.css';
+import { getTranslation } from '~/i18n';
 
 @inject(({ walletBalance }) => ({
   balance: walletBalance.state.balance,
@@ -22,7 +22,7 @@ export default class Balance extends Component {
     return (
       <Panel className={styles.root}>
         <h3 className={styles.title}>
-          <Translation id="widgets:yourWalletBalance" />
+          {getTranslation('widgets:yourWalletBalance')}
         </h3>
 
         <p className={styles.balance}>
