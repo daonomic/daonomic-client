@@ -53,11 +53,11 @@ export default class ResetPassword extends React.Component<Props> {
             <Translation id="auth:forgotPassword" />
           </Heading>
 
-          <Text isMuted element="p" className={commonStyles.row}>
+          <Text design="muted" element="p" className={commonStyles.row}>
             <Translation id="auth:forgotPasswordInstruction" />
           </Text>
 
-          <Text isMuted element="p" className={commonStyles.row}>
+          <Text design="muted" element="p" className={commonStyles.row}>
             <Translation id="auth:forgotPasswordSecurity" />
           </Text>
 
@@ -96,7 +96,7 @@ export default class ResetPassword extends React.Component<Props> {
         <Translation id="auth:successfulResetTitle" />
       </Heading>
 
-      <Text isMuted element="p">
+      <Text design="muted" element="p">
         <Translation id="auth:successfulResetAnnotation" />
       </Text>
     </Panel>
@@ -115,7 +115,7 @@ export default class ResetPassword extends React.Component<Props> {
       {this.renderContent()}
 
       <Panel>
-        <Text isMuted align="center" element="p">
+        <Text design="muted" align="center" element="p">
           <Link href={getRouteUrl('signIn')}>
             <Translation id="auth:signInHeading" />&nbsp;⟩
           </Link>

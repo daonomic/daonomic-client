@@ -9,7 +9,7 @@
 .root_disabled {
   cursor: default;
   color: var(--color-text-muted);
-  border-color: var(--theme-control-disabled-border);
-  background: var(--theme-control-disabled-background);
+  border-color: var(--color-borders);
+  background: color(var(--color-borders) alpha(10%));
   cursor: not-allowed;
 }

@@ -44,7 +44,7 @@ export default class TokenPrice extends Component {
 
         <p className={styles.sold}>
           {formatNumber(tokensCount.sold)} {config.tokenName}{' '}
-          <Text isMuted>of {formatNumber(tokensCount.total)}</Text>
+          <Text design="muted">of {formatNumber(tokensCount.total)}</Text>
         </p>
       </div>
     );

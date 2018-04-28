@@ -113,7 +113,7 @@ export default class CreateNewPassword extends React.Component<Props> {
         <Translation id="auth:createNewPasswordTitle" />
       </Heading>
 
-      <Text isMuted element="p">
+      <Text design="muted" element="p">
         <Translation id="auth:successfulNewPasswordCreation" />
       </Text>
     </Panel>
@@ -132,7 +132,7 @@ export default class CreateNewPassword extends React.Component<Props> {
       {this.renderContent()}
 
       <Panel>
-        <Text isMuted element="p" align="center">
+        <Text design="muted" element="p" align="center">
           <Translation id="auth:alreadyHaveAccount" />{' '}
           <Link href={getRouteUrl('signIn')}>
             <Translation id="auth:signInHeading" />&nbsp;⟩

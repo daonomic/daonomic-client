@@ -96,7 +96,11 @@ export default class SignUp extends React.Component<Props> {
     }
 
     return (
-      <Text data-marker={this.marker('success-message')()} isMuted element="p">
+      <Text
+        data-marker={this.marker('success-message')()}
+        design="muted"
+        element="p"
+      >
         <Translation id="auth:signUpSuccess" />
       </Text>
     );
@@ -115,7 +119,7 @@ export default class SignUp extends React.Component<Props> {
       </Panel>
 
       <Panel>
-        <Text isMuted align="center" element="p">
+        <Text design="muted" align="center" element="p">
           <Translation id="auth:alreadyHaveAccount" />{' '}
           <Link
             data-marker={this.marker('sign-in-link')()}
