@@ -10,11 +10,14 @@
   "signUpHeading": "Sign Up",
   "signUpSubmit": "Sign Up",
   "signUpSuccess": "Password has been sent to email",
-  "forgotPasswordInstruction": "Enter the email address you used when you joined and we’ll send you instructions to reset your password.",
-  "forgotPasswordSecurity": "For security reasons, we do NOT store your password. So rest assured that we will never send your password via email.",
+  "forgotPasswordInstruction":
+    "Enter the email address you used when you joined and we’ll send you instructions to reset your password.",
+  "forgotPasswordSecurity":
+    "For security reasons, we do NOT store your password. So rest assured that we will never send your password via email.",
   "forgotPasswordSubmit": "Send Reset Instructions",
   "successfulResetTitle": "Reset Instructions Sent",
-  "successfulResetAnnotation": "Instructions to reset your password have been sent to you. Please check your email.",
+  "successfulResetAnnotation":
+    "Instructions to reset your password have been sent to you. Please check your email.",
   "createNewPasswordTitle": "Create New Password",
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",

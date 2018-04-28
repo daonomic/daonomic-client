@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
 import getMarker from '~/utils/get-marker';
@@ -9,6 +8,7 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 import getRouteUrl from '~/router/get-route-url';
+import { getTranslation } from '~/i18n';
 
 type Props = {|
   email: string,
@@ -62,7 +62,7 @@ export default class SignIn extends React.Component<Props> {
         <Panel>
           <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
             <Heading size="large" tagName="h1" className={commonStyles.title}>
-              <Translation id="auth:signInHeading" />
+              {getTranslation('auth:signInHeading')}
             </Heading>
 
             {this.renderCommonError()}
@@ -72,7 +72,7 @@ export default class SignIn extends React.Component<Props> {
                 data-marker={this.marker('email')()}
                 required
                 type="email"
-                label={Translation.text('auth:email')}
+                label={getTranslation('auth:email')}
                 value={email}
                 errors={errors.email}
                 onChange={onChangeEmail}
@@ -86,7 +86,7 @@ export default class SignIn extends React.Component<Props> {
                 required
                 type="password"
                 autoComplete="new-password"
-                label={Translation.text('auth:password')}
+                label={getTranslation('auth:password')}
                 value={password}
                 errors={errors.password}
                 onChange={onChangePassword}
@@ -100,7 +100,7 @@ export default class SignIn extends React.Component<Props> {
                 disabled={isLoading}
                 data-marker={this.marker('submit')()}
               >
-                <Translation id="auth:signInSubmit" />
+                {getTranslation('auth:signInSubmit')}
               </Button>
 
               <Link
@@ -108,7 +108,7 @@ export default class SignIn extends React.Component<Props> {
                 className={styles.link}
                 data-marker={this.marker('reset-password')()}
               >
-                <Translation id="auth:forgotPassword" />
+                {getTranslation('auth:forgotPassword')}
               </Link>
             </div>
           </form>
@@ -116,12 +116,12 @@ export default class SignIn extends React.Component<Props> {
 
         <Panel>
           <Text design="muted" align="center" element="p">
-            <Translation id="auth:dontHaveAccount" />{' '}
+            {getTranslation('auth:dontHaveAccount')}{' '}
             <Link
               data-marker={this.marker('sign-up-link')()}
               href={getRouteUrl('signUp')}
             >
-              <Translation id="auth:signUpHeading" />&nbsp;⟩
+              {getTranslation('auth:signUpHeading')}&nbsp;⟩
             </Link>
           </Text>
         </Panel>

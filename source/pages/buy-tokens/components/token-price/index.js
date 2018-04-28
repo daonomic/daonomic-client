@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer, inject } from 'mobx-react';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
-import Translation from '~/components/translation';
 import formatNumber from '~/i18n/format-number';
 import config from '~/config';
 import styles from './token-price.css';
+import { getTranslation } from '~/i18n';
 
 @inject(({ payment, sale }) => ({
   tokensCount: sale.state.tokensCount,
@@ -36,9 +36,7 @@ export default class TokenPrice extends Component {
 
     return (
       <div className={styles.section}>
-        <h3 className={styles.title}>
-          <Translation id="widgets:tokensSold" />
-        </h3>
+        <h3 className={styles.title}>{getTranslation('widgets:tokensSold')}</h3>
 
         <Meter value={tokensCount.sold / tokensCount.total || 0} />
 
@@ -59,9 +57,7 @@ export default class TokenPrice extends Component {
 
     return (
       <div className={styles.section}>
-        <h3 className={styles.title}>
-          <Translation id="widgets:tokenPrice" />
-        </h3>
+        <h3 className={styles.title}>{getTranslation('widgets:tokenPrice')}</h3>
 
         {prices.map(({ rate, label }) => (
           <p key={label} className={styles.price}>

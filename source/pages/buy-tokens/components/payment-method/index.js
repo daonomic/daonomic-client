@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer, PropTypes as MobxPropTypes } from 'mobx-react';
 import { Panel, Select } from '@daonomic/ui';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import textStyles from '~/components/text/text.css';
 import styles from './payment-method.css';
+import { getTranslation } from '~/i18n';
 
 const paymentMethodShape = PropTypes.shape({
   id: PropTypes.string,
@@ -47,7 +47,7 @@ class PaymentMethod extends Component {
     return (
       <div className={styles.select}>
         <label className={styles.label} htmlFor={selectId}>
-          <Translation id="paymentMethods:wantToPayWith" />
+          {getTranslation('paymentMethods:wantToPayWith')}
         </label>
 
         <Select
@@ -69,19 +69,16 @@ class PaymentMethod extends Component {
     const { selectedPaymentMethod, selectedPaymentMethodAddress } = this.props;
 
     if (!selectedPaymentMethodAddress) {
-      return `${Translation.text('loading')}...`;
+      return `${getTranslation('common:loading')}...`;
     }
 
     return (
       <div className={styles['payment-method-address']}>
         {this.renderQRCode()}
         <div>
-          <Translation
-            id="paymentMethods:sendFundsTo"
-            data={{
-              paymentMethod: selectedPaymentMethod.label,
-            }}
-          />
+          {getTranslation('paymentMethods:sendFundsTo', {
+            paymentMethod: selectedPaymentMethod.label,
+          })}
           <div className={textStyles['word-break-all']}>
             {selectedPaymentMethodAddress}
           </div>
@@ -116,15 +113,15 @@ class PaymentMethod extends Component {
     return (
       <Fragment>
         <Heading tagName="h3" size="small">
-          <Translation id="paymentMethods:statusesTitle" />
+          {getTranslation('paymentMethods:statusesTitle')}
         </Heading>
 
         {selectedPaymentMethodPayments.map((payment) => (
           <div key={payment.id}>
             {payment.value} {selectedPaymentMethod.id},{' '}
-            <Translation
-              id={`paymentMethods:${this.renderPaymentStatus(payment)}`}
-            />
+            {getTranslation(
+              `paymentMethods:${this.renderPaymentStatus(payment)}`,
+            )}
           </div>
         ))}
 
@@ -139,11 +136,11 @@ class PaymentMethod extends Component {
     return (
       <Fragment>
         <Heading tagName="h3" size="small">
-          <Translation id="paymentMethods:instructionTitle" />
+          {getTranslation('paymentMethods:instructionTitle')}
         </Heading>
 
         <div>
-          <Translation id="paymentMethods:instructionText" />
+          {getTranslation('paymentMethods:instructionText')}
           <div className={textStyles['word-break-all']}>{walletAddress}</div>
         </div>
       </Fragment>
@@ -169,7 +166,7 @@ class PaymentMethod extends Component {
   render = () => (
     <Panel>
       <Heading className={styles.title} tagName="h2" size="normal">
-        <Translation id="paymentMethods:title" />
+        {getTranslation('paymentMethods:title')}
       </Heading>
 
       {this.renderPaymentMethodsSelect()}

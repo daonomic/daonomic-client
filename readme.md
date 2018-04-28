@@ -15,3 +15,7 @@ DEBUG_ENABLED=true npm run build # builds project with sourcemaps for debugging
 API=staging npm run build # use staging server
 API=development npm run build # use development server
 ```
+
+## i18n
+
+All translations can be edited at `./source/i18n/translations`.

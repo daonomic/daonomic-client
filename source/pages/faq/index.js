@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
-import Translation from '~/components/translation';
 import Heading from '~/components/heading';
 import Spoiler from '~/components/spoiler';
 import config from '~/config';
 import EmailUs from './components/email-us';
 import styles from './faq.css';
+import { getTranslation } from '~/i18n';
 
 import type { FaqEntry } from '~/types/faq';
 
@@ -26,7 +26,7 @@ export default class Faq extends React.PureComponent<Props> {
       <div>
         <Panel>
           <Heading tagName="h1" size="normal" className={styles.title}>
-            <Translation id="faq:title" />
+            {getTranslation('faq:title')}
           </Heading>
 
           <div className={styles.list}>

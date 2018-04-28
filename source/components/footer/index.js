@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import Translation from '~/components/translation';
 import config from '~/config';
 import { Logo } from '@daonomic/ui';
 import styles from './footer.css';
+import { getTranslation } from '~/i18n';
 
 type Props = {
   className?: string,
@@ -19,7 +19,7 @@ export default class Footer extends React.PureComponent<Props, {}> {
     return (
       <div>
         <a href={config.termsOfServiceURL} className={styles.link}>
-          <Translation id="termsOfService" />
+          {getTranslation('common:termsOfService')}
         </a>
       </div>
     );
@@ -32,7 +32,7 @@ export default class Footer extends React.PureComponent<Props, {}> {
       <div className={cn(className, styles.root)}>
         <div className={styles.inner}>
           <div className={styles.left}>
-            <Translation id="poweredBy" />{' '}
+            {getTranslation('common:poweredBy')}{' '}
             <a
               href="https://daonomic.io"
               target="_blank"
