@@ -13,8 +13,8 @@ const realms = {
 };
 
 export default {
-  saleId: sales[process.env.API] || sales.production,
-  realmId: realms[process.env.API] || realms.production,
+  saleId: window.sale || sales[process.env.API] || sales.production,
+  realmId: window.realm || realms[process.env.API] || realms.production,
   tokenName: 'TIKR',
   contactEmail: 'dev@0v1se.com',
   termsOfServiceURL: 'terms.url',
