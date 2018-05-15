@@ -8,7 +8,7 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development API=staging DEBUG_ENABLED=true webpack-dev-server",
+    "start": "cross-env NODE_ENV=development ENVIRONMENT=staging DEBUG_ENABLED=true webpack-dev-server",
     "storybook": "cross-env NODE_ENV=development start-storybook -p 9001",
     "prebuild": "rm -rf ./build && mkdir ./build",
     "build": "cross-env NODE_ENV=production webpack",
@@ -16,7 +16,7 @@
     "test:lint": "eslint source webpack",
     "test:types": "flow",
     "test:unit": "jest --silent",
-    "pretest:e2e": "if-env SKIP_BUILD=true && exit 0 || cross-env API=development E2E_TEST=true npm run build",
+    "pretest:e2e": "if-env SKIP_BUILD=true && exit 0 || cross-env ENVIRONMENT=development E2E_TEST=true npm run build",
     "test:e2e": "rm -rf ./e2e-tests/results && node ./e2e-tests/index.js",
     "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials && selenium-standalone install --silent",

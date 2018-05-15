@@ -25,12 +25,12 @@ npm run build
 Build options are specified using environment variables:
 
 * `DEBUG_ENABLED=true` enables sourcemaps for debugging
-* `API` (`production` by default, may be `staging` or `development`) specifies which API server to use
+* `ENVIRONMENT` (`production` by default, may be `staging` or `development`) specifies in which environment the app will be used
 
 Example usage:
 
 ```
-DEBUG_ENABLED=true API=staging npm run build
+DEBUG_ENABLED=true ENVIRONMENT=staging npm run build
 ```
 
 ## i18n

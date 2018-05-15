@@ -10,7 +10,7 @@ module.exports = {
   defaultNodeEnv,
   nodeEnv: process.env.NODE_ENV || defaultNodeEnv,
   devServerPort: process.env.PORT || 3000,
-  api: process.env.API || 'production',
+  api: process.env.ENVIRONMENT || 'production',
   isDebugEnabled: Boolean(process.env.DEBUG_ENABLED) || false,
   isAnalyzeModeEnabled: process.env.ANALYZE || false,
   themeImportDeclaration: `@import "${sourceDir}/config/styles/theme.css";`,

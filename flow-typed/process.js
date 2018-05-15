@@ -1,7 +1,7 @@
 // @flow
 declare var process: {
   env: {
-    API: 'production' | 'staging' | 'development',
+    ENVIRONMENT: 'production' | 'staging' | 'development',
     NODE_ENV: 'production' | 'development',
   },
 };

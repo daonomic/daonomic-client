@@ -1,10 +1,11 @@
 // @flow
+import { environment } from '~/config';
 
 const productionApiUrl = 'https://api.daonomic.io/v1';
 
 export let baseApiUrl = productionApiUrl;
 
-switch (process.env.API) {
+switch (environment) {
   case 'production': {
     baseApiUrl = productionApiUrl;
     break;
@@ -21,6 +22,7 @@ switch (process.env.API) {
   }
 
   default: {
-    (process.env.API: empty);
+    baseApiUrl = productionApiUrl;
+    break;
   }
 }

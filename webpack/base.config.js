@@ -86,7 +86,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
-      'process.env.API': JSON.stringify(api),
+      'process.env.ENVIRONMENT': JSON.stringify(api),
       'process.env.E2E_TEST': JSON.stringify(e2eTest),
     }),
     new HtmlWebpackPlugin({

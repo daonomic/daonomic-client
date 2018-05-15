@@ -1,5 +1,10 @@
 // @flow
 
+const globalDaonomicConfig = window.daonomicConfig || {};
+
+export const environment =
+  globalDaonomicConfig.environment || process.env.ENVIRONMENT;
+
 const sales = {
   development: '5adb5c52020d8831579b0c84',
   staging: '0xd76bdd62ed8cd391b9d69e27c60408a13d2b65f0',
@@ -13,8 +18,9 @@ const realms = {
 };
 
 export default {
-  saleId: window.sale || sales[process.env.API] || sales.production,
-  realmId: window.realm || realms[process.env.API] || realms.production,
+  saleId: globalDaonomicConfig.sale || sales[environment] || sales.production,
+  realmId:
+    globalDaonomicConfig.realm || realms[environment] || realms.production,
   tokenName: 'TIKR',
   contactEmail: 'dev@0v1se.com',
   termsOfServiceURL: 'terms.url',
