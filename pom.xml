@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.daonomic</groupId>
+    <artifactId>daonomic-client</artifactId>
+    <version>0.1-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>nexus-releases</id>
+            <name>nexus-releases</name>
+            <url>http://10.7.3.6:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>Internal Snapshots</name>
+            <url>http://10.7.3.6:8081/nexus/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <url>http://10.7.3.6:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>http://10.7.3.6:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <rpm.user.name>root</rpm.user.name>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <configuration>
+                    <defaultUsername>${rpm.user.name}</defaultUsername>
+                    <defaultGroupname>${rpm.user.name}</defaultGroupname>
+                    <defaultFilemode>755</defaultFilemode>
+                    <group>Applications/Java</group>
+                    <targetOS>linux</targetOS>
+                    <needarch>noarch</needarch>
+                    <name>${rpm.user.name}-${project.artifactId}</name>
+                    <mappings>
+                        <mapping>
+                            <username>${rpm.user.name}</username>
+                            <groupname>${rpm.user.name}</groupname>
+                            <directory>/var/daonomic/${project.artifactId}</directory>
+                            <directoryIncluded>false</directoryIncluded>
+                            <sources>
+                                <source>
+                                    <location>build</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                    <preinstallScriptlet />
+                    <postinstallScriptlet />
+                    <preremoveScriptlet />
+                    <postremoveScriptlet />
+                    <requires>
+                        <require>nginx</require>
+                    </requires>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>attached-rpm</goal>
+                        </goals>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
