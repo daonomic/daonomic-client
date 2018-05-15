@@ -63,9 +63,6 @@
                     <postinstallScriptlet />
                     <preremoveScriptlet />
                     <postremoveScriptlet />
-                    <requires>
-                        <require>nginx</require>
-                    </requires>
                 </configuration>
                 <executions>
                     <execution>
