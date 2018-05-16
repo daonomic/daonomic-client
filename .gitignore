@@ -21,6 +21,7 @@ static/index.appcache
 **/*.iml
 .vscode
 npm-debug.*
+*.log
 
 /target/
 /.project
