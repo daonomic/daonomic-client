@@ -18,7 +18,7 @@ describe('sale store', () => {
     expect(sale.isLoaded).toBe(false);
   });
 
-  test('should load data immediately after authentication', (done) => {
+  test('should load data immediately after authentication', async (done) => {
     const auth = authProvider(api, authTokenProvider());
     const sale = saleProvider(api, auth, testSale);
 
@@ -27,20 +27,15 @@ describe('sale store', () => {
     expect(auth.isAuthenticated).toBe(true);
     expect(sale.isLoading).toBe(true);
 
-    when(
-      () => sale.isLoaded,
-      () => {
-        expect(sale.state.tokensCount.sold).toBe(10);
-        expect(sale.state.tokensCount.total).toBe(20);
-        expect(sale.isStarted).toBe(true);
-        expect(sale.isFinished).toBe(false);
-        expect();
-        done();
-      },
-    );
+    await when(() => sale.isLoaded);
+    expect(sale.state.tokensCount.sold).toBe(10);
+    expect(sale.state.tokensCount.total).toBe(20);
+    expect(sale.isStarted).toBe(true);
+    expect(sale.isFinished).toBe(false);
+    done();
   });
 
-  test('should reset loaded data when logged out', (done) => {
+  test('should reset loaded data when logged out', async (done) => {
     const auth = authProvider(api, authTokenProvider());
     const sale = saleProvider(api, auth, testSale);
 
@@ -49,31 +44,23 @@ describe('sale store', () => {
     expect(auth.isAuthenticated).toBe(true);
     expect(sale.isLoading).toBe(true);
 
-    when(
-      () => sale.isLoaded,
-      () => {
-        expect(sale.state.tokensCount.sold).toBe(10);
-        expect(sale.state.tokensCount.total).toBe(20);
-        expect(sale.isStarted).toBe(true);
-        expect(sale.isFinished).toBe(false);
+    await when(() => sale.isLoaded);
+    expect(sale.state.tokensCount.sold).toBe(10);
+    expect(sale.state.tokensCount.total).toBe(20);
+    expect(sale.isStarted).toBe(true);
+    expect(sale.isFinished).toBe(false);
 
-        auth.logout();
+    auth.logout();
 
-        when(
-          () => !auth.isAuthenticated,
-          () => {
-            expect(sale.isLoading).toBe(false);
-            expect(sale.isLoaded).toBe(false);
-            expect(sale.state.tokensCount.sold).toBe(0);
-            expect(sale.state.tokensCount.total).toBe(0);
-            done();
-          },
-        );
-      },
-    );
+    await when(() => !auth.isAuthenticated);
+    expect(sale.isLoading).toBe(false);
+    expect(sale.isLoaded).toBe(false);
+    expect(sale.state.tokensCount.sold).toBe(0);
+    expect(sale.state.tokensCount.total).toBe(0);
+    done();
   });
 
-  test('should consider sale as eternal if server returns no start and end timestamps', (done) => {
+  test('should consider sale as eternal if server returns no start and end timestamps', async (done) => {
     api.getIcoInfo.setResponse('successEternal');
     const auth = authProvider(api, authTokenProvider());
     const sale = saleProvider(api, auth, testSale);
@@ -83,17 +70,13 @@ describe('sale store', () => {
     expect(auth.isAuthenticated).toBe(true);
     expect(sale.isLoading).toBe(true);
 
-    when(
-      () => sale.isLoaded,
-      () => {
-        expect(sale.isStarted).toBe(true);
-        expect(sale.isFinished).toBe(false);
-        expect(sale.state.startTimestamp).toBe(null);
-        expect(sale.state.endTimestamp).toBe(null);
+    await when(() => sale.isLoaded);
+    expect(sale.isStarted).toBe(true);
+    expect(sale.isFinished).toBe(false);
+    expect(sale.state.startTimestamp).toBe(null);
+    expect(sale.state.endTimestamp).toBe(null);
 
-        api.getIcoInfo.reset();
-        done();
-      },
-    );
+    api.getIcoInfo.reset();
+    done();
   });
 });

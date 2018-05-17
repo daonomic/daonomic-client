@@ -28,6 +28,9 @@ export type GetIcoInfoResponse = {|
   total: number,
   startDate: number,
   endDate: number,
+  token: {
+    symbol: string,
+  },
 |};
 
 export interface IApi {

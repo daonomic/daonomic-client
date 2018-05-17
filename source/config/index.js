@@ -21,7 +21,6 @@ export default {
   saleId: globalDaonomicConfig.sale || sales[environment] || sales.production,
   realmId:
     globalDaonomicConfig.realm || realms[environment] || realms.production,
-  tokenName: 'TIKR',
   contactEmail: 'dev@0v1se.com',
   termsOfServiceURL: 'terms.url',
   faq: [

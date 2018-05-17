@@ -6,11 +6,11 @@ import { Button, Input, Select, Panel, Badge, Checkbox } from '@daonomic/ui';
 import ImageUploader from '~/components/image-uploader';
 import Heading from '~/components/heading';
 import removeDuplicates from '~/utils/remove-duplicates';
-import config from '~/config';
 import styles from './kyc.css';
 import { getTranslation } from '~/i18n';
 
 import type { KycStore } from '~/stores/kyc';
+import type { SaleStore } from '~/stores/sale';
 import type {
   KycFormField,
   KycFormFieldName,
@@ -18,6 +18,7 @@ import type {
 } from '~/types/kyc';
 
 type Props = {|
+  tokenSymbol: string,
   isKycExtended: boolean,
   kycForm: KycFormField[],
   isSaving: boolean,
@@ -216,7 +217,7 @@ class Kyc extends React.Component<Props> {
       return (
         <p className={styles.paragraph}>
           {getTranslation('wallet:addressAnnotation', {
-            tokenName: config.tokenName,
+            tokenName: this.props.tokenSymbol,
           })}{' '}
           <strong>{getTranslation('wallet:addressWarning')}</strong>
         </p>
@@ -276,18 +277,21 @@ class Kyc extends React.Component<Props> {
   }
 }
 
-export default inject(({ kyc }: { kyc: KycStore }): Props => ({
-  isKycExtended: kyc.isExtended,
-  kycForm: kyc.form,
-  isSaving: kyc.isSaving,
-  isSaved: kyc.isSaved,
-  isAllowed: kyc.isAllowed,
-  isDenied: kyc.isDenied,
-  isOnReview: kyc.isOnReview,
-  isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
-  denialReason: kyc.state.denialReason,
-  getFileUrlById: kyc.getFileUrlById,
-  uploadFiles: kyc.uploadFiles,
-  onChangeKycFormField: kyc.updateFormField,
-  onSave: kyc.saveData,
-}))(Kyc);
+export default inject(
+  ({ kyc, sale }: { kyc: KycStore, sale: SaleStore }): Props => ({
+    tokenSymbol: sale.state.tokenSymbol,
+    isKycExtended: kyc.isExtended,
+    kycForm: kyc.form,
+    isSaving: kyc.isSaving,
+    isSaved: kyc.isSaved,
+    isAllowed: kyc.isAllowed,
+    isDenied: kyc.isDenied,
+    isOnReview: kyc.isOnReview,
+    isEditingAllowed: !kyc.isSaving && !kyc.isOnReview && !kyc.isAllowed,
+    denialReason: kyc.state.denialReason,
+    getFileUrlById: kyc.getFileUrlById,
+    uploadFiles: kyc.uploadFiles,
+    onChangeKycFormField: kyc.updateFormField,
+    onSave: kyc.saveData,
+  }),
+)(Kyc);

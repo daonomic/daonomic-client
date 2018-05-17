@@ -30,8 +30,8 @@ class BuyTokens extends Component {
     sale: PropTypes.shape({
       isStarted: PropTypes.bool.isRequired,
       isFinished: PropTypes.bool.isRequired,
-      startTimestamp: PropTypes.number.isRequired,
-      endTimestamp: PropTypes.number.isRequired,
+      startTimestamp: PropTypes.number,
+      endTimestamp: PropTypes.number,
     }).isRequired,
     isAllowedToPay: PropTypes.bool.isRequired,
   };

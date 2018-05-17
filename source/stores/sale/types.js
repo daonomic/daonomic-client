@@ -3,6 +3,7 @@ import type { DataState } from '~/types/common';
 
 export interface ISaleStoreState {
   dataState: DataState;
+  tokenSymbol: string;
   startTimestamp: ?number;
   endTimestamp: ?number;
   tokensCount: {

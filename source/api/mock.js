@@ -144,6 +144,9 @@ const mockApi: IApi = {
             required: true,
           },
         ],
+        token: {
+          symbol: 'TIKR',
+        },
       }),
     successBtcFirst: () =>
       createResponse({
@@ -152,6 +155,9 @@ const mockApi: IApi = {
         current: 10,
         startDate: Date.now() - 1000,
         endDate: Date.now() * 10,
+        token: {
+          symbol: 'TIKR',
+        },
         paymentMethods: [
           {
             id: 'BTC',
@@ -174,6 +180,9 @@ const mockApi: IApi = {
         id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
         total: 20,
         current: 10,
+        token: {
+          symbol: 'TIKR',
+        },
         paymentMethods: [
           {
             id: 'ETH',

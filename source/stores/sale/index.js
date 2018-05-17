@@ -17,6 +17,7 @@ const getInitialTokensCount = () => ({
 
 class SaleStoreState implements ISaleStoreState {
   @observable dataState = 'initial';
+  @observable tokenSymbol = '';
   @observable startTimestamp = null;
   @observable endTimestamp = null;
   @observable tokensCount = getInitialTokensCount();
@@ -90,10 +91,12 @@ export class SaleStore {
           total = 0,
           startDate = 0,
           endDate = 0,
+          token,
         } = data;
 
         runInAction(() => {
           this.state.dataState = 'loaded';
+          this.state.tokenSymbol = token.symbol;
           this.state.tokensCount.sold = sold;
           this.state.tokensCount.total = total;
 

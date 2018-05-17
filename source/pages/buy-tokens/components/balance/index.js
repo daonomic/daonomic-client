@@ -1,34 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
 import { inject, observer } from 'mobx-react';
-import config from '~/config';
-import { Panel } from '@daonomic/ui';
-import formatNumber from '~/i18n/format-number';
-import styles from './balance.css';
-import { getTranslation } from '~/i18n';
+import BalanceView from './view';
 
-@inject(({ walletBalance }) => ({
-  balance: walletBalance.state.balance,
-}))
-@observer
-export default class Balance extends Component {
-  static propTypes = {
-    balance: PropTypes.number.isRequired,
-  };
+import type { SaleStore } from '~/stores/sale';
+import type { WalletBalanceStore } from '~/stores/wallet/balance';
+import type { Props } from './view';
 
-  render() {
-    const { balance } = this.props;
+const ObservingBalanceView = observer(BalanceView);
 
-    return (
-      <Panel className={styles.root}>
-        <h3 className={styles.title}>
-          {getTranslation('widgets:yourWalletBalance')}
-        </h3>
-
-        <p className={styles.balance}>
-          {formatNumber(balance)} {config.tokenName}
-        </p>
-      </Panel>
-    );
-  }
-}
+export default inject(
+  ({
+    walletBalance,
+    sale,
+  }: {
+    walletBalance: WalletBalanceStore,
+    sale: SaleStore,
+  }): Props => ({
+    balance: walletBalance.state.balance,
+    tokenSymbol: sale.state.tokenSymbol,
+  }),
+)(ObservingBalanceView);
