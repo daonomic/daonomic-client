@@ -6,7 +6,7 @@
     "plugin:import/errors",
     "prettier"
   ],
-  "plugins": ["flowtype", "react", "import"],
+  "plugins": ["flowtype", "compat"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 6,
@@ -25,7 +25,8 @@
     "browser": true
   },
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": "webpack",
+    "polyfills": ["promises"]
   },
   "rules": {
     "indent": [
@@ -80,6 +81,8 @@
           "**/e2e-tests/**/*.js"
         ]
       }
-    ]
+    ],
+
+    "compat/compat": "error"
   }
 }
