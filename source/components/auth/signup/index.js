@@ -106,29 +106,31 @@ export default class SignUp extends React.Component<Props> {
     );
   };
 
-  render = () => (
-    <Layout>
-      <Panel>
-        <Heading size="large" tagName="h1" className={commonStyles.title}>
-          {getTranslation('auth:signUpHeading')}
-        </Heading>
+  render() {
+    return (
+      <Layout>
+        <Panel>
+          <Heading size="large" tagName="h1" className={commonStyles.title}>
+            {getTranslation('auth:signUpHeading')}
+          </Heading>
 
-        {this.renderCommonError()}
-        {this.renderForm()}
-        {this.renderSuccessMessage()}
-      </Panel>
+          {this.renderCommonError()}
+          {this.renderForm()}
+          {this.renderSuccessMessage()}
+        </Panel>
 
-      <Panel>
-        <Text design="muted" align="center" element="p">
-          {getTranslation('auth:alreadyHaveAccount')}{' '}
-          <Link
-            data-marker={this.marker('sign-in-link')()}
-            href={getRouteUrl('signIn')}
-          >
-            {getTranslation('auth:signInHeading')}&nbsp;⟩
-          </Link>
-        </Text>
-      </Panel>
-    </Layout>
-  );
+        <Panel>
+          <Text design="muted" align="center" element="p">
+            {getTranslation('auth:alreadyHaveAccount')}{' '}
+            <Link
+              data-marker={this.marker('sign-in-link')()}
+              href={getRouteUrl('signIn')}
+            >
+              {getTranslation('auth:signInHeading')}&nbsp;⟩
+            </Link>
+          </Text>
+        </Panel>
+      </Layout>
+    );
+  }
 }

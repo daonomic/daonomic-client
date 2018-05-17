@@ -127,18 +127,20 @@ export default class CreateNewPassword extends React.Component<Props> {
     return this.renderForm();
   };
 
-  render = () => (
-    <Layout>
-      {this.renderContent()}
+  render() {
+    return (
+      <Layout>
+        {this.renderContent()}
 
-      <Panel>
-        <Text design="muted" element="p" align="center">
-          {getTranslation('auth:alreadyHaveAccount')}{' '}
-          <Link href={getRouteUrl('signIn')}>
-            {getTranslation('auth:signInHeading')}&nbsp;⟩
-          </Link>
-        </Text>
-      </Panel>
-    </Layout>
-  );
+        <Panel>
+          <Text design="muted" element="p" align="center">
+            {getTranslation('auth:alreadyHaveAccount')}{' '}
+            <Link href={getRouteUrl('signIn')}>
+              {getTranslation('auth:signInHeading')}&nbsp;⟩
+            </Link>
+          </Text>
+        </Panel>
+      </Layout>
+    );
+  }
 }

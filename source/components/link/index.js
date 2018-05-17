@@ -54,7 +54,7 @@ export class UnstyledLink extends React.Component<UnstyledLinkProps> {
     }
   };
 
-  render = () => {
+  render() {
     return <a {...this.props} onClick={this.handleClick} />;
-  };
+  }
 }

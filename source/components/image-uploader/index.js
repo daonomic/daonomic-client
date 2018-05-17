@@ -198,7 +198,7 @@ export default class ImageUploader extends PureComponent {
     return <div className={styles.error}>{error}</div>;
   };
 
-  render = () => {
+  render() {
     return (
       <div className={styles.root}>
         <Dropzone
@@ -217,5 +217,5 @@ export default class ImageUploader extends PureComponent {
         {this.renderError()}
       </div>
     );
-  };
+  }
 }

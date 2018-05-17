@@ -102,17 +102,19 @@ class BuyTokens extends Component {
     return this.renderFinishedSaleContent();
   };
 
-  render = () => (
-    <TwoColumnsLayout>
-      <TwoColumnsLayout.Left>{this.renderContent()}</TwoColumnsLayout.Left>
+  render() {
+    return (
+      <TwoColumnsLayout>
+        <TwoColumnsLayout.Left>{this.renderContent()}</TwoColumnsLayout.Left>
 
-      <TwoColumnsLayout.Right>
-        <Balance />
-        <TokenPrice />
-        <SaleTimeline />
-      </TwoColumnsLayout.Right>
-    </TwoColumnsLayout>
-  );
+        <TwoColumnsLayout.Right>
+          <Balance />
+          <TokenPrice />
+          <SaleTimeline />
+        </TwoColumnsLayout.Right>
+      </TwoColumnsLayout>
+    );
+  }
 }
 
 export default BuyTokens;

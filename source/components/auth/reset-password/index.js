@@ -110,17 +110,19 @@ export default class ResetPassword extends React.Component<Props> {
     return this.renderForm();
   };
 
-  render = () => (
-    <Layout>
-      {this.renderContent()}
+  render() {
+    return (
+      <Layout>
+        {this.renderContent()}
 
-      <Panel>
-        <Text design="muted" align="center" element="p">
-          <Link href={getRouteUrl('signIn')}>
-            {getTranslation('auth:signInHeading')}&nbsp;⟩
-          </Link>
-        </Text>
-      </Panel>
-    </Layout>
-  );
+        <Panel>
+          <Text design="muted" align="center" element="p">
+            <Link href={getRouteUrl('signIn')}>
+              {getTranslation('auth:signInHeading')}&nbsp;⟩
+            </Link>
+          </Text>
+        </Panel>
+      </Layout>
+    );
+  }
 }

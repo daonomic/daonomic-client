@@ -240,7 +240,7 @@ class Kyc extends React.Component<Props> {
     );
   };
 
-  render = () => {
+  render() {
     if (this.props.isOnReview || this.props.isAllowed) {
       const addressField = this.props.kycForm.find(
         (field) => field.name === 'address',
@@ -273,7 +273,7 @@ class Kyc extends React.Component<Props> {
         {this.renderForm()}
       </Panel>
     );
-  };
+  }
 }
 
 export default inject(({ kyc }: { kyc: KycStore }): Props => ({

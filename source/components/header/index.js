@@ -75,7 +75,7 @@ class Header extends React.Component<Props, State> {
     );
   };
 
-  render = () => {
+  render() {
     const { className } = this.props;
     const { isNavigationExpanded } = this.state;
 
@@ -107,7 +107,7 @@ class Header extends React.Component<Props, State> {
         </div>
       </Panel>
     );
-  };
+  }
 }
 
 export default inject(({ auth, router }): InjectedProps => ({

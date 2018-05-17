@@ -149,14 +149,16 @@ export default class CreateWallet extends Component {
     );
   };
 
-  render = () => (
-    <Panel>
-      <Heading tagName="h1" size="normal" className={styles.title}>
-        Create New Ethereum Wallet
-      </Heading>
+  render() {
+    return (
+      <Panel>
+        <Heading tagName="h1" size="normal" className={styles.title}>
+          Create New Ethereum Wallet
+        </Heading>
 
-      {this.renderForm()}
-      {this.renderGeneratedWallet()}
-    </Panel>
-  );
+        {this.renderForm()}
+        {this.renderGeneratedWallet()}
+      </Panel>
+    );
+  }
 }

@@ -1,10 +1,11 @@
 // @flow
 import * as React from 'react';
-import { useStrict } from 'mobx';
+import { configure } from 'mobx';
 import { Provider } from 'mobx-react';
 
-// Set strict mode to forbid changing state outside of an action
-useStrict(true);
+configure({
+  enforceActions: true,
+});
 
 type MobxProviderProps = {
   children: React.Node,

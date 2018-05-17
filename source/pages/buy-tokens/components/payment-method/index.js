@@ -163,20 +163,22 @@ class PaymentMethod extends Component {
     }
   };
 
-  render = () => (
-    <Panel>
-      <Heading className={styles.title} tagName="h2" size="normal">
-        {getTranslation('paymentMethods:title')}
-      </Heading>
+  render() {
+    return (
+      <Panel>
+        <Heading className={styles.title} tagName="h2" size="normal">
+          {getTranslation('paymentMethods:title')}
+        </Heading>
 
-      {this.renderPaymentMethodsSelect()}
-      <Panel.Separator />
-      {this.renderSelectedPaymentMethodAddress()}
-      <Panel.Separator />
-      {this.renderSelectedPaymentMethodPayments()}
-      {this.renderInstruction()}
-    </Panel>
-  );
+        {this.renderPaymentMethodsSelect()}
+        <Panel.Separator />
+        {this.renderSelectedPaymentMethodAddress()}
+        <Panel.Separator />
+        {this.renderSelectedPaymentMethodPayments()}
+        {this.renderInstruction()}
+      </Panel>
+    );
+  }
 }
 
 export default inject(({ payment, kyc }) => ({

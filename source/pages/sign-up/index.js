@@ -70,7 +70,7 @@ class SignUpPage extends React.Component<Props> {
     this.register();
   };
 
-  render = () => {
+  render() {
     return (
       <SignUp
         isLoading={this.isLoading}
@@ -81,7 +81,7 @@ class SignUpPage extends React.Component<Props> {
         onSubmit={this.handleSubmit}
       />
     );
-  };
+  }
 }
 
 export default inject(({ auth }): Props => ({
