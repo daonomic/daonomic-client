@@ -41,6 +41,7 @@
 .link:focus {
   color: var(--theme-nav-link-hover);
   transition: none;
+  text-decoration: none;
 }
 
 .link_active,
