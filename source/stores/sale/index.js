@@ -79,41 +79,38 @@ export class SaleStore {
   }
 
   @action
-  loadInfo = () => {
+  loadInfo = async () => {
     this.state.dataState = 'loading';
 
-    this.api
-      .getIcoInfo()
-      .then(({ data }) => data)
-      .then((data) => {
-        const {
-          current: sold = 0,
-          total = 0,
-          startDate = 0,
-          endDate = 0,
-          token,
-        } = data;
+    try {
+      const { data } = await this.api.getIcoInfo();
+      const {
+        current: sold = 0,
+        total = 0,
+        startDate = 0,
+        endDate = 0,
+        token,
+      } = data;
 
-        runInAction(() => {
-          this.state.dataState = 'loaded';
-          this.state.tokenSymbol = token.symbol;
-          this.state.tokensCount.sold = sold;
-          this.state.tokensCount.total = total;
+      runInAction(() => {
+        this.state.dataState = 'loaded';
+        this.state.tokenSymbol = token.symbol;
+        this.state.tokensCount.sold = sold;
+        this.state.tokensCount.total = total;
 
-          if (startDate) {
-            this.state.startTimestamp = startDate;
-          }
+        if (startDate) {
+          this.state.startTimestamp = startDate;
+        }
 
-          if (endDate) {
-            this.state.endTimestamp = endDate;
-          }
-        });
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.state.dataState = 'failed';
-        });
+        if (endDate) {
+          this.state.endTimestamp = endDate;
+        }
       });
+    } catch (error) {
+      runInAction(() => {
+        this.state.dataState = 'failed';
+      });
+    }
   };
 
   initState = () => {

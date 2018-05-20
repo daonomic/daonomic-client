@@ -1,120 +1,22 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+// @flow
 import { inject, observer } from 'mobx-react';
-import { Panel } from '@daonomic/ui';
-import TwoColumnsLayout from '~/components/two-columns-layout';
-import SaleTimeline from '~/components/sale-timeline';
-import Heading from '~/components/heading';
-import Kyc from './components/kyc';
-import PaymentMethod from './components/payment-method';
-import TokenPrice from './components/token-price';
-import Balance from './components/balance';
-import styles from './buy-tokens.css';
-import formatDate from '~/i18n/format-date';
-import { getTranslation } from '~/i18n';
+import BuyTokensPageView from './view';
 
-@inject(({ sale, kyc }) => ({
-  sale: {
-    isStarted: sale.isStarted,
-    isFinished: sale.isFinished,
-    startTimestamp: sale.state.startTimestamp,
-    endTimestamp: sale.state.endTimestamp,
-  },
-  isLoaded: sale.isLoaded && kyc.isLoaded,
-  isAllowedToPay: kyc.isAllowed,
-}))
-@observer
-class BuyTokens extends Component {
-  static propTypes = {
-    isLoaded: PropTypes.bool.isRequired,
-    sale: PropTypes.shape({
-      isStarted: PropTypes.bool.isRequired,
-      isFinished: PropTypes.bool.isRequired,
-      startTimestamp: PropTypes.number,
-      endTimestamp: PropTypes.number,
-    }).isRequired,
-    isAllowedToPay: PropTypes.bool.isRequired,
-  };
+import type { SaleStore } from '~/stores/sale';
+import type { KycStore } from '~/stores/kyc';
+import type { Props } from './view';
 
-  renderPaymentMethod = () => {
-    const { isAllowedToPay } = this.props;
+const ObservingBuyTokensPageView = observer(BuyTokensPageView);
 
-    if (!isAllowedToPay) {
-      return null;
-    }
-
-    return <PaymentMethod />;
-  };
-
-  renderPreloader = () => (
-    <Panel>
-      <Heading tagName="h1" className={styles.placeholder} size="large">
-        {getTranslation('common:loading')}...
-      </Heading>
-    </Panel>
-  );
-
-  renderActiveSaleContent = () => (
-    <Fragment>
-      <Kyc />
-      {this.renderPaymentMethod()}
-    </Fragment>
-  );
-
-  renderNotStartedSaleContent = () => {
-    const { startTimestamp } = this.props.sale;
-
-    return (
-      <Panel>
-        <Heading tagName="h1" className={styles.placeholder}>
-          {getTranslation('widgets:saleStarts', {
-            date: formatDate(new Date(startTimestamp)),
-          })}
-        </Heading>
-      </Panel>
-    );
-  };
-
-  renderFinishedSaleContent = () => (
-    <Panel>
-      <Heading tagName="h1" className={styles.placeholder}>
-        {getTranslation('widgets:saleFinished')}
-      </Heading>
-    </Panel>
-  );
-
-  renderContent = () => {
-    const { isLoaded } = this.props;
-    const { isStarted, isFinished } = this.props.sale;
-
-    if (!isLoaded) {
-      return this.renderPreloader();
-    }
-
-    if (!isStarted) {
-      return this.renderNotStartedSaleContent();
-    }
-
-    if (isStarted && !isFinished) {
-      return this.renderActiveSaleContent();
-    }
-
-    return this.renderFinishedSaleContent();
-  };
-
-  render() {
-    return (
-      <TwoColumnsLayout>
-        <TwoColumnsLayout.Left>{this.renderContent()}</TwoColumnsLayout.Left>
-
-        <TwoColumnsLayout.Right>
-          <Balance />
-          <TokenPrice />
-          <SaleTimeline />
-        </TwoColumnsLayout.Right>
-      </TwoColumnsLayout>
-    );
-  }
-}
-
-export default BuyTokens;
+export default inject(
+  ({ sale, kyc }: { sale: SaleStore, kyc: KycStore }): Props => ({
+    sale: {
+      isStarted: sale.isStarted,
+      isFinished: sale.isFinished,
+      startTimestamp: sale.state.startTimestamp,
+      endTimestamp: sale.state.endTimestamp,
+    },
+    isLoaded: sale.isLoaded && kyc.isLoaded,
+    isAllowedToPay: kyc.isAllowed,
+  }),
+)(ObservingBuyTokensPageView);

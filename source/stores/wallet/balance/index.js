@@ -29,22 +29,21 @@ export class WalletBalanceStore {
   }
 
   @action
-  loadBalance = () => {
+  loadBalance = async () => {
     this.state.balanceState = 'loading';
 
-    this.api
-      .getBalance()
-      .then(({ data }) => {
-        runInAction(() => {
-          this.state.balanceState = 'loaded';
-          this.state.balance = data.balance;
-        });
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.state.balanceState = 'failed';
-        });
+    try {
+      const { data } = await this.api.getBalance();
+
+      runInAction(() => {
+        this.state.balanceState = 'loaded';
+        this.state.balance = data.balance;
       });
+    } catch (error) {
+      runInAction(() => {
+        this.state.balanceState = 'failed';
+      });
+    }
   };
 }
 
