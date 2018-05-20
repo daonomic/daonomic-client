@@ -3,9 +3,8 @@ import axios from 'axios';
 import { path } from 'ramda';
 import config from '~/config';
 import { baseApiUrl } from '~/config/api';
-import { authTokenProvider } from '~/stores/auth/token';
+import authToken from '~/stores/auth/token';
 
-const authToken = authTokenProvider();
 const axiosClient = axios.create({ baseURL: baseApiUrl });
 
 function getDefaultRequestOptions() {
