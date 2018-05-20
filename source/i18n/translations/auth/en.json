@@ -22,5 +22,7 @@
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",
   "submitNewPassword": "Create New Password",
-  "successfulNewPasswordCreation": "New password have been created."
+  "successfulNewPasswordCreation": "New password have been created.",
+  "signInWithDigitalSignature": "Sign in with digital signature",
+  "failedToLogin": "Failed to login"
 }

@@ -1,6 +1,6 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/mock';
-import { authTokenProvider } from '~/stores/auth/token';
+import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
 import { kycProvider } from '~/stores/kyc';
 import { walletBalanceProvider } from '~/stores/wallet/balance';
@@ -8,7 +8,7 @@ import { balanceUpdatingService } from './';
 
 describe('balance updating service', () => {
   test('should not load balance if wallet address is not saved yet', () => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const walletBalance = walletBalanceProvider(api);
 
@@ -19,7 +19,7 @@ describe('balance updating service', () => {
   });
 
   test('should automatically load balance if wallet address has just been saved', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const walletBalance = walletBalanceProvider(api);
 
@@ -47,7 +47,7 @@ describe('balance updating service', () => {
   test('should update balance regularly', (done) => {
     jest.useFakeTimers();
 
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const walletBalance = walletBalanceProvider(api);
 
@@ -74,7 +74,7 @@ describe('balance updating service', () => {
   test('should cancel loading and reset balance if kyc is not allowed anymore', (done) => {
     jest.useFakeTimers();
 
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const walletBalance = walletBalanceProvider(api);
 
@@ -114,7 +114,7 @@ describe('balance updating service', () => {
   test('should cancel loading and reset balance if user logs out', (done) => {
     jest.useFakeTimers();
 
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
 
     auth.setToken('test token');
 

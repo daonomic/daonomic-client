@@ -3,7 +3,7 @@ import { observable, action, computed, autorun, runInAction } from 'mobx';
 import localStorage from '~/utils/local-storage';
 import getRouteUrl from '~/router/get-route-url';
 
-import type { IApi } from '~/api/types';
+import type { IApi, LoginResponse } from '~/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import type { IAuth, IAuthToken } from './types';
 
@@ -48,12 +48,26 @@ export class AuthStore implements IAuth {
   };
 
   @action
-  login = ({ email, password }: { email: string, password: string }) => {
-    return this.api.auth.login({ email, password }).then(({ data }) => {
-      runInAction(() => {
-        this.token.set(data.token);
-        this.id = data.id;
-      });
+  login = async ({ email, password }: { email: string, password: string }) => {
+    const {
+      data: { token, id },
+    } = await this.api.auth.login({ email, password });
+
+    runInAction(() => {
+      this.token.set(token);
+      this.id = id;
+    });
+  };
+
+  @action
+  loginWithExternalService = async (
+    loginService: () => Promise<LoginResponse>,
+  ): Promise<void> => {
+    const { token, id } = await loginService();
+
+    runInAction(() => {
+      this.token.set(token);
+      this.id = id;
     });
   };
 

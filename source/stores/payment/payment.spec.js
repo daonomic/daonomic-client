@@ -1,6 +1,6 @@
 import { when, reaction } from 'mobx';
 import api from '~/api/mock';
-import { authTokenProvider } from '~/stores/auth/token';
+import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
 import { kycProvider } from '~/stores/kyc';
 import { paymentProvider } from './';
@@ -11,7 +11,7 @@ describe('payment store', () => {
   const testSale = '0×0';
 
   test('should not load anything if not authenticated', () => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
@@ -21,7 +21,7 @@ describe('payment store', () => {
   });
 
   test('should load data immediately after authentication', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
@@ -41,7 +41,7 @@ describe('payment store', () => {
   });
 
   test('should load payment address', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
@@ -71,7 +71,7 @@ describe('payment store', () => {
   });
 
   test('should update payments regularly', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
@@ -100,7 +100,7 @@ describe('payment store', () => {
   });
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if kyc is not allowed anymore', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
@@ -133,7 +133,7 @@ describe('payment store', () => {
   });
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if user logs out', (done) => {
-    const auth = authProvider(api, authTokenProvider());
+    const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 

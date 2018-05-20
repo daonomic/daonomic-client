@@ -28,6 +28,12 @@ class Token implements IAuthToken {
   };
 }
 
+const authToken = new Token();
+
 export function authTokenProvider() {
+  return authToken;
+}
+
+export function freshAuthTokenProvider() {
   return new Token();
 }

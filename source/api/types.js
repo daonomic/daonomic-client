@@ -20,55 +20,57 @@ export type PaymentParams = {|
   tokenId: string,
 |};
 
-export type GetIcoInfoResponse = {|
-  paymentMethods: PaymentMethod[],
-  kyc: BaseKycFormField[],
-  kycUrl: string,
-  current: number,
-  total: number,
-  startDate: number,
-  endDate: number,
-  token: {
-    symbol: string,
-  },
+export type LoginResponse = {|
+  token: AuthToken,
+  id: UserId,
 |};
 
 export interface IApi {
   auth: {|
-    login({| email: string, password: string |}): Response<{
-      token: AuthToken,
-      id: UserId,
-    }>,
+    login({| email: string, password: string |}): Response<LoginResponse>,
     register({| email: string |}): Response<{}>,
-    resetPassword({
+    resetPassword({|
       email: string,
       passwordRestorationPagePath: string,
-    }): Response<{}>,
+    |}): Response<{}>,
     createNewPassword(PasswordRecoveryParams): Response<{}>,
+    getMessageToSign(): Response<{| id: string, message: string |}>,
+    sendSignedMessage({| tokenId: string, signature: string |}): Response<
+      LoginResponse,
+    >,
   |};
 
   kycData: {|
-    getAddressAndStatus: () => Response<GetKycAddressAndStatusResponse>,
-    setAddress: (
-      params: SetKycAddressParams,
-    ) => Response<GetKycAddressAndStatusResponse>,
-    getUserData: (params: {
+    getAddressAndStatus(): Response<GetKycAddressAndStatusResponse>,
+    setAddress(SetKycAddressParams): Response<GetKycAddressAndStatusResponse>,
+    getUserData({
       baseUrl: string,
       userId: UserId,
-    }) => Response<GetKycUserDataResponse>,
-    setUserData: (params: {
+    }): Response<GetKycUserDataResponse>,
+    setUserData({
       baseUrl: string,
       userId: UserId,
       data: SetKycDataParams,
-    }) => Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
+    }): Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
   |};
 
-  getIcoInfo: () => Response<GetIcoInfoResponse>;
-  getPaymentAddress: (
+  getIcoInfo(): Response<{|
+    paymentMethods: PaymentMethod[],
+    kyc: BaseKycFormField[],
+    kycUrl: string,
+    current: number,
+    total: number,
+    startDate: number,
+    endDate: number,
+    token: {
+      symbol: string,
+    },
+  |}>;
+  getPaymentAddress(
     params: PaymentParams,
-  ) => Response<{
+  ): Response<{
     address: string,
   }>;
-  getPaymentStatus: (params: PaymentParams) => Response<{}[]>;
-  getBalance: () => Response<{| balance: number |}>;
+  getPaymentStatus(PaymentParams): Response<{}[]>;
+  getBalance(): Response<{| balance: number |}>;
 }
