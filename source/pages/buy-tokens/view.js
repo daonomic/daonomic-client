@@ -18,8 +18,8 @@ export type Props = {|
   sale: {
     isStarted: boolean,
     isFinished: boolean,
-    startTimestamp: number,
-    endTimestamp: number,
+    startTimestamp: ?number,
+    endTimestamp: ?number,
   },
 |};
 
@@ -49,6 +49,10 @@ export default class BuyTokensPageView extends React.Component<Props> {
 
   renderNotStartedSaleContent = () => {
     const { startTimestamp } = this.props.sale;
+
+    if (!startTimestamp) {
+      return null;
+    }
 
     return (
       <Panel>

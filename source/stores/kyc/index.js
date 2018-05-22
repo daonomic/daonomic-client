@@ -1,9 +1,12 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
-import { createViewModel } from 'mobx-utils';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
-import { validateKycForm } from './validation';
+import createViewModel from '~/utils/create-view-model';
+import { validateKycForm } from '~/stores/kyc/validation';
+import kycFieldsToFormSchema from '~/stores/kyc/utils/kyc-fields-to-form-schema';
+import getDefaultFieldValue from '~/stores/kyc/utils/get-default-field-value';
+import getUserStatus from '~/stores/kyc/utils/get-user-status';
 
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
@@ -11,7 +14,6 @@ import type {
   KycFormField,
   KycFormFieldName,
   KycFormFieldValue,
-  KycValidationErrorResponse,
 } from '~/types/kyc';
 import type { IKycState } from './types';
 
@@ -100,112 +102,70 @@ export class KycStore {
   }
 
   @action
-  loadKycInfo = (): Promise<*> => {
+  loadKycInfo = async (): Promise<*> => {
     this.state.dataState = 'loading';
 
-    return this.api
-      .getIcoInfo()
-      .then(({ data }) => {
-        const { kyc = [], kycUrl } = data;
+    try {
+      const { data } = await this.api.getIcoInfo();
+      const { kyc = [], kycUrl } = data;
 
-        runInAction(() => {
-          this.state.dataState = 'loaded';
-          this.state.formSchema = kyc.reduce((result, field) => {
-            result.push(field);
+      runInAction(() => {
+        this.state.dataState = 'loaded';
+        this.state.formSchema = kycFieldsToFormSchema(kyc);
+        this.state.kycServerUrl = kycUrl;
+        this.state.formSchema.forEach((field) => {
+          this.state.formData.set(field.name, getDefaultFieldValue(field));
+        });
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.state.dataState = 'failed';
+      });
+    }
+  };
 
-            if (field.name === 'address') {
-              result.push({
-                type: 'STRING',
-                name: 'addressConfirmation',
-                label: `${field.label} confirmation`,
-                required: true,
-              });
-            }
+  @action
+  loadData = async () => {
+    this.state.dataState = 'loading';
 
-            return result;
-          }, []);
-          this.state.kycServerUrl = kycUrl;
+    try {
+      const [userDataResponse, statusResponse] = await Promise.all([
+        this.api.kycData.getUserData({
+          baseUrl: this.state.kycServerUrl,
+          userId: this.auth.id,
+        }),
+        this.api.kycData.getAddressAndStatus(),
+      ]);
+      const { data: userData } = userDataResponse;
+      const { address, status, denialReason } = statusResponse.data;
 
-          this.state.formSchema.forEach((field) => {
-            let defaultValue = '';
+      runInAction(() => {
+        this.state.dataState = 'loaded';
+        this.state.denialReason = denialReason || '';
+        const hasUserData = Object.keys(userData).length > 0;
 
-            if (field.type === 'FILE') {
-              defaultValue = [];
-            } else if (field.type === 'BOOLEAN') {
-              defaultValue = false;
-            }
+        this.state.status = getUserStatus({ kycStatus: status, hasUserData });
 
-            this.state.formData.set(field.name, defaultValue);
+        if (hasUserData) {
+          this.state.savingState = 'loaded';
+          Object.keys(userData).forEach((fieldName) => {
+            this.state.formData.set(fieldName, userData[fieldName]);
           });
-        });
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.state.dataState = 'failed';
-        });
+        } else if (!this.isExtended && address) {
+          this.state.savingState = 'loaded';
+        }
+
+        this.state.formData.set('address', address);
       });
+    } catch (error) {
+      runInAction(() => {
+        this.state.dataState = 'failed';
+      });
+    }
   };
 
   @action
-  loadData = () => {
-    this.state.dataState = 'loading';
-
-    Promise.all([
-      this.api.kycData.getUserData({
-        baseUrl: this.state.kycServerUrl,
-        userId: this.auth.id,
-      }),
-      this.api.kycData.getAddressAndStatus(),
-    ])
-      .then(([userDataResponse, statusResponse]) => {
-        const { data: userData } = userDataResponse;
-        const { address, status, denialReason } = statusResponse.data;
-
-        runInAction(() => {
-          this.state.dataState = 'loaded';
-          this.state.denialReason = denialReason || '';
-          const hasUserData = Object.keys(userData).length > 0;
-
-          switch (status) {
-            case 'NO_KYC':
-            case 'COMPLETED': {
-              this.state.status = 'ALLOWED';
-              break;
-            }
-
-            case 'DENIED': {
-              this.state.status = 'DENIED';
-              break;
-            }
-
-            default: {
-              if (hasUserData) {
-                this.state.status = 'ON_REVIEW';
-              }
-            }
-          }
-
-          if (hasUserData) {
-            this.state.savingState = 'loaded';
-            Object.keys(userData).forEach((fieldName) => {
-              this.state.formData.set(fieldName, userData[fieldName]);
-            });
-          } else if (!this.isExtended && address) {
-            this.state.savingState = 'loaded';
-          }
-
-          this.state.formData.set('address', address);
-        });
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.state.dataState = 'failed';
-        });
-      });
-  };
-
-  @action
-  saveData = () => {
+  saveData = async () => {
     this.validateForm();
 
     if (this.state.formErrors.size > 0) {
@@ -226,34 +186,34 @@ export class KycStore {
       });
     }
 
-    savingPromise
-      .then(() => this.api.kycData.setAddress({ address: userData.address }))
-      .then(() => {
-        runInAction(() => {
-          this.state.savingState = 'loaded';
+    try {
+      await savingPromise;
+      await this.api.kycData.setAddress({ address: userData.address });
 
-          if (this.isExtended) {
-            this.state.status = 'ON_REVIEW';
-          } else {
-            this.state.status = 'ALLOWED';
-          }
-        });
-      })
-      .catch((error: KycValidationErrorResponse) => {
-        const { fieldErrors } = error.response.data;
+      runInAction(() => {
+        this.state.savingState = 'loaded';
 
-        runInAction(() => {
-          this.state.savingState = 'failed';
-
-          if (fieldErrors) {
-            Object.keys(fieldErrors).forEach((fieldName) => {
-              const [fieldError] = fieldErrors[fieldName];
-
-              this.state.formErrors.set(fieldName, fieldError);
-            });
-          }
-        });
+        if (this.isExtended) {
+          this.state.status = 'ON_REVIEW';
+        } else {
+          this.state.status = 'ALLOWED';
+        }
       });
+    } catch (error) {
+      const { fieldErrors } = error.response.data;
+
+      runInAction(() => {
+        this.state.savingState = 'failed';
+
+        if (fieldErrors) {
+          Object.keys(fieldErrors).forEach((fieldName) => {
+            const [fieldError] = fieldErrors[fieldName];
+
+            this.state.formErrors.set(fieldName, fieldError);
+          });
+        }
+      });
+    }
   };
 
   @action

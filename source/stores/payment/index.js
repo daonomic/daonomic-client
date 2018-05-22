@@ -7,7 +7,7 @@ import {
   autorun,
   runInAction,
 } from 'mobx';
-import { createViewModel } from 'mobx-utils';
+import createViewModel from '~/utils/create-view-model';
 import generateQRCode from '~/utils/generate-qrcode';
 import type { IApi } from '~/api/types';
 import type { IAuth } from '~/stores/auth/types';
@@ -218,7 +218,7 @@ export class PaymentStore {
 
       runInAction(() => {
         this.state.dataState = 'loaded';
-        this.state.methods = paymentMethods;
+        this.state.methods = paymentMethods || [];
         this.state.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
       });
     } catch (error) {

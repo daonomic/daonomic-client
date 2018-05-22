@@ -1,6 +1,6 @@
 // @flow
 import { observable, computed, action, runInAction } from 'mobx';
-import { createViewModel } from 'mobx-utils';
+import createViewModel from '~/utils/create-view-model';
 import type { IApi } from '~/api/types';
 import type { IWalletBalanceState } from './types';
 
