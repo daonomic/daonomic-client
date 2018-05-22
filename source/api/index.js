@@ -21,9 +21,6 @@ const api: IApi = {
         password,
         password2: confirmedPassword,
       }),
-    getMessageToSign: () => client.post('/signTokens'),
-    sendSignedMessage: ({ tokenId, signature }) =>
-      client.post(`/signTokens/${tokenId}`, { signature }),
   },
 
   kycData: {

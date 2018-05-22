@@ -20,7 +20,7 @@ export type PaymentParams = {|
   tokenId: string,
 |};
 
-export type LoginResponse = {|
+type LoginResponse = {|
   token: AuthToken,
   id: UserId,
 |};
@@ -34,10 +34,6 @@ export interface IApi {
       passwordRestorationPagePath: string,
     |}): Response<{}>,
     createNewPassword(PasswordRecoveryParams): Response<{}>,
-    getMessageToSign(): Response<{| id: string, message: string |}>,
-    sendSignedMessage({| tokenId: string, signature: string |}): Response<
-      LoginResponse,
-    >,
   |};
 
   kycData: {|

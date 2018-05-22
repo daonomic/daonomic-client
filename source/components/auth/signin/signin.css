@@ -5,12 +5,3 @@
   color: var(--color-text-muted);
   opacity: 0.64;
 }
-
-.hr {
-  margin-top: var(--spacing-m);
-  margin-bottom: var(--spacing-m);
-}
-
-.metamask {
-  text-align: center;
-}

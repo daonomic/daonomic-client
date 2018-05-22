@@ -2,15 +2,12 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { observable, action, runInAction, toJS } from 'mobx';
-import { getTranslation } from '~/i18n';
-import loginWithDigitalSignature from '~/services/login-with-digital-signature';
 import SignIn from '~/components/auth/signin';
 
 import type { FormValidationError } from '~/types/common';
 
 type Props = {|
   login: Function,
-  loginWithDigitalSignature: Function,
 |};
 
 const initialErrors = {
@@ -60,19 +57,6 @@ class SignInPage extends React.Component<Props> {
       });
   };
 
-  @action
-  loginWithDigitalSignature = () => {
-    this.errors = initialErrors;
-    this.isLoading = true;
-    this.props.loginWithDigitalSignature().catch((error) => {
-      console.error(error); // eslint-disable-line no-console
-      runInAction(() => {
-        this.isLoading = false;
-        this.errors.common = [getTranslation('auth:failedToLogin')];
-      });
-    });
-  };
-
   handleChangeEmail = (event) => {
     this.setEmail(event.target.value);
   };
@@ -96,7 +80,6 @@ class SignInPage extends React.Component<Props> {
         onSubmit={this.handleSubmit}
         onChangeEmail={this.handleChangeEmail}
         onChangePassword={this.handleChangePassword}
-        onLoginWithDigitalSignature={this.loginWithDigitalSignature}
       />
     );
   }
@@ -104,6 +87,4 @@ class SignInPage extends React.Component<Props> {
 
 export default inject(({ auth }): Props => ({
   login: auth.login,
-  loginWithDigitalSignature: () =>
-    auth.loginWithExternalService(loginWithDigitalSignature),
 }))(SignInPage);

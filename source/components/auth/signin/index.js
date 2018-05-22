@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { Button, Input, Panel, Text, Hr } from '@daonomic/ui';
+import { Button, Input, Panel, Text } from '@daonomic/ui';
 import Heading from '~/components/heading';
 import Link from '~/components/link';
 import getMarker from '~/utils/get-marker';
@@ -9,7 +9,6 @@ import commonStyles from '../common.css';
 import styles from './signin.css';
 import getRouteUrl from '~/router/get-route-url';
 import { getTranslation } from '~/i18n';
-import DigitalSignatureButton from './digital-signature-button';
 
 type Props = {|
   email: string,
@@ -23,7 +22,6 @@ type Props = {|
   onSubmit: Function,
   onChangeEmail: Function,
   onChangePassword: Function,
-  onLoginWithDigitalSignature: Function,
 |};
 
 export default class SignIn extends React.Component<Props> {
@@ -45,21 +43,6 @@ export default class SignIn extends React.Component<Props> {
           {(common || []).map((error) => <div key={error}>{error}</div>)}
         </div>
       </div>
-    );
-  };
-
-  renderDigitalSignatureButton = () => {
-    return (
-      <React.Fragment>
-        <Hr className={styles.hr}>or</Hr>
-        <div className={styles.metamask}>
-          <DigitalSignatureButton
-            data-marker={this.marker('sign-with-signature')()}
-            disabled={this.props.isLoading}
-            onClick={this.props.onLoginWithDigitalSignature}
-          />
-        </div>
-      </React.Fragment>
     );
   };
 
@@ -129,8 +112,6 @@ export default class SignIn extends React.Component<Props> {
               </Link>
             </div>
           </form>
-
-          {this.renderDigitalSignatureButton()}
         </Panel>
 
         <Panel>

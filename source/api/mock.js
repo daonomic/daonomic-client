@@ -83,14 +83,6 @@ const mockApi: IApi = {
           },
         }),
     }),
-    getMessageToSign: createMockRoute({
-      success: createResponse,
-      fail: createFailResponse,
-    }),
-    sendSignedMessage: createMockRoute({
-      success: createResponse,
-      fail: createFailResponse,
-    }),
   },
   getBalance: createMockRoute({
     success: () =>
