@@ -1,3 +1,5 @@
+@import '~/config/styles/spacing.css';
+
 .link {
   margin-left: 30px;
   color: var(--color-text-muted);

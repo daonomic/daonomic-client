@@ -1,5 +1,5 @@
 import mockedApi from '~/api/mock';
-import { authTokenProvider } from './token';
+import { freshAuthTokenProvider } from './token';
 import { authProvider } from './';
 
 describe('auth store', () => {
@@ -9,7 +9,7 @@ describe('auth store', () => {
 
   describe('setToken', () => {
     test('successful token set', () => {
-      const authStore = authProvider({}, authTokenProvider());
+      const authStore = authProvider({}, freshAuthTokenProvider());
 
       expect(authStore.token.value).toBe(null);
       authStore.setToken('1234');
@@ -19,7 +19,7 @@ describe('auth store', () => {
 
   describe('logout', () => {
     test('successful logout', () => {
-      const authStore = authProvider({}, authTokenProvider());
+      const authStore = authProvider({}, freshAuthTokenProvider());
 
       authStore.setToken('123123');
 
@@ -32,7 +32,7 @@ describe('auth store', () => {
   describe('registration', () => {
     test('successful registration', async (done) => {
       mockedApi.auth.register.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       await authStore.register({ email: testEmail });
       done();
@@ -40,7 +40,7 @@ describe('auth store', () => {
 
     test('failed registration', async (done) => {
       mockedApi.auth.register.setResponse('fail');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       try {
         await authStore.register({ email: testEmail });
@@ -54,7 +54,7 @@ describe('auth store', () => {
   describe('login', () => {
     test('successful login', async (done) => {
       mockedApi.auth.login.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       await authStore.login({ email: testEmail, password: testPassword });
       expect(authStore.isAuthenticated).toBe(true);
@@ -64,7 +64,7 @@ describe('auth store', () => {
 
     test('failed login', async (done) => {
       mockedApi.auth.login.setResponse('fail');
-      const authStore = new authProvider(mockedApi, authTokenProvider());
+      const authStore = new authProvider(mockedApi, freshAuthTokenProvider());
 
       try {
         await authStore.login({ email: testEmail, password: testPassword });
@@ -78,7 +78,7 @@ describe('auth store', () => {
   describe('password reset', () => {
     test('successful password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       await authStore.resetPassword({ email: testEmail });
       done();
@@ -86,7 +86,7 @@ describe('auth store', () => {
 
     test('failed password reset', async (done) => {
       mockedApi.auth.resetPassword.setResponse('fail');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       try {
         await authStore.resetPassword({ email: testEmail });
@@ -100,7 +100,7 @@ describe('auth store', () => {
   describe('create new password', () => {
     test('successful a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('success');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       await authStore.createNewPassword({
         token: newPasswordToken,
@@ -112,7 +112,7 @@ describe('auth store', () => {
 
     test('failed a new password creating', async (done) => {
       mockedApi.auth.createNewPassword.setResponse('fail');
-      const authStore = authProvider(mockedApi, authTokenProvider());
+      const authStore = authProvider(mockedApi, freshAuthTokenProvider());
 
       try {
         await authStore.createNewPassword({

@@ -98,30 +98,7 @@ export class PaymentStore {
     reaction(
       () => this.isLoaded && this.kyc.isAllowed && this.state.selectedMethodId,
       () => {
-        if (!this.selectedMethod) {
-          return;
-        }
-
-        const { id, token } = this.selectedMethod;
-
-        if (
-          !this.isLoaded ||
-          !this.kyc.isAllowed ||
-          this.state.addressesByMethodId.get(id)
-        ) {
-          return;
-        }
-
-        this.api
-          .getPaymentAddress({
-            saleId: this.sale,
-            tokenId: token,
-          })
-          .then(({ data }) => {
-            runInAction(() => {
-              this.state.addressesByMethodId.set(id, data.address);
-            });
-          });
+        this.handleChangeKycOrSelectedMethodId();
       },
     );
 
@@ -150,27 +127,22 @@ export class PaymentStore {
           return;
         }
 
-        const updateIssueRequestStatus = () =>
-          this.api
-            .getPaymentStatus({
-              saleId: this.sale,
-              tokenId: selectedMethod.token,
-            })
-            .then(({ data }) => {
-              const actualSelectedMethod = this.selectedMethod;
+        const updateIssueRequestStatus = async () => {
+          const { data } = await this.api.getPaymentStatus({
+            saleId: this.sale,
+            tokenId: selectedMethod.token,
+          });
+          const actualSelectedMethod = this.selectedMethod;
 
-              if (
-                actualSelectedMethod &&
-                selectedMethod.token === actualSelectedMethod.token
-              ) {
-                runInAction(() => {
-                  this.state.paymentsByMethodId.set(
-                    actualSelectedMethod.id,
-                    data,
-                  );
-                });
-              }
+          if (
+            actualSelectedMethod &&
+            selectedMethod.token === actualSelectedMethod.token
+          ) {
+            runInAction(() => {
+              this.state.paymentsByMethodId.set(actualSelectedMethod.id, data);
             });
+          }
+        };
 
         issueRequestStatusIntervalId = setInterval(
           updateIssueRequestStatus,
@@ -182,14 +154,8 @@ export class PaymentStore {
 
     reaction(
       () => this.selectedMethodAddress,
-      (address) => {
-        if (address) {
-          generateQRCode(address).then((generatedQrCode) => {
-            runInAction(() => {
-              this.state.selectedMethodAddressQRCode = generatedQrCode;
-            });
-          });
-        }
+      () => {
+        this.updateQrCode();
       },
     );
   }
@@ -201,24 +167,65 @@ export class PaymentStore {
   };
 
   @action
-  loadInfo = () => {
+  handleChangeKycOrSelectedMethodId = async () => {
+    if (!this.selectedMethod) {
+      return;
+    }
+
+    const { id, token } = this.selectedMethod;
+
+    if (
+      !this.isLoaded ||
+      !this.kyc.isAllowed ||
+      this.state.addressesByMethodId.get(id)
+    ) {
+      return;
+    }
+
+    const { data } = await this.api.getPaymentAddress({
+      saleId: this.sale,
+      tokenId: token,
+    });
+
+    runInAction(() => {
+      this.state.addressesByMethodId.set(id, data.address);
+    });
+  };
+
+  @action
+  updateQrCode = async () => {
+    const address = this.selectedMethodAddress;
+
+    if (!address) {
+      return;
+    }
+
+    const generatedQrCode = await generateQRCode(address);
+
+    runInAction(() => {
+      this.state.selectedMethodAddressQRCode = generatedQrCode;
+    });
+  };
+
+  @action
+  loadInfo = async () => {
     this.state.dataState = 'loading';
 
-    this.api
-      .getIcoInfo()
-      .then(({ data }) => data)
-      .then(({ paymentMethods }) => {
-        runInAction(() => {
-          this.state.dataState = 'loaded';
-          this.state.methods = paymentMethods;
-          this.state.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
-        });
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.state.dataState = 'failed';
-        });
+    try {
+      const {
+        data: { paymentMethods },
+      } = await this.api.getIcoInfo();
+
+      runInAction(() => {
+        this.state.dataState = 'loaded';
+        this.state.methods = paymentMethods;
+        this.state.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
       });
+    } catch (error) {
+      runInAction(() => {
+        this.state.dataState = 'failed';
+      });
+    }
   };
 
   @action

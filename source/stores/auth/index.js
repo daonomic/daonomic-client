@@ -48,12 +48,14 @@ export class AuthStore implements IAuth {
   };
 
   @action
-  login = ({ email, password }: { email: string, password: string }) => {
-    return this.api.auth.login({ email, password }).then(({ data }) => {
-      runInAction(() => {
-        this.token.set(data.token);
-        this.id = data.id;
-      });
+  login = async ({ email, password }: { email: string, password: string }) => {
+    const {
+      data: { token, id },
+    } = await this.api.auth.login({ email, password });
+
+    runInAction(() => {
+      this.token.set(token);
+      this.id = id;
     });
   };
 

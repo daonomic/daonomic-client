@@ -6,19 +6,8 @@ import SignIn from '~/components/auth/signin';
 
 import type { FormValidationError } from '~/types/common';
 
-type InjectedProps = {|
+type Props = {|
   login: Function,
-|};
-
-type Props = InjectedProps & {|
-  location: {|
-    state: {
-      from: {
-        pathname: string,
-      },
-    },
-    pathname: string,
-  |},
 |};
 
 const initialErrors = {
@@ -96,6 +85,6 @@ class SignInPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ auth }): InjectedProps => ({
+export default inject(({ auth }): Props => ({
   login: auth.login,
 }))(SignInPage);

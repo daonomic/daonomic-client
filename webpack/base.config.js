@@ -24,9 +24,11 @@ console.log(
 );
 
 const config = {
-  entry: [`${sourceDir}/index.js`, '@daonomic/ui/source/global.css'].concat(
-    e2eTest ? `${sourceDir}/utils/inject-web3-mock` : [],
-  ),
+  entry: [
+    'regenerator-runtime/runtime',
+    `${sourceDir}/index.js`,
+    '@daonomic/ui/source/global.css',
+  ].concat(e2eTest ? `${sourceDir}/utils/inject-web3-mock` : []),
 
   output: {
     path: buildDir,

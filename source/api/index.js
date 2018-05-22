@@ -1,104 +1,46 @@
 // @flow
 import axios from 'axios';
-import { path } from 'ramda';
 import config from '~/config';
 import cacheResult from '~/utils/cache-result';
-import { baseApiUrl } from '~/config/api';
+import client from '~/api/client';
 
-import type { IAuthToken } from '~/stores/auth/types';
 import type { IApi } from './types';
 
-export function apiProvider(authToken: IAuthToken) {
-  const defaultOptions = {
-    get headers() {
-      // auth token can be changed, so we need to recalculate headers before every request
-      return {
-        'X-REALM': config.realmId,
-        'X-AUTH-TOKEN': authToken.value,
-      };
-    },
-  };
+const api: IApi = {
+  auth: {
+    login: ({ email, password }) =>
+      client.post('/login', { username: email, password }),
+    register: ({ email }) => client.post('/register', { email }),
+    resetPassword: ({ email, passwordRestorationPagePath }) =>
+      client.post('/password/change', {
+        email,
+        changePasswordPath: passwordRestorationPagePath,
+      }),
+    createNewPassword: ({ token, password, confirmedPassword }) =>
+      client.post(`/password/change/${token}`, {
+        password,
+        password2: confirmedPassword,
+      }),
+  },
 
-  const axiosClient = axios.create({ baseURL: baseApiUrl });
+  kycData: {
+    getAddressAndStatus: () => client.get(`/sales/${config.saleId}/data`),
+    setAddress: ({ address }) =>
+      client.post(`/sales/${config.saleId}/data`, { address }),
+    getUserData: ({ baseUrl, userId }) =>
+      axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
+    setUserData: ({ baseUrl, data, userId }) =>
+      axios.post(`${baseUrl}/users/${userId}`, data),
+  },
 
-  const handleFailedResponse = (error) => {
-    if (path(['response', 'status'], error) === 403) {
-      authToken.reset();
-      return;
-    }
+  getIcoInfo: cacheResult(() => client.get(`/sales/${config.saleId}`), 5000),
+  getPaymentAddress: ({ saleId, tokenId }) =>
+    client.get(`/sales/${saleId}/payment/${tokenId}/address`),
+  getPaymentStatus: ({ saleId, tokenId }) =>
+    client.get(`/sales/${saleId}/payment/${tokenId}/status`),
+  getBalance: () => client.get(`/sales/${config.saleId}/balance`),
+};
 
-    console.error(error); // eslint-disable-line no-console
-    throw error;
-  };
-
-  const client = {
-    post: (path, body, options = {}) => {
-      return axiosClient
-        .post(path, body, {
-          ...defaultOptions,
-          ...options,
-        })
-        .catch(handleFailedResponse);
-    },
-    get: (path, options = {}) => {
-      return axiosClient
-        .get(path, {
-          ...defaultOptions,
-          ...options,
-        })
-        .catch(handleFailedResponse);
-    },
-  };
-
-  const api: IApi = {
-    auth: {
-      login: ({ email, password }) =>
-        client.post('/login', { username: email, password }, defaultOptions),
-      register: ({ email }) =>
-        client.post('/register', { email }, defaultOptions),
-      resetPassword: ({ email, passwordRestorationPagePath }) =>
-        client.post(
-          '/password/change',
-          { email, changePasswordPath: passwordRestorationPagePath },
-          defaultOptions,
-        ),
-      createNewPassword: ({ token, password, confirmedPassword }) =>
-        client.post(
-          `/password/change/${token}`,
-          {
-            password,
-            password2: confirmedPassword,
-          },
-          defaultOptions,
-        ),
-    },
-
-    kycData: {
-      getAddressAndStatus: () =>
-        client.get(`/sales/${config.saleId}/data`, defaultOptions),
-      setAddress: ({ address }) =>
-        client.post(
-          `/sales/${config.saleId}/data`,
-          { address },
-          defaultOptions,
-        ),
-      getUserData: ({ baseUrl, userId }) =>
-        axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
-      setUserData: ({ baseUrl, data, userId }) =>
-        axios.post(`${baseUrl}/users/${userId}`, data),
-    },
-
-    getIcoInfo: cacheResult(
-      () => client.get(`/sales/${config.saleId}`, defaultOptions),
-      5000,
-    ),
-    getPaymentAddress: ({ saleId, tokenId }) =>
-      client.get(`/sales/${saleId}/payment/${tokenId}/address`, defaultOptions),
-    getPaymentStatus: ({ saleId, tokenId }) =>
-      client.get(`/sales/${saleId}/payment/${tokenId}/status`, defaultOptions),
-    getBalance: () =>
-      client.get(`/sales/${config.saleId}/balance`, defaultOptions),
-  };
-
+export function apiProvider() {
   return api;
 }

@@ -17,24 +17,22 @@ export class WalletGenerator {
   }
 
   @action
-  generate = ({ password }) => {
+  generate = async ({ password }) => {
     const randomWallet = Wallet.createRandom({});
 
-    randomWallet
-      .encrypt(password, (progress) => {
-        runInAction(() => {
-          this.progress = progress;
-        });
-      })
-      .then((encryptedWallet) => {
-        runInAction(() => {
-          this.generatedWallet = {
-            ...randomWallet,
-            password,
-          };
-          this.encryptedWallet = encryptedWallet;
-        });
+    const encryptedWallet = await randomWallet.encrypt(password, (progress) => {
+      runInAction(() => {
+        this.progress = progress;
       });
+    });
+
+    runInAction(() => {
+      this.generatedWallet = {
+        ...randomWallet,
+        password,
+      };
+      this.encryptedWallet = encryptedWallet;
+    });
   };
 }
 

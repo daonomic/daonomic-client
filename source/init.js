@@ -20,7 +20,7 @@ export function init() {
   return startup(
     [routerProvider],
     [authTokenProvider],
-    [apiProvider, authTokenProvider],
+    [apiProvider],
     [authProvider, apiProvider, authTokenProvider],
     [kycProvider, apiProvider, authProvider],
     [paymentProvider, apiProvider, authProvider, config.saleId, kycProvider],
