@@ -1,6 +1,6 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
-import { createViewModel } from 'mobx-utils';
+import createViewModel from '~/utils/create-view-model';
 import config from '~/config';
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';

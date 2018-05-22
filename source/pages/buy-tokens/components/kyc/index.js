@@ -28,16 +28,13 @@ type Props = {|
   isOnReview: boolean,
   isEditingAllowed: boolean,
   denialReason: string,
-  getFileUrlById: (id: string) => string,
-  uploadFiles: (params: {
+  getFileUrlById(string): string,
+  uploadFiles({
     files: File[],
     onUploadProgress: (event: ProgressEvent) => void,
-  }) => Promise<{}>,
-  onChangeKycFormField: (
-    name: KycFormFieldName,
-    value: KycFormFieldValue,
-  ) => void,
-  onSave: () => void,
+  }): Promise<{}>,
+  onChangeKycFormField(KycFormFieldName, KycFormFieldValue): void,
+  onSave(): any,
 |};
 
 @observer

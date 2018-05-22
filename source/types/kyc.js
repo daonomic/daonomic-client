@@ -33,16 +33,18 @@ export type KycFormField =
   | KycFormFieldFile
   | KycFormFieldBoolean;
 
+export type KycStatus =
+  | 'NOT_SET'
+  | 'NO_KYC'
+  | 'ON_REVIEW'
+  | 'DENIED'
+  | 'CONFIRMED'
+  | 'PROCESSING'
+  | 'COMPLETED';
+
 export type GetKycAddressAndStatusResponse = {|
   address: string,
-  status:
-    | 'NOT_SET'
-    | 'NO_KYC'
-    | 'ON_REVIEW'
-    | 'DENIED'
-    | 'CONFIRMED'
-    | 'PROCESSING'
-    | 'COMPLETED',
+  status: KycStatus,
   denialReason?: string,
 |};
 
