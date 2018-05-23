@@ -1,16 +1,14 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const baseConfig = require('./base.config');
 const { themeImportDeclaration } = require('../config');
-
-const extractCSS = new ExtractTextPlugin('app.css');
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
 
   plugins: [
     ...baseConfig.plugins,
-    extractCSS,
+    new MiniCssExtractPlugin(),
     new UglifyJsPlugin({
       sourceMap: true,
       uglifyOptions: {
@@ -26,7 +24,8 @@ module.exports = Object.assign({}, baseConfig, {
       ...baseConfig.module.rules,
       {
         test: /\.css$/,
-        use: extractCSS.extract([
+        use: [
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -40,7 +39,7 @@ module.exports = Object.assign({}, baseConfig, {
             loader: 'webpack-append',
             query: themeImportDeclaration,
           },
-        ]),
+        ],
       },
     ],
   }),
