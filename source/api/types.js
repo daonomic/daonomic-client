@@ -51,7 +51,7 @@ export interface IApi {
   |};
 
   getIcoInfo(): Response<{|
-    paymentMethods: PaymentMethod[],
+    paymentMethods?: PaymentMethod[],
     kyc: BaseKycFormField[],
     kycUrl: string,
     current: number,

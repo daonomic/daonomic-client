@@ -94,7 +94,7 @@ export class KycStore {
 
     autorun(() => {
       if (this.auth.isAuthenticated) {
-        this.loadKycInfo().then(this.loadData);
+        this.loadKycInfo().then(this.loadUserData);
       } else {
         this.reset();
       }
@@ -111,8 +111,8 @@ export class KycStore {
 
       runInAction(() => {
         this.state.dataState = 'loaded';
-        this.state.formSchema = kycFieldsToFormSchema(kyc);
         this.state.kycServerUrl = kycUrl;
+        this.state.formSchema = kycFieldsToFormSchema(kyc);
         this.state.formSchema.forEach((field) => {
           this.state.formData.set(field.name, getDefaultFieldValue(field));
         });
@@ -125,7 +125,7 @@ export class KycStore {
   };
 
   @action
-  loadData = async () => {
+  loadUserData = async () => {
     this.state.dataState = 'loading';
 
     try {
