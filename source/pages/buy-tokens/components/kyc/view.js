@@ -1,257 +1,87 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import { Button, Input, Select, Panel, Badge, Checkbox } from '@daonomic/ui';
-import ImageUploader from '~/components/image-uploader';
+import { Input, Panel, Badge } from '@daonomic/ui';
+
 import Heading from '~/components/heading';
-import removeDuplicates from '~/utils/remove-duplicates';
+
 import styles from './styles.css';
 import { getTranslation } from '~/i18n';
-
-import type {
-  KycFormField,
-  KycFormFieldName,
-  KycFormFieldValue,
-} from '~/types/kyc';
+import UserWalletAddressForm from './user-wallet-address-form';
+import ExtendedKycForm from './extended-kyc-form';
 
 export type Props = {|
-  tokenSymbol: string,
+  userWalletAddress: ?string,
   isKycExtended: boolean,
-  kycForm: KycFormField[],
-  isSaving: boolean,
-  isSaved: boolean,
   isAllowed: boolean,
   isDenied: boolean,
   isOnReview: boolean,
-  isEditingAllowed: boolean,
   denialReason: string,
-  getFileUrlById(string): string,
-  uploadFiles({
-    files: File[],
-    onUploadProgress: (event: ProgressEvent) => void,
-  }): Promise<{}>,
-  onChangeKycFormField(KycFormFieldName, KycFormFieldValue): void,
-  onSave(): any,
 |};
 
 export default class KycView extends React.Component<Props> {
-  handleChangeKycField = (event: { target: HTMLInputElement }) => {
-    const { target } = event;
-    const { name } = target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+  renderTitle = () => {
+    let titleTranslationKey = 'kyc:title';
 
-    this.props.onChangeKycFormField(name, value);
+    if (this.props.isKycExtended && !this.props.userWalletAddress) {
+      titleTranslationKey = 'kyc:extendedKycFirstStepTitle';
+    } else if (this.props.isKycExtended && this.props.userWalletAddress) {
+      titleTranslationKey = 'kyc:extendedKycSecondStepTitle';
+    }
+
+    return (
+      <Heading className={styles.title} tagName="h2" size="normal">
+        {getTranslation(titleTranslationKey)}
+      </Heading>
+    );
   };
-
-  handleSave = (event: Event) => {
-    event.preventDefault();
-
-    this.props.onSave();
-  };
-
-  renderHeading = (translationKey: string) => (
-    <Heading className={styles.title} tagName="h2" size="normal">
-      {getTranslation(translationKey)}
-    </Heading>
-  );
-
   renderStatus = () => {
     const { isOnReview, isDenied, denialReason } = this.props;
 
     if (isDenied) {
       return (
         <p className={cn(styles.paragraph, styles.red)}>
-          {getTranslation('wallet:kycDenied')}
+          {getTranslation('kyc:denied')}
           <br />
-          {denialReason && `Denial reason: ${denialReason}`}
+          {denialReason &&
+            getTranslation('kyc:denialReason', { reason: denialReason })}
         </p>
       );
     } else if (isOnReview) {
       return (
-        <p className={styles.paragraph}>
-          {getTranslation('wallet:kycOnReview')}
-        </p>
+        <p className={styles.paragraph}>{getTranslation('kyc:onReview')}</p>
       );
     }
   };
 
   renderStatusBadge = () => {
     if (this.props.isOnReview) {
-      return <Badge color="danger">Waiting for review</Badge>;
+      return (
+        <Badge color="danger">{getTranslation('kyc:waitingForReview')}</Badge>
+      );
     }
 
     return null;
   };
 
   renderForm = () => {
-    if (this.props.isOnReview) {
-      return null;
+    if (this.props.isKycExtended) {
+      return <ExtendedKycForm />;
     }
 
-    return (
-      <form onSubmit={this.handleSave}>
-        {this.props.kycForm.map(this.renderKycField)}
-        {this.renderFooter()}
-      </form>
-    );
-  };
-
-  renderKycField = (field: KycFormField) => {
-    const { name, label, value, error, required } = field;
-    const { isEditingAllowed } = this.props;
-    let content;
-
-    switch (field.type) {
-      case 'STRING': {
-        if (field.values) {
-          const options = field.values.map((optionValue, index) => ({
-            id: index,
-            value: optionValue,
-          }));
-
-          content = (
-            <Select
-              required={required}
-              disabled={!isEditingAllowed}
-              value={value}
-              name={name}
-              errors={error}
-              onChange={this.handleChangeKycField}
-            >
-              <option value="" hidden disabled>
-                {label}
-              </option>
-
-              {options.map(({ id, value: optionValue }) => (
-                <option key={id} value={optionValue}>
-                  {optionValue}
-                </option>
-              ))}
-            </Select>
-          );
-        } else {
-          content = (
-            <Input
-              required={required}
-              disabled={!isEditingAllowed}
-              name={name}
-              label={label}
-              value={value}
-              errors={error}
-              onChange={this.handleChangeKycField}
-            />
-          );
-        }
-
-        break;
-      }
-
-      case 'BOOLEAN': {
-        content = (
-          <Checkbox
-            required={required}
-            disabled={!isEditingAllowed}
-            name={name}
-            checked={value}
-            errors={error}
-            label={label}
-            onChange={this.handleChangeKycField}
-          />
-        );
-
-        break;
-      }
-
-      case 'FILE': {
-        const { getFileUrlById, uploadFiles } = this.props;
-        const filesIds: string[] = value instanceof Array ? [...value] : [];
-
-        content = (
-          <ImageUploader
-            disabled={!isEditingAllowed}
-            label={label}
-            error={error}
-            filesIds={filesIds}
-            getFileUrlById={getFileUrlById}
-            uploadFiles={uploadFiles}
-            onAddFiles={(newFilesIds) =>
-              this.props.onChangeKycFormField(
-                name,
-                removeDuplicates([...filesIds, ...newFilesIds]),
-              )
-            }
-            onRemoveFile={(removedFileId) =>
-              this.props.onChangeKycFormField(
-                name,
-                filesIds.filter((fileId) => fileId !== removedFileId),
-              )
-            }
-          />
-        );
-
-        break;
-      }
-
-      default: {
-        (field: empty);
-      }
-    }
-
-    return (
-      <div key={name} className={styles.paragraph}>
-        {this.renderKycFieldAnnotation(field)}
-        {content}
-      </div>
-    );
-  };
-
-  renderKycFieldAnnotation = (field: KycFormField) => {
-    if (field.name === 'address') {
-      return (
-        <p className={styles.paragraph}>
-          {getTranslation('wallet:addressAnnotation', {
-            tokenName: this.props.tokenSymbol,
-          })}{' '}
-          <strong>{getTranslation('wallet:addressWarning')}</strong>
-        </p>
-      );
-    }
-
-    return null;
-  };
-
-  renderFooter = () => {
-    const { isSaved, isEditingAllowed } = this.props;
-
-    return (
-      <div className={styles.footer}>
-        <Button type="submit" disabled={!isEditingAllowed}>
-          {isSaved
-            ? getTranslation('wallet:saved')
-            : getTranslation('wallet:save')}
-        </Button>
-      </div>
-    );
+    return <UserWalletAddressForm />;
   };
 
   render() {
     if (this.props.isOnReview || this.props.isAllowed) {
-      const addressField = this.props.kycForm.find(
-        (field) => field.name === 'address',
-      );
-
-      if (!addressField) {
-        return null;
-      }
-
       return (
         <Panel>
           {this.renderStatusBadge()}
           {this.renderStatus()}
           <Input
             disabled
-            label={addressField.label}
-            value={addressField.value}
+            label={getTranslation('kyc:yourEthereumWalletAddress')}
+            value={this.props.userWalletAddress}
             onChange={() => {}}
           />
         </Panel>
@@ -260,9 +90,7 @@ export default class KycView extends React.Component<Props> {
 
     return (
       <Panel>
-        {this.renderHeading(
-          this.props.isKycExtended ? 'wallet:kycTitle' : 'wallet:title',
-        )}
+        {this.renderTitle()}
         {this.renderStatus()}
         {this.renderForm()}
       </Panel>
