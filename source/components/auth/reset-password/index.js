@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import Link from '~/components/link';
-import { Button, Input, Panel, Text } from '@daonomic/ui/source';
+import { Button, Input, Panel, Text } from '@daonomic/ui';
 import Heading from '~/components/heading';
 import Layout from '../layout';
 import commonStyles from '../common.css';

@@ -1,4 +1,4 @@
-@import '@daonomic/ui/source/theme/index.css';
+@import '@daonomic/ui/lib/theme/index.css';
 
 :root {
   --theme-text-muted: #8492a5;
