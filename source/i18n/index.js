@@ -3,7 +3,7 @@ import authNamespace from '~/i18n/translations/auth/en.json';
 import commonNamespace from '~/i18n/translations/common/en.json';
 import faqNamespace from '~/i18n/translations/faq/en.json';
 import paymentMethodsNamespace from '~/i18n/translations/payment-methods/en.json';
-import walletNamespace from '~/i18n/translations/wallet/en.json';
+import kycNamespace from '~/i18n/translations/kyc/en.json';
 import widgetsNamespace from '~/i18n/translations/widgets/en.json';
 import processTemplate from '~/i18n/utils/process-template';
 
@@ -14,7 +14,7 @@ const namespaces: Map<NamespaceId, Namespace> = new Map([
   ['common', commonNamespace],
   ['faq', faqNamespace],
   ['paymentMethods', paymentMethodsNamespace],
-  ['wallet', walletNamespace],
+  ['kyc', kycNamespace],
   ['widgets', widgetsNamespace],
 ]);
 

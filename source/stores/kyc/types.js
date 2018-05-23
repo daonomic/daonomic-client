@@ -9,11 +9,10 @@ import type {
 
 export interface IKycState {
   dataState: DataState;
-  savingState: DataState;
   kycServerUrl: string;
   status: UserStatus;
+  userWalletAddress: string;
   denialReason: string;
   formSchema: BaseKycFormField[];
   formData: Map<KycFormFieldName, KycFormFieldValue>;
-  formErrors: Map<KycFormFieldName, string>;
 }

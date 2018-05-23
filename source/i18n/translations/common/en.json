@@ -1,5 +1,7 @@
 {
   "loading": "Loading",
+  "submit": "Submit",
   "poweredBy": "Powered by",
-  "termsOfService": "Terms of Service"
+  "termsOfService": "Terms of Service",
+  "requiredField": "This field is required"
 }

@@ -3,34 +3,29 @@ import { observable, computed, action, autorun, runInAction } from 'mobx';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
 import createViewModel from '~/utils/create-view-model';
-import { validateKycForm } from '~/stores/kyc/validation';
-import kycFieldsToFormSchema from '~/stores/kyc/utils/kyc-fields-to-form-schema';
 import getDefaultFieldValue from '~/stores/kyc/utils/get-default-field-value';
 import getUserStatus from '~/stores/kyc/utils/get-user-status';
 
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
-import type {
-  KycFormField,
-  KycFormFieldName,
-  KycFormFieldValue,
-} from '~/types/kyc';
+import type { IWeb3 } from '~/types/web3';
+import type { KycFormFieldName, KycFormFieldValue } from '~/types/kyc';
 import type { IKycState } from './types';
 
 class KycStoreState implements IKycState {
   @observable dataState = 'initial';
-  @observable savingState = 'initial';
   @observable kycServerUrl = '';
   @observable status = 'NOT_SET';
   @observable denialReason = '';
+  @observable userWalletAddress = '';
   @observable formSchema = [];
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
-  @observable formErrors: Map<KycFormFieldName, string> = new Map();
 }
 
 export class KycStore {
   api: IApi;
   auth: IAuth;
+  getWeb3Instance: () => Promise<IWeb3>;
 
   state = createViewModel(new KycStoreState());
 
@@ -50,32 +45,8 @@ export class KycStore {
   }
 
   @computed
-  get form(): KycFormField[] {
-    // $FlowFixMe
-    return this.state.formSchema.map((field) => ({
-      ...field,
-      value: this.state.formData.get(field.name),
-      error: this.state.formErrors.get(field.name),
-    }));
-  }
-
-  @computed
   get isExtended(): boolean {
-    return (
-      this.state.formSchema.filter(
-        (field) => !['address', 'addressConfirmation'].includes(field.name),
-      ).length > 0
-    );
-  }
-
-  @computed
-  get isSaving(): boolean {
-    return this.state.savingState === 'loading';
-  }
-
-  @computed
-  get isSaved(): boolean {
-    return this.state.savingState === 'loaded';
+    return this.state.formSchema.length > 0;
   }
 
   @computed
@@ -88,9 +59,14 @@ export class KycStore {
     return this.state.dataState === 'loaded';
   }
 
-  constructor(options: { api: IApi, auth: IAuth }) {
+  constructor(options: {
+    api: IApi,
+    auth: IAuth,
+    getWeb3Instance: () => Promise<IWeb3>,
+  }) {
     this.api = options.api;
     this.auth = options.auth;
+    this.getWeb3Instance = options.getWeb3Instance;
 
     autorun(() => {
       if (this.auth.isAuthenticated) {
@@ -100,6 +76,18 @@ export class KycStore {
       }
     });
   }
+
+  prefillUserWalletAddress = async () => {
+    try {
+      const web3 = await this.getWeb3Instance();
+
+      runInAction(() => {
+        this.state.userWalletAddress = web3.eth.defaultAccount || '';
+      });
+    } catch (error) {
+      return;
+    }
+  };
 
   @action
   loadKycInfo = async (): Promise<*> => {
@@ -112,7 +100,7 @@ export class KycStore {
       runInAction(() => {
         this.state.dataState = 'loaded';
         this.state.kycServerUrl = kycUrl;
-        this.state.formSchema = kycFieldsToFormSchema(kyc);
+        this.state.formSchema = kyc;
         this.state.formSchema.forEach((field) => {
           this.state.formData.set(field.name, getDefaultFieldValue(field));
         });
@@ -129,6 +117,7 @@ export class KycStore {
     this.state.dataState = 'loading';
 
     try {
+      await this.prefillUserWalletAddress();
       const [userDataResponse, statusResponse] = await Promise.all([
         this.api.kycData.getUserData({
           baseUrl: this.state.kycServerUrl,
@@ -146,16 +135,15 @@ export class KycStore {
 
         this.state.status = getUserStatus({ kycStatus: status, hasUserData });
 
+        if (address) {
+          this.state.userWalletAddress = address;
+        }
+
         if (hasUserData) {
-          this.state.savingState = 'loaded';
           Object.keys(userData).forEach((fieldName) => {
             this.state.formData.set(fieldName, userData[fieldName]);
           });
-        } else if (!this.isExtended && address) {
-          this.state.savingState = 'loaded';
         }
-
-        this.state.formData.set('address', address);
       });
     } catch (error) {
       runInAction(() => {
@@ -165,17 +153,28 @@ export class KycStore {
   };
 
   @action
+  saveUserWalletAddress = async ({ address }: { address: string }) => {
+    const {
+      data: { status, denialReason },
+    } = await this.api.kycData.setAddress({ address });
+
+    runInAction(() => {
+      this.state.userWalletAddress = address;
+      this.state.status = getUserStatus({
+        kycStatus: status,
+        hasUserData: !this.isExtended,
+      });
+
+      if (denialReason) {
+        this.state.denialReason = denialReason;
+      }
+    });
+  };
+
+  @action
   saveData = async () => {
-    this.validateForm();
-
-    if (this.state.formErrors.size > 0) {
-      return;
-    }
-
     const userData = fromPairs(Array.from(this.state.formData.entries()));
 
-    this.state.formErrors.clear();
-    this.state.savingState = 'loading';
     let savingPromise = Promise.resolve();
 
     if (this.isExtended) {
@@ -186,52 +185,16 @@ export class KycStore {
       });
     }
 
-    try {
-      await savingPromise;
-      await this.api.kycData.setAddress({ address: userData.address });
+    await savingPromise;
+    await this.api.kycData.setAddress({ address: userData.address });
 
-      runInAction(() => {
-        this.state.savingState = 'loaded';
-
-        if (this.isExtended) {
-          this.state.status = 'ON_REVIEW';
-        } else {
-          this.state.status = 'ALLOWED';
-        }
-      });
-    } catch (error) {
-      const { fieldErrors } = error.response.data;
-
-      runInAction(() => {
-        this.state.savingState = 'failed';
-
-        if (fieldErrors) {
-          Object.keys(fieldErrors).forEach((fieldName) => {
-            const [fieldError] = fieldErrors[fieldName];
-
-            this.state.formErrors.set(fieldName, fieldError);
-          });
-        }
-      });
-    }
-  };
-
-  @action
-  validateForm = () => {
-    this.state.formErrors.clear();
-
-    const validationErrors = validateKycForm(this.form);
-
-    validationErrors.forEach(({ name, error }) => {
-      this.state.formErrors.set(name, error);
+    runInAction(() => {
+      if (this.isExtended) {
+        this.state.status = 'ON_REVIEW';
+      } else {
+        this.state.status = 'ALLOWED';
+      }
     });
-  };
-
-  @action
-  updateFormField = (name: KycFormFieldName, value: KycFormFieldValue) => {
-    this.state.savingState = 'initial';
-    this.state.formData.set(name, value);
-    this.state.formErrors.delete(name);
   };
 
   reset = () => {
@@ -260,6 +223,10 @@ export class KycStore {
     `${this.state.kycServerUrl}/files/${id}`;
 }
 
-export function kycProvider(api: IApi, auth: IAuth) {
-  return new KycStore({ api, auth });
+export function kycProvider(
+  api: IApi,
+  auth: IAuth,
+  getWeb3Instance: () => Promise<IWeb3>,
+) {
+  return new KycStore({ api, auth, getWeb3Instance });
 }

@@ -1,7 +1,8 @@
 // @flow
+import { getTranslation } from '~/i18n';
 import type { KycFormField, KycFormFieldName } from '~/types/kyc';
 
-const requiredError = 'This field is required';
+const requiredError = getTranslation('common:requiredField');
 
 type ValidationEntry = {|
   name: KycFormFieldName,
@@ -22,32 +23,6 @@ const validators: Validator[] = [
         name: field.name,
         error: requiredError,
       };
-    }
-  },
-  ({ field, allFields }) => {
-    if (field.type === 'STRING') {
-      if (
-        ['address', 'addressConfirmation'].includes(field.name) &&
-        (field.value.slice(0, 2) !== '0x' || field.value.slice(2).length !== 40)
-      ) {
-        return {
-          name: field.name,
-          error: 'should be hex address with 20-bytes length',
-        };
-      }
-
-      if (field.name === 'addressConfirmation') {
-        const addressField = allFields.find(
-          (field) => field.name === 'address',
-        );
-
-        if (addressField && field.value !== addressField.value) {
-          return {
-            name: field.name,
-            error: "Addresses don't match",
-          };
-        }
-      }
     }
   },
   ({ field }) => {
