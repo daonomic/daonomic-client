@@ -12,7 +12,7 @@ import generateQRCode from '~/utils/generate-qrcode';
 import type { IApi } from '~/api/types';
 import type { IAuth } from '~/stores/auth/types';
 import type { KycStore } from '~/stores/kyc';
-import type { PaymentMethod } from '~/types/payment';
+import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 import type { IPaymentStoreState } from './types';
 
 class PaymentStoreState implements IPaymentStoreState {
@@ -20,7 +20,7 @@ class PaymentStoreState implements IPaymentStoreState {
   @observable methods = [];
   @observable selectedMethodId = null;
   @observable addressesByMethodId: Map<string, string> = new Map();
-  @observable paymentsByMethodId: Map<string, {}[]> = new Map();
+  @observable paymentsByMethodId: Map<PaymentMethodId, Payment[]> = new Map();
   @observable selectedMethodAddressQRCode = '';
 }
 
@@ -70,7 +70,7 @@ export class PaymentStore {
   }
 
   @computed
-  get selectedMethodPayments(): {}[] {
+  get selectedMethodPayments(): Payment[] {
     return (
       this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') || []
     );
@@ -229,7 +229,7 @@ export class PaymentStore {
   };
 
   @action
-  setMethod = (methodId: string) => {
+  setMethod = (methodId: PaymentMethodId) => {
     this.state.selectedMethodId = methodId;
   };
 

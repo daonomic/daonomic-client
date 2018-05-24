@@ -9,7 +9,7 @@ import type {
   SetKycDataResponse,
   KycValidationErrorResponse,
 } from '~/types/kyc';
-import type { PaymentMethod } from '~/types/payment';
+import type { PaymentMethod, Payment } from '~/types/payment';
 
 export type Response<Data> = Promise<{|
   data: Data,
@@ -52,7 +52,7 @@ export interface IApi {
   |};
 
   getIcoInfo(): Response<{|
-    paymentMethods?: PaymentMethod[],
+    paymentMethods: PaymentMethod[],
     kyc: BaseKycFormField[],
     kycUrl: string,
     current: number,
@@ -68,6 +68,6 @@ export interface IApi {
   ): Response<{
     address: string,
   }>;
-  getPaymentStatus(PaymentParams): Response<{}[]>;
+  getPaymentStatus(PaymentParams): Response<Payment[]>;
   getBalance(): Response<{| balance: number |}>;
 }
