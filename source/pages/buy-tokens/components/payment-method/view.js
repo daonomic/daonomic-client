@@ -3,8 +3,9 @@ import * as React from 'react';
 import { Panel, Select } from '@daonomic/ui';
 import Heading from '~/components/heading';
 import textStyles from '~/components/text/text.css';
-import styles from './payment-method.css';
 import { getTranslation } from '~/i18n';
+import ExchangeForm from './exchange-form';
+import styles from './payment-method.css';
 
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 
@@ -129,12 +130,8 @@ export default class PaymentMethodView extends React.Component<Props> {
           {getTranslation('paymentMethods:instructionTitle')}
         </Heading>
 
-        <div>
-          {getTranslation('paymentMethods:instructionText')}
-          <div className={textStyles['word-break-all']}>
-            {userWalletAddress}
-          </div>
-        </div>
+        <p>{getTranslation('paymentMethods:instructionText')}</p>
+        <p className={textStyles['word-break-all']}>{userWalletAddress}</p>
       </React.Fragment>
     );
   };
@@ -155,6 +152,16 @@ export default class PaymentMethodView extends React.Component<Props> {
     }
   };
 
+  renderExchangeForm = () => {
+    if (!this.props.selectedPaymentMethod) {
+      return;
+    }
+
+    return (
+      <ExchangeForm paymentMethodRate={this.props.selectedPaymentMethod.rate} />
+    );
+  };
+
   render() {
     return (
       <Panel>
@@ -163,6 +170,8 @@ export default class PaymentMethodView extends React.Component<Props> {
         </Heading>
 
         {this.renderPaymentMethodsSelect()}
+        <Panel.Separator />
+        {this.renderExchangeForm()}
         <Panel.Separator />
         {this.renderSelectedPaymentMethodAddress()}
         <Panel.Separator />
