@@ -26,7 +26,7 @@ describe('balance updating service', () => {
 
     balanceUpdatingService(auth, kyc, walletBalance);
     expect(walletBalance.state.balance).toBe(0);
-    kyc.saveData();
+    kyc.saveData(new Map());
 
     when(
       () => kyc.isAllowed && walletBalance.isLoading,
@@ -50,7 +50,7 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData();
+    kyc.saveData(new Map());
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -74,7 +74,7 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData();
+    kyc.saveData(new Map());
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -104,7 +104,7 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData();
+    kyc.saveData(new Map());
     let balanceUpdatesCount = 0;
 
     reaction(

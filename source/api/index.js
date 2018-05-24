@@ -27,6 +27,7 @@ const api: IApi = {
     getAddressAndStatus: () => client.get(`/sales/${config.saleId}/data`),
     setAddress: ({ address }) =>
       client.post(`/sales/${config.saleId}/data`, { address }),
+    sendToReview: () => client.post('/review'),
     getUserData: ({ baseUrl, userId }) =>
       axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
     setUserData: ({ baseUrl, data, userId }) =>

@@ -172,8 +172,11 @@ export class KycStore {
   };
 
   @action
-  saveData = async () => {
-    const userData = fromPairs(Array.from(this.state.formData.entries()));
+  saveData = async (
+    updatedFormData: Map<KycFormFieldName, KycFormFieldValue>,
+  ) => {
+    this.state.formData = updatedFormData;
+    const userData = fromPairs(Array.from(updatedFormData.entries()));
 
     let savingPromise = Promise.resolve();
 
@@ -186,7 +189,7 @@ export class KycStore {
     }
 
     await savingPromise;
-    await this.api.kycData.setAddress({ address: userData.address });
+    await this.api.kycData.sendToReview();
 
     runInAction(() => {
       if (this.isExtended) {

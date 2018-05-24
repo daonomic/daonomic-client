@@ -249,6 +249,10 @@ const mockApi: IApi = {
           },
         }),
     }),
+    sendToReview: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
     getUserData: createMockRoute({
       success: () => createResponse({}),
       fail: createFailResponse,

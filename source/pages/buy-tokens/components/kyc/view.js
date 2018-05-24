@@ -35,6 +35,7 @@ export default class KycView extends React.Component<Props> {
       </Heading>
     );
   };
+
   renderStatus = () => {
     const { isOnReview, isDenied, denialReason } = this.props;
 
@@ -65,7 +66,7 @@ export default class KycView extends React.Component<Props> {
   };
 
   renderForm = () => {
-    if (this.props.isKycExtended) {
+    if (this.props.userWalletAddress && this.props.isKycExtended) {
       return <ExtendedKycForm />;
     }
 

@@ -39,6 +39,7 @@ export interface IApi {
   kycData: {|
     getAddressAndStatus(): Response<GetKycAddressAndStatusResponse>,
     setAddress(SetKycAddressParams): Response<GetKycAddressAndStatusResponse>,
+    sendToReview(): Response<{}>,
     getUserData({
       baseUrl: string,
       userId: UserId,

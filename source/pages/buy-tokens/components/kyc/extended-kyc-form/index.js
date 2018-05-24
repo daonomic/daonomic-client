@@ -23,7 +23,7 @@ type Props = {|
     files: File[],
     onUploadProgress: (event: ProgressEvent) => void,
   }): Promise<{}>,
-  onSubmit(): Promise<mixed>,
+  onSubmit(Map<KycFormFieldName, KycFormFieldValue>): Promise<mixed>,
 |};
 
 class ExtendedKycForm extends React.Component<Props> {
@@ -74,7 +74,7 @@ class ExtendedKycForm extends React.Component<Props> {
     this.isSaving = true;
 
     try {
-      await this.props.onSubmit();
+      await this.props.onSubmit(this.formData);
     } catch (error) {
       const { fieldErrors } = error.response.data;
 
