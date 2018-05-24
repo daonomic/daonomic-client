@@ -99,8 +99,9 @@ class Header extends React.Component<Props, State> {
         <div className={styles.right}>
           <Button
             data-marker={this.marker('logout')()}
-            onClick={this.handleClickLogout}
             size="m"
+            design="secondary"
+            onClick={this.handleClickLogout}
           >
             {getTranslation('auth:logout')}
           </Button>

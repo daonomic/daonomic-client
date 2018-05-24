@@ -13,6 +13,7 @@ import { paymentProvider } from '~/stores/payment';
 import { saleProvider } from '~/stores/sale';
 import { walletBalanceProvider } from '~/stores/wallet/balance';
 import { walletGeneratorProvider } from '~/stores/wallet-generator';
+import { immediatePurchaseProvider } from '~/stores/immediate-purchase';
 import { balanceUpdatingService } from '~/services/balance-updating';
 import { getWeb3Instance } from '~/services/web3/provider';
 import { initLocationObserver } from '~/router/location-observer';
@@ -22,12 +23,13 @@ export function init() {
     [routerProvider],
     [authTokenProvider],
     [apiProvider],
+    [walletGeneratorProvider],
     [authProvider, apiProvider, authTokenProvider],
     [kycProvider, apiProvider, authProvider, getWeb3Instance],
     [paymentProvider, apiProvider, authProvider, config.saleId, kycProvider],
     [saleProvider, apiProvider, authProvider, config.saleId],
     [walletBalanceProvider, apiProvider],
-    [walletGeneratorProvider],
+    [immediatePurchaseProvider, apiProvider, kycProvider, getWeb3Instance],
     [balanceUpdatingService, authProvider, kycProvider, walletBalanceProvider],
     [initLocationObserver, routerProvider, authProvider],
   ).then((system) => {
@@ -39,6 +41,7 @@ export function init() {
       kyc: system(kycProvider),
       walletBalance: system(walletBalanceProvider),
       walletGenerator: system(walletGeneratorProvider),
+      immediatePurchase: system(immediatePurchaseProvider),
     };
 
     if (process.env.NODE_ENV === 'development') {
