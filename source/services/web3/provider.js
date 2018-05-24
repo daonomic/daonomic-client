@@ -44,7 +44,3 @@ export function getWeb3Instance() {
 
   return fromPromise(pTimeout(web3Promise, 1000 * 20));
 }
-
-export function getWeb3InstanceProvider() {
-  return getWeb3Instance;
-}

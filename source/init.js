@@ -14,7 +14,7 @@ import { saleProvider } from '~/stores/sale';
 import { walletBalanceProvider } from '~/stores/wallet/balance';
 import { walletGeneratorProvider } from '~/stores/wallet-generator';
 import { balanceUpdatingService } from '~/services/balance-updating';
-import { getWeb3InstanceProvider } from '~/services/web3/provider';
+import { getWeb3Instance } from '~/services/web3/provider';
 import { initLocationObserver } from '~/router/location-observer';
 
 export function init() {
@@ -23,7 +23,7 @@ export function init() {
     [authTokenProvider],
     [apiProvider],
     [authProvider, apiProvider, authTokenProvider],
-    [kycProvider, apiProvider, authProvider, getWeb3InstanceProvider],
+    [kycProvider, apiProvider, authProvider, getWeb3Instance],
     [paymentProvider, apiProvider, authProvider, config.saleId, kycProvider],
     [saleProvider, apiProvider, authProvider, config.saleId],
     [walletBalanceProvider, apiProvider],

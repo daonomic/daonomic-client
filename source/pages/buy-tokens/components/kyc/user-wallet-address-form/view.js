@@ -5,6 +5,7 @@ import { getTranslation } from '~/i18n';
 
 export type Props = {|
   initialAddress?: ?string,
+  isDisabled?: boolean,
   onSubmit({ address: string }): mixed,
 |};
 
@@ -55,6 +56,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
             required
             type="text"
             pattern={addressPattern}
+            disabled={this.props.isDisabled}
             label={getTranslation('kyc:yourEthereumWalletAddress')}
             value={this.state.address}
             onChange={this.handleChangeAddress}
@@ -67,6 +69,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
             required
             type="text"
             pattern={addressPattern}
+            disabled={this.props.isDisabled}
             label={getTranslation('kyc:yourEthereumWalletAddressConfirmation')}
             value={this.state.confirmationAddress}
             onChange={this.handleChangeConfirmationAddress}
@@ -77,7 +80,10 @@ export default class KycAddressFormView extends React.Component<Props, State> {
         <Form.Field>
           <Button
             type="submit"
-            disabled={this.state.address !== this.state.confirmationAddress}
+            disabled={
+              this.state.address !== this.state.confirmationAddress ||
+              this.props.isDisabled
+            }
           >
             {getTranslation('common:submit')}
           </Button>

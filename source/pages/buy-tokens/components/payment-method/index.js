@@ -182,7 +182,7 @@ class PaymentMethod extends Component {
 }
 
 export default inject(({ payment, kyc }) => ({
-  walletAddress: kyc.state.formData.get('address'),
+  walletAddress: kyc.state.userWalletAddress,
   selectedPaymentMethod: payment.selectedMethod,
   selectedPaymentMethodAddress: payment.selectedMethodAddress,
   selectedPaymentMethodAddressQRCode: payment.state.selectedMethodAddressQRCode,
