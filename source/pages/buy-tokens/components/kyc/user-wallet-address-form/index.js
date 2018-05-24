@@ -41,6 +41,7 @@ const ObservingUserWalletAddressFormContainer = observer(
 );
 
 export default inject(({ kyc }: { kyc: KycStore }): Props => ({
-  initialAddress: kyc.state.userWalletAddress,
+  initialAddress:
+    kyc.state.userWalletAddress || kyc.state.prospectiveUserWalletAddress,
   onSubmit: kyc.saveUserWalletAddress,
 }))(ObservingUserWalletAddressFormContainer);

@@ -11,6 +11,7 @@ export interface IKycState {
   dataState: DataState;
   kycServerUrl: string;
   status: UserStatus;
+  prospectiveUserWalletAddress: string;
   userWalletAddress: string;
   denialReason: string;
   formSchema: BaseKycFormField[];

@@ -17,6 +17,7 @@ class KycStoreState implements IKycState {
   @observable kycServerUrl = '';
   @observable status = 'NOT_SET';
   @observable denialReason = '';
+  @observable prospectiveUserWalletAddress = '';
   @observable userWalletAddress = '';
   @observable formSchema = [];
   @observable formData: Map<KycFormFieldName, KycFormFieldValue> = new Map();
@@ -82,7 +83,7 @@ export class KycStore {
       const web3 = await this.getWeb3Instance();
 
       runInAction(() => {
-        this.state.userWalletAddress = web3.eth.defaultAccount || '';
+        this.state.prospectiveUserWalletAddress = web3.eth.defaultAccount || '';
       });
     } catch (error) {
       return;
