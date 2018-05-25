@@ -1,4 +1,3 @@
-const setupTestSute = require('../../utils/setup-test-suite');
 const signInPage = require('../../page-objects/sign-in');
 const signUpPage = require('../../page-objects/sign-up');
 const appHeader = require('../../page-objects/header');
@@ -7,7 +6,6 @@ const getCurrentUser = require('../../utils/get-current-user');
 describe('Sign in page', () => {
   beforeEach(async (done) => {
     await signInPage.open();
-    await setupTestSute();
     browser.call(done);
   });
 

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Form, FieldHint, Button, Input } from '@daonomic/ui';
 import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 export type Props = {|
   initialAddress?: ?string,
@@ -14,7 +15,12 @@ type State = {|
   confirmationAddress: string,
 |};
 
-export default class KycAddressFormView extends React.Component<Props, State> {
+export default class UserWalletAddressFormView extends React.Component<
+  Props,
+  State,
+> {
+  marker = getMarker('user-wallet-address-form');
+
   state = {
     address: this.props.initialAddress || '',
     confirmationAddress: '',
@@ -43,7 +49,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
     const addressPattern = '0x(\\d|[a-zA-Z]){40}';
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
         <Form.Field>
           <p>
             {getTranslation('kyc:addressAnnotation')}{' '}
@@ -53,6 +59,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
 
         <Form.Field>
           <Input
+            data-marker={this.marker('address')()}
             required
             type="text"
             pattern={addressPattern}
@@ -66,6 +73,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
 
         <Form.Field>
           <Input
+            data-marker={this.marker('confirmation-address')()}
             required
             type="text"
             pattern={addressPattern}
@@ -79,6 +87,7 @@ export default class KycAddressFormView extends React.Component<Props, State> {
 
         <Form.Field>
           <Button
+            data-marker={this.marker('submit')()}
             type="submit"
             disabled={
               this.state.address !== this.state.confirmationAddress ||

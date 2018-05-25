@@ -2,7 +2,6 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { Input, Panel, Badge } from '@daonomic/ui';
-
 import Heading from '~/components/heading';
 
 import styles from './styles.css';

@@ -1,4 +1,3 @@
-const setupTestSute = require('../../utils/setup-test-suite');
 const signInPage = require('../../page-objects/sign-in');
 const passwordResetPage = require('../../page-objects/password-reset');
 const getCurrentUser = require('../../utils/get-current-user');
@@ -6,13 +5,11 @@ const getCurrentUser = require('../../utils/get-current-user');
 describe('Password reset page', () => {
   beforeEach(async (done) => {
     await passwordResetPage.open();
-    await setupTestSute();
     browser.call(done);
   });
 
   it('should open password reset page from sign in page', async (done) => {
     await signInPage.open();
-    await setupTestSute();
     await signInPage.passwordResetLink.click();
     await passwordResetPage.form;
     browser.call(done);

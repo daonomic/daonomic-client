@@ -6,6 +6,7 @@ import textStyles from '~/components/text/text.css';
 import { getTranslation } from '~/i18n';
 import ExchangeForm from './exchange-form';
 import styles from './payment-method.css';
+import getMarker from '~/utils/get-marker';
 
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 
@@ -20,6 +21,8 @@ export type Props = {|
 |};
 
 export default class PaymentMethodView extends React.Component<Props> {
+  marker = getMarker('payment-method');
+
   handleChangePaymentMethod = (
     event: SyntheticInputEvent<HTMLSelectElement>,
   ) => {
@@ -164,7 +167,7 @@ export default class PaymentMethodView extends React.Component<Props> {
 
   render() {
     return (
-      <Panel>
+      <Panel data-marker={this.marker()}>
         <Heading className={styles.title} tagName="h2" size="normal">
           {getTranslation('paymentMethods:title')}
         </Heading>

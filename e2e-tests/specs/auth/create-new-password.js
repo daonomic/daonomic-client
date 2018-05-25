@@ -1,4 +1,3 @@
-const setupTestSute = require('../../utils/setup-test-suite');
 const passwordResetPage = require('../../page-objects/password-reset');
 const createNewPasswordPage = require('../../page-objects/create-new-password');
 const getCurrentUser = require('../../utils/get-current-user');
@@ -11,7 +10,6 @@ describe('Create new password page', () => {
     const { email } = await getCurrentUser();
 
     await passwordResetPage.open();
-    await setupTestSute();
     await passwordResetPage.email.setValue(email);
     await passwordResetPage.submitButton.click();
     await passwordResetPage.successMessage;
@@ -24,7 +22,6 @@ describe('Create new password page', () => {
 
   beforeEach(async (done) => {
     await createNewPasswordPage.open({ token });
-    await setupTestSute();
     browser.call(done);
   });
 

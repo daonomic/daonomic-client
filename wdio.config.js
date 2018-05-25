@@ -13,6 +13,7 @@ exports.config = {
   specs: ['./e2e-tests/specs/**/*.js'],
   suites: {
     auth: ['./e2e-tests/specs/auth/**/*.js'],
+    kyc: ['./e2e-tests/specs/kyc/**/*.js'],
   },
   // Patterns to exclude.
   exclude: [
