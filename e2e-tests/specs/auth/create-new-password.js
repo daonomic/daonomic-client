@@ -1,13 +1,13 @@
 const passwordResetPage = require('../../page-objects/password-reset');
 const createNewPasswordPage = require('../../page-objects/create-new-password');
-const getCurrentUser = require('../../utils/get-current-user');
+const { getStableUser } = require('../../utils/users');
 const getPasswordResetToken = require('../../utils/get-password-reset-token');
 
 describe('Create new password page', () => {
   let token = null;
 
   beforeAll(async (done) => {
-    const { email } = await getCurrentUser();
+    const { email } = await getStableUser();
 
     await passwordResetPage.open();
     await passwordResetPage.email.setValue(email);
@@ -34,7 +34,7 @@ describe('Create new password page', () => {
   });
 
   it('should show success message after submitting valid passwords', async (done) => {
-    const { password } = await getCurrentUser();
+    const { password } = await getStableUser();
 
     await createNewPasswordPage.password.setValue(password);
     await createNewPasswordPage.password2.setValue(password);

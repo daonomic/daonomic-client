@@ -1,7 +1,7 @@
 const signInPage = require('../../page-objects/sign-in');
 const signUpPage = require('../../page-objects/sign-up');
 const appHeader = require('../../page-objects/header');
-const getCurrentUser = require('../../utils/get-current-user');
+const { getStableUser } = require('../../utils/users');
 
 describe('Sign in page', () => {
   beforeEach(async (done) => {
@@ -25,7 +25,7 @@ describe('Sign in page', () => {
   });
 
   it('should login with valid credentials', async (done) => {
-    const { email, password } = await getCurrentUser();
+    const { email, password } = await getStableUser();
 
     await signInPage.email.setValue(email);
     await signInPage.password.setValue(password);

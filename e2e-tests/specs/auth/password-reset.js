@@ -1,6 +1,6 @@
 const signInPage = require('../../page-objects/sign-in');
 const passwordResetPage = require('../../page-objects/password-reset');
-const getCurrentUser = require('../../utils/get-current-user');
+const { getStableUser } = require('../../utils/users');
 
 describe('Password reset page', () => {
   beforeEach(async (done) => {
@@ -23,7 +23,7 @@ describe('Password reset page', () => {
   });
 
   it('should reset known user password', async (done) => {
-    const { email } = await getCurrentUser();
+    const { email } = await getStableUser();
 
     await passwordResetPage.email.setValue(email);
     await passwordResetPage.submitButton.click();

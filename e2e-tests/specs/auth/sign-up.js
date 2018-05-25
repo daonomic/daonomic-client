@@ -1,6 +1,6 @@
 const signUpPage = require('../../page-objects/sign-up');
 const signInPage = require('../../page-objects/sign-in');
-const getCurrentUser = require('../../utils/get-current-user');
+const { getStableUser } = require('../../utils/users');
 
 describe('Sign up page', () => {
   beforeEach(async (done) => {
@@ -15,7 +15,7 @@ describe('Sign up page', () => {
   });
 
   it('should not sign up with already used email', async (done) => {
-    const { email } = await getCurrentUser();
+    const { email } = await getStableUser();
 
     await signUpPage.email.setValue(email);
     await signUpPage.submitButton.click();
