@@ -7,6 +7,7 @@ module.exports = {
   sourceDir,
   assetsDir: path.resolve(__dirname, './assets'),
   buildDir: path.resolve(__dirname, './build'),
+  e2eTestsDir: path.resolve(__dirname, './e2e-tests'),
   defaultNodeEnv,
   nodeEnv: process.env.NODE_ENV || defaultNodeEnv,
   devServerPort: process.env.PORT || 3000,

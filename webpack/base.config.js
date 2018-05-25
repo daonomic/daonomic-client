@@ -5,6 +5,7 @@ const {
   api,
   sourceDir,
   buildDir,
+  e2eTestsDir,
   nodeEnv,
   isDebugEnabled,
   isAnalyzeModeEnabled,
@@ -28,7 +29,7 @@ const config = {
     'regenerator-runtime/runtime',
     `${sourceDir}/index.js`,
     '@daonomic/ui/lib/global.css',
-  ].concat(e2eTest ? `${sourceDir}/utils/inject-web3-mock` : []),
+  ].concat(e2eTest ? `${e2eTestsDir}/web3-mock/inject` : []),
 
   output: {
     path: buildDir,
