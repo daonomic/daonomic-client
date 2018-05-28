@@ -13,9 +13,9 @@ function getEmailLetter({ account, content }) {
     .then(({ data }) => data);
 }
 
-function createIco({ start, end, tokensCount }) {
+function createIco({ start, end, tokensCount, kycFormSchema }) {
   return client
-    .post('/icos', { start, end, total: tokensCount })
+    .post('/icos', { start, end, total: tokensCount, fields: kycFormSchema })
     .then(({ data }) => ({
       saleId: data.sale,
       realmId: data.realm,

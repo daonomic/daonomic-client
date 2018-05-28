@@ -49,7 +49,9 @@ export default class KycView extends React.Component<Props> {
       );
     } else if (isOnReview) {
       return (
-        <p className={styles.paragraph}>{getTranslation('kyc:onReview')}</p>
+        <p data-marker="kyc-review-annotation" className={styles.paragraph}>
+          {getTranslation('kyc:onReview')}
+        </p>
       );
     }
   };

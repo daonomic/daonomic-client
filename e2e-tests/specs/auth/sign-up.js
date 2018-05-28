@@ -1,10 +1,12 @@
 const signUpPage = require('../../page-objects/sign-up');
 const signInPage = require('../../page-objects/sign-in');
+const initApplication = require('../../utils/init-application');
 const { getStableUser } = require('../../utils/users');
 
 describe('Sign up page', () => {
   beforeEach(async (done) => {
     await signUpPage.open();
+    await initApplication();
     browser.call(done);
   });
 

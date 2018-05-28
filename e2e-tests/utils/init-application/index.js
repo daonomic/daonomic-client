@@ -1,7 +1,9 @@
-const getCurrentIco = require('../get-current-ico');
+const { getCurrentIco } = require('../icos');
 
-module.exports = async function setupTestSuite() {
-  const { saleId, realmId } = await getCurrentIco();
+module.exports = async function initApplication(
+  options = { getIco: getCurrentIco },
+) {
+  const { saleId, realmId } = await options.getIco();
 
   return browser.execute(
     (saleId, realmId) => {

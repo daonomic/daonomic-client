@@ -1,14 +1,16 @@
 const signInPage = require('../../page-objects/sign-in');
 const appHeader = require('../../page-objects/header');
 const buyTokensPage = require('../../page-objects/buy-tokens');
-const userWalletAddressForm = require('../../page-objects/user-wallet-address-form');
+const userWalletAddressForm = require('../../page-objects/kyc/user-wallet-address-form');
 const paymentMethod = require('../../page-objects/payment-method');
+const initApplication = require('../../utils/init-application');
 const { getTemporaryUser } = require('../../utils/users');
 const wallet = require('../../web3-mock/wallet');
 
 describe('Simple KYC flow', () => {
   beforeEach(async (done) => {
     await signInPage.open();
+    await initApplication();
 
     const { email, password } = await getTemporaryUser();
 
@@ -17,6 +19,7 @@ describe('Simple KYC flow', () => {
     await signInPage.submitButton.click();
     await appHeader.root;
     await buyTokensPage.open();
+    await initApplication();
     browser.call(done);
   });
 
@@ -36,7 +39,7 @@ describe('Simple KYC flow', () => {
     browser.call(done);
   });
 
-  it('should prefill address with web3 wallet address, save confirmed address and show payment methods', async (done) => {
+  it('should save address and show payment methods', async (done) => {
     const testAddress = `0x${'0'.repeat(40)}`;
 
     await userWalletAddressForm.root;
