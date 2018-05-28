@@ -1,3 +1,4 @@
+const initApplication = require('../../utils/init-application');
 const passwordResetPage = require('../../page-objects/password-reset');
 const createNewPasswordPage = require('../../page-objects/create-new-password');
 const { getStableUser } = require('../../utils/users');
@@ -10,6 +11,7 @@ describe('Create new password page', () => {
     const { email } = await getStableUser();
 
     await passwordResetPage.open();
+    await initApplication();
     await passwordResetPage.email.setValue(email);
     await passwordResetPage.submitButton.click();
     await passwordResetPage.successMessage;
@@ -22,6 +24,7 @@ describe('Create new password page', () => {
 
   beforeEach(async (done) => {
     await createNewPasswordPage.open({ token });
+    await initApplication();
     browser.call(done);
   });
 

@@ -1,6 +1,6 @@
-const PageObject = require('./page-object');
-const getMarkerSelector = require('../utils/get-marker-selector');
-const waitAndGetElement = require('../utils/wait-and-get-element');
+const PageObject = require('../page-object');
+const getMarkerSelector = require('../../utils/get-marker-selector');
+const waitAndGetElement = require('../../utils/wait-and-get-element');
 
 class UserWalletAddressForm extends PageObject {
   get root() {

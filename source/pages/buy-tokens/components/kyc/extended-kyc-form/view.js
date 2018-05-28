@@ -4,6 +4,7 @@ import { Form, Button, Input, Select, Checkbox } from '@daonomic/ui';
 import ImageUploader from '~/components/image-uploader';
 import removeDuplicates from '~/utils/remove-duplicates';
 import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 import type {
   KycFormField,
@@ -25,6 +26,8 @@ export type Props = {|
 |};
 
 export default class ExtendedKycForm extends React.Component<Props> {
+  marker = getMarker('extended-kyc-form');
+
   handleChangeKycField = (event: { target: HTMLInputElement }) => {
     const { target } = event;
     const { name } = target;
@@ -91,6 +94,9 @@ export default class ExtendedKycForm extends React.Component<Props> {
       case 'BOOLEAN': {
         content = (
           <Checkbox
+            labelProps={{
+              'data-marker': this.marker(name)(),
+            }}
             required={required}
             disabled={isDisabled}
             name={name}
@@ -144,10 +150,14 @@ export default class ExtendedKycForm extends React.Component<Props> {
 
   render() {
     return (
-      <Form onSubmit={this.handleSave}>
+      <Form data-marker={this.marker()} onSubmit={this.handleSave}>
         {this.props.form.map(this.renderKycField)}
         <Form.Field>
-          <Button type="submit" disabled={this.props.isDisabled}>
+          <Button
+            data-marker={this.marker('submit')()}
+            type="submit"
+            disabled={this.props.isDisabled}
+          >
             {getTranslation('common:submit')}
           </Button>
         </Form.Field>

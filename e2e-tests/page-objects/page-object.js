@@ -1,5 +1,3 @@
-const initApplication = require('../utils/init-application');
-
 class PageObject {
   constructor({ getUrl, marker }) {
     this.getUrl = getUrl;
@@ -13,7 +11,6 @@ class PageObject {
 
     await browser.url(this.getUrl(params));
     await browser.refresh();
-    initApplication();
   }
 }
 

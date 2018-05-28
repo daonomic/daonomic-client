@@ -95,7 +95,7 @@
     "yargs": "11.0.0"
   },
   "dependencies": {
-    "@daonomic/ui": "9.4.2",
+    "@daonomic/ui": "9.5.1",
     "@slonoed/startup": "1.0.1",
     "axios": "0.18.0",
     "classnames": "2.2.5",
