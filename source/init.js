@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import startup from '@slonoed/startup';
 import Root from '~/root';
 import config from '~/config';
-import { routerProvider } from '~/router/store';
+import { routerProvider } from '~/router';
 import { authTokenProvider } from '~/stores/auth/token';
 import { apiProvider } from '~/api';
 import { authProvider } from '~/stores/auth';
@@ -16,22 +16,20 @@ import { walletGeneratorProvider } from '~/stores/wallet-generator';
 import { immediatePurchaseProvider } from '~/stores/immediate-purchase';
 import { balanceUpdatingService } from '~/services/balance-updating';
 import { getWeb3Instance } from '~/services/web3/provider';
-import { initLocationObserver } from '~/router/location-observer';
 
 export function init() {
   return startup(
-    [routerProvider],
     [authTokenProvider],
     [apiProvider],
     [walletGeneratorProvider],
     [authProvider, apiProvider, authTokenProvider],
+    [routerProvider, authProvider],
     [kycProvider, apiProvider, authProvider, getWeb3Instance],
     [paymentProvider, apiProvider, authProvider, config.saleId, kycProvider],
     [saleProvider, apiProvider, authProvider, config.saleId],
     [walletBalanceProvider, apiProvider],
     [immediatePurchaseProvider, apiProvider, kycProvider, getWeb3Instance],
     [balanceUpdatingService, authProvider, kycProvider, walletBalanceProvider],
-    [initLocationObserver, routerProvider, authProvider],
   ).then((system) => {
     const stores = {
       router: system(routerProvider),

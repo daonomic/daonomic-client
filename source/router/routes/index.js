@@ -1,11 +1,12 @@
 // @flow
 import UniversalRouter from 'universal-router';
-import { createRoute, createRedirect } from '~/router/actions';
-import { exactMatch } from '~/router/utils/exact-match';
+import generateUrls from 'universal-router/generateUrls';
+import { createRoute, createRedirect } from '~/router/routes/actions';
+import { exactMatch } from '~/router/routes/utils/exact-match';
 
-const notFoundAction = () => createRedirect({ to: 'signIn' });
+import type { RouteName, RouteParams } from '~/router/types';
 
-export const routes = new UniversalRouter([
+const routes = new UniversalRouter([
   {
     path: '',
     action: exactMatch(() => createRedirect({ to: 'buyTokens' })),
@@ -50,10 +51,7 @@ export const routes = new UniversalRouter([
               if (!context.isAuthenticated) {
                 return createRedirect({
                   to: 'signIn',
-                  from: {
-                    pathname: context.pathname,
-                    search: context.search,
-                  },
+                  from: context,
                 });
               }
 
@@ -89,8 +87,13 @@ export const routes = new UniversalRouter([
   },
   {
     path: /.*/, // 404
-    action: notFoundAction,
+    action: () => createRedirect({ to: 'signIn' }),
   },
 ]);
 
-export const resolveRoute = routes.resolve.bind(routes);
+export const resolveRouteAction = routes.resolve.bind(routes);
+
+export const getRouteUrl: (
+  routeName: RouteName,
+  params?: RouteParams,
+) => string = generateUrls(routes);

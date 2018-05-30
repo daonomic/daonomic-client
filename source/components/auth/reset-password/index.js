@@ -6,7 +6,7 @@ import Heading from '~/components/heading';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import getMarker from '~/utils/get-marker';
-import getRouteUrl from '~/router/get-route-url';
+import { getRouteUrl } from '~/router';
 import { getTranslation } from '~/i18n';
 
 type Props = {|

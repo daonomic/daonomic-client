@@ -6,7 +6,7 @@ import { Button, Panel } from '@daonomic/ui';
 import Navigation from '~/components/navigation';
 import Burger from '~/components/burger';
 import styles from './header.css';
-import getRouteUrl from '~/router/get-route-url';
+import { getRouteUrl } from '~/router';
 import getMarker from '~/utils/get-marker';
 import { getTranslation } from '~/i18n';
 

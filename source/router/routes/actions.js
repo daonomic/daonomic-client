@@ -3,14 +3,9 @@ import type {
   RouteName,
   RouteParams,
   UniversalRouterContext,
-  RouterContext,
-  RouterActionRoute,
-  RouterActionRedirect,
 } from '~/router/types';
 
-export function createRoute(
-  context: UniversalRouterContext,
-): RouterActionRoute {
+export function createRoute(context: UniversalRouterContext) {
   return {
     type: 'route',
     name: context.route.name,
@@ -24,9 +19,9 @@ export function createRedirect({
   params,
 }: {|
   to: RouteName,
-  from?: RouterContext,
+  from?: UniversalRouterContext,
   params?: RouteParams,
-|}): RouterActionRedirect {
+|}) {
   return {
     type: 'redirect',
     to,

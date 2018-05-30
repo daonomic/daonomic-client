@@ -1,6 +1,7 @@
 // @flow
-import { getFullRoutePath } from '~/router/utils/get-full-route-path';
-import { fillPathParams } from '~/router/utils/fill-path-params';
+import { getFullRoutePath } from '~/router/routes/utils/get-full-route-path';
+import { fillPathParams } from '~/router/routes/utils/fill-path-params';
+
 import type { UniversalRouterContext } from '~/router/types';
 
 export function isRequestedRoute(context: UniversalRouterContext) {

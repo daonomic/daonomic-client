@@ -1,5 +1,4 @@
 // @flow
-
 export function fillPathParams({ path, params }: { path: string, params: {} }) {
   return path
     .split('/')

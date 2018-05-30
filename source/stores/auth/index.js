@@ -1,7 +1,7 @@
 // @flow
 import { observable, action, computed, autorun, runInAction } from 'mobx';
 import localStorage from '~/utils/local-storage';
-import getRouteUrl from '~/router/get-route-url';
+import { getRouteUrl } from '~/router';
 
 import type { IApi } from '~/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';

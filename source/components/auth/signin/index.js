@@ -7,7 +7,7 @@ import getMarker from '~/utils/get-marker';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
-import getRouteUrl from '~/router/get-route-url';
+import { getRouteUrl } from '~/router';
 import { getTranslation } from '~/i18n';
 
 type Props = {|

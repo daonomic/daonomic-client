@@ -17,31 +17,34 @@ export type RouteParams = {
 export type Route = {|
   name: RouteName,
   params: RouteParams,
-  path: string,
-  parent?: Route,
 |};
 
-export type RouterContext = {|
+export type UniversalRouterRoute = Route & {|
+  path: string,
+  parent?: UniversalRouterRoute,
+|};
+
+export type UniversalRouterContext = {|
   pathname: string,
   search: string,
-|};
-
-export type UniversalRouterContext = RouterContext & {|
-  route: Route,
+  route: UniversalRouterRoute,
   params: RouteParams,
 |};
 
-export type RouterActionRedirect = {|
-  type: 'redirect',
-  to: RouteName,
-  from?: RouterContext,
-  params?: RouteParams,
-|};
+export type Location = {
+  pathname: string,
+  search: string,
+  hash: string,
+  state?: any,
+};
 
-export type RouterActionRoute = {|
-  type: 'route',
-  name: RouteName,
-  params: RouteParams,
-|};
+export interface IHistory {
+  location: Location;
+  push(string, ?{}): void;
+  replace(string, ?{}): void;
+  listen((Location) => any): Function;
+}
 
-export type RouterAction = RouterActionRedirect | RouterActionRoute;
+export interface IRouterAuth {
+  isAuthenticated: boolean;
+}
