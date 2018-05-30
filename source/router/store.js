@@ -20,9 +20,7 @@ export class RouterStore {
       () => this.auth.isAuthenticated,
       (isAuthenticated) => {
         if (isAuthenticated) {
-          this.history.push(
-            (this.history.location.state || {}).from || getRouteUrl('app'),
-          );
+          this.history.push(getRouteUrl('app'));
         } else {
           this.history.push(getRouteUrl('signIn'));
         }
@@ -43,9 +41,7 @@ export class RouterStore {
 
     switch (action.type) {
       case 'redirect': {
-        this.history.replace(getRouteUrl(action.to, action.params), {
-          from: action.from,
-        });
+        this.history.replace(getRouteUrl(action.to, action.params));
         break;
       }
 

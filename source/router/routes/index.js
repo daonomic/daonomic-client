@@ -51,7 +51,6 @@ const routes = new UniversalRouter([
               if (!context.isAuthenticated) {
                 return createRedirect({
                   to: 'signIn',
-                  from: context,
                 });
               }
 

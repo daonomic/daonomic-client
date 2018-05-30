@@ -15,7 +15,6 @@ export function createRoute(context: UniversalRouterContext) {
 
 export function createRedirect({
   to,
-  from,
   params,
 }: {|
   to: RouteName,
@@ -25,7 +24,6 @@ export function createRedirect({
   return {
     type: 'redirect',
     to,
-    from,
     params,
   };
 }
