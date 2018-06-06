@@ -22,7 +22,8 @@ export default {
   realmId:
     globalDaonomicConfig.realm || realms[environment] || realms.production,
   contactEmail: 'dev@0v1se.com',
-  termsOfServiceURL: 'terms.url',
+  termsOfServiceUrl: 'terms.url',
+  daonomicUrl: 'https://daonomic.io',
   faq: [
     {
       question: 'How Can I invest?',

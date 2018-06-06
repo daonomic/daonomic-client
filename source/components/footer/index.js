@@ -2,7 +2,6 @@
 import * as React from 'react';
 import cn from 'classnames';
 import config from '~/config';
-import { Logo } from '@daonomic/ui';
 import styles from './footer.css';
 import { getTranslation } from '~/i18n';
 
@@ -12,16 +11,21 @@ type Props = {
 
 export default class Footer extends React.PureComponent<Props, {}> {
   renderTermsOfServiceLink = () => {
-    if (!config.termsOfServiceURL) {
+    if (!config.termsOfServiceUrl) {
       return null;
     }
 
     return (
-      <div>
-        <a href={config.termsOfServiceURL} className={styles.link}>
+      <p>
+        <a
+          href={config.termsOfServiceUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={styles.link}
+        >
           {getTranslation('common:termsOfService')}
         </a>
-      </div>
+      </p>
     );
   };
 
@@ -31,16 +35,17 @@ export default class Footer extends React.PureComponent<Props, {}> {
     return (
       <div className={cn(className, styles.root)}>
         <div className={styles.inner}>
-          <div className={styles.left}>
+          <p>
             {getTranslation('common:poweredBy')}{' '}
             <a
-              href="https://daonomic.io"
+              href={config.daonomicUrl}
               target="_blank"
               rel="noreferrer noopener"
+              className={styles.link}
             >
-              <Logo className={styles.logo} />
+              Ðaonomic
             </a>
-          </div>
+          </p>
 
           {this.renderTermsOfServiceLink()}
         </div>

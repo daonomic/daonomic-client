@@ -15,11 +15,6 @@
   border-top: 1px solid rgba(150, 155, 158, 0.24);
 }
 
-.logo {
-  display: inline-block;
-  height: 1em;
-}
-
 .link {
   color: currentColor;
   text-decoration: none;
