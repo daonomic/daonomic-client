@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
 import TwoColumnsLayout from '~/components/two-columns-layout';
-import SaleTimeline from '~/components/sale-timeline';
 import Heading from '~/components/heading';
 import Kyc from './components/kyc';
 import PaymentMethod from './components/payment-method';
@@ -100,7 +99,6 @@ export default class BuyTokensPageView extends React.Component<Props> {
         <TwoColumnsLayout.Right>
           <Balance />
           <TokenPrice />
-          <SaleTimeline />
         </TwoColumnsLayout.Right>
       </TwoColumnsLayout>
     );

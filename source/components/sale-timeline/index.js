@@ -2,9 +2,41 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { Badge, Panel } from '@daonomic/ui';
-import config from '~/config';
-import type { TimelineStep } from '~/types/sale-timeline';
 import styles from './sale-timeline.css';
+
+import type { TimelineStep } from '~/types/sale-timeline';
+
+const sampleTimeline = [
+  {
+    title: 'Sale Timeline:',
+    steps: [
+      {
+        date: '21 Jul',
+        text: '1 Token Coin = 30 BTC',
+        percent: '30%',
+        isActive: false,
+      },
+      {
+        date: '21 Aug',
+        text: '1 Token Coin = 40 BTC',
+        percent: '20%',
+        isActive: false,
+      },
+      {
+        date: '21 Sep',
+        text: '1 Token Coin = 50 BTC',
+        percent: '10%',
+        isActive: true,
+      },
+      {
+        date: '21 Oct',
+        text: '1 Token Coin = 40 BTC',
+        percent: '5%',
+        isActive: false,
+      },
+    ],
+  },
+];
 
 export default class SaleTimeline extends React.Component<{}> {
   renderSteps = (timeline: TimelineStep[]) =>
@@ -34,11 +66,11 @@ export default class SaleTimeline extends React.Component<{}> {
     ));
 
   render() {
-    if (config.saleTimeline.length === 0) {
+    if (sampleTimeline.length === 0) {
       return null;
     }
 
-    return config.saleTimeline.map(({ title, steps }) => (
+    return sampleTimeline.map(({ title, steps }) => (
       <Panel key={title} className={styles.root}>
         <h3 className={styles.title}>{title}</h3>
 
