@@ -8,6 +8,7 @@ import commonStyles from '../common.css';
 import getMarker from '~/utils/get-marker';
 import { getRouteUrl } from '~/router';
 import { getTranslation } from '~/i18n';
+import styles from './styles.css';
 
 type Props = {|
   email: string,
@@ -116,7 +117,12 @@ export default class ResetPassword extends React.Component<Props> {
         {this.renderContent()}
 
         <Panel>
-          <Text design="muted" align="center" element="p">
+          <Text
+            design="muted"
+            align="center"
+            element="p"
+            className={styles.paragraph}
+          >
             <Link href={getRouteUrl('signIn')}>
               {getTranslation('auth:signInHeading')}&nbsp;⟩
             </Link>
