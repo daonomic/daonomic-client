@@ -4,6 +4,7 @@ const selenium = require('selenium-standalone');
 const liveServer = require('live-server');
 const { Launcher } = require('webdriverio');
 const { argv } = require('yargs');
+const { devServerPort } = require('../config');
 
 process.on('unhandledRejection', (reason, p) => {
   // eslint-disable-next-line no-console
@@ -16,14 +17,18 @@ selenium.start(async (error, child) => {
     return;
   }
 
-  const uiServerPort = await getPort();
+  let uiServerPort = devServerPort;
 
-  liveServer.start({
-    port: uiServerPort,
-    root: path.resolve(__dirname, '../build'),
-    open: false,
-    file: 'index.html',
-  });
+  if (process.env.E2E_MODE !== 'development') {
+    uiServerPort = await getPort();
+
+    liveServer.start({
+      port: uiServerPort,
+      root: path.resolve(__dirname, '../build'),
+      open: false,
+      file: 'index.html',
+    });
+  }
 
   const wdio = new Launcher(path.resolve(__dirname, '../wdio.config.js'), {
     baseUrl: `http://localhost:${uiServerPort}`,

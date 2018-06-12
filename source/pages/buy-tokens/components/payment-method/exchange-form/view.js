@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Form, Input, Button } from '@daonomic/ui';
 import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 type Props = {|
   amount: number,
@@ -17,6 +18,8 @@ function getInputNumberValue(input: HTMLInputElement): number {
 }
 
 export default class ExchangeFormView extends React.Component<Props> {
+  marker = getMarker('exchange-form');
+
   handleChangeAmount = (event: SyntheticInputEvent<HTMLInputElement>) => {
     this.props.onChangeAmount(getInputNumberValue(event.target));
   };
@@ -37,7 +40,11 @@ export default class ExchangeFormView extends React.Component<Props> {
 
     return (
       <Form.Field>
-        <Button type="submit" disabled={this.props.amount === 0}>
+        <Button
+          data-marker={this.marker('buy')()}
+          type="submit"
+          disabled={this.props.amount === 0}
+        >
           {getTranslation('exchange:buy')}
         </Button>
       </Form.Field>
@@ -46,10 +53,11 @@ export default class ExchangeFormView extends React.Component<Props> {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
         <Form.Group>
           <Form.Field>
             <Input
+              data-marker={this.marker('amount')()}
               type="number"
               label={getTranslation('exchange:amount')}
               value={String(this.props.amount)}
@@ -59,6 +67,7 @@ export default class ExchangeFormView extends React.Component<Props> {
 
           <Form.Field>
             <Input
+              data-marker={this.marker('cost')()}
               type="number"
               label={getTranslation('exchange:cost')}
               value={String(this.props.cost)}

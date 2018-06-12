@@ -4,6 +4,7 @@ import { Panel } from '@daonomic/ui';
 import formatNumber from '~/i18n/format-number';
 import styles from './balance.css';
 import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 export type Props = {|
   balance: number,
@@ -11,15 +12,23 @@ export type Props = {|
 |};
 
 export default class Balance extends React.Component<Props> {
+  marker = getMarker('balance');
+
   render() {
     return (
-      <Panel className={styles.root}>
+      <Panel data-marker={this.marker()} className={styles.root}>
         <h3 className={styles.title}>
           {getTranslation('widgets:yourWalletBalance')}
         </h3>
 
         <p className={styles.balance}>
-          {formatNumber(this.props.balance)} {this.props.tokenSymbol}
+          <span
+            data-marker={this.marker('amount')()}
+            data-raw-value={this.props.balance}
+          >
+            {formatNumber(this.props.balance)}
+          </span>{' '}
+          {this.props.tokenSymbol}
         </p>
       </Panel>
     );

@@ -1,13 +1,14 @@
 const signInPage = require('../../page-objects/sign-in');
 const appHeader = require('../../page-objects/header');
 const buyTokensPage = require('../../page-objects/buy-tokens');
-const userWalletAddressForm = require('../../page-objects/kyc/user-wallet-address-form');
+const exchangeForm = require('../../page-objects/purchase/exchange-form');
+const balance = require('../../page-objects/balance');
 const initApplication = require('../../utils/init-application');
 const { getTemporaryUser } = require('../../utils/users');
-const { fillSimpleKyc } = require('../../flows/kyc');
 const wallet = require('../../web3-mock/wallet');
+const { fillSimpleKyc } = require('../../flows/kyc');
 
-describe('Simple KYC flow', () => {
+describe('Immediate tokens purchase via DAPP', () => {
   beforeEach(async (done) => {
     await signInPage.open();
     await initApplication();
@@ -20,6 +21,9 @@ describe('Simple KYC flow', () => {
     await appHeader.root;
     await buyTokensPage.open();
     await initApplication();
+    await fillSimpleKyc({
+      address: wallet.getAddressString(),
+    });
     browser.call(done);
   });
 
@@ -28,19 +32,22 @@ describe('Simple KYC flow', () => {
     browser.call(done);
   });
 
-  it('should prefill address with web3 wallet address', async (done) => {
-    await userWalletAddressForm.root;
+  it('should purchase tokens via exchange form', async (done) => {
+    await balance.root;
+    const currentBalance = await balance.amount.getText();
 
-    const prefilledAddress = await userWalletAddressForm.address.getValue();
+    expect(currentBalance).toBe('0');
 
-    expect(prefilledAddress.toLowerCase()).toBe(
-      wallet.getAddressString().toLowerCase(),
-    );
-    browser.call(done);
-  });
+    await exchangeForm.root;
+    await exchangeForm.amount.setValue(1);
+    await exchangeForm.buy.click();
 
-  it('should save address and show payment methods', async (done) => {
-    await fillSimpleKyc({ address: `0x${'0'.repeat(40)}` });
+    await browser.waitUntil(async () => {
+      const text = await balance.amount.getText();
+
+      return text === '1';
+    }, 10000);
+
     browser.call(done);
   });
 });

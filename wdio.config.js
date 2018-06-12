@@ -1,4 +1,6 @@
-const isDebugEnabled = Boolean(process.env.DEBUG_ENABLED);
+const isDebugEnabled = Boolean(
+  process.env.DEBUG_ENABLED || process.env.E2E_MODE === 'development',
+);
 
 exports.config = {
   //
@@ -14,6 +16,7 @@ exports.config = {
   suites: {
     auth: ['./e2e-tests/specs/auth/**/*.js'],
     kyc: ['./e2e-tests/specs/kyc/**/*.js'],
+    purchase: ['./e2e-tests/specs/purchase/**/*.js'],
   },
   // Patterns to exclude.
   exclude: [
