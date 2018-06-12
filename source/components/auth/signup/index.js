@@ -8,6 +8,7 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import { getRouteUrl } from '~/router';
 import { getTranslation } from '~/i18n';
+import styles from './styles.css';
 
 type Props = {|
   email: string,
@@ -120,7 +121,12 @@ export default class SignUp extends React.Component<Props> {
         </Panel>
 
         <Panel>
-          <Text design="muted" align="center" element="p">
+          <Text
+            design="muted"
+            align="center"
+            element="p"
+            className={styles.paragraph}
+          >
             {getTranslation('auth:alreadyHaveAccount')}{' '}
             <Link
               data-marker={this.marker('sign-in-link')()}

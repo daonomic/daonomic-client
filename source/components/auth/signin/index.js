@@ -115,7 +115,12 @@ export default class SignIn extends React.Component<Props> {
         </Panel>
 
         <Panel>
-          <Text design="muted" align="center" element="p">
+          <Text
+            design="muted"
+            align="center"
+            element="p"
+            className={styles.paragraph}
+          >
             {getTranslation('auth:dontHaveAccount')}{' '}
             <Link
               data-marker={this.marker('sign-up-link')()}

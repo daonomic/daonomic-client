@@ -3,3 +3,7 @@
   color: var(--color-text-muted);
   opacity: 0.64;
 }
+
+.paragraph {
+  margin-bottom: 0;
+}
