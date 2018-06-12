@@ -129,7 +129,7 @@ export default class PaymentMethodView extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <Heading tagName="h3" size="small">
+        <Heading className={styles.subtitle} tagName="h3" size="small">
           {getTranslation('paymentMethods:instructionTitle')}
         </Heading>
 

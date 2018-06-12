@@ -1,7 +1,8 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const baseConfig = require('./base.config');
-const { themeImportDeclaration } = require('../config');
+const { themeImportDeclaration, sourceDir } = require('../config');
+const theme = require('../theme.js');
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
@@ -24,6 +25,7 @@ module.exports = Object.assign({}, baseConfig, {
       ...baseConfig.module.rules,
       {
         test: /\.css$/,
+        include: [sourceDir, /daonomic\/ui/],
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -38,6 +40,27 @@ module.exports = Object.assign({}, baseConfig, {
           {
             loader: 'webpack-append',
             query: themeImportDeclaration,
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        exclude: [sourceDir, /daonomic\/ui/],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+              modifyVars: theme,
+            },
           },
         ],
       },
