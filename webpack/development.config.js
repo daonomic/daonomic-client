@@ -2,9 +2,11 @@ const webpack = require('webpack');
 const baseConfig = require('./base.config');
 const {
   devServerPort,
+  sourceDir,
   assetsDir,
   themeImportDeclaration,
 } = require('../config');
+const theme = require('../theme.js');
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'development',
@@ -23,6 +25,7 @@ module.exports = Object.assign({}, baseConfig, {
       ...baseConfig.module.rules,
       {
         test: /\.css$/,
+        include: [sourceDir, /daonomic\/ui/],
         use: [
           'style-loader',
           {
@@ -37,6 +40,27 @@ module.exports = Object.assign({}, baseConfig, {
           {
             loader: 'webpack-append',
             query: themeImportDeclaration,
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
+        exclude: [sourceDir, /daonomic\/ui/],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+              modifyVars: theme,
+            },
           },
         ],
       },

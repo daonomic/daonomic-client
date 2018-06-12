@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
-import { Form, Input, Button } from '@daonomic/ui';
+import { Form, Input, Button } from 'antd';
 import { getTranslation } from '~/i18n';
 import getMarker from '~/utils/get-marker';
+import styles from './styles.css';
 
 type Props = {|
   amount: number,
@@ -39,42 +40,45 @@ export default class ExchangeFormView extends React.Component<Props> {
     }
 
     return (
-      <Form.Field>
+      <div className={styles.row}>
         <Button
           data-marker={this.marker('buy')()}
-          type="submit"
+          htmlType="submit"
+          type="primary"
           disabled={this.props.amount === 0}
         >
           {getTranslation('exchange:buy')}
         </Button>
-      </Form.Field>
+      </div>
     );
   };
 
   render() {
     return (
-      <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Field>
-            <Input
-              data-marker={this.marker('amount')()}
-              type="number"
-              label={getTranslation('exchange:amount')}
-              value={String(this.props.amount)}
-              onChange={this.handleChangeAmount}
-            />
-          </Form.Field>
+      <Form
+        data-marker={this.marker()}
+        className={styles.form}
+        onSubmit={this.handleSubmit}
+      >
+        <div className={styles.row}>
+          <Input
+            data-marker={this.marker('amount')()}
+            type="number"
+            addonBefore={getTranslation('exchange:amount')}
+            value={String(this.props.amount)}
+            onChange={this.handleChangeAmount}
+          />
+        </div>
 
-          <Form.Field>
-            <Input
-              data-marker={this.marker('cost')()}
-              type="number"
-              label={getTranslation('exchange:cost')}
-              value={String(this.props.cost)}
-              onChange={this.handleChangeCost}
-            />
-          </Form.Field>
-        </Form.Group>
+        <div className={styles.row}>
+          <Input
+            data-marker={this.marker('cost')()}
+            type="number"
+            addonBefore={getTranslation('exchange:cost')}
+            value={String(this.props.cost)}
+            onChange={this.handleChangeCost}
+          />
+        </div>
 
         {this.renderSubmitButton()}
       </Form>

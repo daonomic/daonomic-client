@@ -111,7 +111,9 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-export default inject(({ auth, router }): InjectedProps => ({
-  currentRouteName: router.currentRoute.name,
-  onLogout: auth.logout,
-}))(Header);
+export default inject(
+  ({ auth, router }): InjectedProps => ({
+    currentRouteName: router.currentRoute.name,
+    onLogout: auth.logout,
+  }),
+)(Header);
