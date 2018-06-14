@@ -27,7 +27,7 @@ export class ImmediatePurchaseStore {
   }
 
   loadSaleContractAddress = async () => {
-    const { data } = await this.api.getIcoInfo();
+    const { data } = await this.api.getSaleInfo();
 
     runInAction(() => {
       this.saleContractAddress = data.address;

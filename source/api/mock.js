@@ -91,7 +91,7 @@ const mockApi: IApi = {
       }),
     fail: createFailResponse,
   }),
-  getIcoInfo: createMockRoute({
+  getSaleInfo: createMockRoute({
     success: () =>
       createResponse({
         id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',

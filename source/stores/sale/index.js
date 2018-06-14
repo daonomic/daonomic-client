@@ -83,7 +83,7 @@ export class SaleStore {
     this.state.dataState = 'loading';
 
     try {
-      const { data } = await this.api.getIcoInfo();
+      const { data } = await this.api.getSaleInfo();
       const {
         current: sold = 0,
         total = 0,

@@ -39,7 +39,7 @@ describe('payment store', () => {
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getIcoInfo.setResponse('successBtcFirst');
+    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
 
     await when(
@@ -59,7 +59,7 @@ describe('payment store', () => {
       'data:image/png;base64,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',
     );
 
-    api.getIcoInfo.reset();
+    api.getSaleInfo.reset();
     done();
   });
 
@@ -68,7 +68,7 @@ describe('payment store', () => {
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getIcoInfo.setResponse('successBtcFirst');
+    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
 
     let paymentsUpdateCount = 0;
@@ -86,7 +86,7 @@ describe('payment store', () => {
     await when(
       () => payment.selectedMethodPayments && paymentsUpdateCount === 3,
     );
-    api.getIcoInfo.reset();
+    api.getSaleInfo.reset();
     done();
   });
 
@@ -95,7 +95,7 @@ describe('payment store', () => {
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getIcoInfo.setResponse('successBtcFirst');
+    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
 
     let paymentsUpdateCount = 0;
@@ -116,7 +116,7 @@ describe('payment store', () => {
           expect(payment.state.addressesByMethodId.size).toBe(0);
           expect(payment.state.paymentsByMethodId.size).toBe(0);
 
-          api.getIcoInfo.reset();
+          api.getSaleInfo.reset();
           done();
         }
       },
@@ -128,7 +128,7 @@ describe('payment store', () => {
     const kyc = kycProvider(api, auth);
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getIcoInfo.setResponse('successBtcFirst');
+    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
 
     let paymentsUpdateCount = 0;
@@ -149,7 +149,7 @@ describe('payment store', () => {
           expect(payment.state.addressesByMethodId.size).toBe(0);
           expect(payment.state.paymentsByMethodId.size).toBe(0);
 
-          api.getIcoInfo.reset();
+          api.getSaleInfo.reset();
           done();
         }
       },

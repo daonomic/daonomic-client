@@ -51,7 +51,7 @@ export interface IApi {
     }): Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
   |};
 
-  getIcoInfo(): Response<{|
+  getSaleInfo(): Response<{|
     address: string,
     paymentMethods: PaymentMethod[],
     kyc: BaseKycFormField[],

@@ -34,7 +34,7 @@ const api: IApi = {
       axios.post(`${baseUrl}/users/${userId}`, data),
   },
 
-  getIcoInfo: cacheResult(() => client.get(`/sales/${config.saleId}`), 5000),
+  getSaleInfo: cacheResult(() => client.get(`/sales/${config.saleId}`), 5000),
   getPaymentAddress: ({ saleId, tokenId }) =>
     client.get(`/sales/${saleId}/payment/${tokenId}/address`),
   getPaymentStatus: ({ saleId, tokenId }) =>

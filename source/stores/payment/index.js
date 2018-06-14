@@ -214,7 +214,7 @@ export class PaymentStore {
     try {
       const {
         data: { paymentMethods },
-      } = await this.api.getIcoInfo();
+      } = await this.api.getSaleInfo();
 
       runInAction(() => {
         this.state.dataState = 'loaded';

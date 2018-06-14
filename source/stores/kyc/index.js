@@ -95,7 +95,7 @@ export class KycStore {
     this.state.dataState = 'loading';
 
     try {
-      const { data } = await this.api.getIcoInfo();
+      const { data } = await this.api.getSaleInfo();
       const { kyc = [], kycUrl } = data;
 
       runInAction(() => {

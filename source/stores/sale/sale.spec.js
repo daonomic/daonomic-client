@@ -61,7 +61,7 @@ describe('sale store', () => {
   });
 
   test('should consider sale as eternal if server returns no start and end timestamps', async (done) => {
-    api.getIcoInfo.setResponse('successEternal');
+    api.getSaleInfo.setResponse('successEternal');
     const auth = authProvider(api, freshAuthTokenProvider());
     const sale = saleProvider(api, auth, testSale);
 
@@ -76,7 +76,7 @@ describe('sale store', () => {
     expect(sale.state.startTimestamp).toBe(null);
     expect(sale.state.endTimestamp).toBe(null);
 
-    api.getIcoInfo.reset();
+    api.getSaleInfo.reset();
     done();
   });
 });
