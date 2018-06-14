@@ -88,6 +88,7 @@ export default class UserWalletAddressFormView extends React.Component<
         <Form.Field>
           <Button
             data-marker={this.marker('submit')()}
+            design="primary"
             type="submit"
             disabled={
               this.state.address !== this.state.confirmationAddress ||

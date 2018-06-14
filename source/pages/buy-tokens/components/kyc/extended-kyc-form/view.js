@@ -155,6 +155,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
         <Form.Field>
           <Button
             data-marker={this.marker('submit')()}
+            design="primary"
             type="submit"
             disabled={this.props.isDisabled}
           >

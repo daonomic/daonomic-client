@@ -97,6 +97,7 @@ export default class SignIn extends React.Component<Props> {
             <div className={commonStyles.footer}>
               <Button
                 type="submit"
+                design="primary"
                 disabled={isLoading}
                 data-marker={this.marker('submit')()}
               >

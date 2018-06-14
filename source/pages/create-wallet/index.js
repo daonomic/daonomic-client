@@ -88,7 +88,7 @@ export default class CreateWallet extends Component {
         </p>
 
         <div className={styles.controls}>
-          <Button type="submit" disabled={isGenerating}>
+          <Button design="primary" type="submit" disabled={isGenerating}>
             {isGenerating
               ? `${Math.round(progress * 100)}%`
               : 'Create New Wallet'}
@@ -135,6 +135,7 @@ export default class CreateWallet extends Component {
 
         <div className={styles.controls}>
           <Button
+            design="primary"
             tagName="a"
             download="wallet.json"
             href={`data:text/json;charset=utf-8,${encodeURIComponent(

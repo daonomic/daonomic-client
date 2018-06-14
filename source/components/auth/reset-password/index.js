@@ -80,6 +80,7 @@ export default class ResetPassword extends React.Component<Props> {
           <div className={commonStyles.footer}>
             <Button
               data-marker={this.marker('submit')()}
+              design="primary"
               type="submit"
               disabled={isSaving}
             >
