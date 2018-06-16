@@ -6,5 +6,8 @@ describe('processTemplate', () => {
     expect(processTemplate('A simple {{thing}}', { thing: 'template' })).toBe(
       'A simple template',
     );
+    expect(processTemplate('A simple {{ thing }}', { thing: 'template' })).toBe(
+      'A simple template',
+    );
   });
 });

@@ -11,7 +11,7 @@ import getMarker from '~/utils/get-marker';
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 
 export type Props = {|
-  userWalletAddress: string,
+  userWalletAddress: ?string,
   paymentMethods: PaymentMethod[],
   selectedPaymentMethod: ?PaymentMethod,
   selectedPaymentMethodAddress: ?string,
@@ -134,7 +134,9 @@ export default class PaymentMethodView extends React.Component<Props> {
         </Heading>
 
         <p>{getTranslation('paymentMethods:instructionText')}</p>
-        <p className={textStyles['word-break-all']}>{userWalletAddress}</p>
+        <p className={textStyles['word-break-all']}>
+          {userWalletAddress || ''}
+        </p>
       </React.Fragment>
     );
   };

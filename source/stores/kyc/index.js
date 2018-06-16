@@ -1,5 +1,5 @@
 // @flow
-import { observable, computed, action, autorun, runInAction } from 'mobx';
+import { observable, computed, action, runInAction } from 'mobx';
 import axios from 'axios';
 import { fromPairs } from 'ramda';
 import createViewModel from '~/utils/create-view-model';
@@ -68,40 +68,15 @@ export class KycStore {
     this.api = options.api;
     this.auth = options.auth;
     this.getWeb3Instance = options.getWeb3Instance;
-
-    autorun(() => {
-      if (this.auth.isAuthenticated) {
-        this.loadKycInfo().then(this.loadUserData);
-      } else {
-        this.reset();
-      }
-    });
   }
-
-  prefillUserWalletAddress = async () => {
-    try {
-      const web3 = await this.getWeb3Instance();
-
-      runInAction(() => {
-        this.state.prospectiveUserWalletAddress = web3.eth.defaultAccount || '';
-      });
-    } catch (error) {
-      return;
-    }
-  };
 
   @action
   loadKycInfo = async (): Promise<*> => {
     this.state.dataState = 'loading';
 
     try {
-      const { data } = await this.api.getSaleInfo();
-      const { kyc = [], kycUrl } = data;
-
       runInAction(() => {
         this.state.dataState = 'loaded';
-        this.state.kycServerUrl = kycUrl;
-        this.state.formSchema = kyc;
         this.state.formSchema.forEach((field) => {
           this.state.formData.set(field.name, getDefaultFieldValue(field));
         });
@@ -118,7 +93,6 @@ export class KycStore {
     this.state.dataState = 'loading';
 
     try {
-      await this.prefillUserWalletAddress();
       const [userDataResponse, statusResponse] = await Promise.all([
         this.api.kycData.getUserData({
           baseUrl: this.state.kycServerUrl,
@@ -199,10 +173,6 @@ export class KycStore {
         this.state.status = 'ALLOWED';
       }
     });
-  };
-
-  reset = () => {
-    this.state.reset();
   };
 
   uploadFiles = ({

@@ -1,7 +1,6 @@
 // @flow
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import type {
-  BaseKycFormField,
   GetKycAddressAndStatusResponse,
   GetKycUserDataResponse,
   SetKycAddressParams,
@@ -10,6 +9,8 @@ import type {
   KycValidationErrorResponse,
 } from '~/types/kyc';
 import type { PaymentMethod, Payment } from '~/types/payment';
+import * as UserDataTypes from '~/modules/user-data/types';
+import * as KycTypes from '~/modules/kyc/types';
 
 export type Response<Data> = Promise<{|
   data: Data,
@@ -51,11 +52,24 @@ export interface IApi {
     }): Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
   |};
 
+  kyc: {|
+    getStatus(): Response<KycTypes.State>,
+  |};
+
+  userData: {|
+    get(): Response<{|
+      address?: UserDataTypes.Address,
+      country?: UserDataTypes.Country,
+    |}>,
+    set({
+      address: UserDataTypes.Address,
+      country: UserDataTypes.Country,
+    }): Response<mixed>,
+  |};
+
   getSaleInfo(): Response<{|
     address: string,
     paymentMethods: PaymentMethod[],
-    kyc: BaseKycFormField[],
-    kycUrl: string,
     current: number,
     total: number,
     startDate: number,

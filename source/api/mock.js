@@ -262,6 +262,28 @@ const mockApi: IApi = {
       fail: createFailResponse,
     }),
   },
+
+  kyc: {
+    getStatus: createMockRoute({
+      success: () =>
+        createResponse({
+          status: 'NOT_SET',
+        }),
+      fail: createFailResponse,
+    }),
+  },
+
+  userData: {
+    get: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
+    set: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
+  },
+
   getPaymentAddress: createMockRoute({
     success: () =>
       createResponse({

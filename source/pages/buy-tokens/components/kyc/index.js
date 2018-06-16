@@ -2,16 +2,13 @@
 import { observer, inject } from 'mobx-react';
 import KycView from './view';
 
-import type { KycStore } from '~/stores/kyc';
+import type { KycStore } from '~/modules/kyc/store';
+import type { UserDataStore } from '~/modules/user-data/store';
 import type { Props } from './view';
 
-const ObservingKycView = observer(KycView);
-
-export default inject(({ kyc }: { kyc: KycStore }): Props => ({
-  isKycExtended: kyc.isExtended,
-  isAllowed: kyc.isAllowed,
-  isDenied: kyc.isDenied,
-  isOnReview: kyc.isOnReview,
-  denialReason: kyc.state.denialReason,
-  userWalletAddress: kyc.state.userWalletAddress,
-}))(ObservingKycView);
+export default inject(
+  ({ kyc, userData }: { kyc: KycStore, userData: UserDataStore }): Props => ({
+    kycState: kyc.model.state,
+    userWalletAddress: userData.model.address,
+  }),
+)(observer(KycView));

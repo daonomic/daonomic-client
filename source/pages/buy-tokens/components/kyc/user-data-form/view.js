@@ -2,47 +2,52 @@
 import * as React from 'react';
 import { Form, FieldHint, Button, Input } from '@daonomic/ui';
 import { getTranslation } from '~/i18n';
+import { ExternalSelect } from '~/components/external-select';
 import getMarker from '~/utils/get-marker';
+import { baseApiUrl } from '~/config/api';
+
+import type { Address, Country } from '~/modules/user-data/types';
 
 export type Props = {|
-  initialAddress?: ?string,
+  initialAddress?: ?Address,
   isDisabled?: boolean,
-  onSubmit({ address: string }): mixed,
+  errors: {
+    address: ?(string[]),
+    country: ?(string[]),
+  },
+
+  address: Address,
+  onChangeAddress(Address): void,
+
+  confirmationAddress: Address,
+  onChangeConfirmationAddress(Address): void,
+
+  country: Country,
+  onChangeCountry(Country): void,
+
+  onSubmit(): mixed,
 |};
 
-type State = {|
-  address: string,
-  confirmationAddress: string,
-|};
-
-export default class UserWalletAddressFormView extends React.Component<
-  Props,
-  State,
-> {
+export class UserDataForm extends React.Component<Props> {
   marker = getMarker('user-wallet-address-form');
 
-  state = {
-    address: this.props.initialAddress || '',
-    confirmationAddress: '',
-  };
-
   handleChangeAddress = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    this.setState({
-      address: event.target.value,
-    });
+    this.props.onChangeAddress(event.target.value);
   };
 
   handleChangeConfirmationAddress = (
     event: SyntheticInputEvent<HTMLInputElement>,
   ) => {
-    this.setState({
-      confirmationAddress: event.target.value,
-    });
+    this.props.onChangeConfirmationAddress(event.target.value);
+  };
+
+  handleChangeCountry = (event: SyntheticInputEvent<HTMLSelectElement>) => {
+    this.props.onChangeCountry(event.target.value);
   };
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
-    this.props.onSubmit({ address: this.state.address });
+    this.props.onSubmit();
   };
 
   render() {
@@ -65,7 +70,8 @@ export default class UserWalletAddressFormView extends React.Component<
             pattern={addressPattern}
             disabled={this.props.isDisabled}
             label={getTranslation('kyc:yourEthereumWalletAddress')}
-            value={this.state.address}
+            errors={this.props.errors.address}
+            value={this.props.address}
             onChange={this.handleChangeAddress}
           />
           <FieldHint>{getTranslation('kyc:addressFieldHint')}</FieldHint>
@@ -79,10 +85,22 @@ export default class UserWalletAddressFormView extends React.Component<
             pattern={addressPattern}
             disabled={this.props.isDisabled}
             label={getTranslation('kyc:yourEthereumWalletAddressConfirmation')}
-            value={this.state.confirmationAddress}
+            value={this.props.confirmationAddress}
             onChange={this.handleChangeConfirmationAddress}
           />
           <FieldHint>{getTranslation('kyc:addressConfirmationHint')}</FieldHint>
+        </Form.Field>
+
+        <Form.Field>
+          <ExternalSelect
+            required
+            optionsUrl={`${baseApiUrl}/countries`}
+            label="Your residency"
+            placeholder="Select residency"
+            errors={this.props.errors.country}
+            value={this.props.country}
+            onChange={this.handleChangeCountry}
+          />
         </Form.Field>
 
         <Form.Field>
@@ -91,7 +109,7 @@ export default class UserWalletAddressFormView extends React.Component<
             design="primary"
             type="submit"
             disabled={
-              this.state.address !== this.state.confirmationAddress ||
+              this.props.address !== this.props.confirmationAddress ||
               this.props.isDisabled
             }
           >

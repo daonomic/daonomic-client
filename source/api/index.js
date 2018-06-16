@@ -6,7 +6,7 @@ import client from '~/api/client';
 
 import type { IApi } from './types';
 
-const api: IApi = {
+export const api: IApi = {
   auth: {
     login: ({ email, password }) =>
       client.post('/login', { username: email, password }),
@@ -32,6 +32,15 @@ const api: IApi = {
       axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
     setUserData: ({ baseUrl, data, userId }) =>
       axios.post(`${baseUrl}/users/${userId}`, data),
+  },
+
+  kyc: {
+    getStatus: () => client.get(`/sales/${config.saleId}/status`),
+  },
+
+  userData: {
+    get: () => client.get('/data'),
+    set: (data) => client.post('/data', data),
   },
 
   getSaleInfo: cacheResult(() => client.get(`/sales/${config.saleId}`), 5000),

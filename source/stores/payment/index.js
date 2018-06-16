@@ -11,7 +11,7 @@ import createViewModel from '~/utils/create-view-model';
 import generateQRCode from '~/utils/generate-qrcode';
 import type { IApi } from '~/api/types';
 import type { IAuth } from '~/stores/auth/types';
-import type { KycStore } from '~/stores/kyc';
+import type { KycStore } from '~/modules/kyc/store';
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 import type { IPaymentStoreState } from './types';
 
@@ -96,7 +96,10 @@ export class PaymentStore {
 
     // Load and set payment method address on selected method change or kyc change
     reaction(
-      () => this.isLoaded && this.kyc.isAllowed && this.state.selectedMethodId,
+      () =>
+        this.isLoaded &&
+        this.kyc.model.state.status === 'ALLOWED' &&
+        this.state.selectedMethodId,
       () => {
         this.handleChangeKycOrSelectedMethodId();
       },
@@ -105,7 +108,10 @@ export class PaymentStore {
     let issueRequestStatusIntervalId = null;
 
     autorun(() => {
-      if (!this.auth.isAuthenticated || !this.kyc.isAllowed) {
+      if (
+        !this.auth.isAuthenticated ||
+        this.kyc.model.state.status !== 'ALLOWED'
+      ) {
         this.reset();
 
         if (issueRequestStatusIntervalId) {
@@ -176,7 +182,7 @@ export class PaymentStore {
 
     if (
       !this.isLoaded ||
-      !this.kyc.isAllowed ||
+      this.kyc.model.state.status !== 'ALLOWED' ||
       this.state.addressesByMethodId.get(id)
     ) {
       return;

@@ -20,9 +20,14 @@ export type Props = {|
     startTimestamp: ?number,
     endTimestamp: ?number,
   },
+  onMount(): void,
 |};
 
 export default class BuyTokensPageView extends React.Component<Props> {
+  componentDidMount() {
+    this.props.onMount();
+  }
+
   renderPaymentMethod = () => {
     if (!this.props.isAllowedToPay) {
       return null;

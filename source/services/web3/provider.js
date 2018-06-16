@@ -30,17 +30,21 @@ async function initWeb3() {
   return instantiatedWeb3;
 }
 
-async function setDefaultWeb3Account(web3) {
-  const accounts = await web3.eth.getAccounts();
+async function setDefaultWeb3Account(web3Instance) {
+  const accounts = await web3Instance.eth.getAccounts();
 
-  web3.eth.defaultAccount = accounts[0];
+  web3Instance.eth.defaultAccount = accounts[0];
 }
 
+let web3Promise;
+
 export function getWeb3Instance() {
-  const web3Promise =
-    document.readyState === 'complete'
-      ? initWeb3()
-      : promisifyEvent(window, 'load').then(initWeb3);
+  if (!web3Promise) {
+    web3Promise =
+      document.readyState === 'complete'
+        ? initWeb3()
+        : promisifyEvent(window, 'load').then(initWeb3);
+  }
 
   return fromPromise(pTimeout(web3Promise, 1000 * 20));
 }

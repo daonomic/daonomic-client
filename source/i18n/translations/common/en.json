@@ -3,5 +3,6 @@
   "submit": "Submit",
   "poweredBy": "Powered by",
   "termsOfService": "Terms of Service",
-  "requiredField": "This field is required"
+  "requiredField": "This field is required",
+  "failedToLoadOptions": "Failed to load options"
 }
