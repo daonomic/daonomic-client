@@ -96,8 +96,8 @@ export class UserDataForm extends React.Component<Props> {
             data-marker={this.marker('residency')()}
             required
             optionsUrl={`${baseApiUrl}/countries`}
-            label="Your residency"
-            placeholder="Select residency"
+            label={getTranslation('kyc:yourResidency')}
+            placeholder={getTranslation('kyc:selectResidency')}
             errors={this.props.errors.country}
             value={this.props.country}
             onChange={this.handleChangeCountry}

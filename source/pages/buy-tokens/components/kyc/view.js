@@ -68,14 +68,10 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:verifyYourIdentity')}
-            <p>
-              We need to verify your identity before you get access to token
-              sale. Please click the link below and fill the opened form. Your
-              data will be reviewed and then approved or denied.
-            </p>
+            <p>{getTranslation('kyc:externalAnnotation')}</p>
             <p>
               <a href={kycState.url} target="_blank" rel="noopener noreferrer">
-                Verify identity
+                {getTranslation('kyc:verifyIdentity')}
               </a>
             </p>
           </Panel>
