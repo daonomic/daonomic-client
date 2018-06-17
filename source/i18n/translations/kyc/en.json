@@ -1,7 +1,6 @@
 {
-  "title": "Your Ethereum Wallet",
-  "extendedKycFirstStepTitle": "Step 1: Your Ethereum Wallet",
-  "extendedKycSecondStepTitle": "Step 2: Verify Your Identity",
+  "userDataTitle": "Your Ethereum wallet and residency",
+  "verifyYourIdentity": "Verify Your Identity",
   "onReview": "Your data is being reviewed. Please, wait for approval.",
   "denied": "Your data was denied. Please, fix and resubmit your data.",
   "denialReason": "Denial reason: {{ reason }}",

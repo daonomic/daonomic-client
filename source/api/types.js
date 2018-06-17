@@ -1,13 +1,5 @@
 // @flow
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
-import type {
-  GetKycAddressAndStatusResponse,
-  GetKycUserDataResponse,
-  SetKycAddressParams,
-  SetKycDataParams,
-  SetKycDataResponse,
-  KycValidationErrorResponse,
-} from '~/types/kyc';
 import type { PaymentMethod, Payment } from '~/types/payment';
 import * as UserDataTypes from '~/modules/user-data/types';
 import * as KycTypes from '~/modules/kyc/types';
@@ -37,23 +29,17 @@ export interface IApi {
     createNewPassword(PasswordRecoveryParams): Response<{}>,
   |};
 
-  kycData: {|
-    getAddressAndStatus(): Response<GetKycAddressAndStatusResponse>,
-    setAddress(SetKycAddressParams): Response<GetKycAddressAndStatusResponse>,
-    sendToReview(): Response<{}>,
-    getUserData({
-      baseUrl: string,
-      userId: UserId,
-    }): Response<GetKycUserDataResponse>,
-    setUserData({
-      baseUrl: string,
-      userId: UserId,
-      data: SetKycDataParams,
-    }): Response<SetKycDataResponse> | Promise<KycValidationErrorResponse>,
-  |};
-
   kyc: {|
     getStatus(): Response<KycTypes.State>,
+    getInternalKycData({| baseUrl: string, userId: UserId |}): Response<
+      KycTypes.InternalKycFormData,
+    >,
+    setInternalKycData({|
+      baseUrl: string,
+      userId: UserId,
+      data: KycTypes.InternalKycFormData,
+    |}): Response<{}>,
+    sendToReview(): Response<{}>,
   |};
 
   userData: {|

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import { Input, Panel, Badge } from '@daonomic/ui';
+import { Input, Panel, Badge, Button } from '@daonomic/ui';
 import Heading from '~/components/heading';
 import UserDataForm from './user-data-form';
 import ExtendedKycForm from './extended-kyc-form';
@@ -17,86 +17,89 @@ export type Props = {|
 |};
 
 export default class KycView extends React.Component<Props> {
-  renderTitle = () => {
-    let titleTranslationKey = 'kyc:title';
-
-    // if (this.props.isKycExtended && !this.props.userWalletAddress) {
-    //   titleTranslationKey = 'kyc:extendedKycFirstStepTitle';
-    // } else if (this.props.isKycExtended && this.props.userWalletAddress) {
-    //   titleTranslationKey = 'kyc:extendedKycSecondStepTitle';
-    // }
-
-    return (
-      <Heading className={styles.title} tagName="h2" size="normal">
-        {getTranslation(titleTranslationKey)}
-      </Heading>
-    );
-  };
-
-  renderStatus = () => {
-    if (this.props.kycState.status === 'DENIED') {
-      const { reason } = this.props.kycState;
-
-      return (
-        <p className={cn(styles.paragraph, styles.red)}>
-          {getTranslation('kyc:denied')}
-          <br />
-          {reason && getTranslation('kyc:denialReason', { reason })}
-        </p>
-      );
-    } else if (this.props.kycState.status === 'ON_REVIEW') {
-      return (
-        <p data-marker="kyc-review-annotation" className={styles.paragraph}>
-          {getTranslation('kyc:onReview')}
-        </p>
-      );
-    }
-  };
-
-  renderStatusBadge = () => {
-    if (this.props.kycState.status === 'ON_REVIEW') {
-      return (
-        <Badge color="danger">{getTranslation('kyc:waitingForReview')}</Badge>
-      );
-    }
-
-    return null;
-  };
+  renderTitle = (translationKey: string) => (
+    <Heading className={styles.title} tagName="h2" size="normal">
+      {getTranslation(translationKey)}
+    </Heading>
+  );
 
   render() {
-    const { status } = this.props.kycState;
+    const { kycState } = this.props;
 
-    switch (status) {
+    switch (kycState.status) {
       case 'NOT_SET': {
         return (
           <Panel>
-            {this.renderTitle()}
+            {this.renderTitle('kyc:userDataTitle')}
             <UserDataForm onSubmit={loadAndSetKycState} />
           </Panel>
         );
       }
 
-      case 'INTERNAL_KYC':
       case 'DENIED': {
         return (
           <Panel>
-            {this.renderTitle()}
-            {this.renderStatus()}
-            <ExtendedKycForm />
+            {this.renderTitle('kyc:verifyYourIdentity')}
+            <p className={cn(styles.paragraph, styles.red)}>
+              {getTranslation('kyc:denied')}
+              <br />
+              {kycState.reason &&
+                getTranslation('kyc:denialReason', { reason: kycState.reason })}
+            </p>
+            <ExtendedKycForm url={kycState.url} fields={kycState.fields} />
+          </Panel>
+        );
+      }
+
+      case 'INTERNAL_KYC': {
+        return (
+          <Panel>
+            {this.renderTitle('kyc:verifyYourIdentity')}
+            <ExtendedKycForm url={kycState.url} fields={kycState.fields} />
           </Panel>
         );
       }
 
       case 'EXTERNAL_KYC': {
-        return <Panel>external kyc</Panel>;
+        return (
+          <Panel>
+            {this.renderTitle('kyc:verifyYourIdentity')}
+            <p>
+              We need to verify your identity before you get access to token
+              sale. Please click the link below and fill the opened form. Your
+              data will be reviewed and then approved or denied.
+            </p>
+            <p>
+              <a href={kycState.url} target="_blank" rel="noopener noreferrer">
+                Verify identity
+              </a>
+            </p>
+          </Panel>
+        );
       }
 
-      case 'ON_REVIEW':
+      case 'ON_REVIEW': {
+        return (
+          <Panel>
+            <Badge color="danger">
+              {getTranslation('kyc:waitingForReview')}
+            </Badge>
+            <p data-marker="kyc-review-annotation" className={styles.paragraph}>
+              {getTranslation('kyc:onReview')}
+            </p>
+            <Input
+              disabled
+              label={getTranslation('kyc:yourEthereumWalletAddress')}
+              value={this.props.userWalletAddress}
+              onChange={() => {}}
+            />
+          </Panel>
+        );
+      }
+
       case 'ALLOWED': {
         return (
           <Panel>
-            {this.renderStatusBadge()}
-            {this.renderStatus()}
             <Input
               disabled
               label={getTranslation('kyc:yourEthereumWalletAddress')}
@@ -108,7 +111,7 @@ export default class KycView extends React.Component<Props> {
       }
 
       default: {
-        (status: empty);
+        (kycState.status: empty);
       }
     }
   }

@@ -23,19 +23,13 @@ export const api: IApi = {
       }),
   },
 
-  kycData: {
-    getAddressAndStatus: () => client.get(`/sales/${config.saleId}/data`),
-    setAddress: ({ address }) =>
-      client.post(`/sales/${config.saleId}/data`, { address }),
-    sendToReview: () => client.post('/review'),
-    getUserData: ({ baseUrl, userId }) =>
-      axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
-    setUserData: ({ baseUrl, data, userId }) =>
-      axios.post(`${baseUrl}/users/${userId}`, data),
-  },
-
   kyc: {
     getStatus: () => client.get(`/sales/${config.saleId}/status`),
+    sendToReview: () => client.post('/review'),
+    getInternalKycData: ({ baseUrl, userId }) =>
+      axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
+    setInternalKycData: ({ baseUrl, data, userId }) =>
+      axios.post(`${baseUrl}/users/${userId}`, data),
   },
 
   userData: {

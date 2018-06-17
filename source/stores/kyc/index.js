@@ -1,10 +1,8 @@
 // @flow
 import { observable, computed, action, runInAction } from 'mobx';
-import axios from 'axios';
 import { fromPairs } from 'ramda';
 import createViewModel from '~/utils/create-view-model';
 import getDefaultFieldValue from '~/stores/kyc/utils/get-default-field-value';
-import getUserStatus from '~/stores/kyc/utils/get-user-status';
 
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/api/types';
@@ -93,26 +91,15 @@ export class KycStore {
     this.state.dataState = 'loading';
 
     try {
-      const [userDataResponse, statusResponse] = await Promise.all([
-        this.api.kycData.getUserData({
-          baseUrl: this.state.kycServerUrl,
-          userId: this.auth.id,
-        }),
-        this.api.kycData.getAddressAndStatus(),
-      ]);
+      const [userDataResponse] = await this.api.kycData.getUserData({
+        baseUrl: this.state.kycServerUrl,
+        userId: this.auth.id,
+      });
       const { data: userData } = userDataResponse;
-      const { address, status, denialReason } = statusResponse.data;
 
       runInAction(() => {
         this.state.dataState = 'loaded';
-        this.state.denialReason = denialReason || '';
         const hasUserData = Object.keys(userData).length > 0;
-
-        this.state.status = getUserStatus({ kycStatus: status, hasUserData });
-
-        if (address) {
-          this.state.userWalletAddress = address;
-        }
 
         if (hasUserData) {
           Object.keys(userData).forEach((fieldName) => {
@@ -125,25 +112,6 @@ export class KycStore {
         this.state.dataState = 'failed';
       });
     }
-  };
-
-  @action
-  saveUserWalletAddress = async ({ address }: { address: string }) => {
-    const {
-      data: { status, denialReason },
-    } = await this.api.kycData.setAddress({ address });
-
-    runInAction(() => {
-      this.state.userWalletAddress = address;
-      this.state.status = getUserStatus({
-        kycStatus: status,
-        hasUserData: !this.isExtended,
-      });
-
-      if (denialReason) {
-        this.state.denialReason = denialReason;
-      }
-    });
   };
 
   @action
@@ -174,27 +142,6 @@ export class KycStore {
       }
     });
   };
-
-  uploadFiles = ({
-    files,
-    onUploadProgress,
-  }: {
-    files: File[],
-    onUploadProgress: (event: ProgressEvent) => void,
-  }) => {
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append('file[]', file);
-    });
-
-    return axios.post(`${this.state.kycServerUrl}/files`, formData, {
-      onUploadProgress,
-    });
-  };
-
-  getFileUrlById = (id: string): string =>
-    `${this.state.kycServerUrl}/files/${id}`;
 }
 
 export function kycProvider(

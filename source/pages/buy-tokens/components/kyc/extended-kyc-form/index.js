@@ -1,42 +1,49 @@
 // @flow
 import * as React from 'react';
+import axios from 'axios';
+import { fromPairs, path } from 'ramda';
 import { observable, computed, action, runInAction } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import ExtendedKycFormView from './view';
-import { validateKycForm } from './utils/validation';
+import {
+  getDefaultFieldValue,
+  validateInternalKycForm,
+} from '~/modules/kyc/services';
+import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
 
-import type { KycStore } from '~/stores/kyc';
+import type { UserId } from '~/types/auth';
+import type { IAuth } from '~/stores/auth/types';
+import type { KycStore } from '~/modules/kyc/store';
 import type { SaleStore } from '~/stores/sale';
 import type {
-  BaseKycFormField,
-  KycFormField,
-  KycFormFieldName,
-  KycFormFieldValue,
-} from '~/types/kyc';
+  BaseField,
+  Field,
+  FieldName,
+  FieldValue,
+} from '~/modules/kyc/types';
 
-type Props = {|
-  schema: BaseKycFormField[],
-  initialFormData: Map<KycFormFieldName, KycFormFieldValue>,
+type FormDataAsMap = Map<FieldName, FieldValue>;
+
+type InjectedProps = {|
   tokenSymbol: string,
-  getFileUrlById(string): string,
-  uploadFiles({
-    files: File[],
-    onUploadProgress: (event: ProgressEvent) => void,
-  }): Promise<{}>,
-  onSubmit(Map<KycFormFieldName, KycFormFieldValue>): Promise<mixed>,
+  userId: UserId,
+|};
+
+type Props = InjectedProps & {|
+  fields: BaseField[],
+  url: string,
+  initialFormData?: FormDataAsMap,
 |};
 
 class ExtendedKycForm extends React.Component<Props> {
-  @observable
-  formData: Map<KycFormFieldName, KycFormFieldValue> = this.props
-    .initialFormData;
-  @observable formErrors: Map<KycFormFieldName, string> = new Map();
+  @observable formData: FormDataAsMap = this.getInitialFormData();
+  @observable formErrors: Map<FieldName, string> = new Map();
   @observable isSaving: boolean = false;
 
   @computed
-  get form(): KycFormField[] {
+  get form(): Field[] {
     // $FlowFixMe
-    return this.props.schema.map((field) => ({
+    return this.props.fields.map((field) => ({
       ...field,
       value: this.formData.get(field.name),
       error: this.formErrors.get(field.name),
@@ -47,7 +54,7 @@ class ExtendedKycForm extends React.Component<Props> {
   validateForm = () => {
     this.formErrors.clear();
 
-    const validationErrors = validateKycForm(this.form);
+    const validationErrors = validateInternalKycForm(this.form);
 
     validationErrors.forEach(({ name, error }) => {
       this.formErrors.set(name, error);
@@ -55,10 +62,7 @@ class ExtendedKycForm extends React.Component<Props> {
   };
 
   @action
-  handleChangeFormField = (
-    name: KycFormFieldName,
-    value: KycFormFieldValue,
-  ) => {
+  handleChangeFormField = (name: FieldName, value: FieldValue) => {
     this.formData.set(name, value);
     this.formErrors.delete(name);
   };
@@ -74,9 +78,14 @@ class ExtendedKycForm extends React.Component<Props> {
     this.isSaving = true;
 
     try {
-      await this.props.onSubmit(this.formData);
+      await setInternalKycData({
+        data: fromPairs(Array.from(this.formData.entries())),
+        baseUrl: this.props.url,
+        userId: this.props.userId,
+      });
+      await loadAndSetKycState();
     } catch (error) {
-      const { fieldErrors } = error.response.data;
+      const fieldErrors = path(['response', 'data', 'fieldErrors'], error);
 
       if (fieldErrors) {
         runInAction(() => {
@@ -94,30 +103,61 @@ class ExtendedKycForm extends React.Component<Props> {
     });
   };
 
+  getInitialFormData = (): FormDataAsMap => {
+    return (
+      this.props.initialFormData ||
+      this.props.fields.reduce((formData, field) => {
+        formData.set(field.name, getDefaultFieldValue(field));
+        return formData;
+      }, new Map())
+    );
+  };
+
+  getFileUrlById = (id: string): string => `${this.props.url}/files/${id}`;
+
+  uploadFiles = ({
+    files,
+    onUploadProgress,
+  }: {
+    files: File[],
+    onUploadProgress: (event: ProgressEvent) => void,
+  }) => {
+    const formData = new FormData();
+
+    files.forEach((file) => {
+      formData.append('file[]', file);
+    });
+
+    return axios.post(`${this.props.url}/files`, formData, {
+      onUploadProgress,
+    });
+  };
+
   render() {
     return (
       <ExtendedKycFormView
         form={this.form}
         tokenSymbol={this.props.tokenSymbol}
         isDisabled={this.isSaving}
-        getFileUrlById={this.props.getFileUrlById}
-        uploadFiles={this.props.uploadFiles}
-        onChangeKycFormField={this.handleChangeFormField}
+        getFileUrlById={this.getFileUrlById}
+        uploadFiles={this.uploadFiles}
+        onChangeField={this.handleChangeFormField}
         onSave={this.handleSubmit}
       />
     );
   }
 }
 
-const ObservingExtendedKycForm = observer(ExtendedKycForm);
-
 export default inject(
-  ({ kyc, sale }: { kyc: KycStore, sale: SaleStore }): Props => ({
+  ({
+    sale,
+    auth,
+  }: {
+    kyc: KycStore,
+    sale: SaleStore,
+    auth: IAuth,
+  }): InjectedProps => ({
     tokenSymbol: sale.state.tokenSymbol,
-    initialFormData: kyc.state.formData,
-    schema: kyc.state.formSchema,
-    getFileUrlById: kyc.getFileUrlById,
-    uploadFiles: kyc.uploadFiles,
-    onSubmit: kyc.saveData,
+    userId: auth.id,
   }),
-)(ObservingExtendedKycForm);
+)(observer(ExtendedKycForm));
