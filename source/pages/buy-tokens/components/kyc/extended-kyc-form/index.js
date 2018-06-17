@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import axios from 'axios';
-import { fromPairs, path } from 'ramda';
+import { fromPairs, toPairs, path } from 'ramda';
 import { observable, computed, action, runInAction } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import ExtendedKycFormView from './view';
@@ -20,6 +20,7 @@ import type {
   Field,
   FieldName,
   FieldValue,
+  InternalKycFormData,
 } from '~/modules/kyc/types';
 
 type FormDataAsMap = Map<FieldName, FieldValue>;
@@ -32,7 +33,7 @@ type InjectedProps = {|
 type Props = InjectedProps & {|
   fields: BaseField[],
   url: string,
-  initialFormData?: FormDataAsMap,
+  initialFormData?: InternalKycFormData,
 |};
 
 class ExtendedKycForm extends React.Component<Props> {
@@ -83,7 +84,7 @@ class ExtendedKycForm extends React.Component<Props> {
         baseUrl: this.props.url,
         userId: this.props.userId,
       });
-      await loadAndSetKycState();
+      await loadAndSetKycState({ userId: this.props.userId });
     } catch (error) {
       const fieldErrors = path(['response', 'data', 'fieldErrors'], error);
 
@@ -104,13 +105,14 @@ class ExtendedKycForm extends React.Component<Props> {
   };
 
   getInitialFormData = (): FormDataAsMap => {
-    return (
-      this.props.initialFormData ||
-      this.props.fields.reduce((formData, field) => {
-        formData.set(field.name, getDefaultFieldValue(field));
-        return formData;
-      }, new Map())
-    );
+    if (this.props.initialFormData) {
+      return new Map(toPairs(this.props.initialFormData));
+    }
+
+    return this.props.fields.reduce((formData, field) => {
+      formData.set(field.name, getDefaultFieldValue(field));
+      return formData;
+    }, new Map());
   };
 
   getFileUrlById = (id: string): string => `${this.props.url}/files/${id}`;

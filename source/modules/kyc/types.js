@@ -42,5 +42,11 @@ export type State =
   | { status: 'EXTERNAL_KYC', url: string }
   | { status: 'INTERNAL_KYC', url: string, fields: BaseField[] }
   | { status: 'ON_REVIEW' }
-  | { status: 'DENIED', reason: string, url: string, fields: BaseField[] }
+  | {
+      status: 'DENIED',
+      reason: string,
+      url: string,
+      fields: BaseField[],
+      data: InternalKycFormData,
+    }
   | { status: 'ALLOWED' };

@@ -1,19 +1,19 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import { Input, Panel, Badge, Button } from '@daonomic/ui';
+import { Input, Panel, Badge } from '@daonomic/ui';
 import Heading from '~/components/heading';
 import UserDataForm from './user-data-form';
 import ExtendedKycForm from './extended-kyc-form';
 import styles from './styles.css';
 import { getTranslation } from '~/i18n';
-import { loadAndSetKycState } from '~/modules/kyc/actions';
 
 import type { State as KycState } from '~/modules/kyc/types';
 
 export type Props = {|
   kycState: KycState,
   userWalletAddress: ?string,
+  onSubmitUserData(): mixed,
 |};
 
 export default class KycView extends React.Component<Props> {
@@ -31,7 +31,7 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:userDataTitle')}
-            <UserDataForm onSubmit={loadAndSetKycState} />
+            <UserDataForm onSubmit={this.props.onSubmitUserData} />
           </Panel>
         );
       }
@@ -46,7 +46,11 @@ export default class KycView extends React.Component<Props> {
               {kycState.reason &&
                 getTranslation('kyc:denialReason', { reason: kycState.reason })}
             </p>
-            <ExtendedKycForm url={kycState.url} fields={kycState.fields} />
+            <ExtendedKycForm
+              url={kycState.url}
+              fields={kycState.fields}
+              initialFormData={kycState.data}
+            />
           </Panel>
         );
       }
