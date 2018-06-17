@@ -6,7 +6,7 @@ const balance = require('../../page-objects/balance');
 const initApplication = require('../../utils/init-application');
 const { getTemporaryUser } = require('../../utils/users');
 const wallet = require('../../web3-mock/wallet');
-const { fillSimpleKyc } = require('../../flows/kyc');
+const { fillUserData } = require('../../flows/kyc');
 
 describe('Immediate tokens purchase via DAPP', () => {
   beforeEach(async (done) => {
@@ -21,7 +21,7 @@ describe('Immediate tokens purchase via DAPP', () => {
     await appHeader.root;
     await buyTokensPage.open();
     await initApplication();
-    await fillSimpleKyc({
+    await fillUserData({
       address: wallet.getAddressString(),
     });
     browser.call(done);

@@ -15,6 +15,10 @@ class UserWalletAddressForm extends PageObject {
     return waitAndGetElement(this.marker('confirmation-address')());
   }
 
+  get residency() {
+    return waitAndGetElement(this.marker('residency')());
+  }
+
   get submit() {
     return waitAndGetElement(this.marker('submit')());
   }

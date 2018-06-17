@@ -95,40 +95,6 @@ describe('payment store', () => {
     );
   });
 
-  test('should reset loaded payment addresses and issue requests, and stop loading issue request status if kyc is not allowed anymore', (done) => {
-    const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = new KycStore();
-    const payment = paymentProvider(api, auth, testSale, kyc);
-
-    api.getSaleInfo.setResponse('successBtcFirst');
-    auth.setToken('test token');
-    kyc.setState({ status: 'ALLOWED' });
-
-    let paymentsUpdateCount = 0;
-
-    reaction(
-      () => payment.selectedMethodPayments.length,
-      (paymentsCount) => {
-        if (paymentsCount > 0) {
-          paymentsUpdateCount += 1;
-
-          if (paymentsUpdateCount < 3) {
-            jest.runOnlyPendingTimers();
-          } else {
-            kyc.reset();
-          }
-        } else {
-          expect(paymentsUpdateCount).toBe(3);
-          expect(payment.state.addressesByMethodId.size).toBe(0);
-          expect(payment.state.paymentsByMethodId.size).toBe(0);
-
-          api.getSaleInfo.reset();
-          done();
-        }
-      },
-    );
-  });
-
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if user logs out', (done) => {
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();

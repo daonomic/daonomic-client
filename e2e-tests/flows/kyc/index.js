@@ -1,14 +1,13 @@
-const userWalletAddressForm = require('../../page-objects/kyc/user-wallet-address-form');
-const paymentMethod = require('../../page-objects/payment-method');
+const userDataForm = require('../../page-objects/kyc/user-data-form');
 
-async function fillSimpleKyc({ address }) {
-  await userWalletAddressForm.root;
-  await userWalletAddressForm.address.setValue(address);
-  await userWalletAddressForm.confirmationAddress.setValue(address);
-  await userWalletAddressForm.submit.click();
-  await paymentMethod.root;
+async function fillUserData({ address }) {
+  await userDataForm.root;
+  await userDataForm.address.setValue(address);
+  await userDataForm.confirmationAddress.setValue(address);
+  await userDataForm.residency.selectByIndex(1);
+  await userDataForm.submit.click();
 }
 
 module.exports = {
-  fillSimpleKyc,
+  fillUserData,
 };

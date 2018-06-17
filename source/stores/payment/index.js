@@ -88,12 +88,6 @@ export class PaymentStore {
     this.sale = options.sale;
     this.initState();
 
-    autorun(() => {
-      if (this.auth.isAuthenticated) {
-        this.loadInfo();
-      }
-    });
-
     // Load and set payment method address on selected method change or kyc change
     reaction(
       () =>
@@ -108,10 +102,9 @@ export class PaymentStore {
     let issueRequestStatusIntervalId = null;
 
     autorun(() => {
-      if (
-        !this.auth.isAuthenticated ||
-        this.kyc.model.state.status !== 'ALLOWED'
-      ) {
+      if (this.auth.isAuthenticated) {
+        this.loadInfo();
+      } else {
         this.reset();
 
         if (issueRequestStatusIntervalId) {

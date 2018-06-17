@@ -1,9 +1,9 @@
 const signInPage = require('../../page-objects/sign-in');
 const appHeader = require('../../page-objects/header');
 const buyTokensPage = require('../../page-objects/buy-tokens');
-const userWalletAddressForm = require('../../page-objects/kyc/user-wallet-address-form');
 const extendedKycForm = require('../../page-objects/kyc/extended-kyc-form');
 const kycReviewAnnotation = require('../../page-objects/kyc/review-annotation');
+const { fillUserData } = require('../../flows/kyc');
 const { getTemporaryUser } = require('../../utils/users');
 const { getTemporaryIco } = require('../../utils/icos');
 const initApplication = require('../../utils/init-application');
@@ -55,10 +55,7 @@ describe('Extended KYC flow', () => {
   it('should save address and show payment methods', async (done) => {
     const testAddress = `0x${'0'.repeat(40)}`;
 
-    await userWalletAddressForm.root;
-    await userWalletAddressForm.address.setValue(testAddress);
-    await userWalletAddressForm.confirmationAddress.setValue(testAddress);
-    await userWalletAddressForm.submit.click();
+    await fillUserData({ address: testAddress });
     await extendedKycForm.root;
     await extendedKycForm.getField({ name: 'firstName' }).setValue('Sarah');
     await extendedKycForm.getField({ name: 'lastName' }).setValue('O’Connor');

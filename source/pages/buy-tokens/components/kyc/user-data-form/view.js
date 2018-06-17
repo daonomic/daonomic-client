@@ -93,6 +93,7 @@ export class UserDataForm extends React.Component<Props> {
 
         <Form.Field>
           <ExternalSelect
+            data-marker={this.marker('residency')()}
             required
             optionsUrl={`${baseApiUrl}/countries`}
             label="Your residency"
