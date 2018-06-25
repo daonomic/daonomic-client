@@ -52,6 +52,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
 
           content = (
             <Select
+              key={name}
               required={required}
               disabled={isDisabled}
               value={value}
@@ -73,6 +74,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
         } else {
           content = (
             <Input
+              key={name}
               required={required}
               disabled={isDisabled}
               name={name}
@@ -90,6 +92,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
       case 'BOOLEAN': {
         content = (
           <Checkbox
+            key={name}
             labelProps={{
               'data-marker': this.marker(name)(),
             }}
@@ -112,6 +115,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
 
         content = (
           <ImageUploader
+            key={name}
             disabled={isDisabled}
             label={label}
             error={error}
