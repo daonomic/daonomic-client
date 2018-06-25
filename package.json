@@ -16,7 +16,7 @@
     "test:lint": "eslint source webpack",
     "test:types": "flow",
     "test:unit": "jest --silent",
-    "pretest:e2e": "if-env E2E_MODE=development && exit 0 || cross-env ENVIRONMENT=development E2E_TEST=true npm run build",
+    "pretest:e2e": "if-env E2E_MODE=development && exit 0 || if-env SKIP_BUILD=true && exit 0 || cross-env ENVIRONMENT=development E2E_TEST=true npm run build",
     "test:e2e": "rm -rf ./e2e-tests/results && node ./e2e-tests/index.js",
     "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials && selenium-standalone install --silent",
@@ -98,9 +98,9 @@
     "yargs": "11.0.0"
   },
   "dependencies": {
-    "@daonomic/ui": "11.0.0",
+    "@daonomic/ui": "12.0.0",
     "@slonoed/startup": "1.0.1",
-    "antd": "3.6.2",
+    "antd": "3.6.4",
     "axios": "0.18.0",
     "classnames": "2.2.6",
     "ethers-wallet": "2.1.8",

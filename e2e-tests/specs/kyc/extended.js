@@ -5,33 +5,35 @@ const extendedKycForm = require('../../page-objects/kyc/extended-kyc-form');
 const kycReviewAnnotation = require('../../page-objects/kyc/review-annotation');
 const { fillUserData } = require('../../flows/kyc');
 const { getTemporaryUser } = require('../../utils/users');
-const { getTemporaryIco } = require('../../utils/icos');
+const { getTemporaryIco, getInternalKycParams } = require('../../utils/icos');
 const initApplication = require('../../utils/init-application');
 
 describe('Extended KYC flow', () => {
   beforeEach(async (done) => {
     await signInPage.open();
     const ico = await getTemporaryIco({
-      kycFormSchema: [
-        {
-          name: 'firstName',
-          label: 'First name',
-          type: 'STRING',
-          required: true,
-        },
-        {
-          name: 'lastName',
-          label: 'Last name',
-          type: 'STRING',
-          required: true,
-        },
-        {
-          name: 'terms',
-          label: 'Agree with the terms and conditions',
-          type: 'BOOLEAN',
-          required: true,
-        },
-      ],
+      kyc: getInternalKycParams({
+        fields: [
+          {
+            name: 'firstName',
+            label: 'First name',
+            type: 'STRING',
+            required: true,
+          },
+          {
+            name: 'lastName',
+            label: 'Last name',
+            type: 'STRING',
+            required: true,
+          },
+          {
+            name: 'terms',
+            label: 'Agree with the terms and conditions',
+            type: 'BOOLEAN',
+            required: true,
+          },
+        ],
+      }),
     });
     const getIco = () => ico;
 

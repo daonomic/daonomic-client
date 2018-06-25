@@ -28,13 +28,13 @@ describe('Create new password page', () => {
     browser.call(done);
   });
 
-  it("should show error if passwords don't match", async (done) => {
-    await createNewPasswordPage.password.setValue('1');
-    await createNewPasswordPage.password2.setValue('2');
-    await createNewPasswordPage.submitButton.click();
-    await createNewPasswordPage.error;
-    browser.call(done);
-  });
+  // it("should show error if passwords don't match", async (done) => {
+  //   await createNewPasswordPage.password.setValue('1');
+  //   await createNewPasswordPage.password2.setValue('2');
+  //   await createNewPasswordPage.submitButton.click();
+  //   await createNewPasswordPage.error;
+  //   browser.call(done);
+  // });
 
   it('should show success message after submitting valid passwords', async (done) => {
     const { password } = await getStableUser();
