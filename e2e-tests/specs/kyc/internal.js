@@ -1,16 +1,14 @@
-const signInPage = require('../../page-objects/sign-in');
-const appHeader = require('../../page-objects/header');
 const buyTokensPage = require('../../page-objects/buy-tokens');
 const extendedKycForm = require('../../page-objects/kyc/extended-kyc-form');
 const kycReviewAnnotation = require('../../page-objects/kyc/review-annotation');
+const { login, logout } = require('../../flows/auth');
 const { fillUserData } = require('../../flows/kyc');
 const { getTemporaryUser } = require('../../utils/users');
 const { getTemporaryIco, getInternalKycParams } = require('../../utils/icos');
 const initApplication = require('../../utils/init-application');
 
-describe('Extended KYC flow', () => {
+describe('Internal KYC flow', () => {
   beforeEach(async (done) => {
-    await signInPage.open();
     const ico = await getTemporaryIco({
       kyc: getInternalKycParams({
         fields: [
@@ -36,25 +34,20 @@ describe('Extended KYC flow', () => {
       }),
     });
     const getIco = () => ico;
-
-    await initApplication({ getIco });
     const { email, password } = await getTemporaryUser({ getIco });
 
-    await signInPage.email.setValue(email);
-    await signInPage.password.setValue(password);
-    await signInPage.submitButton.click();
-    await appHeader.root;
+    await login({ getIco, email, password });
     await buyTokensPage.open();
     await initApplication({ getIco });
     browser.call(done);
   });
 
   afterEach(async (done) => {
-    await appHeader.logoutButton.click();
+    await logout();
     browser.call(done);
   });
 
-  it('should save address and show payment methods', async (done) => {
+  it('should save KYC data and show review annotation', async (done) => {
     const testAddress = `0x${'0'.repeat(40)}`;
 
     await fillUserData({ address: testAddress });

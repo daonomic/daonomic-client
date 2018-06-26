@@ -7,6 +7,7 @@ import UserDataForm from './user-data-form';
 import ExtendedKycForm from './extended-kyc-form';
 import styles from './styles.css';
 import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 import type { State as KycState } from '~/modules/kyc/types';
 
@@ -65,12 +66,19 @@ export default class KycView extends React.Component<Props> {
       }
 
       case 'EXTERNAL_KYC': {
+        const marker = getMarker('external-kyc');
+
         return (
-          <Panel>
+          <Panel data-marker={marker()}>
             {this.renderTitle('kyc:verifyYourIdentity')}
             <p>{getTranslation('kyc:externalAnnotation')}</p>
             <p>
-              <a href={kycState.url} target="_blank" rel="noopener noreferrer">
+              <a
+                data-marker={marker('link')()}
+                href={kycState.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {getTranslation('kyc:verifyIdentity')}
               </a>
             </p>

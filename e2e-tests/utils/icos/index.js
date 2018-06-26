@@ -43,8 +43,19 @@ function getInternalKycParams({ fields }) {
   };
 }
 
+function getExternalKycParams({ providerAddress }) {
+  return {
+    type: 'SECURITY',
+    security: {
+      otherProvider: providerAddress,
+      usProvider: providerAddress,
+    },
+  };
+}
+
 module.exports = {
   getCurrentIco,
   getTemporaryIco,
   getInternalKycParams,
+  getExternalKycParams,
 };

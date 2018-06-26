@@ -10,13 +10,17 @@ const adminClient = axios.create({
   baseURL: 'http://ops:9092/v1',
 });
 
+function getResponseData(response) {
+  return response.data;
+}
+
 function getEmailLetter({ account, content }) {
   return client
     .post('/mails/waitOne', {
       email: account,
       content,
     })
-    .then(({ data }) => data);
+    .then(getResponseData);
 }
 
 async function createIco({ kyc }) {
@@ -26,19 +30,32 @@ async function createIco({ kyc }) {
         ...createIcoParams,
         kyc,
       })
-      .then(({ data }) => data),
+      .then(getResponseData),
   });
 
   const { sale, token } = await adminClient
     .post(`/transactions/${id}/wait/ico`, {
       txHash,
     })
-    .then(({ data }) => data);
+    .then(getResponseData);
 
   return {
     saleId: sale.id,
     realmId: token.id,
   };
+}
+
+async function createExternalKycProvider({
+  jurisdiction,
+  url = 'http://example.com',
+}) {
+  return client
+    .post('/providers', {
+      name: 'Test KYC provider',
+      url,
+      jurisdiction,
+    })
+    .then(getResponseData);
 }
 
 function createUser({ realmId }) {
@@ -52,4 +69,5 @@ module.exports = {
   getEmailLetter,
   createIco,
   createUser,
+  createExternalKycProvider,
 };
