@@ -39,7 +39,7 @@ export default class ExchangeFormView extends React.Component<Props> {
     }
 
     return (
-      <Form.Field style={{ flex: '0 0 auto' }}>
+      <Form.Field withGhostLabel style={{ flex: '0 0 auto' }}>
         <Button
           data-marker={this.marker('buy')()}
           htmlType="submit"
