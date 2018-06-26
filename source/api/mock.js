@@ -231,37 +231,40 @@ const mockApi: IApi = {
       }),
     fail: createFailResponse,
   }),
-  kycData: {
-    getAddressAndStatus: createMockRoute({
+
+  kyc: {
+    getStatus: createMockRoute({
       success: () =>
         createResponse({
-          address: '12345',
-          status: 'NO_KYC',
+          status: 'NOT_SET',
         }),
       fail: createFailResponse,
-    }),
-    setAddress: createMockRoute({
-      success: () => createResponse({}),
-      fail: () =>
-        createFailResponse(400, {
-          fieldErrors: {
-            address: ['Address is required'],
-          },
-        }),
     }),
     sendToReview: createMockRoute({
       success: () => createResponse({}),
       fail: createFailResponse,
     }),
-    getUserData: createMockRoute({
+    getInternalKycData: createMockRoute({
       success: () => createResponse({}),
       fail: createFailResponse,
     }),
-    setUserData: createMockRoute({
+    setInternalKycData: createMockRoute({
       success: () => createResponse({}),
       fail: createFailResponse,
     }),
   },
+
+  userData: {
+    get: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
+    set: createMockRoute({
+      success: () => createResponse({}),
+      fail: createFailResponse,
+    }),
+  },
+
   getPaymentAddress: createMockRoute({
     success: () =>
       createResponse({

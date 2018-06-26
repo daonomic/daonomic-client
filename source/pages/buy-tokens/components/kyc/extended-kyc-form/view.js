@@ -6,14 +6,10 @@ import removeDuplicates from '~/utils/remove-duplicates';
 import { getTranslation } from '~/i18n';
 import getMarker from '~/utils/get-marker';
 
-import type {
-  KycFormField,
-  KycFormFieldName,
-  KycFormFieldValue,
-} from '~/types/kyc';
+import type { Field, FieldName, FieldValue } from '~/modules/kyc/types';
 
 export type Props = {|
-  form: KycFormField[],
+  form: Field[],
   tokenSymbol: string,
   isDisabled: boolean,
   getFileUrlById(string): string,
@@ -21,7 +17,7 @@ export type Props = {|
     files: File[],
     onUploadProgress: (event: ProgressEvent) => void,
   }): Promise<{}>,
-  onChangeKycFormField(KycFormFieldName, KycFormFieldValue): void,
+  onChangeField(FieldName, FieldValue): void,
   onSave(): any,
 |};
 
@@ -33,7 +29,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
-    this.props.onChangeKycFormField(name, value);
+    this.props.onChangeField(name, value);
   };
 
   handleSave = (event: Event) => {
@@ -41,7 +37,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
     this.props.onSave();
   };
 
-  renderKycField = (field: KycFormField) => {
+  renderKycField = (field: Field) => {
     const { name, label, value, error, required } = field;
     const { isDisabled } = this.props;
     let content;
@@ -56,6 +52,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
 
           content = (
             <Select
+              key={name}
               required={required}
               disabled={isDisabled}
               value={value}
@@ -77,6 +74,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
         } else {
           content = (
             <Input
+              key={name}
               required={required}
               disabled={isDisabled}
               name={name}
@@ -94,6 +92,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
       case 'BOOLEAN': {
         content = (
           <Checkbox
+            key={name}
             labelProps={{
               'data-marker': this.marker(name)(),
             }}
@@ -116,6 +115,7 @@ export default class ExtendedKycForm extends React.Component<Props> {
 
         content = (
           <ImageUploader
+            key={name}
             disabled={isDisabled}
             label={label}
             error={error}
@@ -123,13 +123,13 @@ export default class ExtendedKycForm extends React.Component<Props> {
             getFileUrlById={getFileUrlById}
             uploadFiles={uploadFiles}
             onAddFiles={(newFilesIds) =>
-              this.props.onChangeKycFormField(
+              this.props.onChangeField(
                 name,
                 removeDuplicates([...filesIds, ...newFilesIds]),
               )
             }
             onRemoveFile={(removedFileId) =>
-              this.props.onChangeKycFormField(
+              this.props.onChangeField(
                 name,
                 filesIds.filter((fileId) => fileId !== removedFileId),
               )

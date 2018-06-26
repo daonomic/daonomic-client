@@ -42,34 +42,4 @@ export type KycStatus =
   | 'PROCESSING'
   | 'COMPLETED';
 
-export type GetKycAddressAndStatusResponse = {|
-  address: string,
-  status: KycStatus,
-  denialReason?: string,
-|};
-
 export type UserStatus = 'NOT_SET' | 'ON_REVIEW' | 'ALLOWED' | 'DENIED';
-
-export type SetKycAddressParams = {|
-  address: string,
-|};
-
-export type GetKycUserDataResponse = {|
-  [key: KycFormFieldName]: KycFormFieldValue,
-|};
-
-export type SetKycDataParams = {|
-  [key: KycFormFieldName]: KycFormFieldValue,
-|};
-
-export type SetKycDataResponse = {};
-
-export type KycValidationErrorResponse = {
-  response: {
-    data: {
-      fieldErrors?: {
-        [key: KycFormFieldName]: string[],
-      },
-    },
-  },
-};

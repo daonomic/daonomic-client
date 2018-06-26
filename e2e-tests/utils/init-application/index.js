@@ -1,9 +1,9 @@
 const { getCurrentIco } = require('../icos');
 
-module.exports = async function initApplication(
-  options = { getIco: getCurrentIco },
-) {
-  const { saleId, realmId } = await options.getIco();
+module.exports = async function initApplication({
+  getIco = getCurrentIco,
+} = {}) {
+  const { saleId, realmId } = await getIco();
 
   return browser.execute(
     (saleId, realmId) => {

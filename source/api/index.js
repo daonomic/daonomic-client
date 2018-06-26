@@ -6,7 +6,7 @@ import client from '~/api/client';
 
 import type { IApi } from './types';
 
-const api: IApi = {
+export const api: IApi = {
   auth: {
     login: ({ email, password }) =>
       client.post('/login', { username: email, password }),
@@ -23,15 +23,18 @@ const api: IApi = {
       }),
   },
 
-  kycData: {
-    getAddressAndStatus: () => client.get(`/sales/${config.saleId}/data`),
-    setAddress: ({ address }) =>
-      client.post(`/sales/${config.saleId}/data`, { address }),
+  kyc: {
+    getStatus: () => client.get(`/sales/${config.saleId}/status`),
     sendToReview: () => client.post('/review'),
-    getUserData: ({ baseUrl, userId }) =>
+    getInternalKycData: ({ baseUrl, userId }) =>
       axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
-    setUserData: ({ baseUrl, data, userId }) =>
+    setInternalKycData: ({ baseUrl, data, userId }) =>
       axios.post(`${baseUrl}/users/${userId}`, data),
+  },
+
+  userData: {
+    get: () => client.get('/data'),
+    set: (data) => client.post('/data', data),
   },
 
   getSaleInfo: cacheResult(() => client.get(`/sales/${config.saleId}`), 5000),

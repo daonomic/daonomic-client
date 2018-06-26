@@ -1,9 +1,8 @@
 const { createIco } = require('../../server-api');
-const getRandomInt = require('../get-random-int');
 
-const second = 1000;
-const minute = second * 60;
-const hour = minute * 60;
+const defaultKycParams = {
+  type: 'NONE',
+};
 let currentIco = null;
 
 function getCurrentIco() {
@@ -12,9 +11,7 @@ function getCurrentIco() {
   }
 
   currentIco = createIco({
-    start: Date.now() - getRandomInt(1000, 5000),
-    end: Date.now() + hour * getRandomInt(1, 50),
-    tokensCount: getRandomInt(10000, 50000),
+    kyc: defaultKycParams,
   }).catch((error) => {
     console.error('Failed to create ICO', error); // eslint-disable-line
     currentIco = null;
@@ -24,24 +21,41 @@ function getCurrentIco() {
   return currentIco;
 }
 
-function getTemporaryIco({
-  start = Date.now() - getRandomInt(1000, 5000),
-  end = Date.now() + hour * getRandomInt(1, 50),
-  tokensCount = getRandomInt(10000, 50000),
-  kycFormSchema,
-}) {
+function getTemporaryIco({ kyc = defaultKycParams } = {}) {
   return createIco({
-    start,
-    end,
-    tokensCount,
-    kycFormSchema,
+    kyc,
   }).catch((error) => {
     console.error('Failed to create ICO', error); // eslint-disable-line
     throw error;
   });
 }
 
+function getInternalKycParams({ fields }) {
+  return {
+    type: 'KYC',
+    kyc: {
+      provider: `0x${'0'.repeat(40)}`,
+      form: {
+        serverUrl: 'http://ops:9095/v1',
+        fields,
+      },
+    },
+  };
+}
+
+function getExternalKycParams({ providerAddress }) {
+  return {
+    type: 'SECURITY',
+    security: {
+      otherProvider: providerAddress,
+      usProvider: providerAddress,
+    },
+  };
+}
+
 module.exports = {
   getCurrentIco,
   getTemporaryIco,
+  getInternalKycParams,
+  getExternalKycParams,
 };

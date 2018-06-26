@@ -15,6 +15,7 @@ exports.config = {
   specs: ['./e2e-tests/specs/**/*.js'],
   suites: {
     auth: ['./e2e-tests/specs/auth/**/*.js'],
+    createNewPassword: ['./e2e-tests/specs/auth/create-new-password.js'],
     kyc: ['./e2e-tests/specs/kyc/**/*.js'],
     purchase: ['./e2e-tests/specs/purchase/**/*.js'],
   },

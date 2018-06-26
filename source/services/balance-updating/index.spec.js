@@ -1,17 +1,16 @@
+// @flow
 import { when, reaction } from 'mobx';
 import api from '~/api/mock';
 import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
-import { kycProvider } from '~/stores/kyc';
+import { KycStore } from '~/modules/kyc/store';
 import { walletBalanceProvider } from '~/stores/wallet/balance';
 import { balanceUpdatingService } from './';
-
-const getWeb3Instance = () => Promise.reject();
 
 describe('balance updating service', () => {
   test('should not load balance if wallet address is not saved yet', () => {
     const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = kycProvider(api, auth, getWeb3Instance);
+    const kyc = new KycStore();
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
@@ -21,19 +20,19 @@ describe('balance updating service', () => {
 
   test('should automatically load balance if kyc has just been approved', (done) => {
     const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = kycProvider(api, auth, getWeb3Instance);
+    const kyc = new KycStore();
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
     expect(walletBalance.state.balance).toBe(0);
-    kyc.saveData(new Map());
+    kyc.setState({ status: 'ALLOWED' });
 
     when(
-      () => kyc.isAllowed && walletBalance.isLoading,
-      () => {
+      () => kyc.model.state.status === 'ALLOWED' && walletBalance.isLoading,
+      (): void => {
         when(
           () => walletBalance.isLoaded,
-          () => {
+          (): void => {
             expect(walletBalance.state.balance).toBeGreaterThan(0);
             done();
           },
@@ -46,11 +45,11 @@ describe('balance updating service', () => {
     jest.useFakeTimers();
 
     const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = kycProvider(api, auth, getWeb3Instance);
+    const kyc = new KycStore();
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData(new Map());
+    kyc.setState({ status: 'ALLOWED' });
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -70,11 +69,11 @@ describe('balance updating service', () => {
     jest.useFakeTimers();
 
     const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = kycProvider(api, auth, getWeb3Instance);
+    const kyc = new KycStore();
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData(new Map());
+    kyc.setState({ status: 'ALLOWED' });
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -100,32 +99,33 @@ describe('balance updating service', () => {
 
     auth.setToken('test token');
 
-    const kyc = kycProvider(api, auth, getWeb3Instance);
+    const kyc = new KycStore();
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.saveData(new Map());
+    kyc.setState({ status: 'ALLOWED' });
     let balanceUpdatesCount = 0;
 
-    reaction(
+    const dispose = reaction(
       () => walletBalance.isLoaded,
       (isLoaded) => {
         if (isLoaded) {
           balanceUpdatesCount += 1;
-          jest.runOnlyPendingTimers();
+
+          if (balanceUpdatesCount < 3) {
+            jest.runOnlyPendingTimers();
+          } else {
+            auth.logout();
+            dispose();
+          }
         }
       },
     );
 
-    await when(() => walletBalance.isLoaded && balanceUpdatesCount === 3);
-    auth.logout();
-
-    when(
-      () => !walletBalance.isLoaded && walletBalance.state.balance === 0,
-      () => {
-        expect(balanceUpdatesCount).toBe(4);
-        done();
-      },
-    );
+    await when(() => !auth.isAuthenticated);
+    expect(walletBalance.isLoaded).toBe(false);
+    expect(walletBalance.state.balance).toBe(0);
+    expect(balanceUpdatesCount).toBe(3);
+    done();
   });
 });

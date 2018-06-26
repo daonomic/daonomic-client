@@ -10,7 +10,7 @@ async function getStableUser() {
 
   const { realmId } = await getCurrentIco();
 
-  stableUser = createUser({ realmId }).catch((error) => {
+  stableUser = await createUser({ realmId }).catch((error) => {
     // eslint-disable-next-line no-console
     console.error(`Failed to create user in realm ${realmId}`, error);
     throw error;

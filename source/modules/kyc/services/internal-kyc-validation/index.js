@@ -1,17 +1,17 @@
 // @flow
 import { getTranslation } from '~/i18n';
-import type { KycFormField, KycFormFieldName } from '~/types/kyc';
+import type { Field, FieldName } from '~/modules/kyc/types';
 
 const requiredError = getTranslation('common:requiredField');
 
 type ValidationEntry = {|
-  name: KycFormFieldName,
+  name: FieldName,
   error: string,
 |};
 
 type ValidatorParams = {|
-  field: KycFormField,
-  allFields: KycFormField[],
+  field: Field,
+  allFields: Field[],
 |};
 
 type Validator = (params: ValidatorParams) => ?ValidationEntry;
@@ -35,7 +35,7 @@ const validators: Validator[] = [
   },
 ];
 
-export function validateKycForm(form: KycFormField[]): ValidationEntry[] {
+export function validateInternalKycForm(form: Field[]): ValidationEntry[] {
   const errors = [];
 
   form.forEach((field, _, allFields) => {

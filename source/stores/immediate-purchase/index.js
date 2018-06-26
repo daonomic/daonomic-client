@@ -1,27 +1,21 @@
 // @flow
 import { observable, runInAction } from 'mobx';
+import { userData } from '~/modules/user-data/store';
 
 import type { IApi } from '~/api/types';
 import type { IWeb3 } from '~/types/web3';
-import type { KycStore } from '~/stores/kyc';
 
 type GetWeb3Instance = () => Promise<IWeb3>;
 
 export class ImmediatePurchaseStore {
   api: IApi;
-  kyc: KycStore;
   getWeb3Instance: GetWeb3Instance;
 
   @observable isAvailable = false;
   @observable saleContractAddress: ?string = null;
 
-  constructor(options: {
-    api: IApi,
-    kyc: KycStore,
-    getWeb3Instance: GetWeb3Instance,
-  }) {
+  constructor(options: { api: IApi, getWeb3Instance: GetWeb3Instance }) {
     this.api = options.api;
-    this.kyc = options.kyc;
     this.getWeb3Instance = options.getWeb3Instance;
     this.loadSaleContractAddress();
   }
@@ -38,7 +32,7 @@ export class ImmediatePurchaseStore {
     try {
       const web3 = await this.getWeb3Instance();
       const web3AccountAddress = (web3.eth.defaultAccount || '').toLowerCase();
-      const userWalletAddress = this.kyc.state.userWalletAddress.toLowerCase();
+      const userWalletAddress = (userData.model.address || '').toLowerCase();
       const isAvailable = web3AccountAddress === userWalletAddress;
 
       runInAction(() => {
@@ -79,8 +73,7 @@ export class ImmediatePurchaseStore {
 
 export function immediatePurchaseProvider(
   api: IApi,
-  kyc: KycStore,
   getWeb3Instance: GetWeb3Instance,
 ) {
-  return new ImmediatePurchaseStore({ api, kyc, getWeb3Instance });
+  return new ImmediatePurchaseStore({ api, getWeb3Instance });
 }

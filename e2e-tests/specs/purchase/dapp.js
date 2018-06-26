@@ -1,34 +1,27 @@
-const signInPage = require('../../page-objects/sign-in');
-const appHeader = require('../../page-objects/header');
 const buyTokensPage = require('../../page-objects/buy-tokens');
 const exchangeForm = require('../../page-objects/purchase/exchange-form');
 const balance = require('../../page-objects/balance');
 const initApplication = require('../../utils/init-application');
 const { getTemporaryUser } = require('../../utils/users');
 const wallet = require('../../web3-mock/wallet');
-const { fillSimpleKyc } = require('../../flows/kyc');
+const { login, logout } = require('../../flows/auth');
+const { fillUserData } = require('../../flows/kyc');
 
 describe('Immediate tokens purchase via DAPP', () => {
   beforeEach(async (done) => {
-    await signInPage.open();
-    await initApplication();
-
     const { email, password } = await getTemporaryUser();
 
-    await signInPage.email.setValue(email);
-    await signInPage.password.setValue(password);
-    await signInPage.submitButton.click();
-    await appHeader.root;
+    await login({ email, password });
     await buyTokensPage.open();
     await initApplication();
-    await fillSimpleKyc({
+    await fillUserData({
       address: wallet.getAddressString(),
     });
     browser.call(done);
   });
 
   afterEach(async (done) => {
-    await appHeader.logoutButton.click();
+    await logout();
     browser.call(done);
   });
 
