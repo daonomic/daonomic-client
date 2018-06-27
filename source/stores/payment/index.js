@@ -6,6 +6,7 @@ import {
   reaction,
   autorun,
   runInAction,
+  toJS,
 } from 'mobx';
 import createViewModel from '~/utils/create-view-model';
 import generateQRCode from '~/utils/generate-qrcode';
@@ -71,8 +72,9 @@ export class PaymentStore {
 
   @computed
   get selectedMethodPayments(): Payment[] {
-    return (
-      this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') || []
+    return toJS(
+      this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') ||
+        [],
     );
   }
 

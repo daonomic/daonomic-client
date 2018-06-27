@@ -7,10 +7,12 @@ import { getTranslation } from '~/i18n';
 import ExchangeForm from './exchange-form';
 import styles from './payment-method.css';
 import getMarker from '~/utils/get-marker';
+import { PaymentsList } from '~/components/payments-list';
 
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 
 export type Props = {|
+  tokenSymbol: string,
   userWalletAddress: ?string,
   paymentMethods: PaymentMethod[],
   selectedPaymentMethod: ?PaymentMethod,
@@ -106,18 +108,15 @@ export default class PaymentMethodView extends React.Component<Props> {
 
     return (
       <React.Fragment>
-        <Heading tagName="h3" size="small">
-          {getTranslation('paymentMethods:statusesTitle')}
+        <Heading tagName="h3" size="small" className={styles.subtitle}>
+          {getTranslation('paymentMethods:transactions')}
         </Heading>
 
-        {selectedPaymentMethodPayments.map((payment) => (
-          <div key={payment.txHash}>
-            {payment.value} {selectedPaymentMethod.id},{' '}
-            {getTranslation(
-              `paymentMethods:${this.renderPaymentStatus(payment)}`,
-            )}
-          </div>
-        ))}
+        <PaymentsList
+          tokenSymbol={this.props.tokenSymbol}
+          payments={selectedPaymentMethodPayments}
+          paymentMethod={selectedPaymentMethod}
+        />
 
         <Panel.Separator />
       </React.Fragment>
@@ -139,22 +138,6 @@ export default class PaymentMethodView extends React.Component<Props> {
         </p>
       </React.Fragment>
     );
-  };
-
-  renderPaymentStatus = (payment: Payment) => {
-    switch (payment.status) {
-      case 'COMPLETED': {
-        return 'finished';
-      }
-
-      case 'ERROR': {
-        return 'error';
-      }
-
-      default: {
-        return 'pending';
-      }
-    }
   };
 
   renderExchangeForm = () => {

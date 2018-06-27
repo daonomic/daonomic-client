@@ -2,12 +2,7 @@
   "title": "Step 2: Select your payment method",
   "wantToPayWith": "I want to pay with",
   "sendFundsTo": "Send funds to this {{ paymentMethod }} address:",
-  "statusesTitle": "Payments statuses",
-  "pending": "pending",
-  "confirmed": "confirmed",
-  "executing": "executing",
-  "completed": "completed",
-  "error": "error",
+  "transactions": "Transactions",
   "instructionTitle": "Payment Instruction",
   "instructionText":
     "After your payment will be completed you will get tokens to the selected ethereum address:"
