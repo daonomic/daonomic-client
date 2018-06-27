@@ -35,6 +35,10 @@ export class PaymentsList extends React.Component<Props> {
         {this.props.payments.map((payment) => (
           <li key={payment.txHash} className={styles.item}>
             <p className={styles.cell}>
+              {new Date(payment.createDate).toLocaleString()}
+            </p>
+
+            <p className={styles.cell}>
               {payment.value} {this.props.paymentMethod.id} →{' '}
               {payment.value * this.props.paymentMethod.rate}{' '}
               {this.props.tokenSymbol}
