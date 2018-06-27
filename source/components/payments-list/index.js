@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { getTranslation } from '~/i18n';
 import styles from './styles.css';
+import { getEtherscanTransactionUrl } from '~/modules/etherscan';
 
 import type { Payment, PaymentMethod } from '~/types/payment';
 
@@ -42,7 +43,13 @@ export class PaymentsList extends React.Component<Props> {
             <p className={styles.cell}>
               {getTranslation(
                 `paymentsList:${this.renderPaymentStatus(payment)}`,
-              )}
+              )}&nbsp;<a
+                href={getEtherscanTransactionUrl(payment.txHash)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                [tx]
+              </a>
             </p>
           </li>
         ))}
