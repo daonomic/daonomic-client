@@ -29,6 +29,22 @@ export class PaymentsList extends React.Component<Props> {
     }
   };
 
+  renderEtherscanLink = (payment: Payment) => {
+    if (payment.status !== 'COMPLETED') {
+      return null;
+    }
+
+    return (
+      <a
+        href={getEtherscanTransactionUrl(payment.txHash)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        [tx]
+      </a>
+    );
+  };
+
   render() {
     return (
       <ul className={styles.list}>
@@ -47,13 +63,7 @@ export class PaymentsList extends React.Component<Props> {
             <p className={styles.cell}>
               {getTranslation(
                 `paymentsList:${this.renderPaymentStatus(payment)}`,
-              )}&nbsp;<a
-                href={getEtherscanTransactionUrl(payment.txHash)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                [tx]
-              </a>
+              )}&nbsp;{this.renderEtherscanLink(payment)}
             </p>
           </li>
         ))}
