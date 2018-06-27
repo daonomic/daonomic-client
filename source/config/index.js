@@ -2,7 +2,7 @@
 
 const globalDaonomicConfig = window.daonomicConfig || {};
 
-export const environment =
+export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
 const sales = {

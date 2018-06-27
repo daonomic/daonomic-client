@@ -1,4 +1,5 @@
 // @flow
+import { environment } from '~/config';
 type EthereumNetworkId = '1' | '42' | '17';
 type EthereumNetworkName = 'Main' | 'Kovan' | 'Dev';
 export type EthereumNetwork = {|
@@ -23,7 +24,7 @@ const ethereumNetworkNamesById: {
 let expectedEthereumNetworkId: EthereumNetworkId =
   ethereumNetworkIds.production;
 
-switch (process.env.ENVIRONMENT) {
+switch (environment) {
   case 'production': {
     expectedEthereumNetworkId = ethereumNetworkIds.production;
     break;
@@ -40,7 +41,7 @@ switch (process.env.ENVIRONMENT) {
   }
 
   default: {
-    (process.env.ENVIRONMENT: empty);
+    (environment: empty);
   }
 }
 
