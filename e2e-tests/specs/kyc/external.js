@@ -43,7 +43,7 @@ describe('External KYC flow', () => {
     await externalKyc.root;
     const providerUrl = await externalKyc.link.getAttribute('href');
 
-    expect(providerUrl).toBe(testProviderUrl);
+    expect(providerUrl.startsWith(testProviderUrl)).toBe(true);
     browser.call(done);
   });
 });
