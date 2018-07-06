@@ -1,0 +1,37 @@
+@import '~/config/styles/spacing.css';
+
+.root {
+  border: 0;
+}
+
+.legend {
+  display: block;
+  width: 100%;
+  padding-top: var(--spacing-l);
+  font-size: var(--typo-size-xl);
+  line-height: var(--typo-line-height-xl);
+}
+
+.header {
+  margin-bottom: 1em;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-l);
+}
+
+.item-toolbar {
+  flex: none;
+  padding-top: 28px;
+  padding-right: var(--spacing-m);
+
+  @media (--desktop) {
+    padding-right: var(--spacing-l);
+  }
+}
+
+.item-content {
+  flex: 1 1 100%;
+}

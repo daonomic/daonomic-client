@@ -94,7 +94,8 @@ export class PaymentStore {
     reaction(
       () =>
         this.isLoaded &&
-        this.kyc.model.state.status === 'ALLOWED' &&
+        this.kyc.state.dataState === 'loaded' &&
+        this.kyc.state.data.status === 'ALLOWED' &&
         this.state.selectedMethodId,
       () => {
         this.handleChangeKycOrSelectedMethodId();
@@ -174,10 +175,13 @@ export class PaymentStore {
     }
 
     const { id, token } = this.selectedMethod;
+    const isKycAllowed =
+      this.kyc.state.dataState === 'loaded' &&
+      this.kyc.state.data.status === 'ALLOWED';
 
     if (
       !this.isLoaded ||
-      this.kyc.model.state.status !== 'ALLOWED' ||
+      !isKycAllowed ||
       this.state.addressesByMethodId.get(id)
     ) {
       return;

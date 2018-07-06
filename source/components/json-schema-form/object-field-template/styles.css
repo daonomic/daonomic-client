@@ -1,0 +1,17 @@
+@import '~/config/styles/spacing.css';
+
+.fieldset {
+  border: 0;
+}
+
+.legend {
+  display: block;
+  width: 100%;
+  padding-top: var(--spacing-l);
+  font-size: var(--typo-size-xl);
+  line-height: var(--typo-line-height-xl);
+}
+
+.header:not(:empty) {
+  margin-bottom: 1em;
+}

@@ -12,11 +12,13 @@ class ExtendedKycForm extends PageObject {
   }
 
   getField({ name }) {
-    return waitAndGetElement(`${this.marker()} [name="${name}"]`);
+    return waitAndGetElement(`${this.marker()} [name="root_${name}"]`);
   }
 
   getCheckbox({ name }) {
-    return waitAndGetElement(this.marker(name)());
+    return waitAndGetElement(
+      `${this.marker()} ${getMarkerSelector(`root_${name}`)()}`,
+    );
   }
 }
 

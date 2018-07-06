@@ -27,7 +27,10 @@ describe('payment store', () => {
     const payment = paymentProvider(api, auth, testSale, kyc);
 
     auth.setToken('test token');
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
     expect(auth.isAuthenticated).toBe(true);
     expect(payment.isLoading).toBe(true);
     await when(() => payment.isLoaded);
@@ -43,12 +46,16 @@ describe('payment store', () => {
 
     api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
 
     await when(
       () =>
         auth.isAuthenticated &&
-        kyc.model.state.status === 'ALLOWED' &&
+        kyc.state.dataState === 'loaded' &&
+        kyc.state.data.status === 'ALLOWED' &&
         payment.isLoaded &&
         payment.state.addressesByMethodId.size > 0 &&
         payment.state.selectedMethodAddressQRCode !== '',
@@ -73,7 +80,10 @@ describe('payment store', () => {
 
     api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
 
     let paymentsUpdateCount = 0;
 
@@ -102,7 +112,10 @@ describe('payment store', () => {
 
     api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
 
     let paymentsUpdateCount = 0;
 

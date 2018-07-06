@@ -1,0 +1,5 @@
+.root {
+  display: block;
+  padding-top: 0.5em;
+  color: var(--color-text-muted);
+}
