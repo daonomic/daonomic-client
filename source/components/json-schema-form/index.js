@@ -10,6 +10,7 @@ import { BaseTextarea } from './base-textarea';
 import { BaseCheckbox } from './base-checkbox';
 import { BaseSelect } from './base-select';
 import { ExternalSelect } from './external-select';
+import { BaseFile } from './base-file';
 import { removeEmptyEntries } from './utils/remove-empty-entries';
 import { getTranslation } from '~/i18n';
 
@@ -22,11 +23,16 @@ const widgets = {
   'external-select': ExternalSelect,
 };
 
+const fields = {
+  file: BaseFile,
+};
+
 type Props = {
   children?: React.Node,
   className?: string,
   submitButtonText?: string,
   widgets?: {},
+  fields?: {},
   onChange?: ({ formData: any }) => void,
 };
 
@@ -68,6 +74,7 @@ export class JsonSchemaForm extends React.Component<Props> {
         {...this.props}
         onChange={this.handleChange}
         widgets={{ ...widgets, ...(this.props.widgets || {}) }}
+        fields={{ ...fields, ...(this.props.fields || {}) }}
       >
         {this.renderContent()}
       </Form>

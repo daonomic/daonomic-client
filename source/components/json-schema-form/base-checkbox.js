@@ -34,7 +34,7 @@ export class BaseCheckbox extends React.Component<Props> {
             </UnstyledFieldDescription>
           ) : null
         }
-        checked={this.props.value}
+        checked={this.props.value || false}
         errors={this.props.rawErrors}
         onChange={(event) => this.props.onChange(event.target.checked)}
       />

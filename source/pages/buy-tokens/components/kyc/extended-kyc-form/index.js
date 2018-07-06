@@ -96,6 +96,7 @@ class ExtendedKycForm extends React.Component<Props> {
       </FieldHint>
     );
   };
+
   render() {
     const uiSchema = {
       'ui:disabled': this.isSaving ? true : undefined,

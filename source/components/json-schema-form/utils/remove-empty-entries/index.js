@@ -1,8 +1,8 @@
-import isObject from 'is-object';
+import isPlainObject from 'is-plain-obj';
 
 export function removeEmptyEntries(formData) {
   return Object.entries(formData).reduce((result, [key, value]) => {
-    if (isObject(value)) {
+    if (isPlainObject(value)) {
       result[key] = removeEmptyEntries(value);
     } else if (value !== '') {
       result[key] = value;
