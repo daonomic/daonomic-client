@@ -50,8 +50,7 @@ class ExtendedKycForm extends React.Component<Props> {
     try {
       await setInternalKycData({
         data: this.formData,
-        baseUrl: this.props.url,
-        userId: this.props.userId,
+        url: this.props.url,
       });
       await loadAndSetKycState({ userId: this.props.userId });
     } catch (error) {

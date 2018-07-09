@@ -28,8 +28,7 @@ export const api: IApi = {
     sendToReview: () => client.post('/review'),
     getInternalKycData: ({ baseUrl, userId }) =>
       axios.get(`${baseUrl}/users/${userId}`).catch(() => ({ data: {} })),
-    setInternalKycData: ({ baseUrl, data, userId }) =>
-      axios.post(`${baseUrl}/users/${userId}`, data),
+    setInternalKycData: ({ url, data }) => axios.post(url, data),
   },
 
   userData: {

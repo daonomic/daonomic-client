@@ -33,8 +33,7 @@ export interface IApi {
     getStatus(): Response<KycTypes.State>,
     getInternalKycData({| baseUrl: string, userId: UserId |}): Response<{}>,
     setInternalKycData({|
-      baseUrl: string,
-      userId: UserId,
+      url: string,
       data: {},
     |}): Response<{}>,
     sendToReview(): Response<{}>,

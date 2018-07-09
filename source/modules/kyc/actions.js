@@ -43,17 +43,14 @@ export async function loadAndSetKycState({
 
 export async function setInternalKycData({
   data,
-  baseUrl,
-  userId,
+  url,
 }: {
   data: {},
-  baseUrl: string,
-  userId: UserId,
+  url: string,
 }) {
   await api.kyc.setInternalKycData({
     data,
-    baseUrl,
-    userId,
+    url,
   });
   await api.kyc.sendToReview();
 }
