@@ -16,7 +16,9 @@ class UserWalletAddressForm extends PageObject {
   }
 
   get residency() {
-    return waitAndGetElement(this.marker('residency')());
+    return browser
+      .waitForEnabled(this.marker('residency')())
+      .then(() => waitAndGetElement(this.marker('residency')()));
   }
 
   get submit() {

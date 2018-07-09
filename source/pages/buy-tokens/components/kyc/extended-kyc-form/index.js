@@ -1,118 +1,68 @@
 // @flow
 import * as React from 'react';
 import axios from 'axios';
-import { fromPairs, toPairs, path } from 'ramda';
-import { observable, computed, action, runInAction } from 'mobx';
+import { mergeDeepRight } from 'ramda';
+import { observable, action, runInAction, computed, toJS } from 'mobx';
 import { observer, inject } from 'mobx-react';
-import ExtendedKycFormView from './view';
-import {
-  getDefaultFieldValue,
-  validateInternalKycForm,
-} from '~/modules/kyc/services';
+import { Button, FieldHint } from '@daonomic/ui';
+import { JsonSchemaForm } from '~/components/json-schema-form';
 import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
+import { getTranslation } from '~/i18n';
+import getMarker from '~/utils/get-marker';
 
 import type { UserId } from '~/types/auth';
 import type { IAuth } from '~/stores/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
 import type { SaleStore } from '~/stores/sale';
-import type {
-  BaseField,
-  Field,
-  FieldName,
-  FieldValue,
-  InternalKycFormData,
-} from '~/modules/kyc/types';
-
-type FormDataAsMap = Map<FieldName, FieldValue>;
+import type { Form } from '~/modules/kyc/types';
 
 type InjectedProps = {|
-  tokenSymbol: string,
   userId: UserId,
 |};
 
 type Props = InjectedProps & {|
-  fields: BaseField[],
+  form: Form,
   url: string,
-  initialFormData?: InternalKycFormData,
+  initialFormData?: {},
 |};
 
 class ExtendedKycForm extends React.Component<Props> {
-  @observable formData: FormDataAsMap = this.getInitialFormData();
-  @observable formErrors: Map<FieldName, string> = new Map();
+  marker = getMarker('extended-kyc-form');
+
+  @observable observableFormData: {} = this.props.initialFormData || {};
   @observable isSaving: boolean = false;
+  @observable savingFailed: boolean = false;
 
   @computed
-  get form(): Field[] {
-    // $FlowFixMe
-    return this.props.fields.map((field) => ({
-      ...field,
-      value: this.formData.get(field.name),
-      error: this.formErrors.get(field.name),
-    }));
+  get formData(): {} {
+    return toJS(this.observableFormData);
   }
 
   @action
-  validateForm = () => {
-    this.formErrors.clear();
-
-    const validationErrors = validateInternalKycForm(this.form);
-
-    validationErrors.forEach(({ name, error }) => {
-      this.formErrors.set(name, error);
-    });
-  };
-
-  @action
-  handleChangeFormField = (name: FieldName, value: FieldValue) => {
-    this.formData.set(name, value);
-    this.formErrors.delete(name);
+  handleChange = ({ formData }: { formData: {} }) => {
+    this.observableFormData = formData;
   };
 
   @action
   handleSubmit = async () => {
-    this.validateForm();
-
-    if (this.formErrors.size > 0) {
-      return;
-    }
-
     this.isSaving = true;
 
     try {
       await setInternalKycData({
-        data: fromPairs(Array.from(this.formData.entries())),
+        data: this.formData,
         baseUrl: this.props.url,
         userId: this.props.userId,
       });
       await loadAndSetKycState({ userId: this.props.userId });
     } catch (error) {
-      const fieldErrors = path(['response', 'data', 'fieldErrors'], error);
-
-      if (fieldErrors) {
-        runInAction(() => {
-          Object.keys(fieldErrors).forEach((fieldName) => {
-            const [fieldError] = fieldErrors[fieldName];
-
-            this.formErrors.set(fieldName, fieldError);
-          });
-        });
-      }
+      runInAction(() => {
+        this.savingFailed = true;
+      });
     }
 
     runInAction(() => {
       this.isSaving = false;
     });
-  };
-
-  getInitialFormData = (): FormDataAsMap => {
-    if (this.props.initialFormData) {
-      return new Map(toPairs(this.props.initialFormData));
-    }
-
-    return this.props.fields.reduce((formData, field) => {
-      formData.set(field.name, getDefaultFieldValue(field));
-      return formData;
-    }, new Map());
   };
 
   getFileUrlById = (id: string): string => `${this.props.url}/files/${id}`;
@@ -135,31 +85,55 @@ class ExtendedKycForm extends React.Component<Props> {
     });
   };
 
-  render() {
+  renderSavingError = () => {
+    if (!this.savingFailed) {
+      return null;
+    }
+
     return (
-      <ExtendedKycFormView
-        form={this.form}
-        tokenSymbol={this.props.tokenSymbol}
-        isDisabled={this.isSaving}
-        getFileUrlById={this.getFileUrlById}
-        uploadFiles={this.uploadFiles}
-        onChangeField={this.handleChangeFormField}
-        onSave={this.handleSubmit}
-      />
+      <FieldHint type="error">
+        {getTranslation('common:somethingWentWrong')}
+      </FieldHint>
+    );
+  };
+
+  render() {
+    const uiSchema = {
+      'ui:disabled': this.isSaving ? true : undefined,
+    };
+
+    return (
+      <div data-marker={this.marker()}>
+        <JsonSchemaForm
+          schema={this.props.form.jsonSchema}
+          uiSchema={mergeDeepRight(this.props.form.uiSchema, uiSchema)}
+          formData={this.formData}
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+        >
+          <Button
+            data-marker={this.marker('submit')()}
+            design="primary"
+            type="submit"
+            disabled={this.isSaving}
+          >
+            {getTranslation('common:submit')}
+          </Button>
+          {this.renderSavingError()}
+        </JsonSchemaForm>
+      </div>
     );
   }
 }
 
 export default inject(
   ({
-    sale,
     auth,
   }: {
     kyc: KycStore,
     sale: SaleStore,
     auth: IAuth,
   }): InjectedProps => ({
-    tokenSymbol: sale.state.tokenSymbol,
     userId: auth.id,
   }),
 )(observer(ExtendedKycForm));

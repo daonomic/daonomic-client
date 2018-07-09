@@ -30,10 +30,11 @@ export default inject(
     },
     isLoaded: [
       sale.state.dataState,
-      kyc.model.dataState,
+      kyc.state.dataState,
       userData.model.dataState,
     ].every((dataState) => dataState === 'loaded'),
-    isAllowedToPay: kyc.model.state.status === 'ALLOWED',
+    isAllowedToPay:
+      kyc.state.dataState === 'loaded' && kyc.state.data.status === 'ALLOWED',
     onMount: () => {
       loadAndSetUserData();
       loadAndSetKycState({ userId: auth.id });

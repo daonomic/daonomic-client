@@ -9,10 +9,11 @@ import styles from './styles.css';
 import { getTranslation } from '~/i18n';
 import getMarker from '~/utils/get-marker';
 
-import type { State as KycState } from '~/modules/kyc/types';
+import type { LoadableData } from '~/modules/data-state/types';
+import * as KycTypes from '~/modules/kyc/types';
 
 export type Props = {|
-  kycState: KycState,
+  kycState: LoadableData<KycTypes.State>,
   userWalletAddress: ?string,
   onSubmitUserData(): mixed,
 |};
@@ -27,7 +28,13 @@ export default class KycView extends React.Component<Props> {
   render() {
     const { kycState } = this.props;
 
-    switch (kycState.status) {
+    if (kycState.dataState !== 'loaded') {
+      return null;
+    }
+
+    const kycData = kycState.data;
+
+    switch (kycData.status) {
       case 'NOT_SET': {
         return (
           <Panel>
@@ -44,12 +51,14 @@ export default class KycView extends React.Component<Props> {
             <p className={cn(styles.paragraph, styles.red)}>
               {getTranslation('kyc:denied')}
               <br />
-              {kycState.reason &&
-                getTranslation('kyc:denialReason', { reason: kycState.reason })}
+              {kycData.reason &&
+                getTranslation('kyc:denialReason', {
+                  reason: kycData.reason,
+                })}
             </p>
             <ExtendedKycForm
-              url={kycState.url}
-              fields={kycState.fields}
+              url={kycData.url}
+              form={kycData.form}
               initialFormData={kycState.data}
             />
           </Panel>
@@ -60,7 +69,7 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:verifyYourIdentity')}
-            <ExtendedKycForm url={kycState.url} fields={kycState.fields} />
+            <ExtendedKycForm url={kycData.url} form={kycData.form} />
           </Panel>
         );
       }
@@ -75,7 +84,7 @@ export default class KycView extends React.Component<Props> {
             <p>
               <a
                 data-marker={marker('link')()}
-                href={kycState.url}
+                href={kycData.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -119,7 +128,7 @@ export default class KycView extends React.Component<Props> {
       }
 
       default: {
-        (kycState.status: empty);
+        (kycData.status: empty);
       }
     }
   }

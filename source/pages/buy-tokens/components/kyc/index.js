@@ -18,7 +18,7 @@ export default inject(
     userData: UserDataStore,
     auth: IAuth,
   }): Props => ({
-    kycState: kyc.model.state,
+    kycState: kyc.state,
     userWalletAddress: userData.model.address,
     onSubmitUserData: () => {
       loadAndSetKycState({ userId: auth.id });

@@ -4,5 +4,6 @@
   "poweredBy": "Powered by",
   "termsOfService": "Terms of Service",
   "requiredField": "This field is required",
-  "failedToLoadOptions": "Failed to load options"
+  "failedToLoadOptions": "Failed to load options",
+  "somethingWentWrong": "Something went wrong"
 }

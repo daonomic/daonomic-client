@@ -31,13 +31,11 @@ export interface IApi {
 
   kyc: {|
     getStatus(): Response<KycTypes.State>,
-    getInternalKycData({| baseUrl: string, userId: UserId |}): Response<
-      KycTypes.InternalKycFormData,
-    >,
+    getInternalKycData({| baseUrl: string, userId: UserId |}): Response<{}>,
     setInternalKycData({|
       baseUrl: string,
       userId: UserId,
-      data: KycTypes.InternalKycFormData,
+      data: {},
     |}): Response<{}>,
     sendToReview(): Response<{}>,
   |};

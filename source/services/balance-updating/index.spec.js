@@ -25,10 +25,16 @@ describe('balance updating service', () => {
 
     balanceUpdatingService(auth, kyc, walletBalance);
     expect(walletBalance.state.balance).toBe(0);
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
 
     when(
-      () => kyc.model.state.status === 'ALLOWED' && walletBalance.isLoading,
+      () =>
+        kyc.state.dataState === 'loaded' &&
+        kyc.state.data.status === 'ALLOWED' &&
+        walletBalance.isLoading,
       (): void => {
         when(
           () => walletBalance.isLoaded,
@@ -49,7 +55,10 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -73,7 +82,10 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
     let balanceUpdatesCount = 0;
 
     reaction(
@@ -103,7 +115,10 @@ describe('balance updating service', () => {
     const walletBalance = walletBalanceProvider(api);
 
     balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.setState({ status: 'ALLOWED' });
+    kyc.setState({
+      dataState: 'loaded',
+      data: { status: 'ALLOWED' },
+    });
     let balanceUpdatesCount = 0;
 
     const dispose = reaction(

@@ -2,7 +2,6 @@
 import { api } from '~/api';
 import { kyc } from '~/modules/kyc/store';
 
-import type { InternalKycFormData } from '~/modules/kyc/types';
 import type { UserId } from '~/types/auth';
 
 export async function loadAndSetKycState({
@@ -10,7 +9,7 @@ export async function loadAndSetKycState({
 }: {
   userId: UserId,
 }): Promise<void> {
-  kyc.setDataState('loading');
+  kyc.setState({ dataState: 'loading' });
 
   try {
     const { data: state } = await api.kyc.getStatus();
@@ -22,19 +21,23 @@ export async function loadAndSetKycState({
       });
 
       kyc.setState({
-        status: 'DENIED',
-        url: state.url,
-        reason: state.reason,
-        fields: state.fields,
-        data: internalKycFormData,
+        dataState: 'loaded',
+        data: {
+          status: 'DENIED',
+          url: state.url,
+          reason: state.reason,
+          form: state.form,
+          data: internalKycFormData,
+        },
       });
     } else {
-      kyc.setState(state);
+      kyc.setState({
+        dataState: 'loaded',
+        data: state,
+      });
     }
-
-    kyc.setDataState('loaded');
   } catch (error) {
-    kyc.setDataState('failed');
+    kyc.setState({ dataState: 'failed' });
   }
 }
 
@@ -43,7 +46,7 @@ export async function setInternalKycData({
   baseUrl,
   userId,
 }: {
-  data: InternalKycFormData,
+  data: {},
   baseUrl: string,
   userId: UserId,
 }) {

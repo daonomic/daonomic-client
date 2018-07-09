@@ -1,3 +1,4 @@
+const { testKycServerUrl } = require('../../config');
 const { createIco } = require('../../server-api');
 
 const defaultKycParams = {
@@ -36,7 +37,7 @@ function getInternalKycParams({ fields }) {
     kyc: {
       provider: `0x${'0'.repeat(40)}`,
       form: {
-        serverUrl: 'http://ops:9095/v1',
+        serverUrl: testKycServerUrl,
         fields,
       },
     },

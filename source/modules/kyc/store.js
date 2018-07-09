@@ -1,33 +1,25 @@
 // @flow
-import { observable, action } from 'mobx';
+import { observable, action, computed, toJS } from 'mobx';
 
-import type { DataState } from '~/types/common';
+import type { LoadableData } from '~/modules/data-state/types';
 import type { State } from '~/modules/kyc/types';
 
-class KycModel {
-  @observable dataState: DataState = 'initial';
-  @observable
-  state: State = {
-    status: 'NOT_SET',
-  };
-}
-
 export class KycStore {
-  @observable model = new KycModel();
+  @observable observableState: LoadableData<State> = { dataState: 'initial' };
+
+  @computed
+  get state(): LoadableData<State> {
+    return toJS(this.observableState);
+  }
 
   @action
-  setDataState = (dataState: DataState) => {
-    this.model.dataState = dataState;
-  };
-
-  @action
-  setState = (state: State) => {
-    this.model.state = state;
+  setState = (state: LoadableData<State>) => {
+    this.observableState = state;
   };
 
   @action
   reset = () => {
-    this.model = new KycModel();
+    this.observableState = { dataState: 'initial' };
   };
 }
 
