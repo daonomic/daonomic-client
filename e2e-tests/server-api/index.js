@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { testKycProviderUrl } = require('../config');
 const { sendTransaction } = require('../utils/transactions');
 const { createIcoParams } = require('./fixtures/create-ico');
 
@@ -45,14 +46,11 @@ async function createIco({ kyc }) {
   };
 }
 
-async function createExternalKycProvider({
-  jurisdiction,
-  url = 'http://example.com',
-}) {
+async function createExternalKycProvider({ jurisdiction }) {
   return client
     .post('/providers', {
       name: 'Test KYC provider',
-      url,
+      url: testKycProviderUrl,
       jurisdiction,
     })
     .then(getResponseData);

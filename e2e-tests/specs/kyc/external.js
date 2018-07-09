@@ -1,3 +1,4 @@
+const { testKycProviderUrl } = require('../../config');
 const buyTokensPage = require('../../page-objects/buy-tokens');
 const externalKyc = require('../../page-objects/kyc/external-kyc');
 const { fillUserData } = require('../../flows/kyc');
@@ -8,12 +9,9 @@ const { getTemporaryIco, getExternalKycParams } = require('../../utils/icos');
 const initApplication = require('../../utils/init-application');
 
 describe('External KYC flow', () => {
-  const testProviderUrl = 'http://provider.example.com/';
-
   beforeEach(async (done) => {
     const { id: providerAddress } = await createExternalKycProvider({
       jurisdiction: 'OTHER',
-      url: testProviderUrl,
     });
     const ico = await getTemporaryIco({
       kyc: getExternalKycParams({ providerAddress }),
@@ -43,7 +41,7 @@ describe('External KYC flow', () => {
     await externalKyc.root;
     const providerUrl = await externalKyc.link.getAttribute('href');
 
-    expect(providerUrl.startsWith(testProviderUrl)).toBe(true);
+    expect(providerUrl.startsWith(testKycProviderUrl)).toBe(true);
     browser.call(done);
   });
 });
