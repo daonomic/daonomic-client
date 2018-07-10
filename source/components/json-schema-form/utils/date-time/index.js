@@ -1,3 +1,4 @@
+import leftPad from 'left-pad';
 import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
 
 const dateTimeUserFormat = /(\d{2})\/(\d{2})\/(\d{4}), (\d{2}):(\d{2})/;
@@ -6,12 +7,6 @@ export const dateTimeUserFormatString = 'dd/mm/yyyy, HH:MM';
 export const dateTimeAutoCorrectPipe = createAutoCorrectedDatePipe(
   dateTimeUserFormatString,
 );
-
-const leftPad = (string, desiredLength, symbol) => {
-  const missingCharsCount = desiredLength - String(string).length;
-
-  return `${symbol.repeat(Math.max(0, missingCharsCount))}${string}`;
-};
 
 export function fromIsoToUserDateTime(machineDateTime) {
   if (!machineDateTime) {

@@ -4,6 +4,12 @@ import MaskedInput from 'react-text-mask';
 import { Input } from '@daonomic/ui';
 import { UnstyledFieldDescription } from '~/components/json-schema-form/field-description';
 import {
+  dateUserFormatString,
+  dateAutoCorrectPipe,
+  fromMachineToUserDate,
+  fromUserToMachineDate,
+} from './utils/date';
+import {
   fromIsoToUserDateTime,
   fromUserToIsoDateTime,
   dateTimeUserFormatString,
@@ -29,6 +35,16 @@ type Props = {|
 const maskPlaceholderChar = '_';
 const digit = /\d/;
 
+function getDateTimeMask(formatString: string): (RegExp | string)[] {
+  return formatString.split('').map((char) => {
+    if (['d', 'm', 'y', 'h'].includes(char.toLowerCase())) {
+      return digit;
+    }
+
+    return char;
+  });
+}
+
 export class BaseInput extends React.Component<Props> {
   render() {
     const attrs: { [key: string]: mixed } = {
@@ -50,17 +66,26 @@ export class BaseInput extends React.Component<Props> {
       },
     };
 
-    if (this.props.type === 'datetime-local') {
+    if (this.props.type === 'date') {
+      attrs.type = 'text';
+      attrs.element = MaskedInput;
+      attrs.mask = getDateTimeMask(dateUserFormatString);
+      attrs.value = fromMachineToUserDate(this.props.value);
+      attrs.placeholder = dateUserFormatString;
+      attrs.placeholderChar = maskPlaceholderChar;
+      attrs.pipe = dateAutoCorrectPipe;
+      attrs.onChange = (event) => {
+        if (event.target.value.includes(maskPlaceholderChar)) {
+          this.props.onChange('');
+        } else {
+          this.props.onChange(fromUserToMachineDate(event.target.value));
+        }
+      };
+    } else if (this.props.type === 'datetime-local') {
       attrs.type = 'text';
       attrs.element = MaskedInput;
       attrs.value = fromIsoToUserDateTime(this.props.value);
-      attrs.mask = dateTimeUserFormatString.split('').map((char) => {
-        if (['d', 'm', 'y', 'h'].includes(char.toLowerCase())) {
-          return digit;
-        }
-
-        return char;
-      });
+      attrs.mask = getDateTimeMask(dateTimeUserFormatString);
       attrs.placeholder = dateTimeUserFormatString;
       attrs.placeholderChar = maskPlaceholderChar;
       attrs.pipe = dateTimeAutoCorrectPipe;
