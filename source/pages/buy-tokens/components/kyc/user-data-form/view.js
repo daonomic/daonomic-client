@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Form, FieldHint, Button, Input } from '@daonomic/ui';
 import { getTranslation } from '~/i18n';
 import { ExternalSelect } from '~/components/external-select';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 import { baseApiUrl } from '~/config/api';
 
 import type { Address, Country } from '~/modules/user-data/types';

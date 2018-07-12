@@ -9,7 +9,7 @@ type Props = {
   children: React.Node,
 };
 
-export default class Navigation extends React.Component<Props, {}> {
+export class Navigation extends React.Component<Props, {}> {
   static Item = NavigationItem;
 
   render() {

@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { saveAs } from 'file-saver';
 import cn from 'classnames';
 import { Button, Input, Panel } from '@daonomic/ui';
-import Heading from '~/components/heading';
+import { Heading } from '~/components/heading';
 import textStyles from '~/components/text/text.css';
 import styles from './create-wallet.css';
 

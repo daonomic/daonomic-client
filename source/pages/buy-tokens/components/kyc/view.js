@@ -2,12 +2,12 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { Input, Panel, Badge } from '@daonomic/ui';
-import Heading from '~/components/heading';
+import { Heading } from '~/components/heading';
 import UserDataForm from './user-data-form';
 import ExtendedKycForm from './extended-kyc-form';
 import styles from './styles.css';
 import { getTranslation } from '~/i18n';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 
 import type { LoadableData } from '~/modules/data-state/types';
 import * as KycTypes from '~/modules/kyc/types';

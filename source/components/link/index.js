@@ -8,5 +8,5 @@ const injectLinkProps = inject(({ router }: { router: RouterStore }) => ({
   onPushHistory: router.history.push,
 }));
 
-export default injectLinkProps(LinkView);
+export const Link = injectLinkProps(LinkView);
 export const UnstyledLink = injectLinkProps(UnstyledLinkView);

@@ -9,7 +9,7 @@ type Props = {
   isActive: boolean,
 };
 
-export default class Burger extends React.PureComponent<Props, {}> {
+export class Burger extends React.PureComponent<Props, {}> {
   static defaultProps = {
     children: 'Toggle menu',
   };

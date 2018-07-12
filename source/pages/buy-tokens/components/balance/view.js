@@ -4,7 +4,7 @@ import { Panel } from '@daonomic/ui';
 import formatNumber from '~/i18n/format-number';
 import styles from './balance.css';
 import { getTranslation } from '~/i18n';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 
 export type Props = {|
   balance: number,

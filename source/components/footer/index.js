@@ -5,11 +5,11 @@ import config from '~/config';
 import styles from './footer.css';
 import { getTranslation } from '~/i18n';
 
-type Props = {
+type Props = {|
   className?: string,
-};
+|};
 
-export default class Footer extends React.PureComponent<Props, {}> {
+export class Footer extends React.PureComponent<Props> {
   renderTermsOfServiceLink = () => {
     if (!config.termsOfServiceUrl) {
       return null;

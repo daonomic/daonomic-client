@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
 import TwoColumnsLayout from '~/components/two-columns-layout';
-import Heading from '~/components/heading';
+import { Heading } from '~/components/heading';
 import Kyc from './components/kyc';
 import PaymentMethod from './components/payment-method';
 import TokenPrice from './components/token-price';

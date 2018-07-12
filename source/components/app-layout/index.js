@@ -3,7 +3,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import { Page } from '@daonomic/ui';
 import Header from '~/components/header';
-import Footer from '~/components/footer';
+import { Footer } from '~/components/footer';
 import styles from './app-layout.css';
 
 type Props = {

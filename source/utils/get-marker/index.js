@@ -1,4 +1,4 @@
-export default function getMarker(...args) {
+export function getMarker(...args) {
   const createInnerFunction = (accumulator = []) => {
     function inner(...args) {
       if (args.length === 0) {

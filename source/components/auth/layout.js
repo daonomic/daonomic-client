@@ -2,7 +2,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import { Page } from '@daonomic/ui';
-import Footer from '~/components/footer';
+import { Footer } from '~/components/footer';
 import styles from './layout.css';
 
 type Props = {|

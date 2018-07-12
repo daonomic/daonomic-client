@@ -10,7 +10,7 @@ type Props = {
   size: 'small' | 'normal' | 'large',
 };
 
-export default class Heading extends React.PureComponent<Props, {}> {
+export class Heading extends React.PureComponent<Props, {}> {
   render() {
     const { tagName, size, className, children, ...restProps } = this.props;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Spoiler from './';
+import { Spoiler } from './';
 
 storiesOf('Spoiler', module).add('default', () => (
   <Spoiler title="How is HireMatch using blockchain technology?">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Heading from './';
+import { Heading } from './';
 
 storiesOf('Heading', module)
   .add('large', () => (

@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
-import Heading from '~/components/heading';
-import Spoiler from '~/components/spoiler';
+import { Heading } from '~/components/heading';
+import { Spoiler } from '~/components/spoiler';
 import config from '~/config';
 import EmailUs from './components/email-us';
 import styles from './faq.css';

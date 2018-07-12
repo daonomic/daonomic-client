@@ -1,12 +1,12 @@
 // @flow
 import * as React from 'react';
 import { Panel, Select } from '@daonomic/ui';
-import Heading from '~/components/heading';
+import { Heading } from '~/components/heading';
 import textStyles from '~/components/text/text.css';
 import { getTranslation } from '~/i18n';
 import ExchangeForm from './exchange-form';
 import styles from './payment-method.css';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 import { PaymentsList } from '~/components/payments-list';
 
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';

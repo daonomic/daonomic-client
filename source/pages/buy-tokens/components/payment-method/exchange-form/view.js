@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Form, Input, Button } from '@daonomic/ui';
 import { getTranslation } from '~/i18n';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 
 type Props = {|
   amount: number,

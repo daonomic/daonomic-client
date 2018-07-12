@@ -13,7 +13,7 @@ type State = {
   isExpanded: boolean,
 };
 
-export default class Spoiler extends React.PureComponent<Props, State> {
+export class Spoiler extends React.PureComponent<Props, State> {
   state = {
     isExpanded: false,
   };

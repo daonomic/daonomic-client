@@ -1,4 +1,4 @@
-import getMarker from './';
+import { getMarker } from './';
 
 describe('getMarker', () => {
   test('should work', () => {

@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
-import Link from '~/components/link';
+import { Link } from '~/components/link';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
-import Heading from '~/components/heading';
+import { Heading } from '~/components/heading';
 import Layout from '../layout';
 import commonStyles from '../common.css';
-import getMarker from '~/utils/get-marker';
+import { getMarker } from '~/utils/get-marker';
 import { getRouteUrl } from '~/router';
 import { getTranslation } from '~/i18n';
 import styles from './styles.css';
