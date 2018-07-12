@@ -1,35 +1,25 @@
 // @flow
 import * as React from 'react';
-import axios from 'axios';
 import { mergeDeepRight } from 'ramda';
 import { observable, action, runInAction, computed, toJS } from 'mobx';
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { Button, FieldHint } from '@daonomic/ui';
 import { JsonSchemaForm } from '~/components/json-schema-form';
 import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
 import { getTranslation } from '~/i18n';
 import getMarker from '~/utils/get-marker';
 
-import type { UserId } from '~/types/auth';
-import type { IAuth } from '~/stores/auth/types';
-import type { KycStore } from '~/modules/kyc/store';
-import type { SaleStore } from '~/stores/sale';
 import type { Form } from '~/modules/kyc/types';
 
-type InjectedProps = {|
-  userId: UserId,
-|};
-
-type Props = InjectedProps & {|
+type Props = {|
   form: Form,
   url: string,
-  initialFormData?: {},
 |};
 
 class ExtendedKycForm extends React.Component<Props> {
   marker = getMarker('extended-kyc-form');
 
-  @observable observableFormData: {} = this.props.initialFormData || {};
+  @observable observableFormData: {} = {};
   @observable isSaving: boolean = false;
   @observable savingFailed: boolean = false;
 
@@ -52,7 +42,7 @@ class ExtendedKycForm extends React.Component<Props> {
         data: this.formData,
         url: this.props.url,
       });
-      await loadAndSetKycState({ userId: this.props.userId });
+      await loadAndSetKycState();
     } catch (error) {
       runInAction(() => {
         this.savingFailed = true;
@@ -61,26 +51,6 @@ class ExtendedKycForm extends React.Component<Props> {
 
     runInAction(() => {
       this.isSaving = false;
-    });
-  };
-
-  getFileUrlById = (id: string): string => `${this.props.url}/files/${id}`;
-
-  uploadFiles = ({
-    files,
-    onUploadProgress,
-  }: {
-    files: File[],
-    onUploadProgress: (event: ProgressEvent) => void,
-  }) => {
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append('file[]', file);
-    });
-
-    return axios.post(`${this.props.url}/files`, formData, {
-      onUploadProgress,
     });
   };
 
@@ -125,14 +95,4 @@ class ExtendedKycForm extends React.Component<Props> {
   }
 }
 
-export default inject(
-  ({
-    auth,
-  }: {
-    kyc: KycStore,
-    sale: SaleStore,
-    auth: IAuth,
-  }): InjectedProps => ({
-    userId: auth.id,
-  }),
-)(observer(ExtendedKycForm));
+export default observer(ExtendedKycForm);

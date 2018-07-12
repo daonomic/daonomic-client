@@ -18,6 +18,5 @@ export type State =
       reason: string,
       url: string,
       form: Form,
-      data: {},
     }
   | { status: 'ALLOWED' };

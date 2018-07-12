@@ -56,11 +56,7 @@ export default class KycView extends React.Component<Props> {
                   reason: kycData.reason,
                 })}
             </p>
-            <ExtendedKycForm
-              url={kycData.url}
-              form={kycData.form}
-              initialFormData={kycState.data}
-            />
+            <ExtendedKycForm url={kycData.url} form={kycData.form} />
           </Panel>
         );
       }
