@@ -19,11 +19,43 @@ export type Props = {|
 |};
 
 export default class KycView extends React.Component<Props> {
+  exteralKycMarker = getMarker('external-kyc');
+
   renderTitle = (translationKey: string) => (
     <Heading className={styles.title} tagName="h2" size="normal">
       {getTranslation(translationKey)}
     </Heading>
   );
+
+  renderForm = (kycData: KycTypes.State) => {
+    switch (kycData.status) {
+      case 'INTERNAL_KYC': {
+        return <ExtendedKycForm url={kycData.url} form={kycData.form} />;
+      }
+
+      case 'EXTERNAL_KYC': {
+        return (
+          <React.Fragment>
+            <p>{getTranslation('kyc:externalAnnotation')}</p>
+            <p>
+              <a
+                data-marker={this.exteralKycMarker('link')()}
+                href={kycData.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {getTranslation('kyc:verifyIdentity')}
+              </a>
+            </p>
+          </React.Fragment>
+        );
+      }
+
+      default: {
+        return null;
+      }
+    }
+  };
 
   render() {
     const { kycState } = this.props;
@@ -48,6 +80,7 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:verifyYourIdentity')}
+
             <p className={cn(styles.paragraph, styles.red)}>
               {getTranslation('kyc:denied')}
               <br />
@@ -56,7 +89,8 @@ export default class KycView extends React.Component<Props> {
                   reason: kycData.reason,
                 })}
             </p>
-            <ExtendedKycForm url={kycData.url} form={kycData.form} />
+
+            {this.renderForm(kycData.childStatus)}
           </Panel>
         );
       }
@@ -65,28 +99,16 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:verifyYourIdentity')}
-            <ExtendedKycForm url={kycData.url} form={kycData.form} />
+            {this.renderForm(kycData)}
           </Panel>
         );
       }
 
       case 'EXTERNAL_KYC': {
-        const marker = getMarker('external-kyc');
-
         return (
-          <Panel data-marker={marker()}>
+          <Panel data-marker={this.exteralKycMarker()}>
             {this.renderTitle('kyc:verifyYourIdentity')}
-            <p>{getTranslation('kyc:externalAnnotation')}</p>
-            <p>
-              <a
-                data-marker={marker('link')()}
-                href={kycData.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {getTranslation('kyc:verifyIdentity')}
-              </a>
-            </p>
+            {this.renderForm(kycData)}
           </Panel>
         );
       }

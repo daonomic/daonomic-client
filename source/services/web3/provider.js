@@ -46,5 +46,5 @@ export function getWeb3Instance() {
         : promisifyEvent(window, 'load').then(initWeb3);
   }
 
-  return fromPromise(pTimeout(web3Promise, 1000 * 20));
+  return fromPromise(pTimeout(web3Promise, 1000 * 10));
 }

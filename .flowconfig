@@ -2,6 +2,8 @@
 .*/node_modules/oboe/test/json/incomplete.json
 .*/node_modules/bcryptjs/src/bower.json
 .*/node_modules/rc-util/lib/PureRenderMixin.js
+.*/node_modules/rc-cascader/node_modules/warning/warning.js
+.*/node_modules/rc-tree-select/node_modules/warning/warning.js
 
 [include]
 

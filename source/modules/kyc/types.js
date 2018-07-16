@@ -4,19 +4,25 @@ export type Form = {|
   uiSchema: {},
 |};
 
+type StateNotSet = {| status: 'NOT_SET' |};
+type StateExternalKyc = {| status: 'EXTERNAL_KYC', url: string |};
+type StateInternalKyc = {|
+  status: 'INTERNAL_KYC',
+  url: string,
+  form: Form,
+|};
+type StateOnReview = {| status: 'ON_REVIEW' |};
+type StateDenied = {|
+  status: 'DENIED',
+  reason: string,
+  childStatus: StateInternalKyc | StateExternalKyc,
+|};
+type StateAllowed = {| status: 'ALLOWED' |};
+
 export type State =
-  | { status: 'NOT_SET' }
-  | { status: 'EXTERNAL_KYC', url: string }
-  | {
-      status: 'INTERNAL_KYC',
-      url: string,
-      form: Form,
-    }
-  | { status: 'ON_REVIEW' }
-  | {
-      status: 'DENIED',
-      reason: string,
-      url: string,
-      form: Form,
-    }
-  | { status: 'ALLOWED' };
+  | StateNotSet
+  | StateExternalKyc
+  | StateInternalKyc
+  | StateOnReview
+  | StateDenied
+  | StateAllowed;
