@@ -6,6 +6,7 @@ module.exports = {
       decimals: 18,
     },
     sale: {
+      type: 'MINTING',
       name: 'Public sale',
       rates: [
         {
