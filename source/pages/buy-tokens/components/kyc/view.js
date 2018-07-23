@@ -3,11 +3,12 @@ import * as React from 'react';
 import cn from 'classnames';
 import { Input, Panel, Badge } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
-import UserDataForm from './user-data-form';
-import ExtendedKycForm from './extended-kyc-form';
-import styles from './styles.css';
 import { getTranslation } from '~/i18n';
 import { getMarker } from '~/utils/get-marker';
+import { UserDataForm } from './user-data-form';
+import { ExtendedKycForm } from './extended-kyc-form';
+import { CivicKycForm } from './civic-kyc-form';
+import styles from './styles.css';
 
 import type { LoadableData } from '~/modules/data-state/types';
 import * as KycTypes from '~/modules/kyc/types';
@@ -109,6 +110,18 @@ export default class KycView extends React.Component<Props> {
           <Panel data-marker={this.exteralKycMarker()}>
             {this.renderTitle('kyc:verifyYourIdentity')}
             {this.renderForm(kycData)}
+          </Panel>
+        );
+      }
+
+      case 'CIVIC_KYC': {
+        return (
+          <Panel>
+            {this.renderTitle('kyc:verifyYourIdentity')}
+            <CivicKycForm
+              action={kycData.url}
+              applicationId={kycData.applicationId}
+            />
           </Panel>
         );
       }
