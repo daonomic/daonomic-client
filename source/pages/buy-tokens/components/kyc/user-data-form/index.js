@@ -29,7 +29,7 @@ type State = {|
   },
 |};
 
-class UserDataForm extends React.Component<Props, State> {
+class UserDataFormContainer extends React.Component<Props, State> {
   state = {
     address: this.props.prospectiveAddress || '',
     confirmationAddress: '',
@@ -114,9 +114,9 @@ class UserDataForm extends React.Component<Props, State> {
   }
 }
 
-export default inject(
+export const UserDataForm = inject(
   ({ userData }: { userData: UserDataStore }): InjectedProps => ({
     prospectiveAddress: userData.model.prospectiveAddress,
     onSaveUserData: saveUserData,
   }),
-)(observer(UserDataForm));
+)(observer(UserDataFormContainer));

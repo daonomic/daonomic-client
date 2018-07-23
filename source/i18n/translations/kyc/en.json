@@ -17,5 +17,6 @@
     "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied.",
   "verifyIdentity": "Verify identity",
   "yourResidency": "Your residency",
-  "selectResidency": "Select residency"
+  "selectResidency": "Select residency",
+  "verifyIdentityWithCivic": "Verify identity with Civic"
 }

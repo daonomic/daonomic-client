@@ -11,6 +11,11 @@ type StateInternalKyc = {|
   url: string,
   form: Form,
 |};
+type StateCivicKyc = {|
+  status: 'CIVIC_KYC',
+  url: string,
+  applicationId: string,
+|};
 type StateOnReview = {| status: 'ON_REVIEW' |};
 type StateDenied = {|
   status: 'DENIED',
@@ -23,6 +28,7 @@ export type State =
   | StateNotSet
   | StateExternalKyc
   | StateInternalKyc
+  | StateCivicKyc
   | StateOnReview
   | StateDenied
   | StateAllowed;

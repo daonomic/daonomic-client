@@ -16,7 +16,7 @@ type Props = {|
   url: string,
 |};
 
-class ExtendedKycForm extends React.Component<Props> {
+class ExtendedKycFormContainer extends React.Component<Props> {
   marker = getMarker('extended-kyc-form');
 
   @observable observableFormData: {} = {};
@@ -95,4 +95,4 @@ class ExtendedKycForm extends React.Component<Props> {
   }
 }
 
-export default observer(ExtendedKycForm);
+export const ExtendedKycForm = observer(ExtendedKycFormContainer);
