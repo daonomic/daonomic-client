@@ -48,7 +48,7 @@ export class CivicKycForm extends React.Component<Props> {
       await loadAndSetKycState();
     } catch (error) {
       raven.captureException(error);
-      message.error(getTranslation('common:sometingWentWrongTryAgain'));
+      message.error(getTranslation('common:somethingWentWrongTryAgain'));
     }
   };
 
@@ -67,7 +67,7 @@ export class CivicKycForm extends React.Component<Props> {
           {getTranslation('kyc:verifyIdentityWithCivic')}
         </Button>
       ),
-      rejected: () => getTranslation('common:sometingWentWrongTryAgain'),
+      rejected: () => getTranslation('common:somethingWentWrongTryAgain'),
     });
   }
 }
