@@ -3,7 +3,9 @@ import { api } from '~/api';
 import { kyc } from '~/modules/kyc/store';
 
 export async function loadAndSetKycState(): Promise<void> {
-  kyc.setState({ dataState: 'loading' });
+  if (kyc.state.dataState === 'initial') {
+    kyc.setState({ dataState: 'loading' });
+  }
 
   try {
     const { data: state } = await api.kyc.getStatus();
@@ -12,6 +14,10 @@ export async function loadAndSetKycState(): Promise<void> {
       dataState: 'loaded',
       data: state,
     });
+
+    if (state.status === 'ON_REVIEW') {
+      setTimeout(loadAndSetKycState, 1000);
+    }
   } catch (error) {
     kyc.setState({ dataState: 'failed' });
   }
