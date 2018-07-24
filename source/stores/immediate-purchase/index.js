@@ -1,4 +1,5 @@
 // @flow
+import raven from 'raven-js';
 import { observable, runInAction } from 'mobx';
 import { userData } from '~/modules/user-data/store';
 
@@ -41,6 +42,8 @@ export class ImmediatePurchaseStore {
 
       return { isAvailable };
     } catch (error) {
+      raven.captureBreadcrumb('Check immediate purchase availability');
+      raven.captureException(error);
       runInAction(() => {
         this.isAvailable = false;
       });
