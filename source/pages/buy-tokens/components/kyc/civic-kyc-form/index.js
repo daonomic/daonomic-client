@@ -63,7 +63,7 @@ export class CivicKycForm extends React.Component<Props> {
     return this.civicSip.case({
       pending: () => `${getTranslation('common:loading')}...`,
       fulfilled: () => (
-        <Button onClick={this.handleClickVerify}>
+        <Button design="primary" onClick={this.handleClickVerify}>
           {getTranslation('kyc:verifyIdentityWithCivic')}
         </Button>
       ),
