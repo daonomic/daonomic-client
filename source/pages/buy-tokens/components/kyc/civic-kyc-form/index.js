@@ -41,7 +41,9 @@ export class CivicKycForm extends React.Component<Props> {
     const jwtToken = event.response;
 
     try {
-      raven.captureBreadcrumb('Save Civic JWT token');
+      raven.captureBreadcrumb({
+        message: 'Save Civic JWT token',
+      });
       await axios.post(this.props.action, {
         jwtToken,
       });

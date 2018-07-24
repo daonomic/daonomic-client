@@ -36,17 +36,15 @@ export class ImmediatePurchaseStore {
       const userWalletAddress = (userData.model.address || '').toLowerCase();
       const isAvailable = web3AccountAddress === userWalletAddress;
 
-      raven.captureMessage(
-        JSON.stringify({ web3AccountAddress, userWalletAddress }),
-      );
-
       runInAction(() => {
         this.isAvailable = isAvailable;
       });
 
       return { isAvailable };
     } catch (error) {
-      raven.captureBreadcrumb('Check immediate purchase availability');
+      raven.captureBreadcrumb({
+        message: 'Check immediate purchase availability',
+      });
       raven.captureException(error);
       runInAction(() => {
         this.isAvailable = false;
