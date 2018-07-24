@@ -36,6 +36,10 @@ export class ImmediatePurchaseStore {
       const userWalletAddress = (userData.model.address || '').toLowerCase();
       const isAvailable = web3AccountAddress === userWalletAddress;
 
+      raven.captureMessage(
+        JSON.stringify({ web3AccountAddress, userWalletAddress }),
+      );
+
       runInAction(() => {
         this.isAvailable = isAvailable;
       });
