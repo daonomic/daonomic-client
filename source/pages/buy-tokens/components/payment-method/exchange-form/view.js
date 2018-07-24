@@ -71,6 +71,7 @@ export default class ExchangeFormView extends React.Component<Props> {
               data-marker={this.marker('cost')()}
               type="number"
               min={0.000001}
+              step={0.000001}
               label={getTranslation('exchange:cost')}
               value={String(this.props.cost)}
               onChange={this.handleChangeCost}
