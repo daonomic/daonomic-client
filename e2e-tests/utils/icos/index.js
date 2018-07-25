@@ -33,7 +33,7 @@ function getTemporaryIco({ kyc = defaultKycParams } = {}) {
 
 function getInternalKycParams({ fields }) {
   return {
-    type: 'KYC',
+    type: 'WHITELIST',
     kyc: {
       provider: `0x${'0'.repeat(40)}`,
       form: {
