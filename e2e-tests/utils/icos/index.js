@@ -34,7 +34,7 @@ function getTemporaryIco({ kyc = defaultKycParams } = {}) {
 function getInternalKycParams({ fields }) {
   return {
     type: 'WHITELIST',
-    kyc: {
+    whitelist: {
       provider: `0x${'0'.repeat(40)}`,
       form: {
         serverUrl: testKycServerUrl,
