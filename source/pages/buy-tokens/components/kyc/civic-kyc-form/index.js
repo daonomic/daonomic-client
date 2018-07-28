@@ -57,7 +57,7 @@ export class CivicKycForm extends React.Component<Props> {
   handleClickVerify = () => {
     this.civicSip.value.signup({
       style: 'popup',
-      scopeRequest: this.civicSip.value.ScopeRequests.PROOF_OF_IDENTITY,
+      scopeRequest: this.civicSip.value.ScopeRequests.BASIC_SIGNUP,
     });
   };
 
