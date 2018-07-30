@@ -1,6 +1,6 @@
 // @flow
 import { when, reaction } from 'mobx';
-import api from '~/api/mock';
+import { createMockApi } from '~/api/mock';
 import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
 import { KycStore } from '~/modules/kyc/store';
@@ -12,6 +12,7 @@ describe('payment store', () => {
   const testSale = '0×0';
 
   test('should not load anything if not authenticated', () => {
+    const api = createMockApi();
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();
     const payment = paymentProvider(api, auth, testSale, kyc);
@@ -22,6 +23,7 @@ describe('payment store', () => {
   });
 
   test('should load data immediately after authentication', async (done) => {
+    const api = createMockApi();
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();
     const payment = paymentProvider(api, auth, testSale, kyc);
@@ -40,11 +42,14 @@ describe('payment store', () => {
   });
 
   test('should load payment address', async (done) => {
+    const api = createMockApi();
+
+    api.getSaleInfo.setResponse('successBtcFirst');
+
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
     kyc.setState({
       dataState: 'loaded',
@@ -74,11 +79,14 @@ describe('payment store', () => {
   });
 
   test('should update payments regularly', async (done) => {
+    const api = createMockApi();
+
+    api.getSaleInfo.setResponse('successBtcFirst');
+
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
     kyc.setState({
       dataState: 'loaded',
@@ -106,11 +114,14 @@ describe('payment store', () => {
   });
 
   test('should reset loaded payment addresses and issue requests, and stop loading issue request status if user logs out', (done) => {
+    const api = createMockApi();
+
+    api.getSaleInfo.setResponse('successBtcFirst');
+
     const auth = authProvider(api, freshAuthTokenProvider());
     const kyc = new KycStore();
     const payment = paymentProvider(api, auth, testSale, kyc);
 
-    api.getSaleInfo.setResponse('successBtcFirst');
     auth.setToken('test token');
     kyc.setState({
       dataState: 'loaded',
