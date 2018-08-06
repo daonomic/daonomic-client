@@ -28,6 +28,16 @@ module.exports = {
         text:
           '<p>You recently initiated a password reset for your Dashboard.<br/>To complete the process, click the link: <a href="${link}">Reset now</a></p><p>If this wasn’t you, your account has been compromised. Please let us know about it.</p><p>Thanks,<br/>${icoName} team</p>',
       },
+      allowInvestorTemplate: {
+        subject: 'Your KYC application approved',
+        text:
+          '<p>Hello!</p><p>We are pleased to inform you that your KYC application for ${icoName} sale is successfully approved. You can now continue purchasing ${symbol} tokens on sale page.</p><p>Kind regards, ${icoName}</p>',
+      },
+      denyInvestorTemplate: {
+        subject: 'Your KYC application is rejected',
+        text:
+          '<p>Hello!</p><p>Unfortunately, your KYC application for ${icoName} sale is rejected. Please, contact us for more details ${email}</p><p>Kind regards, ${icoName}</p>',
+      },
     },
   },
 };
