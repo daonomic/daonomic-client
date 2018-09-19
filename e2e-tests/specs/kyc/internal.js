@@ -51,6 +51,7 @@ describe('Internal KYC flow', () => {
     const testAddress = `0x${'0'.repeat(40)}`;
 
     await fillUserData({ address: testAddress });
+    await browser.debug();
     await extendedKycForm.root;
     await extendedKycForm.getField({ name: 'firstName' }).setValue('Sarah');
     await extendedKycForm.getField({ name: 'lastName' }).setValue('O’Connor');

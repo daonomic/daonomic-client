@@ -1,7 +1,7 @@
 // @flow
 import { environment } from '~/config';
-type EthereumNetworkId = '1' | '42' | '17';
-type EthereumNetworkName = 'Main' | 'Kovan' | 'Dev';
+type EthereumNetworkId = '1' | '3' | '17';
+type EthereumNetworkName = 'Main' | 'Ropsten' | 'Dev';
 export type EthereumNetwork = {|
   id: EthereumNetworkId,
   name: EthereumNetworkName,
@@ -9,7 +9,7 @@ export type EthereumNetwork = {|
 
 const ethereumNetworkIds: { [key: string]: EthereumNetworkId } = {
   production: '1',
-  staging: '42',
+  staging: '3',
   development: '17',
 };
 
@@ -17,7 +17,7 @@ const ethereumNetworkNamesById: {
   [key: EthereumNetworkId]: EthereumNetworkName,
 } = {
   [ethereumNetworkIds.production]: 'Main',
-  [ethereumNetworkIds.staging]: 'Kovan',
+  [ethereumNetworkIds.staging]: 'Ropsten',
   [ethereumNetworkIds.development]: 'Dev',
 };
 
