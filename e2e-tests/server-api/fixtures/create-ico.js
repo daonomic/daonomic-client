@@ -1,9 +1,15 @@
 module.exports = {
   createIcoParams: {
     token: {
-      name: 'test',
-      symbol: 'tst',
-      decimals: 18,
+      main: {
+        name: 'test',
+        symbol: 'tst',
+      },
+      additional: {
+        decimals: 18,
+        pausable: true,
+        burnable: true,
+      },
     },
     sale: {
       type: 'MINTING',
