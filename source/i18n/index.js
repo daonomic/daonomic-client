@@ -7,6 +7,7 @@ import kycNamespace from '~/i18n/translations/kyc/en.json';
 import widgetsNamespace from '~/i18n/translations/widgets/en.json';
 import exchangeNamespace from '~/i18n/translations/exchange/en.json';
 import paymentsListNamespace from '~/i18n/translations/payments-list/en.json';
+import referralProgramNamespace from '~/i18n/translations/referral-program/en.json';
 import processTemplate from '~/i18n/utils/process-template';
 
 import type { NamespaceId, Namespace } from '~/i18n/types';
@@ -20,6 +21,7 @@ const namespaces: Map<NamespaceId, Namespace> = new Map([
   ['widgets', widgetsNamespace],
   ['exchange', exchangeNamespace],
   ['paymentsList', paymentsListNamespace],
+  ['referralProgram', referralProgramNamespace],
 ]);
 
 function getNamespaceEntries(id: NamespaceId): Namespace {

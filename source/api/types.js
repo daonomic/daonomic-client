@@ -3,6 +3,7 @@ import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import type { PaymentMethod, Payment } from '~/types/payment';
 import * as UserDataTypes from '~/modules/user-data/types';
 import * as KycTypes from '~/modules/kyc/types';
+import * as ReferralProgramTypes from '~/modules/referral-program/types';
 
 export type Response<Data> = Promise<{|
   data: Data,
@@ -21,7 +22,10 @@ type LoginResponse = {|
 export interface IApi {
   auth: {|
     login({| email: string, password: string |}): Response<LoginResponse>,
-    register({| email: string |}): Response<{}>,
+    register({|
+      email: string,
+      ref?: ?ReferralProgramTypes.Token,
+    |}): Response<{}>,
     resetPassword({|
       email: string,
       passwordRestorationPagePath: string,
