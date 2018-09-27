@@ -5,9 +5,11 @@ import { inject, observer } from 'mobx-react';
 import SignUp from '~/components/auth/signup';
 
 import type { FormValidationError, DataState } from '~/types/common';
+import type { IReferralProgramService } from '~/modules/referral-program/types';
+import type { IAuth } from '~/stores/auth/types';
 
 type Props = {|
-  register: Function,
+  register: ({ email: string }) => Promise<mixed>,
 |};
 
 const initialErrors = {
@@ -17,9 +19,12 @@ const initialErrors = {
 
 @observer
 class SignUpPage extends React.Component<Props> {
-  @observable email: string = '';
-  @observable registrationState: DataState = 'initial';
-  @observable errors = initialErrors;
+  @observable
+  email: string = '';
+  @observable
+  registrationState: DataState = 'initial';
+  @observable
+  errors = initialErrors;
 
   @computed
   get isLoading(): boolean {
@@ -84,6 +89,19 @@ class SignUpPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ auth }): Props => ({
-  register: auth.register,
-}))(SignUpPage);
+export default inject(
+  ({
+    auth,
+    referralProgramService,
+  }: {
+    auth: IAuth,
+    referralProgramService: IReferralProgramService,
+  }): Props => ({
+    register: ({ email }) => {
+      return auth.register({
+        email,
+        ref: referralProgramService.referrerToken,
+      });
+    },
+  }),
+)(SignUpPage);

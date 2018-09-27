@@ -5,13 +5,15 @@ import { getRouteUrl } from '~/router';
 
 import type { IApi } from '~/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
+import * as ReferralProgramTypes from '~/modules/referral-program/types';
 import type { IAuth, IAuthToken } from './types';
 
 export class AuthStore implements IAuth {
   api: IApi;
   token: IAuthToken;
 
-  @observable id = localStorage.getItem('id') || '';
+  @observable
+  id = localStorage.getItem('id') || '';
 
   @computed
   get isAuthenticated(): boolean {
@@ -59,8 +61,14 @@ export class AuthStore implements IAuth {
     });
   };
 
-  register = ({ email }: { email: string }) => {
-    return this.api.auth.register({ email });
+  register = ({
+    email,
+    ref,
+  }: {
+    email: string,
+    ref?: ?ReferralProgramTypes.Token,
+  }) => {
+    return this.api.auth.register({ email, ref });
   };
 
   resetPassword = ({ email }: { email: string }) => {

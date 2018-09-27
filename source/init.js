@@ -19,6 +19,8 @@ import { userData } from '~/modules/user-data/store';
 import { kyc } from '~/modules/kyc/store';
 import { initKyc } from '~/modules/kyc/services';
 import { initUserData } from '~/modules/user-data/services';
+import { referralProgramService } from '~/modules/referral-program/service';
+import { initReferralProgramTokenService } from '~/services/referral-program-token';
 
 export function init() {
   return startup(
@@ -34,6 +36,7 @@ export function init() {
     [balanceUpdatingService, authProvider, kyc, walletBalanceProvider],
     [initKyc, authProvider],
     [initUserData, authProvider],
+    [initReferralProgramTokenService, authProvider, referralProgramService],
   ).then((system) => {
     const stores = {
       router: system(routerProvider),
@@ -45,6 +48,7 @@ export function init() {
       immediatePurchase: system(immediatePurchaseProvider),
       userData,
       kyc,
+      referralProgramService,
     };
 
     if (process.env.NODE_ENV === 'development') {

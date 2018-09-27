@@ -7,6 +7,7 @@ import Kyc from './components/kyc';
 import PaymentMethod from './components/payment-method';
 import TokenPrice from './components/token-price';
 import Balance from './components/balance';
+import { ReferralProgram } from './components/referral-program';
 import styles from './buy-tokens.css';
 import formatDate from '~/i18n/format-date';
 import { getTranslation } from '~/i18n';
@@ -39,7 +40,8 @@ export default class BuyTokensPageView extends React.Component<Props> {
   renderPreloader = () => (
     <Panel>
       <Heading tagName="h1" className={styles.placeholder} size="large">
-        {getTranslation('common:loading')}...
+        {getTranslation('common:loading')}
+        ...
       </Heading>
     </Panel>
   );
@@ -104,6 +106,7 @@ export default class BuyTokensPageView extends React.Component<Props> {
         <TwoColumnsLayout.Right>
           <Balance />
           <TokenPrice />
+          <ReferralProgram />
         </TwoColumnsLayout.Right>
       </TwoColumnsLayout>
     );

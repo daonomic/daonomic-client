@@ -8,7 +8,8 @@ export class RouterStore {
   history: IHistory;
   auth: IRouterAuth;
 
-  @observable currentRoute: ?Route = null;
+  @observable
+  currentRoute: ?Route = null;
 
   constructor(options: { history: IHistory, auth: IRouterAuth }) {
     this.history = options.history;
