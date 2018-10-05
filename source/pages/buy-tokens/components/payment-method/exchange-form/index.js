@@ -21,12 +21,17 @@ type State = {|
 |};
 
 class ExchangeForm extends React.Component<Props, State> {
+  costPrecision = 6;
   state = {
     amount: 0,
   };
 
   get cost() {
-    return this.state.amount / this.props.paymentMethodRate;
+    return parseFloat(
+      (this.state.amount / this.props.paymentMethodRate).toFixed(
+        this.costPrecision,
+      ),
+    );
   }
 
   componentDidMount() {
@@ -54,6 +59,7 @@ class ExchangeForm extends React.Component<Props, State> {
       <ExchangeFormView
         amount={this.state.amount}
         cost={this.cost}
+        costPrecision={this.costPrecision}
         onChangeAmount={this.handleChangeAmount}
         onChangeCost={this.handleChangeCost}
         isBuyButtonVisible={this.props.isImmediatePurchaseAvailable}

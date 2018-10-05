@@ -7,6 +7,7 @@ import { getMarker } from '~/utils/get-marker';
 type Props = {|
   amount: number,
   cost: number,
+  costPrecision: number,
   isBuyButtonVisible?: boolean,
   onChangeAmount(number): void,
   onChangeCost(number): void,
@@ -70,8 +71,10 @@ export default class ExchangeFormView extends React.Component<Props> {
             <Input
               data-marker={this.marker('cost')()}
               type="number"
-              min={0.000001}
-              step={0.000001}
+              min={parseFloat(`0.${'0'.repeat(this.props.costPrecision - 1)}1`)}
+              step={parseFloat(
+                `0.${'0'.repeat(this.props.costPrecision - 1)}1`,
+              )}
               label={getTranslation('exchange:cost')}
               value={String(this.props.cost)}
               onChange={this.handleChangeCost}
