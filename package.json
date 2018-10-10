@@ -20,7 +20,7 @@
     "test:e2e": "rm -rf ./e2e-tests/results && node ./e2e-tests/index.js",
     "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials && selenium-standalone install --silent",
-    "precommit": "npm run ensure-git-credentials && lint-staged && npm run test",
+    "precommit": "npm run ensure-git-credentials && lint-staged && npm run test:lint && npm run test:unit && npm run test:types",
     "format": "prettier --write \"./source/**/*.{js,css,json,md}\""
   },
   "lint-staged": {
