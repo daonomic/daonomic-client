@@ -34,6 +34,10 @@ export default class BuyTokensPageView extends React.Component<Props> {
       return null;
     }
 
+    if (!this.props.sale.isStarted) {
+      return this.renderNotStartedSalePanel();
+    }
+
     return <PaymentMethod />;
   };
 
@@ -46,14 +50,7 @@ export default class BuyTokensPageView extends React.Component<Props> {
     </Panel>
   );
 
-  renderActiveSaleContent = () => (
-    <React.Fragment>
-      <Kyc />
-      {this.renderPaymentMethod()}
-    </React.Fragment>
-  );
-
-  renderNotStartedSaleContent = () => {
+  renderNotStartedSalePanel = () => {
     const { startTimestamp } = this.props.sale;
 
     if (!startTimestamp) {
@@ -81,18 +78,19 @@ export default class BuyTokensPageView extends React.Component<Props> {
 
   renderContent = () => {
     const { isLoaded } = this.props;
-    const { isStarted, isFinished } = this.props.sale;
+    const { isFinished } = this.props.sale;
 
     if (!isLoaded) {
       return this.renderPreloader();
     }
 
-    if (!isStarted) {
-      return this.renderNotStartedSaleContent();
-    }
-
-    if (isStarted && !isFinished) {
-      return this.renderActiveSaleContent();
+    if (!isFinished) {
+      return (
+        <React.Fragment>
+          <Kyc />
+          {this.renderPaymentMethod()}
+        </React.Fragment>
+      );
     }
 
     return this.renderFinishedSaleContent();
