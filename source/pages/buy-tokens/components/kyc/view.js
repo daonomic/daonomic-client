@@ -160,6 +160,7 @@ export default class KycView extends React.Component<Props> {
 
       default: {
         (kycData.status: empty);
+        return null;
       }
     }
   }
