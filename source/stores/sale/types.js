@@ -11,4 +11,5 @@ export interface ISaleStoreState {
     total: number,
     notLimited: boolean,
   };
+  address: string;
 }

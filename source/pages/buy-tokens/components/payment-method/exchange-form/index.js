@@ -7,6 +7,7 @@ import type { ImmediatePurchaseStore } from '~/stores/immediate-purchase';
 import type { PaymentStore } from '~/stores/payment';
 
 type InjectedProps = {|
+  paymentMethodId: string,
   isImmediatePurchaseAvailable: boolean,
   checkImmediatePurchaseAvailability(): mixed,
   buyTokens({ costInEthers: number }): mixed,
@@ -63,6 +64,7 @@ class ExchangeForm extends React.Component<Props, State> {
         onChangeAmount={this.handleChangeAmount}
         onChangeCost={this.handleChangeCost}
         isBuyButtonVisible={this.props.isImmediatePurchaseAvailable}
+        isKyber={this.props.paymentMethodId === 'KYBER'}
         onBuy={this.handleBuy}
       />
     );
@@ -79,9 +81,10 @@ export default inject(
     payment: PaymentStore,
     immediatePurchase: ImmediatePurchaseStore,
   }): InjectedProps => ({
+    paymentMethodId: (payment.selectedMethod || {}).id,
     isImmediatePurchaseAvailable:
       immediatePurchase.isAvailable &&
-      (payment.selectedMethod || {}).id === 'ETH',
+      ['ETH', 'KYBER'].includes((payment.selectedMethod || {}).id),
     checkImmediatePurchaseAvailability: immediatePurchase.checkAvailability,
     buyTokens: immediatePurchase.buyTokens,
   }),

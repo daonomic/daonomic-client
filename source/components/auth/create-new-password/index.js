@@ -6,8 +6,8 @@ import { Link } from '~/components/link';
 import Layout from '../layout';
 import { getMarker } from '~/utils/get-marker';
 import commonStyles from '../common.css';
-import { getRouteUrl } from '~/router';
-import { getTranslation } from '~/i18n';
+import { getRouteUrl } from '~/domains/app/router';
+import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 type Props = {|
@@ -41,7 +41,9 @@ export default class CreateNewPassword extends React.Component<Props> {
           data-marker={this.marker('error')()}
           className={commonStyles.error}
         >
-          {common.map((error) => <div key={error}>{error}</div>)}
+          {common.map((error) => (
+            <div key={error}>{error}</div>
+          ))}
         </div>
       </div>
     );
@@ -143,7 +145,8 @@ export default class CreateNewPassword extends React.Component<Props> {
           >
             {getTranslation('auth:alreadyHaveAccount')}{' '}
             <Link href={getRouteUrl('signIn')}>
-              {getTranslation('auth:signInHeading')}&nbsp;⟩
+              {getTranslation('auth:signInHeading')}
+              &nbsp;⟩
             </Link>
           </Text>
         </Panel>

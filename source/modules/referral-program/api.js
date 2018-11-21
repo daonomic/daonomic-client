@@ -1,5 +1,5 @@
 // @flow
-import client from '~/api/client';
+import client from '~/domains/app/api/client';
 
 import * as ReferralProgramTypes from '~/modules/referral-program/types';
 

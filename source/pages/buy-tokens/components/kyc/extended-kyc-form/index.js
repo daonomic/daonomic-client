@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { Button, FieldHint } from '@daonomic/ui';
 import { JsonSchemaForm } from '~/components/json-schema-form';
 import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 import type { Form } from '~/modules/kyc/types';

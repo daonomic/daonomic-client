@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 import { getReferralLinkForToken } from '~/modules/referral-program/utils';
 import styles from './styles.css';

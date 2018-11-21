@@ -12,7 +12,7 @@ import { BaseSelect } from './base-select';
 import { ExternalSelect } from './external-select';
 import { BaseFile } from './base-file';
 import { removeEmptyEntries } from './utils/remove-empty-entries';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 
 const widgets = {
   BaseInput,

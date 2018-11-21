@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
-import client from '~/api/client';
+import client from '~/domains/app/api/client';
 import { BaseSelect } from '~/components/json-schema-form/base-select';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 
 import type { DataState } from '~/types/common';
 

@@ -1,5 +1,5 @@
 // @flow
-import { loadScript, loadStylesheet } from '~/modules/assets';
+import { loadScript, loadStylesheet } from '~/domains/app/assets';
 
 let areCivicAssetsLoaded = false;
 

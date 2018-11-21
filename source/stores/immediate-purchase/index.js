@@ -3,7 +3,7 @@ import raven from 'raven-js';
 import { observable, runInAction } from 'mobx';
 import { userData } from '~/modules/user-data/store';
 
-import type { IApi } from '~/api/types';
+import type { IApi } from '~/domains/app/api/types';
 import type { IWeb3 } from '~/types/web3';
 
 type GetWeb3Instance = () => Promise<IWeb3>;
@@ -12,8 +12,10 @@ export class ImmediatePurchaseStore {
   api: IApi;
   getWeb3Instance: GetWeb3Instance;
 
-  @observable isAvailable = false;
-  @observable saleContractAddress: ?string = null;
+  @observable
+  isAvailable = false;
+  @observable
+  saleContractAddress: ?string = null;
 
   constructor(options: { api: IApi, getWeb3Instance: GetWeb3Instance }) {
     this.api = options.api;

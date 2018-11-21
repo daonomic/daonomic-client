@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import api from '~/api/mock';
+import api from '~/domains/app/api/mock';
 import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
 import { saleProvider } from './';

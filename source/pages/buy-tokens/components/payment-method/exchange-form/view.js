@@ -1,14 +1,16 @@
 // @flow
 import * as React from 'react';
 import { Form, Input, Button } from '@daonomic/ui';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
+import { KyberButton } from '~/components/kyber-button';
 
 type Props = {|
   amount: number,
   cost: number,
   costPrecision: number,
   isBuyButtonVisible?: boolean,
+  isKyber?: boolean,
   onChangeAmount(number): void,
   onChangeCost(number): void,
   onBuy(): void,
@@ -39,16 +41,30 @@ export default class ExchangeFormView extends React.Component<Props> {
       return null;
     }
 
-    return (
-      <Form.Field withGhostLabel style={{ flex: '0 0 auto' }}>
-        <Button
-          data-marker={this.marker('buy')()}
-          htmlType="submit"
-          type="primary"
-          disabled={this.props.amount === 0}
+    let button = (
+      <Button
+        data-marker={this.marker('buy')()}
+        type="submit"
+        disabled={this.props.amount === 0}
+      >
+        {getTranslation('exchange:buy')}
+      </Button>
+    );
+
+    if (this.props.isKyber) {
+      button = (
+        <KyberButton
+          ethAmount={this.props.cost}
+          disabled={this.props.cost === 0}
         >
           {getTranslation('exchange:buy')}
-        </Button>
+        </KyberButton>
+      );
+    }
+
+    return (
+      <Form.Field withGhostLabel style={{ flex: '0 0 auto' }}>
+        {button}
       </Form.Field>
     );
   };

@@ -3,7 +3,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import { Input, Panel, Badge } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 import { UserDataForm } from './user-data-form';
 import { ExtendedKycForm } from './extended-kyc-form';

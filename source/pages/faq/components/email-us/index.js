@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Panel, Text } from '@daonomic/ui';
 import textStyles from '~/components/text/text.css';
-import config from '~/config';
-import { getTranslation } from '~/i18n';
+import config from '~/domains/app/config';
+import { getTranslation } from '~/domains/app/i18n';
 
 export default class EmailUs extends PureComponent {
   render() {
@@ -15,7 +15,8 @@ export default class EmailUs extends PureComponent {
         <Text align="center" element="p">
           {getTranslation('widgets:cantFindWhatLookingFor')}{' '}
           <a href={`mailto:${config.contactEmail}`} className={textStyles.link}>
-            {getTranslation('widgets:emailUs')}&nbsp;⟩
+            {getTranslation('widgets:emailUs')}
+            &nbsp;⟩
           </a>
         </Text>
       </Panel>

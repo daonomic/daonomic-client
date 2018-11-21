@@ -1,5 +1,5 @@
 import raven from 'raven-js';
-import config from '~/config';
+import config from '~/domains/app/config';
 import { init } from './init';
 
 if (process.env.E2E_TEST) {

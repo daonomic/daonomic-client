@@ -1,4 +1,4 @@
-import mockedApi from '~/api/mock';
+import mockedApi from '~/domains/app/api/mock';
 import { freshAuthTokenProvider } from './token';
 import { authProvider } from './';
 

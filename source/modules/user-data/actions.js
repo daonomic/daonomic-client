@@ -1,6 +1,6 @@
 // @flow
 import { path } from 'ramda';
-import { api } from '~/api';
+import { api } from '~/domains/app/api';
 import { getWeb3Instance } from '~/services/web3/provider';
 import { userData } from '~/modules/user-data/store';
 

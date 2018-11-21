@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 import { getEtherscanTransactionUrl } from '~/modules/etherscan';
 
@@ -45,6 +45,14 @@ export class PaymentsList extends React.Component<Props> {
     );
   };
 
+  renderPaymentMethodId = () => {
+    if (this.props.paymentMethod.id === 'KYBER') {
+      return 'ETH';
+    }
+
+    return this.props.paymentMethod.id;
+  };
+
   render() {
     return (
       <ul className={styles.list}>
@@ -55,7 +63,7 @@ export class PaymentsList extends React.Component<Props> {
             </p>
 
             <p className={styles.cell}>
-              {payment.value} {this.props.paymentMethod.id} →{' '}
+              {payment.value} {this.renderPaymentMethodId()} →{' '}
               {payment.value * this.props.paymentMethod.rate}{' '}
               {this.props.tokenSymbol}
             </p>
@@ -63,7 +71,9 @@ export class PaymentsList extends React.Component<Props> {
             <p className={styles.cell}>
               {getTranslation(
                 `paymentsList:${this.renderPaymentStatus(payment)}`,
-              )}&nbsp;{this.renderEtherscanLink(payment)}
+              )}
+              &nbsp;
+              {this.renderEtherscanLink(payment)}
             </p>
           </li>
         ))}

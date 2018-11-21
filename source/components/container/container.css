@@ -1,4 +1,4 @@
-@import '~/config/styles/sizes.css';
+@import '~/domains/app/config/styles/sizes.css';
 
 .root {
   box-sizing: border-box;

@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
 import { Form, FieldHint, Button, Input } from '@daonomic/ui';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { ExternalSelect } from '~/components/external-select';
 import { getMarker } from '~/utils/get-marker';
-import { baseApiUrl } from '~/config/api';
+import { baseApiUrl } from '~/domains/app/config/api';
 
 import type { Address, Country } from '~/modules/user-data/types';
 

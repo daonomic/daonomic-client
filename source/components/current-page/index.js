@@ -10,7 +10,7 @@ import BuyTokens from '~/pages/buy-tokens';
 import CreateWallet from '~/pages/create-wallet';
 import Faq from '~/pages/faq';
 
-import type { Route } from '~/router/types';
+import type { Route } from '~/domains/app/router/types';
 
 type Props = {|
   currentRoute: ?Route,
@@ -72,6 +72,8 @@ class CurrentPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ router }): Props => ({
-  currentRoute: router.currentRoute,
-}))(CurrentPage);
+export default inject(
+  ({ router }): Props => ({
+    currentRoute: router.currentRoute,
+  }),
+)(CurrentPage);

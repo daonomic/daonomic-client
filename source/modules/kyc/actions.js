@@ -1,5 +1,5 @@
 // @flow
-import { api } from '~/api';
+import { api } from '~/domains/app/api';
 import { kyc } from '~/modules/kyc/store';
 
 export async function loadAndSetKycState(): Promise<void> {

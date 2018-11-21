@@ -9,7 +9,7 @@ import { fromPromise } from 'mobx-utils';
 import { Button } from '@daonomic/ui';
 import { initCivicSip } from '~/modules/kyc/civic';
 import { loadAndSetKycState } from '~/modules/kyc/actions';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 
 export type Props = {|
   action: string,

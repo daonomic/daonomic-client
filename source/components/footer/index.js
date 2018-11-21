@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import config from '~/config';
+import config from '~/domains/app/config';
 import styles from './footer.css';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 
 type Props = {|
   className?: string,

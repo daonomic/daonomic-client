@@ -10,19 +10,25 @@ import {
 } from 'mobx';
 import createViewModel from '~/utils/create-view-model';
 import generateQRCode from '~/utils/generate-qrcode';
-import type { IApi } from '~/api/types';
+import type { IApi } from '~/domains/app/api/types';
 import type { IAuth } from '~/stores/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
 import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
 import type { IPaymentStoreState } from './types';
 
 class PaymentStoreState implements IPaymentStoreState {
-  @observable dataState = 'initial';
-  @observable methods = [];
-  @observable selectedMethodId = null;
-  @observable addressesByMethodId: Map<string, string> = new Map();
-  @observable paymentsByMethodId: Map<PaymentMethodId, Payment[]> = new Map();
-  @observable selectedMethodAddressQRCode = '';
+  @observable
+  dataState = 'initial';
+  @observable
+  methods = [];
+  @observable
+  selectedMethodId = null;
+  @observable
+  addressesByMethodId: Map<string, string> = new Map();
+  @observable
+  paymentsByMethodId: Map<PaymentMethodId, Payment[]> = new Map();
+  @observable
+  selectedMethodAddressQRCode = '';
 }
 
 export class PaymentStore {
@@ -31,7 +37,8 @@ export class PaymentStore {
   kyc: KycStore;
   sale: string;
 
-  @observable state = createViewModel(new PaymentStoreState());
+  @observable
+  state = createViewModel(new PaymentStoreState());
 
   @computed
   get isFailed(): boolean {
@@ -218,13 +225,24 @@ export class PaymentStore {
 
     try {
       const {
-        data: { paymentMethods },
+        data: { paymentMethods: rawPaymentMethods = [] },
       } = await this.api.getSaleInfo();
+      const paymentMethods = rawPaymentMethods.reduce((result, method) => {
+        if (method.id === 'ETH') {
+          return result.concat(method).concat({
+            ...method,
+            id: 'KYBER',
+            label: 'Kyber Network',
+          });
+        }
+
+        return result.concat(method);
+      }, []);
 
       runInAction(() => {
         this.state.dataState = 'loaded';
-        this.state.methods = paymentMethods || [];
-        this.state.selectedMethodId = ((paymentMethods || [])[0] || {}).id;
+        this.state.methods = paymentMethods;
+        this.state.selectedMethodId = (paymentMethods[0] || {}).id;
       });
     } catch (error) {
       runInAction(() => {

@@ -14,7 +14,7 @@ module.exports = {
   api: process.env.ENVIRONMENT || 'production',
   isDebugEnabled: Boolean(process.env.DEBUG_ENABLED) || false,
   isAnalyzeModeEnabled: process.env.ANALYZE || false,
-  themeImportDeclaration: `@import "${sourceDir}/config/styles/theme.css";`,
+  themeImportDeclaration: `@import "${sourceDir}/domains/app/config/styles/theme.css";`,
   globalStylesImportDeclaration: `@import "${sourceDir}/global.css";`,
   e2eTest: Boolean(process.env.E2E_TEST),
 };

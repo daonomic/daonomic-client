@@ -1,5 +1,5 @@
 // @flow
-import { expectedEthereumNetwork } from '~/config/ethereum-network';
+import { expectedEthereumNetwork } from '~/domains/app/config/ethereum-network';
 
 export function getEtherscanTransactionUrl(txHash: string) {
   let etherscanSubdomain =

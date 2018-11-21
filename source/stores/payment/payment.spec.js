@@ -1,6 +1,6 @@
 // @flow
 import { when, reaction } from 'mobx';
-import { createMockApi } from '~/api/mock';
+import { createMockApi } from '~/domains/app/api/mock';
 import { freshAuthTokenProvider } from '~/stores/auth/token';
 import { authProvider } from '~/stores/auth';
 import { KycStore } from '~/modules/kyc/store';
@@ -36,8 +36,13 @@ describe('payment store', () => {
     expect(auth.isAuthenticated).toBe(true);
     expect(payment.isLoading).toBe(true);
     await when(() => payment.isLoaded);
-    expect(payment.state.methods.length).toBe(2);
+    expect(payment.state.methods.length).toBe(3);
     expect(payment.state.selectedMethodId).toBe('ETH');
+    expect(payment.state.methods.map((method) => method.id)).toEqual([
+      'ETH',
+      'KYBER',
+      'BTC',
+    ]);
     done();
   });
 

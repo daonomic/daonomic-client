@@ -1,5 +1,5 @@
 import { when } from 'mobx';
-import api from '~/api/mock';
+import api from '~/domains/app/api/mock';
 import { walletBalanceProvider } from './';
 
 describe('wallet balance store', () => {

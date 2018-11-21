@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button, FieldHint } from '@daonomic/ui';
 import { FieldDescription } from '~/components/json-schema-form/field-description';
 import styles from './styles.css';
-import { getTranslation } from '~/i18n';
+import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 type Props = {

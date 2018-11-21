@@ -1,9 +1,9 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import createViewModel from '~/utils/create-view-model';
-import config from '~/config';
+import config from '~/domains/app/config';
 import type { IAuth } from '~/stores/auth/types';
-import type { IApi } from '~/api/types';
+import type { IApi } from '~/domains/app/api/types';
 import type { ISaleStoreState } from './types';
 
 const getInitialTokensCount = () => ({
@@ -16,11 +16,18 @@ const getInitialTokensCount = () => ({
 });
 
 class SaleStoreState implements ISaleStoreState {
-  @observable dataState = 'initial';
-  @observable tokenSymbol = '';
-  @observable startTimestamp = null;
-  @observable endTimestamp = null;
-  @observable tokensCount = getInitialTokensCount();
+  @observable
+  dataState = 'initial';
+  @observable
+  address = '';
+  @observable
+  tokenSymbol = '';
+  @observable
+  startTimestamp = null;
+  @observable
+  endTimestamp = null;
+  @observable
+  tokensCount = getInitialTokensCount();
 }
 
 export class SaleStore {
@@ -90,10 +97,12 @@ export class SaleStore {
         startDate = 0,
         endDate = 0,
         token,
+        address,
       } = data;
 
       runInAction(() => {
         this.state.dataState = 'loaded';
+        this.state.address = address;
         this.state.tokenSymbol = token.symbol;
         this.state.tokensCount.sold = sold;
         this.state.tokensCount.total = total;

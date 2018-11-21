@@ -9,8 +9,8 @@ import TokenPrice from './components/token-price';
 import Balance from './components/balance';
 import { ReferralProgram } from './components/referral-program';
 import styles from './buy-tokens.css';
-import formatDate from '~/i18n/format-date';
-import { getTranslation } from '~/i18n';
+import formatDate from '~/domains/app/i18n/format-date';
+import { getTranslation } from '~/domains/app/i18n';
 
 export type Props = {|
   isLoaded: boolean,

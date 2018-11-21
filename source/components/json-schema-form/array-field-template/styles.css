@@ -1,4 +1,4 @@
-@import '~/config/styles/spacing.css';
+@import '~/domains/app/config/styles/spacing.css';
 
 .root {
   border: 0;

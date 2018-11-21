@@ -1,9 +1,9 @@
 // @flow
 import { observable, action, computed, autorun, runInAction } from 'mobx';
 import localStorage from '~/utils/local-storage';
-import { getRouteUrl } from '~/router';
+import { getRouteUrl } from '~/domains/app/router';
 
-import type { IApi } from '~/api/types';
+import type { IApi } from '~/domains/app/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import * as ReferralProgramTypes from '~/modules/referral-program/types';
 import type { IAuth, IAuthToken } from './types';

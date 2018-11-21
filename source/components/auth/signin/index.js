@@ -7,8 +7,8 @@ import { getMarker } from '~/utils/get-marker';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
-import { getRouteUrl } from '~/router';
-import { getTranslation } from '~/i18n';
+import { getRouteUrl } from '~/domains/app/router';
+import { getTranslation } from '~/domains/app/i18n';
 
 type Props = {|
   email: string,
@@ -40,7 +40,9 @@ export default class SignIn extends React.Component<Props> {
           className={commonStyles.error}
           data-marker={this.marker('error')()}
         >
-          {(common || []).map((error) => <div key={error}>{error}</div>)}
+          {(common || []).map((error) => (
+            <div key={error}>{error}</div>
+          ))}
         </div>
       </div>
     );
@@ -127,7 +129,8 @@ export default class SignIn extends React.Component<Props> {
               data-marker={this.marker('sign-up-link')()}
               href={getRouteUrl('signUp')}
             >
-              {getTranslation('auth:signUpHeading')}&nbsp;⟩
+              {getTranslation('auth:signUpHeading')}
+              &nbsp;⟩
             </Link>
           </Text>
         </Panel>
