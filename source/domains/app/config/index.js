@@ -6,15 +6,15 @@ export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
 const sales = {
-  development: '5bf52bc7dfe52222ac9996ab',
-  staging: '5bf52bc7dfe52222ac9996ab',
-  production: '5bf52bc7dfe52222ac9996ab',
+  development: '5bf65c4ddfe52222ac9996d4',
+  staging: '5bf65c4ddfe52222ac9996d4',
+  production: '5bf65c4ddfe52222ac9996d4',
 };
 
 const realms = {
-  development: '5bf52bc7dfe52222ac9996a8',
-  staging: '5bf52bc7dfe52222ac9996a8',
-  production: '5bf52bc7dfe52222ac9996a8',
+  development: '5bf65c4ddfe52222ac9996d2',
+  staging: '5bf65c4ddfe52222ac9996d2',
+  production: '5bf65c4ddfe52222ac9996d2',
 };
 
 export default {
@@ -43,5 +43,5 @@ export default {
       answer: 'Answer',
     },
   ],
-  kyberWidgetUrl: 'https://widget.kyber.network/dapps/daonomic',
+  kyberWidgetUrl: 'https://kyber.daonomic.io',
 };

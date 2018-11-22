@@ -80,12 +80,16 @@ export default inject(
   }: {
     payment: PaymentStore,
     immediatePurchase: ImmediatePurchaseStore,
-  }): InjectedProps => ({
-    paymentMethodId: (payment.selectedMethod || {}).id,
-    isImmediatePurchaseAvailable:
-      immediatePurchase.isAvailable &&
-      ['ETH', 'KYBER'].includes((payment.selectedMethod || {}).id),
-    checkImmediatePurchaseAvailability: immediatePurchase.checkAvailability,
-    buyTokens: immediatePurchase.buyTokens,
-  }),
+  }): InjectedProps => {
+    const paymentMethodId = (payment.selectedMethod || {}).id;
+
+    return {
+      paymentMethodId,
+      isImmediatePurchaseAvailable:
+        (immediatePurchase.isAvailable && paymentMethodId === 'ETH') ||
+        paymentMethodId === 'KYBER',
+      checkImmediatePurchaseAvailability: immediatePurchase.checkAvailability,
+      buyTokens: immediatePurchase.buyTokens,
+    };
+  },
 )(ObservingExchangeForm);
