@@ -1,6 +1,6 @@
 // @flow
 import { observable, computed, action, runInAction } from 'mobx';
-import createViewModel from '~/utils/create-view-model';
+import createViewModel, { type ViewModel } from '~/utils/create-view-model';
 import type { IApi } from '~/domains/app/api/types';
 import type { IWalletBalanceState } from './types';
 
@@ -14,7 +14,10 @@ class WalletBalanceState implements IWalletBalanceState {
 export class WalletBalanceStore {
   api: IApi;
 
-  state = createViewModel(new WalletBalanceState());
+  @observable
+  state: ViewModel<WalletBalanceState> = createViewModel(
+    new WalletBalanceState(),
+  );
 
   @computed
   get isLoading(): boolean {

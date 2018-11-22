@@ -51,7 +51,7 @@ export default class ArrayFieldTemplate extends React.Component<Props> {
     return <FieldDescription>{this.props.schema.description}</FieldDescription>;
   };
 
-  renderItems = () => {
+  renderItems = (): React.Node => {
     return this.props.items.map((item) => (
       <div key={item.index} className={styles.item}>
         <div className={styles['item-toolbar']}>

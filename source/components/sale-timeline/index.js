@@ -39,7 +39,7 @@ const sampleTimeline = [
 ];
 
 export default class SaleTimeline extends React.Component<{}> {
-  renderSteps = (timeline: TimelineStep[]) =>
+  renderSteps = (timeline: TimelineStep[]): React.Node =>
     timeline.map(({ date, text, percent, isActive }) => (
       <li
         key={date}
@@ -65,7 +65,7 @@ export default class SaleTimeline extends React.Component<{}> {
       </li>
     ));
 
-  render() {
+  render(): React.Node {
     if (sampleTimeline.length === 0) {
       return null;
     }

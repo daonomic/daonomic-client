@@ -1,6 +1,5 @@
 const path = require('path');
 const getPort = require('get-port');
-const selenium = require('selenium-standalone');
 const liveServer = require('live-server');
 const { Launcher } = require('webdriverio');
 const { argv } = require('yargs');
@@ -11,12 +10,7 @@ process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-selenium.start(async (error, child) => {
-  if (error) {
-    console.error(error); // eslint-disable-line no-console
-    return;
-  }
-
+(async () => {
   let uiServerPort = devServerPort;
 
   if (process.env.E2E_MODE !== 'development') {
@@ -37,13 +31,11 @@ selenium.start(async (error, child) => {
 
   wdio.run().then(
     (exitCode) => {
-      child.kill();
       process.exit(exitCode);
     },
     (error) => {
       console.error('Launcher failed to start the test', error.stacktrace); // eslint-disable-line no-console
-      child.kill();
       process.exit(1);
     },
   );
-});
+})();

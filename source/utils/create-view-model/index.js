@@ -1,7 +1,7 @@
 // @flow
 import { createViewModel as mobxUtilsCreateViewModel } from 'mobx-utils';
 
-interface IViewModel<T> {
+export interface IViewModel<T> {
   model: T;
   reset(): void;
   submit(): void;
@@ -9,6 +9,8 @@ interface IViewModel<T> {
   isPropertyDirty(key: string): boolean;
 }
 
-export default function createViewModel<T>(model: T): T & IViewModel<T> {
+export type ViewModel<T> = T & IViewModel<T>;
+
+export default function createViewModel<T>(model: T): ViewModel<T> {
   return mobxUtilsCreateViewModel(model);
 }

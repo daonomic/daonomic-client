@@ -1,6 +1,6 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
-import createViewModel from '~/utils/create-view-model';
+import createViewModel, { type ViewModel } from '~/utils/create-view-model';
 import config from '~/domains/app/config';
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/domains/app/api/types';
@@ -35,7 +35,7 @@ export class SaleStore {
   api: IApi;
   sale: typeof config.saleId;
 
-  state = createViewModel(new SaleStoreState());
+  state: ViewModel<SaleStoreState> = createViewModel(new SaleStoreState());
 
   @computed
   get isFailed(): boolean {

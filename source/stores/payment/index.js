@@ -8,7 +8,7 @@ import {
   runInAction,
   toJS,
 } from 'mobx';
-import createViewModel from '~/utils/create-view-model';
+import createViewModel, { type ViewModel } from '~/utils/create-view-model';
 import generateQRCode from '~/utils/generate-qrcode';
 import type { IApi } from '~/domains/app/api/types';
 import type { IAuth } from '~/stores/auth/types';
@@ -38,7 +38,9 @@ export class PaymentStore {
   sale: string;
 
   @observable
-  state = createViewModel(new PaymentStoreState());
+  state: ViewModel<PaymentStoreState> = createViewModel(
+    new PaymentStoreState(),
+  );
 
   @computed
   get isFailed(): boolean {
