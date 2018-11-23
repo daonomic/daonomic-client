@@ -5,7 +5,7 @@
 # Build
 build/
 storybook-static/
-e2e-tests/results
+test-reports/
 
 # Development stuff
 platforms/

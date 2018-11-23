@@ -29,7 +29,7 @@ const config = {
     'regenerator-runtime/runtime',
     `${sourceDir}/index.js`,
     '@daonomic/ui/lib/global.css',
-  ].concat(e2eTest ? `${e2eTestsDir}/web3-mock/inject` : []),
+  ].concat(e2eTest ? `${e2eTestsDir}/support/web3-mock/inject` : []),
 
   output: {
     path: buildDir,

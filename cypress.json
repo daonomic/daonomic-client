@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:5000",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "test-reports/e2e/[hash].xml"
+  },
+  "defaultCommandTimeout": 15000,
+  "video": false
+}

@@ -22,7 +22,10 @@
     "jest": true
   },
   "globals": {
-    "browser": true
+    "browser": true,
+    "cy": true,
+    "Cypress": true,
+    "before": true
   },
   "settings": {
     "import/resolver": "webpack",
@@ -78,7 +81,7 @@
           "**/webpack/**/*.js",
           "**/*.story.js",
           "**/*.spec.js",
-          "**/e2e-tests/**/*.js"
+          "**/cypress/**/*.js"
         ]
       }
     ],

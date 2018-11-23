@@ -102,7 +102,7 @@ class UserDataFormContainer extends React.Component<Props, State> {
       <UserDataFormView
         isDisabled={this.isSaving}
         errors={this.state.errors}
-        address={this.state.address || this.props.prospectiveAddress || ''}
+        address={this.state.address || ''}
         onChangeAddress={this.handleChangeAddress}
         confirmationAddress={this.state.confirmationAddress}
         onChangeConfirmationAddress={this.handleChangeConfirmationAddress}
