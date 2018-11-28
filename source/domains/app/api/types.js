@@ -48,10 +48,7 @@ export interface IApi {
       address?: UserDataTypes.Address,
       country?: UserDataTypes.Country,
     |}>,
-    set({
-      address: UserDataTypes.Address,
-      country: UserDataTypes.Country,
-    }): Response<mixed>,
+    set(UserDataTypes.UserData): Response<mixed>,
   |};
 
   getSaleInfo(): Response<{|

@@ -50,7 +50,7 @@ export async function loadAndSetUserData() {
   }
 }
 
-export async function saveUserData({ address, country }: UserData) {
-  await api.userData.set({ address, country });
-  userData.setAddress(address);
+export async function saveUserData(data: UserData) {
+  await api.userData.set(data);
+  userData.setAddress(data.address);
 }

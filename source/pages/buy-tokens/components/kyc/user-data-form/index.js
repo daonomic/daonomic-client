@@ -14,9 +14,12 @@ type InjectedProps = {|
   onSaveUserData(UserData): Promise<mixed>,
 |};
 
-type Props = InjectedProps & {|
-  onSubmit(): void,
+type ExternalProps = {|
+  countryRequired: boolean,
+  onSubmit(): mixed,
 |};
+
+type Props = InjectedProps & ExternalProps;
 
 type State = {|
   address: Address,
@@ -41,17 +44,28 @@ class UserDataFormContainer extends React.Component<Props, State> {
     },
   };
 
-  @observable isSaving = false;
+  @observable
+  isSaving = false;
+
+  get userData(): UserData {
+    if (this.props.countryRequired) {
+      return {
+        address: this.state.address,
+        country: this.state.country,
+      };
+    }
+
+    return {
+      address: this.state.address,
+    };
+  }
 
   @action
   handleSubmit = async () => {
     this.isSaving = true;
 
     try {
-      await this.props.onSaveUserData({
-        address: this.state.address,
-        country: this.state.country,
-      });
+      await this.props.onSaveUserData(this.userData);
       this.props.onSubmit();
     } catch (error) {
       const fieldErrors =
@@ -106,6 +120,7 @@ class UserDataFormContainer extends React.Component<Props, State> {
         onChangeAddress={this.handleChangeAddress}
         confirmationAddress={this.state.confirmationAddress}
         onChangeConfirmationAddress={this.handleChangeConfirmationAddress}
+        countryRequired={this.props.countryRequired}
         country={this.state.country}
         onChangeCountry={this.handleChangeCountry}
         onSubmit={this.handleSubmit}
@@ -114,7 +129,7 @@ class UserDataFormContainer extends React.Component<Props, State> {
   }
 }
 
-export const UserDataForm = inject(
+export const UserDataForm: React.ComponentType<ExternalProps> = inject(
   ({ userData }: { userData: UserDataStore }): InjectedProps => ({
     prospectiveAddress: userData.model.prospectiveAddress,
     onSaveUserData: saveUserData,

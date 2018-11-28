@@ -26,7 +26,7 @@ describe('External KYC flow', () => {
   it('should show external kyc link', () => {
     const testAddress = `0x${'0'.repeat(40)}`;
 
-    cy.fillUserData({ address: testAddress });
+    cy.fillSecurityUserData({ address: testAddress });
     externalKyc.getRoot().should('be.visible');
     externalKyc.getLink().then(($el) => {
       cy.wrap($el.attr('href').startsWith(testKycProviderUrl)).should(

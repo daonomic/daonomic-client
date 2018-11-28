@@ -4,7 +4,7 @@ export type Form = {|
   uiSchema: {},
 |};
 
-type StateNotSet = {| status: 'NOT_SET' |};
+type StateNotSet = {| status: 'NOT_SET', countryRequired: boolean |};
 type StateExternalKyc = {| status: 'EXTERNAL_KYC', url: string |};
 type StateInternalKyc = {|
   status: 'INTERNAL_KYC',

@@ -11,6 +11,7 @@ import type { Address, Country } from '~/modules/user-data/types';
 export type Props = {|
   initialAddress?: ?Address,
   isDisabled?: boolean,
+  countryRequired: boolean,
   errors: {
     address: ?(string[]),
     country: ?(string[]),
@@ -91,18 +92,20 @@ export class UserDataForm extends React.Component<Props> {
           <FieldHint>{getTranslation('kyc:addressConfirmationHint')}</FieldHint>
         </Form.Field>
 
-        <Form.Field>
-          <ExternalSelect
-            data-marker={this.marker('residency')()}
-            required
-            optionsUrl={`${baseApiUrl}/countries`}
-            label={getTranslation('kyc:yourResidency')}
-            placeholder={getTranslation('kyc:selectResidency')}
-            errors={this.props.errors.country}
-            value={this.props.country}
-            onChange={this.handleChangeCountry}
-          />
-        </Form.Field>
+        {this.props.countryRequired && (
+          <Form.Field>
+            <ExternalSelect
+              data-marker={this.marker('residency')()}
+              required
+              optionsUrl={`${baseApiUrl}/countries`}
+              label={getTranslation('kyc:yourResidency')}
+              placeholder={getTranslation('kyc:selectResidency')}
+              errors={this.props.errors.country}
+              value={this.props.country}
+              onChange={this.handleChangeCountry}
+            />
+          </Form.Field>
+        )}
 
         <Form.Field>
           <Button

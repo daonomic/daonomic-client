@@ -72,7 +72,10 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             {this.renderTitle('kyc:userDataTitle')}
-            <UserDataForm onSubmit={this.props.onSubmitUserData} />
+            <UserDataForm
+              countryRequired={kycData.countryRequired}
+              onSubmit={this.props.onSubmitUserData}
+            />
           </Panel>
         );
       }

@@ -7,7 +7,10 @@ export const createIcoParams = {
     name: 'Public Sale',
     period: {},
     cap: {},
-    rates: [{ method: 'ETH', rate: 1000 }],
+    rates: {
+      ethRate: 1000,
+      payWithErc20: false,
+    },
     type: 'MINTING',
   },
   mail: {

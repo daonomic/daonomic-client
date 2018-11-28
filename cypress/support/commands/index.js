@@ -8,6 +8,7 @@ import './users/get-stable-user';
 import './users/get-temporary-user';
 
 import './kyc/fill-user-data';
+import './kyc/fill-security-user-data';
 import './kyc/create-external-kyc-provider';
 
 import './ico/get-temporary-ico';
