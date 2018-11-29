@@ -43,9 +43,7 @@ describe('Tokens purchase via ERC20', () => {
           .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
       })
       .then(() => {
-        paymentMethod.getSelect().should('be.visible');
-        paymentMethod.getSelect().should('have.value', 'ETH');
-        paymentMethod.getSelectOptions().should('have.length', 1);
+        paymentMethod.getSelect().should('not.exist');
       });
   });
 });
