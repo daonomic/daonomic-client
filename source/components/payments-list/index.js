@@ -4,12 +4,13 @@ import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 import { getEtherscanTransactionUrl } from '~/modules/etherscan';
 
-import type { Payment, PaymentMethod } from '~/types/payment';
+import type { Payment } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
   tokenSymbol: string,
   payments: Payment[],
-  paymentMethod: PaymentMethod,
+  paymentMethod: PaymentMethodTypes.Data,
 |};
 
 export class PaymentsList extends React.Component<Props> {
@@ -46,7 +47,7 @@ export class PaymentsList extends React.Component<Props> {
   };
 
   renderPaymentMethodId = () => {
-    if (this.props.paymentMethod.id === 'KYBER') {
+    if (this.props.paymentMethod.id === 'ERC20') {
       return 'ETH';
     }
 

@@ -28,6 +28,7 @@ class SaleStoreState implements ISaleStoreState {
   endTimestamp = null;
   @observable
   tokensCount = getInitialTokensCount();
+  @observable payWithErc20 = false;
 }
 
 export class SaleStore {
@@ -98,6 +99,7 @@ export class SaleStore {
         endDate = 0,
         token,
         address,
+        payWithErc20,
       } = data;
 
       runInAction(() => {
@@ -106,6 +108,7 @@ export class SaleStore {
         this.state.tokenSymbol = token.symbol;
         this.state.tokensCount.sold = sold;
         this.state.tokensCount.total = total;
+        this.state.payWithErc20 = payWithErc20;
 
         if (startDate) {
           this.state.startTimestamp = startDate;

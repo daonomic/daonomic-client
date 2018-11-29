@@ -5,14 +5,8 @@ Cypress.Commands.add('getCurrentIco', () => {
     return cy.wrap(currentIco);
   }
 
-  return cy
-    .getTemporaryIco({
-      kyc: {
-        type: 'NONE',
-      },
-    })
-    .then((ico) => {
-      currentIco = ico;
-      return ico;
-    });
+  return cy.getTemporaryIco().then((ico) => {
+    currentIco = ico;
+    return ico;
+  });
 });

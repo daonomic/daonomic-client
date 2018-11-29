@@ -1,10 +1,10 @@
 // @flow
 import type { DataState } from '~/types/common';
-import type { PaymentMethodId, PaymentMethod } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export interface IPaymentStoreState {
   dataState: DataState;
-  methods: PaymentMethod[];
-  selectedMethodId: ?PaymentMethodId;
+  methods: PaymentMethodTypes.Data[];
+  selectedMethodId: ?PaymentMethodTypes.Id;
   selectedMethodAddressQRCode: string;
 }

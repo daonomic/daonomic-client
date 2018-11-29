@@ -11,10 +11,10 @@ import { Payments } from './payments';
 import { PaymentInstruction } from './instruction';
 import styles from './styles.css';
 
-import type { PaymentMethod } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
-  selectedPaymentMethod: ?PaymentMethod,
+  selectedPaymentMethod: ?PaymentMethodTypes.Data,
 |};
 
 export default class PaymentMethodView extends React.Component<Props> {
@@ -27,7 +27,7 @@ export default class PaymentMethodView extends React.Component<Props> {
           {getTranslation('paymentMethods:title')}
         </Heading>
 
-        <PaymentMethodSelect />
+        <PaymentMethodSelect marker={this.marker} />
         <Panel.Separator />
         {this.props.selectedPaymentMethod && (
           <ExchangeForm

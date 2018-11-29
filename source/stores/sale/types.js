@@ -12,4 +12,5 @@ export interface ISaleStoreState {
     notLimited: boolean,
   };
   address: string;
+  payWithErc20: boolean;
 }

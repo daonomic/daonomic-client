@@ -1,6 +1,6 @@
-Cypress.Commands.add('initApplication', ({ getIco } = {}) => {
+Cypress.Commands.add('initApplication', ({ ico } = {}) => {
   cy.wrap(null)
-    .then(getIco || cy.getCurrentIco.bind(cy))
+    .then(ico ? () => cy.wrap(ico) : cy.getCurrentIco)
     .then(({ saleId, realmId }) => {
       cy.window().then((w) => {
         w.daonomic.config.saleId = saleId;

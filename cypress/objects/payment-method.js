@@ -6,6 +6,14 @@ class PaymentMethod {
   getRoot() {
     return cy.get(this.marker());
   }
+
+  getSelect() {
+    return cy.get(this.marker('select')());
+  }
+
+  getSelectOptions() {
+    return cy.get(`${this.marker('select')()} option`);
+  }
 }
 
 export const paymentMethod = new PaymentMethod();

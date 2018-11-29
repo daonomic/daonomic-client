@@ -4,12 +4,13 @@ import { Select } from '@daonomic/ui';
 import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
-import type { PaymentMethodId, PaymentMethod } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
-  paymentMethods: PaymentMethod[],
-  selectedPaymentMethod: ?PaymentMethod,
-  onChange(PaymentMethodId): void,
+  marker: Function,
+  paymentMethods: PaymentMethodTypes.Data[],
+  selectedPaymentMethod: ?PaymentMethodTypes.Data,
+  onChange(PaymentMethodTypes.Id): void,
 |};
 
 export class PaymentMethodSelect extends React.Component<Props> {
@@ -34,6 +35,7 @@ export class PaymentMethodSelect extends React.Component<Props> {
         </label>
 
         <Select
+          data-marker={this.props.marker('select')()}
           id={selectId}
           value={selectedPaymentMethod.id}
           onChange={this.handleChangePaymentMethod}

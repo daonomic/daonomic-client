@@ -18,6 +18,10 @@ class ExchangeForm {
   getBuy() {
     return cy.get(this.marker('buy')());
   }
+
+  getErc20Buy() {
+    return cy.get(this.marker('buy-erc20')());
+  }
 }
 
 export const exchangeForm = new ExchangeForm();

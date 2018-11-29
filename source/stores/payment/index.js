@@ -13,8 +13,9 @@ import generateQRCode from '~/utils/generate-qrcode';
 import type { IApi } from '~/domains/app/api/types';
 import type { IAuth } from '~/stores/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
-import type { PaymentMethodId, PaymentMethod, Payment } from '~/types/payment';
+import type { Payment } from '~/types/payment';
 import type { IPaymentStoreState } from './types';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 class PaymentStoreState implements IPaymentStoreState {
   @observable
@@ -26,7 +27,7 @@ class PaymentStoreState implements IPaymentStoreState {
   @observable
   addressesByMethodId: Map<string, string> = new Map();
   @observable
-  paymentsByMethodId: Map<PaymentMethodId, Payment[]> = new Map();
+  paymentsByMethodId: Map<PaymentMethodTypes.Id, Payment[]> = new Map();
   @observable
   selectedMethodAddressQRCode = '';
 }
@@ -58,15 +59,17 @@ export class PaymentStore {
   }
 
   @computed
-  get prices(): { rate: number, label: string }[] {
-    return this.state.methods.map(({ id, rate }) => ({
-      rate,
-      label: id,
-    }));
+  get publicPrices(): { rate: number, label: string }[] {
+    return this.state.methods
+      .filter((method) => method.id !== 'ERC20')
+      .map(({ id, rate }) => ({
+        rate,
+        label: id,
+      }));
   }
 
   @computed
-  get selectedMethod(): ?PaymentMethod {
+  get selectedMethod(): ?PaymentMethodTypes.Data {
     return this.state.methods.find(
       (method) => method.id === this.state.selectedMethodId,
     );
@@ -227,19 +230,24 @@ export class PaymentStore {
 
     try {
       const {
-        data: { paymentMethods: rawPaymentMethods = [] },
+        data: { paymentMethods: originalPaymentMethods = [], payWithErc20 },
       } = await this.api.getSaleInfo();
-      const paymentMethods = rawPaymentMethods.reduce((result, method) => {
-        if (method.id === 'ETH') {
-          return result.concat(method).concat({
-            ...method,
-            id: 'KYBER',
-            label: 'Kyber Network',
-          });
-        }
+      const ethPaymentMethod = originalPaymentMethods.find(
+        (method) => method.id === 'ETH',
+      );
+      const additionalPaymentMethods = [];
 
-        return result.concat(method);
-      }, []);
+      if (payWithErc20) {
+        additionalPaymentMethods.push({
+          ...ethPaymentMethod,
+          id: 'ERC20',
+          label: 'ERC20',
+        });
+      }
+
+      const paymentMethods = originalPaymentMethods.concat(
+        additionalPaymentMethods,
+      );
 
       runInAction(() => {
         this.state.dataState = 'loaded';
@@ -254,7 +262,7 @@ export class PaymentStore {
   };
 
   @action
-  setMethod = (methodId: PaymentMethodId) => {
+  setMethod = (methodId: PaymentMethodTypes.Id) => {
     this.state.selectedMethodId = methodId;
   };
 

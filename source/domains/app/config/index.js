@@ -6,15 +6,15 @@ export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
 const sales = {
-  development: '5bf80683020d882ecea3f1e1',
-  staging: '5bf80683020d882ecea3f1e1',
-  production: '5bf80683020d882ecea3f1e1',
+  development: '5bff97c8020d883bea468b20',
+  staging: '5bff97c8020d883bea468b20',
+  production: '5bff97c8020d883bea468b20',
 };
 
 const realms = {
-  development: '5bf80683020d882ecea3f1db',
-  staging: '5bf80683020d882ecea3f1db',
-  production: '5bf80683020d882ecea3f1db',
+  development: '5bff97c8020d883bea468b1e',
+  staging: '5bff97c8020d883bea468b1e',
+  production: '5bff97c8020d883bea468b1e',
 };
 
 export default {

@@ -9,12 +9,10 @@ describe('External KYC flow', () => {
       .then(({ id: providerAddress }) =>
         cy.getExternalKycParams({ providerAddress }),
       )
-      .then((kyc) => cy.getTemporaryIco({ kyc }))
+      .then((kyc) => cy.getTemporaryIco((data) => ({ ...data, kyc })))
       .then((ico) => {
-        const getIco = () => cy.wrap(ico);
-
-        cy.getTemporaryUser({ getIco }).then(({ email, password }) => {
-          cy.login({ getIco, email, password });
+        cy.getTemporaryUser({ ico }).then(({ email, password }) => {
+          cy.login({ ico, email, password });
         });
       });
   });

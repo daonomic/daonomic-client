@@ -5,11 +5,12 @@ import { Heading } from '~/components/heading';
 import { PaymentsList } from '~/components/payments-list';
 import styles from './styles.css';
 
-import type { PaymentMethod, Payment } from '~/types/payment';
+import type { Payment } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
   tokenSymbol: string,
-  selectedPaymentMethod: ?PaymentMethod,
+  selectedPaymentMethod: ?PaymentMethodTypes.Data,
   selectedPaymentMethodPayments: Payment[],
 |};
 

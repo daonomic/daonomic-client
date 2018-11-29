@@ -54,6 +54,7 @@ export default class ExchangeFormView extends React.Component<Props> {
     if (this.props.isKyber) {
       button = (
         <KyberButton
+          data-marker={this.marker('buy-erc20')()}
           ethAmount={this.props.cost}
           disabled={this.props.cost === 0}
         >

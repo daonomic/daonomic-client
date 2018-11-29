@@ -16,7 +16,7 @@ function networkIdToKyberName(id: EthereumNetworkId) {
     }
 
     case '17': {
-      throw new Error('Kyber cannot be used on development ethereum network');
+      return 'none';
     }
 
     default: {

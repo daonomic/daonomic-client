@@ -40,8 +40,8 @@ describe('payment store', () => {
     expect(payment.state.selectedMethodId).toBe('ETH');
     expect(payment.state.methods.map((method) => method.id)).toEqual([
       'ETH',
-      'KYBER',
       'BTC',
+      'ERC20',
     ]);
     done();
   });

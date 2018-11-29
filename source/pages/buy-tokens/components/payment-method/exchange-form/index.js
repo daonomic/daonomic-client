@@ -64,7 +64,7 @@ class ExchangeForm extends React.Component<Props, State> {
         onChangeAmount={this.handleChangeAmount}
         onChangeCost={this.handleChangeCost}
         isBuyButtonVisible={this.props.isImmediatePurchaseAvailable}
-        isKyber={this.props.paymentMethodId === 'KYBER'}
+        isKyber={this.props.paymentMethodId === 'ERC20'}
         onBuy={this.handleBuy}
       />
     );
@@ -87,7 +87,7 @@ export default inject(
       paymentMethodId,
       isImmediatePurchaseAvailable:
         (immediatePurchase.isAvailable && paymentMethodId === 'ETH') ||
-        paymentMethodId === 'KYBER',
+        paymentMethodId === 'ERC20',
       checkImmediatePurchaseAvailability: immediatePurchase.checkAvailability,
       buyTokens: immediatePurchase.buyTokens,
     };

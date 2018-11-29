@@ -1,3 +1,4 @@
+// @flow
 import { when } from 'mobx';
 import api from '~/domains/app/api/mock';
 import { freshAuthTokenProvider } from '~/stores/auth/token';

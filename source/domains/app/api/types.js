@@ -1,9 +1,10 @@
 // @flow
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
-import type { PaymentMethod, Payment } from '~/types/payment';
+import type { Payment } from '~/types/payment';
 import * as UserDataTypes from '~/modules/user-data/types';
 import * as KycTypes from '~/modules/kyc/types';
 import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Response<Data> = Promise<{|
   data: Data,
@@ -53,11 +54,12 @@ export interface IApi {
 
   getSaleInfo(): Response<{|
     address: string,
-    paymentMethods: PaymentMethod[],
+    paymentMethods: PaymentMethodTypes.Data[],
     current: number,
     total: number,
     startDate: number,
     endDate: number,
+    payWithErc20: boolean,
     token: {
       symbol: string,
     },

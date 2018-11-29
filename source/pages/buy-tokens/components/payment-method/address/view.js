@@ -5,10 +5,10 @@ import { QrCode } from './qr-code';
 import textStyles from '~/components/text/text.css';
 import styles from './styles.css';
 
-import type { PaymentMethod } from '~/types/payment';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
-  selectedPaymentMethod: ?PaymentMethod,
+  selectedPaymentMethod: ?PaymentMethodTypes.Data,
   selectedPaymentMethodAddress: ?string,
 |};
 
@@ -20,7 +20,7 @@ export class PaymentMethodAddress extends React.Component<Props> {
       return `${getTranslation('common:loading')}...`;
     }
 
-    if (selectedPaymentMethod.id === 'KYBER') {
+    if (selectedPaymentMethod.id === 'ERC20') {
       return null;
     }
 

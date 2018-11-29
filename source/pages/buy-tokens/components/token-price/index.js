@@ -12,6 +12,6 @@ export default inject(
   ({ payment, sale }: { payment: PaymentStore, sale: SaleStore }): Props => ({
     tokenSymbol: sale.state.tokenSymbol,
     tokensCount: sale.state.tokensCount,
-    prices: payment.prices,
+    prices: payment.publicPrices,
   }),
 )(ObservingTokenPriceView);
