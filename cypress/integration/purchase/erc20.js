@@ -1,5 +1,4 @@
 import { assocPath } from 'ramda';
-import { exchangeForm } from '../../objects/purchase/exchange-form';
 import { paymentMethod } from '../../objects/payment-method';
 import wallet from '../../support/web3-mock/wallet';
 
@@ -20,13 +19,18 @@ describe('Tokens purchase via ERC20', () => {
       })
       .then(() => {
         paymentMethod.getSelect().should('be.visible');
+        paymentMethod.address.getRoot().should('be.visible');
+
         paymentMethod.getSelect().select('ERC20');
         paymentMethod.getSelect().should('have.value', 'ERC20');
-        exchangeForm.getRoot().should('be.visible');
-        exchangeForm.getAmount().should('be.visible');
-        exchangeForm.getCost().should('be.visible');
-        exchangeForm.getErc20Buy().should('be.visible');
-        exchangeForm.getErc20Buy().should('have.attr', 'href');
+        paymentMethod.address.getRoot().should('not.be.visible');
+        paymentMethod.getInstruction().should('be.visible');
+
+        paymentMethod.exchangeForm.getRoot().should('be.visible');
+        paymentMethod.exchangeForm.getAmount().should('be.visible');
+        paymentMethod.exchangeForm.getCost().should('be.visible');
+        paymentMethod.exchangeForm.getErc20Buy().should('be.visible');
+        paymentMethod.exchangeForm.getErc20Buy().should('have.attr', 'href');
       });
   });
 

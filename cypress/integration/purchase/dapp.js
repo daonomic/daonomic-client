@@ -1,4 +1,4 @@
-import { exchangeForm } from '../../objects/purchase/exchange-form';
+import { paymentMethod } from '../../objects/payment-method';
 import { balance } from '../../objects/balance';
 import wallet from '../../support/web3-mock/wallet';
 
@@ -17,9 +17,9 @@ describe('Immediate tokens purchase via DAPP', () => {
     balance.getRoot().should('be.visible');
     balance.getAmount().should('have.text', '0');
 
-    exchangeForm.getRoot().should('be.visible');
-    exchangeForm.getAmount().type(1);
-    exchangeForm.getBuy().click();
+    paymentMethod.exchangeForm.getRoot().should('be.visible');
+    paymentMethod.exchangeForm.getAmount().type(1);
+    paymentMethod.exchangeForm.getBuy().click();
     balance.getAmount().should('have.text', '1');
   });
 });

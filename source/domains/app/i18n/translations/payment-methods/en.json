@@ -1,5 +1,5 @@
 {
-  "title": "Step 2: Select your payment method",
+  "title": "Step 2: Buy tokens",
   "wantToPayWith": "I want to pay with",
   "sendFundsTo": "Send funds to this {{ paymentMethod }} address:",
   "transactions": "Transactions",

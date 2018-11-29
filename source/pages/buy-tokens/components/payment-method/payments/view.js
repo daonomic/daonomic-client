@@ -18,7 +18,6 @@ export class Payments extends React.Component<Props> {
   render() {
     const { selectedPaymentMethod, selectedPaymentMethodPayments } = this.props;
 
-    // fixme: use payment.paymentMethod instead of selectedPaymentMethod.id
     if (selectedPaymentMethodPayments.length === 0 || !selectedPaymentMethod) {
       return null;
     }

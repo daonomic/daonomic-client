@@ -1,8 +1,9 @@
 //@flow
 import * as React from 'react';
 import { getTranslation } from '~/domains/app/i18n';
-import { QrCode } from './qr-code';
+import { getMarker } from '~/utils/get-marker';
 import textStyles from '~/components/text/text.css';
+import { QrCode } from './qr-code';
 import styles from './styles.css';
 
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
@@ -13,11 +14,13 @@ export type Props = {|
 |};
 
 export class PaymentMethodAddress extends React.Component<Props> {
+  marker = getMarker('payment-method-address');
+
   render() {
     const { selectedPaymentMethod, selectedPaymentMethodAddress } = this.props;
 
     if (!selectedPaymentMethod || !selectedPaymentMethodAddress) {
-      return `${getTranslation('common:loading')}...`;
+      return <div>{getTranslation('common:loading')}...</div>;
     }
 
     if (selectedPaymentMethod.id === 'ERC20') {
@@ -25,8 +28,8 @@ export class PaymentMethodAddress extends React.Component<Props> {
     }
 
     return (
-      <div className={styles.root}>
-        <QrCode />
+      <div className={styles.root} data-marker={this.marker()}>
+        <QrCode data-marker={this.marker('qr')()} />
         <div>
           {getTranslation('paymentMethods:sendFundsTo', {
             paymentMethod: selectedPaymentMethod.label,

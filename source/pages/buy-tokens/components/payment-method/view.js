@@ -39,7 +39,7 @@ export default class PaymentMethodView extends React.Component<Props> {
         <Panel.Separator />
         <Payments />
         <Panel.Separator />
-        <PaymentInstruction />
+        <PaymentInstruction data-marker={this.marker('instruction')()} />
       </Panel>
     );
   }

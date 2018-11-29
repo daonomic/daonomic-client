@@ -24,7 +24,7 @@ export class PaymentMethodSelect extends React.Component<Props> {
     const { paymentMethods, selectedPaymentMethod } = this.props;
     const selectId = 'payment-method';
 
-    if (!selectedPaymentMethod) {
+    if (!selectedPaymentMethod || paymentMethods.length === 1) {
       return null;
     }
 

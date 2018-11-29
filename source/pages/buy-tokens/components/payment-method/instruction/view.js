@@ -5,16 +5,16 @@ import textStyles from '~/components/text/text.css';
 import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
-export type Props = {|
+export type Props = {
   userWalletAddress: ?string,
-|};
+};
 
 export class PaymentInstruction extends React.Component<Props> {
   render() {
-    const { userWalletAddress } = this.props;
+    const { userWalletAddress, ...restProps } = this.props;
 
     return (
-      <React.Fragment>
+      <div {...restProps}>
         <Heading className={styles.title} tagName="h3" size="small">
           {getTranslation('paymentMethods:instructionTitle')}
         </Heading>
@@ -23,7 +23,7 @@ export class PaymentInstruction extends React.Component<Props> {
         <p className={textStyles['word-break-all']}>
           {userWalletAddress || ''}
         </p>
-      </React.Fragment>
+      </div>
     );
   }
 }
