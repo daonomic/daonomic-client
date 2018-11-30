@@ -1,8 +1,9 @@
 //@flow
 import * as React from 'react';
+import { Button } from '@daonomic/ui';
+import { CopyToClipboard } from '~/components/copy-to-clipboard';
 import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
-import textStyles from '~/components/text/text.css';
 import { QrCode } from './qr-code';
 import styles from './styles.css';
 
@@ -30,13 +31,18 @@ export class PaymentMethodAddress extends React.Component<Props> {
     return (
       <div className={styles.root} data-marker={this.marker()}>
         <QrCode data-marker={this.marker('qr')()} />
-        <div>
+        <div className={styles.text}>
           {getTranslation('paymentMethods:sendFundsTo', {
             paymentMethod: selectedPaymentMethod.label,
           })}
-          <div className={textStyles['word-break-all']}>
-            {selectedPaymentMethodAddress}
-          </div>
+          <div className={styles.address}>{selectedPaymentMethodAddress}</div>
+          <CopyToClipboard value={selectedPaymentMethodAddress}>
+            {({ state, text, copy }) => (
+              <Button disabled={state !== 'initial'} size="s" onClick={copy}>
+                {text}
+              </Button>
+            )}
+          </CopyToClipboard>
         </div>
       </div>
     );
