@@ -64,7 +64,7 @@ export default class SignIn extends React.Component<Props> {
         <Panel>
           <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
             <Heading size="large" tagName="h1" className={commonStyles.title}>
-              {getTranslation('auth:signInHeading')}
+              {getTranslation('auth:logIn')}
             </Heading>
 
             {this.renderCommonError()}
@@ -103,7 +103,7 @@ export default class SignIn extends React.Component<Props> {
                 disabled={isLoading}
                 data-marker={this.marker('submit')()}
               >
-                {getTranslation('auth:signInSubmit')}
+                {getTranslation('auth:logIn')}
               </Button>
 
               <Link
@@ -129,7 +129,7 @@ export default class SignIn extends React.Component<Props> {
               data-marker={this.marker('sign-up-link')()}
               href={getRouteUrl('signUp')}
             >
-              {getTranslation('auth:signUpHeading')}
+              {getTranslation('auth:signUp')}
               &nbsp;⟩
             </Link>
           </Text>

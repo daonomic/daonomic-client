@@ -145,7 +145,7 @@ export default class CreateNewPassword extends React.Component<Props> {
           >
             {getTranslation('auth:alreadyHaveAccount')}{' '}
             <Link href={getRouteUrl('signIn')}>
-              {getTranslation('auth:signInHeading')}
+              {getTranslation('auth:logIn')}
               &nbsp;⟩
             </Link>
           </Text>

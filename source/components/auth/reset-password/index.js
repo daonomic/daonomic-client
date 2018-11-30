@@ -127,7 +127,7 @@ export default class ResetPassword extends React.Component<Props> {
             className={styles.paragraph}
           >
             <Link href={getRouteUrl('signIn')}>
-              {getTranslation('auth:signInHeading')}
+              {getTranslation('auth:logIn')}
               &nbsp;⟩
             </Link>
           </Text>

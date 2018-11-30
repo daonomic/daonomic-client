@@ -103,7 +103,7 @@ class Header extends React.Component<Props, State> {
             design="secondary"
             onClick={this.handleClickLogout}
           >
-            {getTranslation('auth:logout')}
+            {getTranslation('auth:logOut')}
           </Button>
         </div>
       </Panel>
