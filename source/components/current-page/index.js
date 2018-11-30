@@ -7,7 +7,7 @@ import SignUp from '~/pages/sign-up';
 import ResetPassword from '~/pages/reset-password';
 import CreateNewPassword from '~/pages/create-new-password';
 import BuyTokens from '~/pages/buy-tokens';
-import CreateWallet from '~/pages/create-wallet';
+import { CreateWalletPage } from '~/pages/create-wallet';
 import Faq from '~/pages/faq';
 
 import type { Route } from '~/domains/app/router/types';
@@ -54,7 +54,7 @@ class CurrentPage extends React.Component<Props> {
       }
 
       case 'createWallet': {
-        appLayoutContent = <CreateWallet />;
+        appLayoutContent = <CreateWalletPage />;
         break;
       }
 

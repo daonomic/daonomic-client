@@ -1,0 +1,29 @@
+.root {
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  padding-left: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 100%;
+  background: var(--color-primary);
+}
+
+.item_met {
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.item_met::before {
+  background: var(--color-success);
+}
