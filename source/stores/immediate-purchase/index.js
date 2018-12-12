@@ -8,12 +8,17 @@ import type { IWeb3 } from '~/types/web3';
 
 type GetWeb3Instance = () => Promise<IWeb3>;
 
+function getUserAddress() {
+  return userData.model.address || '';
+}
+
 export class ImmediatePurchaseStore {
   api: IApi;
   getWeb3Instance: GetWeb3Instance;
 
   @observable
   isAvailable = false;
+
   @observable
   saleContractAddress: ?string = null;
 
@@ -34,9 +39,7 @@ export class ImmediatePurchaseStore {
   checkAvailability = async (): Promise<{ isAvailable: boolean }> => {
     try {
       const web3 = await this.getWeb3Instance();
-      const web3AccountAddress = (web3.eth.defaultAccount || '').toLowerCase();
-      const userWalletAddress = (userData.model.address || '').toLowerCase();
-      const isAvailable = web3AccountAddress === userWalletAddress;
+      const isAvailable = web3.eth.defaultAccount !== '';
 
       runInAction(() => {
         this.isAvailable = isAvailable;
@@ -68,8 +71,30 @@ export class ImmediatePurchaseStore {
         );
       }
 
-      await web3.eth.sendTransaction({
-        to: this.saleContractAddress,
+      const contract = new web3.eth.Contract(
+        [
+          {
+            constant: false,
+            inputs: [
+              {
+                name: '_beneficiary',
+                type: 'address',
+              },
+            ],
+            name: 'buyTokens',
+            outputs: [],
+            payable: true,
+            stateMutability: 'payable',
+            type: 'function',
+          },
+        ],
+        this.saleContractAddress,
+      );
+
+      const userAddress = getUserAddress();
+
+      await contract.methods.buyTokens(getUserAddress()).send({
+        from: web3.eth.defaultAccount || userAddress,
         value: web3.utils.toWei(String(costInEthers)),
       });
     } catch (error) {

@@ -8,6 +8,7 @@ type TransactionData = {
 export type IWeb3 = {
   eth: {
     defaultAccount: ?string,
+    Contract: any,
     sendTransaction(TransactionData): Promise<any>,
   },
   utils: {
