@@ -1,11 +1,33 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SentryCliPlugin = require('@sentry/webpack-plugin');
 const baseConfig = require('./base.config');
-const { themeImportDeclaration, sourceDir } = require('../config');
+const {
+  themeImportDeclaration,
+  sourceDir,
+  buildDir,
+  release,
+  areSourcemapsEnabled,
+  sentryConfigFilePath,
+} = require('../config');
 const theme = require('../theme.js');
+
+const sourceMapsPlugins = [];
+
+if (areSourcemapsEnabled) {
+  sourceMapsPlugins.push(
+    new SentryCliPlugin({
+      include: buildDir,
+      release,
+      configFile: sentryConfigFilePath,
+    }),
+  );
+}
 
 module.exports = Object.assign({}, baseConfig, {
   mode: 'production',
+
+  devtool: areSourcemapsEnabled ? 'source-map' : false,
 
   plugins: [
     ...baseConfig.plugins,
@@ -18,6 +40,7 @@ module.exports = Object.assign({}, baseConfig, {
         },
       },
     }),
+    ...sourceMapsPlugins,
   ],
 
   module: Object.assign({}, baseConfig.module, {

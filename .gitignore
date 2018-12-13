@@ -27,3 +27,4 @@ npm-debug.*
 /.project
 .settings
 .classpath
+sentry.properties

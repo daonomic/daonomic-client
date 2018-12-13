@@ -16,12 +16,11 @@
     "test:lint": "eslint source webpack",
     "test:types": "flow",
     "test:unit": "jest --silent",
-    "pretest:e2e": "if-env SKIP_BUILD=true && exit 0 || cross-env ENVIRONMENT=development E2E_TEST=true npm run build",
-    "test:e2e": "node ./cypress/index.js",
     "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials",
     "precommit": "npm run ensure-git-credentials && lint-staged && npm run test:lint && npm run test:unit && npm run test:types",
-    "format": "prettier --write \"./source/**/*.{js,css,json,md}\""
+    "format": "prettier --write \"./source/**/*.{js,css,json,md}\"",
+    "ci:build": "sh ci-build.sh"
   },
   "lint-staged": {
     "*.{js,json,md,css}": [
@@ -32,6 +31,7 @@
   "author": "Dev dev@0v1se.com",
   "license": "GPL-3.0",
   "devDependencies": {
+    "@sentry/webpack-plugin": "1.6.2",
     "@storybook/react": "3.4.10",
     "autoprefixer": "9.3.1",
     "babel-core": "6.26.3",
@@ -61,6 +61,7 @@
     "file-loader": "2.0.0",
     "flow-bin": "0.88.0",
     "get-port": "4.0.0",
+    "git-rev-sync": "1.12.0",
     "html-webpack-plugin": "3.2.0",
     "husky": "0.14.3",
     "if-env": "1.0.4",
