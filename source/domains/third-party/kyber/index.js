@@ -29,11 +29,13 @@ function networkIdToKyberName(id: EthereumNetworkId) {
 export function getKyberWidgetUrl({
   amount,
   saleAddress,
+  buyerAddress,
 }: {|
   amount: number,
   saleAddress: string,
+  buyerAddress: string,
 |}) {
   return `${appConfig.kyberWidgetUrl}/?mode=tab&network=${networkIdToKyberName(
     expectedEthereumNetwork.id,
-  )}&saleAddr=${saleAddress}&amount=${amount}`;
+  )}&saleAddr=${saleAddress}&buyerAddr=${buyerAddress}&amount=${amount}`;
 }

@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { KyberButton as KyberButtonView } from './view';
 
 import type { SaleStore } from '~/stores/sale';
+import type { UserDataStore } from '~/modules/user-data/store';
 import type { Props } from './view';
 
 type ExternalProps = {
@@ -12,7 +13,14 @@ type ExternalProps = {
 };
 
 export const KyberButton: React.ComponentType<ExternalProps> = inject(
-  ({ sale }: { sale: SaleStore }): $Diff<Props, ExternalProps> => ({
+  ({
+    sale,
+    userData,
+  }: {
+    sale: SaleStore,
+    userData: UserDataStore,
+  }): $Diff<Props, ExternalProps> => ({
     saleAddress: sale.state.address,
+    buyerAddress: userData.model.address,
   }),
 )(observer(KyberButtonView));
