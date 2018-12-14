@@ -23,16 +23,19 @@ console.log(
 );
 
 const config = {
-  entry: [
-    'regenerator-runtime/runtime',
-    `${paths.sourceDir}/index.js`,
-    '@daonomic/ui/lib/global.css',
-  ].concat(e2eTest ? `${paths.e2eTestsDir}/support/web3-mock/inject` : []),
+  entry: {
+    index: [
+      'regenerator-runtime/runtime',
+      `${paths.sourceDir}/index.js`,
+      '@daonomic/ui/lib/global.css',
+    ].concat(e2eTest ? `${paths.e2eTestsDir}/support/web3-mock/inject` : []),
+  },
 
   output: {
     path: paths.buildDir,
     publicPath: '/',
-    filename: 'app.js',
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js',
   },
 
   resolve: {
@@ -92,7 +95,6 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       template: `${paths.sourceDir}/index.html`,
-      hash: true,
       minify: {
         collapseWhitespace: true,
       },
@@ -102,6 +104,19 @@ const config = {
   stats: {
     children: false,
     modules: false,
+  },
+
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'initial',
+        },
+      },
+    },
   },
 };
 

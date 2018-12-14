@@ -30,7 +30,10 @@ module.exports = Object.assign({}, baseConfig, {
 
   plugins: [
     ...baseConfig.plugins,
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+      chunkFilename: '[name].[contenthash].css',
+    }),
     new UglifyJsPlugin({
       sourceMap: areSourcemapsEnabled,
       uglifyOptions: {

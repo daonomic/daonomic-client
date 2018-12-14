@@ -11,7 +11,7 @@
     "start": "cross-env NODE_ENV=development ENVIRONMENT=development ENABLE_SOURCEMAPS=true webpack-dev-server",
     "storybook": "cross-env NODE_ENV=development start-storybook -p 9001",
     "prebuild": "rm -rf ./build && mkdir ./build",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "cross-env NODE_ENV=production webpack --progress",
     "test": "npm-run-all --parallel test:*",
     "test:lint": "eslint source webpack",
     "test:types": "flow",
