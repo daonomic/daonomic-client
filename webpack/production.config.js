@@ -3,23 +3,22 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 const baseConfig = require('./base.config');
 const {
+  paths,
   themeImportDeclaration,
-  sourceDir,
-  buildDir,
   release,
   areSourcemapsEnabled,
-  sentryConfigFilePath,
+  uploadSourceMapsToSentry,
 } = require('../config');
 const theme = require('../theme.js');
 
 const sourceMapsPlugins = [];
 
-if (areSourcemapsEnabled) {
+if (areSourcemapsEnabled && uploadSourceMapsToSentry) {
   sourceMapsPlugins.push(
     new SentryCliPlugin({
-      include: buildDir,
+      include: paths.buildDir,
       release,
-      configFile: sentryConfigFilePath,
+      configFile: paths.sentryConfigFile,
     }),
   );
 }
@@ -33,7 +32,7 @@ module.exports = Object.assign({}, baseConfig, {
     ...baseConfig.plugins,
     new MiniCssExtractPlugin(),
     new UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: areSourcemapsEnabled,
       uglifyOptions: {
         output: {
           comments: false,
@@ -48,7 +47,7 @@ module.exports = Object.assign({}, baseConfig, {
       ...baseConfig.module.rules,
       {
         test: /\.css$/,
-        include: [sourceDir, /daonomic\/ui/],
+        include: [paths.sourceDir, /daonomic\/ui/],
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -68,7 +67,7 @@ module.exports = Object.assign({}, baseConfig, {
       },
       {
         test: /\.less$/,
-        exclude: [sourceDir, /daonomic\/ui/],
+        exclude: [paths.sourceDir, /daonomic\/ui/],
         use: [
           MiniCssExtractPlugin.loader,
           {

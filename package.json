@@ -8,7 +8,7 @@
     "npm": "^5.5.1"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=development ENVIRONMENT=development DEBUG_ENABLED=true webpack-dev-server",
+    "start": "cross-env NODE_ENV=development ENVIRONMENT=development ENABLE_SOURCEMAPS=true webpack-dev-server",
     "storybook": "cross-env NODE_ENV=development start-storybook -p 9001",
     "prebuild": "rm -rf ./build && mkdir ./build",
     "build": "cross-env NODE_ENV=production webpack",
@@ -16,6 +16,8 @@
     "test:lint": "eslint source webpack",
     "test:types": "flow",
     "test:unit": "jest --silent",
+    "pretest:e2e": "cross-env ENVIRONMENT=development E2E_TEST=true npm run build",
+    "test:e2e": "node ./cypress/index.js",
     "ensure-git-credentials": "git config --local user.name \"Dev\" && git config --local user.email \"dev@0v1se.com\"",
     "postinstall": "npm run ensure-git-credentials",
     "precommit": "npm run ensure-git-credentials && lint-staged && npm run test:lint && npm run test:unit && npm run test:types",
@@ -64,7 +66,6 @@
     "git-rev-sync": "1.12.0",
     "html-webpack-plugin": "3.2.0",
     "husky": "0.14.3",
-    "if-env": "1.0.4",
     "jest": "23.6.0",
     "jest-junit": "5.2.0",
     "less": "3.8.1",

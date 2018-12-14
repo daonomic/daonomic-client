@@ -2,12 +2,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
+  paths,
   api,
-  sourceDir,
-  buildDir,
-  e2eTestsDir,
   nodeEnv,
-  isDebugEnabled,
+  areSourcemapsEnabled,
   isAnalyzeModeEnabled,
   e2eTest,
 } = require('../config');
@@ -18,7 +16,7 @@ console.log(
   {
     api,
     nodeEnv,
-    isDebugEnabled,
+    areSourcemapsEnabled,
     e2eTest,
   },
   '\n',
@@ -27,12 +25,12 @@ console.log(
 const config = {
   entry: [
     'regenerator-runtime/runtime',
-    `${sourceDir}/index.js`,
+    `${paths.sourceDir}/index.js`,
     '@daonomic/ui/lib/global.css',
-  ].concat(e2eTest ? `${e2eTestsDir}/support/web3-mock/inject` : []),
+  ].concat(e2eTest ? `${paths.e2eTestsDir}/support/web3-mock/inject` : []),
 
   output: {
-    path: buildDir,
+    path: paths.buildDir,
     publicPath: '/',
     filename: 'app.js',
   },
@@ -40,7 +38,7 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
     alias: {
-      '~': sourceDir,
+      '~': paths.sourceDir,
     },
   },
 
@@ -48,7 +46,7 @@ const config = {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [sourceDir, /@daonomic\/ui/],
+        include: [paths.sourceDir, /@daonomic\/ui/],
         use: 'babel-loader',
       },
       {
@@ -93,7 +91,7 @@ const config = {
       'process.env.E2E_TEST': JSON.stringify(e2eTest),
     }),
     new HtmlWebpackPlugin({
-      template: `${sourceDir}/index.html`,
+      template: `${paths.sourceDir}/index.html`,
       hash: true,
       minify: {
         collapseWhitespace: true,
@@ -111,7 +109,7 @@ if (isAnalyzeModeEnabled) {
   config.plugins = [...config.plugins, new BundleAnalyzerPlugin()];
 }
 
-if (isDebugEnabled) {
+if (areSourcemapsEnabled) {
   config.devtool = 'source-map';
 }
 

@@ -1,11 +1,6 @@
 const webpack = require('webpack');
 const baseConfig = require('./base.config');
-const {
-  devServerPort,
-  sourceDir,
-  assetsDir,
-  themeImportDeclaration,
-} = require('../config');
+const { devServerPort, paths, themeImportDeclaration } = require('../config');
 const theme = require('../theme.js');
 
 module.exports = Object.assign({}, baseConfig, {
@@ -25,7 +20,7 @@ module.exports = Object.assign({}, baseConfig, {
       ...baseConfig.module.rules,
       {
         test: /\.css$/,
-        include: [sourceDir, /daonomic\/ui/],
+        include: [paths.sourceDir, /daonomic\/ui/],
         use: [
           'style-loader',
           {
@@ -45,7 +40,7 @@ module.exports = Object.assign({}, baseConfig, {
       },
       {
         test: /\.less$/,
-        exclude: [sourceDir, /daonomic\/ui/],
+        exclude: [paths.sourceDir, /daonomic\/ui/],
         use: [
           'style-loader',
           {
@@ -72,6 +67,6 @@ module.exports = Object.assign({}, baseConfig, {
     port: devServerPort,
     historyApiFallback: true,
     hot: true,
-    contentBase: assetsDir,
+    contentBase: paths.assetsDir,
   },
 });

@@ -24,13 +24,13 @@ npm run build
 
 Build options are specified using environment variables:
 
-- `DEBUG_ENABLED=true` enables sourcemaps for debugging
+- `ENABLE_SOURCEMAPS=true` enables sourcemaps for debugging
 - `ENVIRONMENT` (`production` by default, may be `staging` or `development`) specifies in which environment the app will be used
 
 Example usage:
 
 ```
-DEBUG_ENABLED=true ENVIRONMENT=staging npm run build
+ENABLE_SOURCEMAPS=true ENVIRONMENT=staging npm run build
 ```
 
 ## i18n
@@ -63,27 +63,10 @@ npm run test:unit
 npm run test:e2e
 ```
 
-#### Running a specific test sute
+Run in development mode:
 
 ```bash
-npm run test:e2e -- --suite happyPath
+E2E_TEST=true ENVIRONMENT=development npm run build
+serve build -s
+npx cypress open
 ```
-
-Test suites are defined in `suites` option of `wdio.config.js`.
-
-#### Debugging
-
-Run tests on local development server:
-
-```bash
-E2E_TEST=true npm start # start dev server in E2E mode
-E2E_MODE=development npm run test:e2e
-```
-
-Run tests for production but with visible browser window (disable headless mode):
-
-```bash
-DEBUG_ENABLED=true npm run test:e2e
-```
-
-If you want to add a breakpoint, just add `await browser.debug();` at the desired point of a test file.
