@@ -1,9 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Panel } from '@daonomic/ui';
-import formatNumber from '~/domains/app/i18n/format-number';
 import styles from './balance.css';
-import { getTranslation } from '~/domains/app/i18n';
+import { getTranslation, formatNumber } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 export type Props = {|

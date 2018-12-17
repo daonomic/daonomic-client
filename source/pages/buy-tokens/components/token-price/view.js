@@ -1,9 +1,8 @@
 // @flow
 import * as React from 'react';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
-import formatNumber from '~/domains/app/i18n/format-number';
 import styles from './token-price.css';
-import { getTranslation } from '~/domains/app/i18n';
+import { getTranslation, formatNumber } from '~/domains/app/i18n';
 
 export type Props = {|
   tokenSymbol: string,

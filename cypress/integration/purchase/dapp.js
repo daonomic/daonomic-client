@@ -3,8 +3,6 @@ import { balance } from '../../objects/balance';
 import wallet from '../../support/web3-mock/wallet';
 
 describe('Immediate tokens purchase with Web3', () => {
-  beforeEach(() => {});
-
   afterEach(() => {
     cy.logout();
   });

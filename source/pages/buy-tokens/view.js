@@ -8,8 +8,8 @@ import PaymentMethod from './components/payment-method';
 import TokenPrice from './components/token-price';
 import Balance from './components/balance';
 import { ReferralProgram } from './components/referral-program';
+import { SalePeriodGuard } from './components/sale-period-guard';
 import styles from './buy-tokens.css';
-import formatDate from '~/domains/app/i18n/format-date';
 import { getTranslation } from '~/domains/app/i18n';
 
 export type Props = {|
@@ -29,18 +29,6 @@ export default class BuyTokensPageView extends React.Component<Props> {
     this.props.onMount();
   }
 
-  renderPaymentMethod = () => {
-    if (!this.props.isAllowedToPay) {
-      return null;
-    }
-
-    if (!this.props.sale.isStarted) {
-      return this.renderNotStartedSalePanel();
-    }
-
-    return <PaymentMethod />;
-  };
-
   renderPreloader = () => (
     <Panel>
       <Heading tagName="h1" className={styles.placeholder} size="large">
@@ -50,50 +38,25 @@ export default class BuyTokensPageView extends React.Component<Props> {
     </Panel>
   );
 
-  renderNotStartedSalePanel = () => {
-    const { startTimestamp } = this.props.sale;
-
-    if (!startTimestamp) {
-      return null;
-    }
-
-    return (
-      <Panel>
-        <Heading tagName="h1" className={styles.placeholder} size="normal">
-          {getTranslation('widgets:saleStarts', {
-            date: formatDate(new Date(startTimestamp)),
-          })}
-        </Heading>
-      </Panel>
-    );
-  };
-
-  renderFinishedSaleContent = () => (
-    <Panel>
-      <Heading tagName="h1" className={styles.placeholder} size="normal">
-        {getTranslation('widgets:saleFinished')}
-      </Heading>
-    </Panel>
-  );
-
   renderContent = () => {
     const { isLoaded } = this.props;
-    const { isFinished } = this.props.sale;
 
     if (!isLoaded) {
       return this.renderPreloader();
     }
 
-    if (!isFinished) {
-      return (
-        <React.Fragment>
-          <Kyc />
-          {this.renderPaymentMethod()}
-        </React.Fragment>
-      );
-    }
-
-    return this.renderFinishedSaleContent();
+    return (
+      <React.Fragment>
+        <Kyc />
+        {this.props.isAllowedToPay && (
+          <SalePeriodGuard
+            startTimestamp={this.props.sale.startTimestamp}
+            endTimestamp={this.props.sale.endTimestamp}
+            renderContent={() => <PaymentMethod />}
+          />
+        )}
+      </React.Fragment>
+    );
   };
 
   render() {

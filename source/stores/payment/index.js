@@ -110,7 +110,7 @@ export class PaymentStore {
         this.kyc.state.data.status === 'ALLOWED' &&
         this.state.selectedMethodId,
       () => {
-        this.handleChangeKycOrSelectedMethodId();
+        this.loadCurrentMethod();
       },
     );
 
@@ -181,7 +181,7 @@ export class PaymentStore {
   };
 
   @action
-  handleChangeKycOrSelectedMethodId = async () => {
+  loadCurrentMethod = async () => {
     if (!this.selectedMethod) {
       return;
     }

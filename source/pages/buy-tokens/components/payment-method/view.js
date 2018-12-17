@@ -15,10 +15,15 @@ import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
   selectedPaymentMethod: ?PaymentMethodTypes.Data,
+  onMount(): mixed,
 |};
 
 export default class PaymentMethodView extends React.Component<Props> {
   marker = getMarker('payment-method');
+
+  componentDidMount() {
+    this.props.onMount();
+  }
 
   render() {
     return (

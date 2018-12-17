@@ -6,12 +6,15 @@ const theme = require('../theme.js');
 module.exports = Object.assign({}, baseConfig, {
   mode: 'development',
 
-  entry: [
-    `webpack-dev-server/client?http://localhost:${devServerPort}`,
-    'webpack/hot/only-dev-server',
-
+  entry: {
     ...baseConfig.entry,
-  ],
+    index: [
+      `webpack-dev-server/client?http://localhost:${devServerPort}`,
+      'webpack/hot/only-dev-server',
+
+      ...baseConfig.entry.index,
+    ],
+  },
 
   plugins: [...baseConfig.plugins, new webpack.HotModuleReplacementPlugin()],
 

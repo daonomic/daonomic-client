@@ -1,0 +1,13 @@
+.placeholder {
+  padding-top: 120px;
+  padding-bottom: 120px;
+  text-align: center;
+}
+
+.paragraph {
+  margin: 0;
+}
+
+.paragraph:not(:last-child) {
+  margin-bottom: 1em;
+}

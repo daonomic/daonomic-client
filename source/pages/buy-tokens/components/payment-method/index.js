@@ -8,5 +8,6 @@ import type { Props } from './view';
 export default inject(
   ({ payment }: { payment: PaymentStore }): Props => ({
     selectedPaymentMethod: payment.selectedMethod,
+    onMount: payment.loadCurrentMethod,
   }),
 )(observer(PaymentMethodView));

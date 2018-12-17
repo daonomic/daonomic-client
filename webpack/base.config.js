@@ -34,8 +34,8 @@ const config = {
   output: {
     path: paths.buildDir,
     publicPath: '/',
-    filename: '[name].[contenthash].js',
-    chunkFilename: '[name].[contenthash].chunk.js',
+    filename: '[name].[hash].js',
+    chunkFilename: '[name].[hash].chunk.js',
   },
 
   resolve: {

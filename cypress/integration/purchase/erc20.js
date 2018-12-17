@@ -3,8 +3,6 @@ import { paymentMethod } from '../../objects/payment-method';
 import wallet from '../../support/web3-mock/wallet';
 
 describe('Tokens purchase via ERC20', () => {
-  beforeEach(() => {});
-
   afterEach(() => {
     cy.logout();
   });
