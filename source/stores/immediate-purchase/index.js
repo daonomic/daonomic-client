@@ -1,12 +1,11 @@
 // @flow
 import raven from 'raven-js';
+import Web3 from 'web3';
 import { observable, runInAction } from 'mobx';
 import { userData } from '~/modules/user-data/store';
+import { web3Service } from '~/domains/business/web3/service';
 
 import type { IApi } from '~/domains/app/api/types';
-import type { IWeb3 } from '~/types/web3';
-
-type GetWeb3Instance = () => Promise<IWeb3>;
 
 function getUserAddress() {
   return userData.model.address || '';
@@ -14,7 +13,6 @@ function getUserAddress() {
 
 export class ImmediatePurchaseStore {
   api: IApi;
-  getWeb3Instance: GetWeb3Instance;
 
   @observable
   isAvailable = false;
@@ -22,9 +20,8 @@ export class ImmediatePurchaseStore {
   @observable
   saleContractAddress: ?string = null;
 
-  constructor(options: { api: IApi, getWeb3Instance: GetWeb3Instance }) {
+  constructor(options: { api: IApi }) {
     this.api = options.api;
-    this.getWeb3Instance = options.getWeb3Instance;
     this.loadSaleContractAddress();
   }
 
@@ -37,9 +34,13 @@ export class ImmediatePurchaseStore {
   };
 
   checkAvailability = async (): Promise<{ isAvailable: boolean }> => {
+    if (!web3Service) {
+      return { isAvailable: false };
+    }
+
     try {
-      const web3 = await this.getWeb3Instance();
-      const isAvailable = web3.eth.defaultAccount !== '';
+      const userWalletAddress = web3Service.getWalletAddress();
+      const isAvailable = userWalletAddress !== '';
 
       runInAction(() => {
         this.isAvailable = isAvailable;
@@ -62,16 +63,18 @@ export class ImmediatePurchaseStore {
   };
 
   buyTokens = async ({ costInEthers }: { costInEthers: number }) => {
-    try {
-      const web3 = await this.getWeb3Instance();
+    if (!web3Service) {
+      throw new Error('No web3Service');
+    }
 
+    try {
       if (!this.saleContractAddress) {
         throw new Error(
           'Cannot buy tokens because sale contract address is unknown',
         );
       }
 
-      const contract = new web3.eth.Contract(
+      const contract = web3Service.createContract(
         [
           {
             constant: false,
@@ -90,12 +93,13 @@ export class ImmediatePurchaseStore {
         ],
         this.saleContractAddress,
       );
+      const userWalletAddress = await web3Service.getWalletAddress();
 
       const userAddress = getUserAddress();
 
       await contract.methods.buyTokens(getUserAddress()).send({
-        from: web3.eth.defaultAccount || userAddress,
-        value: web3.utils.toWei(String(costInEthers)),
+        from: userWalletAddress || userAddress,
+        value: Web3.utils.toWei(String(costInEthers)),
       });
     } catch (error) {
       console.error(error); // eslint-disable-line no-console
@@ -103,9 +107,6 @@ export class ImmediatePurchaseStore {
   };
 }
 
-export function immediatePurchaseProvider(
-  api: IApi,
-  getWeb3Instance: GetWeb3Instance,
-) {
-  return new ImmediatePurchaseStore({ api, getWeb3Instance });
+export function immediatePurchaseProvider(api: IApi) {
+  return new ImmediatePurchaseStore({ api });
 }

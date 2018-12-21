@@ -1,16 +1,20 @@
 // @flow
 import { path } from 'ramda';
 import { api } from '~/domains/app/api';
-import { getWeb3Instance } from '~/services/web3/provider';
+import { web3Service } from '~/domains/business/web3/service';
 import { userData } from '~/modules/user-data/store';
 
 import type { Address, UserData } from '~/modules/user-data/types';
 
 export async function getProspectiveUserAddress(): Promise<?Address> {
-  try {
-    const web3 = await getWeb3Instance();
+  if (!web3Service) {
+    return;
+  }
 
-    return web3.eth.defaultAccount;
+  try {
+    const address = await web3Service.getWalletAddress();
+
+    return address;
   } catch (error) {
     return;
   }

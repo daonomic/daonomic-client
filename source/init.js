@@ -14,7 +14,6 @@ import { walletBalanceProvider } from '~/stores/wallet/balance';
 import { walletGeneratorProvider } from '~/stores/wallet-generator';
 import { immediatePurchaseProvider } from '~/stores/immediate-purchase';
 import { balanceUpdatingService } from '~/services/balance-updating';
-import { getWeb3Instance } from '~/services/web3/provider';
 import { userData } from '~/modules/user-data/store';
 import { kyc } from '~/modules/kyc/store';
 import { initKyc } from '~/modules/kyc/services';
@@ -32,7 +31,7 @@ export function init() {
     [paymentProvider, apiProvider, authProvider, config.saleId, kyc],
     [saleProvider, apiProvider, authProvider, config.saleId],
     [walletBalanceProvider, apiProvider],
-    [immediatePurchaseProvider, apiProvider, getWeb3Instance],
+    [immediatePurchaseProvider, apiProvider],
     [balanceUpdatingService, authProvider, kyc, walletBalanceProvider],
     [initKyc, authProvider],
     [initUserData, authProvider],

@@ -12,6 +12,7 @@
     "storybook": "cross-env NODE_ENV=development start-storybook -p 9001",
     "prebuild": "rm -rf ./build && mkdir ./build",
     "build": "cross-env NODE_ENV=production webpack --progress",
+    "build:analyze": "cross-env NODE_ENV=production ANALYZE=true npm run build",
     "test": "npm-run-all --parallel test:*",
     "test:lint": "eslint source webpack",
     "test:types": "flow",
@@ -22,7 +23,8 @@
     "postinstall": "npm run ensure-git-credentials",
     "precommit": "npm run ensure-git-credentials && lint-staged && npm run test:lint && npm run test:unit && npm run test:types",
     "format": "prettier --write \"./source/**/*.{js,css,json,md}\"",
-    "ci:build": "sh ci-build.sh"
+    "ci:test": "sh ./ci/test.sh",
+    "ci:build": "sh ./ci/build.sh"
   },
   "lint-staged": {
     "*.{js,json,md,css}": [
@@ -88,7 +90,7 @@
     "uglifyjs-webpack-plugin": "1.2.7",
     "url-loader": "1.1.2",
     "web3-provider-engine": "14.0.6",
-    "webpack": "4.28.1",
+    "webpack": "4.27.1",
     "webpack-append": "0.1.2",
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.1.2",

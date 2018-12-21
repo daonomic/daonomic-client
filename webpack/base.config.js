@@ -24,11 +24,14 @@ console.log(
 
 const config = {
   entry: {
-    index: [
+    index: (e2eTest
+      ? [`${paths.e2eTestsDir}/support/web3-mock/inject`]
+      : []
+    ).concat([
       'regenerator-runtime/runtime',
       `${paths.sourceDir}/index.js`,
       '@daonomic/ui/lib/global.css',
-    ].concat(e2eTest ? `${paths.e2eTestsDir}/support/web3-mock/inject` : []),
+    ]),
   },
 
   output: {

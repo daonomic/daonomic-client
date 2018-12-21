@@ -1,4 +1,4 @@
-npm install
+npm ci
 
 ENABLE_SOURCEMAPS=true \
  UPLOAD_SOURCEMAPS_TO_SENTRY=true \
