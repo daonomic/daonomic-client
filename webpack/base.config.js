@@ -110,6 +110,7 @@ const config = {
   },
 
   optimization: {
+    minimize: false,
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
