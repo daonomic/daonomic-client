@@ -74,36 +74,6 @@ describe('balance updating service', () => {
     when(() => walletBalance.isLoaded && balanceUpdatesCount === 3, done);
   });
 
-  test('should cancel loading and reset balance if kyc is not allowed anymore', async (done) => {
-    jest.useFakeTimers();
-
-    const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = new KycStore();
-    const walletBalance = walletBalanceProvider(api);
-
-    balanceUpdatingService(auth, kyc, walletBalance);
-    kyc.setState({
-      dataState: 'loaded',
-      data: { status: 'ALLOWED' },
-    });
-    let balanceUpdatesCount = 0;
-
-    reaction(
-      () => walletBalance.isLoaded,
-      (isLoaded) => {
-        if (isLoaded) {
-          balanceUpdatesCount += 1;
-          jest.runOnlyPendingTimers();
-        }
-      },
-    );
-
-    await when(() => walletBalance.isLoaded && balanceUpdatesCount === 3);
-    kyc.reset();
-    expect(balanceUpdatesCount).toBe(4);
-    done();
-  });
-
   test('should cancel loading and reset balance if user logs out', async (done) => {
     jest.useFakeTimers();
 

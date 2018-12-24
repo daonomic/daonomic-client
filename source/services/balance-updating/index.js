@@ -26,8 +26,10 @@ export function balanceUpdatingService(
         walletBalance.loadBalance();
       }, 3000);
     }
+  });
 
-    if (!isKycAllowed || !auth.isAuthenticated) {
+  autorun(() => {
+    if (!auth.isAuthenticated) {
       walletBalance.state.reset();
     }
   });

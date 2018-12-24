@@ -16,8 +16,9 @@ export type Props = {|
   applicationId: string,
 |};
 
+export
 @observer
-export class CivicKycForm extends React.Component<Props> {
+class CivicKycForm extends React.Component<Props> {
   @observable
   civicSip = fromPromise(
     initCivicSip({ applicationId: this.props.applicationId }),

@@ -1,23 +1,16 @@
 {
   "presets": [
-    "flow",
+    "@babel/preset-flow",
     [
-      "env",
+      "@babel/preset-env",
       {
-        "modules": false,
-        "targets": {
-          "browsers": [
-            "last 2 versions",
-            "ChromeAndroid >= 30",
-            "Android >= 4",
-            "iOS >= 8"
-          ]
-        }
+        "modules": false
       }
     ],
-    "react"
+    "@babel/preset-react"
   ],
   "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
     [
       "import",
       {
@@ -25,23 +18,29 @@
         "style": true
       }
     ],
-    "transform-decorators-legacy",
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "syntax-dynamic-import",
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
     "react-hot-loader/babel"
   ],
   "env": {
     "test": {
       "presets": [
-        ["env", { "targets": { "node": "current" } }],
-        "flow",
-        "react"
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ],
+        "@babel/preset-flow",
+        "@babel/preset-react"
       ],
       "plugins": [
-        "transform-decorators-legacy",
-        "transform-class-properties",
-        "transform-object-rest-spread",
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        ["@babel/plugin-proposal-class-properties", { "loose": true }],
+        "@babel/plugin-proposal-object-rest-spread",
         [
           "css-modules-transform",
           {
