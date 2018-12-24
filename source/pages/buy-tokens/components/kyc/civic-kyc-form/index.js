@@ -16,61 +16,61 @@ export type Props = {|
   applicationId: string,
 |};
 
-export
-@observer
-class CivicKycForm extends React.Component<Props> {
-  @observable
-  civicSip = fromPromise(
-    initCivicSip({ applicationId: this.props.applicationId }),
-  );
-
-  constructor(...args: any[]) {
-    super(...args);
-
-    when(
-      () => this.civicSip.state === 'fulfilled',
-      (): void => {
-        this.civicSip.value.on(
-          'auth-code-received',
-          this.handleReceiveAuthCode,
-        );
-      },
+export const CivicKycForm = observer(
+  class extends React.Component<Props> {
+    @observable
+    civicSip = fromPromise(
+      initCivicSip({ applicationId: this.props.applicationId }),
     );
-  }
 
-  handleReceiveAuthCode = async (event: any) => {
-    const jwtToken = event.response;
+    constructor(...args: any[]) {
+      super(...args);
 
-    try {
-      raven.captureBreadcrumb({
-        message: 'Save Civic JWT token',
-      });
-      await axios.post(this.props.action, {
-        jwtToken,
-      });
-      await loadAndSetKycState();
-    } catch (error) {
-      raven.captureException(error);
-      message.error(getTranslation('common:somethingWentWrongTryAgain'));
+      when(
+        () => this.civicSip.state === 'fulfilled',
+        (): void => {
+          this.civicSip.value.on(
+            'auth-code-received',
+            this.handleReceiveAuthCode,
+          );
+        },
+      );
     }
-  };
 
-  handleClickVerify = () => {
-    this.civicSip.value.signup({
-      style: 'popup',
-      scopeRequest: this.civicSip.value.ScopeRequests.BASIC_SIGNUP,
-    });
-  };
+    handleReceiveAuthCode = async (event: any) => {
+      const jwtToken = event.response;
 
-  render() {
-    return this.civicSip.case({
-      pending: () => `${getTranslation('common:loading')}...`,
-      fulfilled: () => (
-        <Button design="primary" onClick={this.handleClickVerify}>
-          {getTranslation('kyc:verifyIdentityWithCivic')}
-        </Button>
-      ),
-      rejected: () => getTranslation('common:somethingWentWrongTryAgain'),
-    });
-  }
-}
+      try {
+        raven.captureBreadcrumb({
+          message: 'Save Civic JWT token',
+        });
+        await axios.post(this.props.action, {
+          jwtToken,
+        });
+        await loadAndSetKycState();
+      } catch (error) {
+        raven.captureException(error);
+        message.error(getTranslation('common:somethingWentWrongTryAgain'));
+      }
+    };
+
+    handleClickVerify = () => {
+      this.civicSip.value.signup({
+        style: 'popup',
+        scopeRequest: this.civicSip.value.ScopeRequests.BASIC_SIGNUP,
+      });
+    };
+
+    render() {
+      return this.civicSip.case({
+        pending: () => `${getTranslation('common:loading')}...`,
+        fulfilled: () => (
+          <Button design="primary" onClick={this.handleClickVerify}>
+            {getTranslation('kyc:verifyIdentityWithCivic')}
+          </Button>
+        ),
+        rejected: () => getTranslation('common:somethingWentWrongTryAgain'),
+      });
+    }
+  },
+);
