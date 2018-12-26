@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { Link } from '~/components/link';
@@ -7,7 +9,6 @@ import { getMarker } from '~/utils/get-marker';
 import Layout from '../layout';
 import commonStyles from '../common.css';
 import { getRouteUrl } from '~/domains/app/router';
-import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 type Props = {|
@@ -72,7 +73,7 @@ export default class SignUp extends React.Component<Props> {
             required
             value={email}
             type="email"
-            label={getTranslation('auth:email')}
+            label={<Trans>Email</Trans>}
             onChange={onChangeEmail}
             disabled={isLoading}
           />
@@ -85,7 +86,7 @@ export default class SignUp extends React.Component<Props> {
             type="submit"
             disabled={isLoading}
           >
-            {getTranslation('auth:signUp')}
+            <Trans>Sign up</Trans>
           </Button>
         </div>
       </form>
@@ -105,7 +106,7 @@ export default class SignUp extends React.Component<Props> {
         design="muted"
         element="p"
       >
-        {getTranslation('auth:signUpSuccess')}
+        <Trans>Password has been sent to email</Trans>
       </Text>
     );
   };
@@ -115,7 +116,7 @@ export default class SignUp extends React.Component<Props> {
       <Layout>
         <Panel>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
-            {getTranslation('auth:signUp')}
+            <Trans id="auth.signUpHeading" />
           </Heading>
 
           {this.renderCommonError()}
@@ -130,12 +131,12 @@ export default class SignUp extends React.Component<Props> {
             element="p"
             className={styles.paragraph}
           >
-            {getTranslation('auth:alreadyHaveAccount')}{' '}
+            <Trans>Already have an account?</Trans>{' '}
             <Link
               data-marker={this.marker('sign-in-link')()}
               href={getRouteUrl('signIn')}
             >
-              {getTranslation('auth:logIn')}
+              <Trans>Log In</Trans>
               &nbsp;⟩
             </Link>
           </Text>

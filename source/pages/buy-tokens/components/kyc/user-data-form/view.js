@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Form, FieldHint, Button, Input } from '@daonomic/ui';
-import { getTranslation } from '~/domains/app/i18n';
 import { ExternalSelect } from '~/components/external-select';
 import { getMarker } from '~/utils/get-marker';
 import { baseApiUrl } from '~/domains/app/config/api';
@@ -58,8 +59,13 @@ export class UserDataForm extends React.Component<Props> {
       <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
         <Form.Field>
           <p>
-            {getTranslation('kyc:addressAnnotation')}{' '}
-            <strong>{getTranslation('kyc:addressWarning')}</strong>
+            <Trans>
+              In order to recieve tokens you need to give your Ethereum Wallet
+              Address.
+            </Trans>{' '}
+            <strong>
+              <Trans>Note: address could not be changed after approval!</Trans>
+            </strong>
           </p>
         </Form.Field>
 
@@ -70,12 +76,14 @@ export class UserDataForm extends React.Component<Props> {
             type="text"
             pattern={addressPattern}
             disabled={this.props.isDisabled}
-            label={getTranslation('kyc:yourEthereumWalletAddress')}
+            label={<Trans>Your Ethereum wallet address</Trans>}
             errors={this.props.errors.address}
             value={this.props.address}
             onChange={this.handleChangeAddress}
           />
-          <FieldHint>{getTranslation('kyc:addressFieldHint')}</FieldHint>
+          <FieldHint>
+            <Trans>Starts with 0x, then 40 characters</Trans>
+          </FieldHint>
         </Form.Field>
 
         <Form.Field>
@@ -85,11 +93,13 @@ export class UserDataForm extends React.Component<Props> {
             type="text"
             pattern={addressPattern}
             disabled={this.props.isDisabled}
-            label={getTranslation('kyc:yourEthereumWalletAddressConfirmation')}
+            label={<Trans>Your Ethereum wallet address confirmation</Trans>}
             value={this.props.confirmationAddress}
             onChange={this.handleChangeConfirmationAddress}
           />
-          <FieldHint>{getTranslation('kyc:addressConfirmationHint')}</FieldHint>
+          <FieldHint>
+            <Trans>Re-enter your address to make sure it is correct</Trans>
+          </FieldHint>
         </Form.Field>
 
         {this.props.countryRequired && (
@@ -98,8 +108,8 @@ export class UserDataForm extends React.Component<Props> {
               data-marker={this.marker('residency')()}
               required
               optionsUrl={`${baseApiUrl}/countries`}
-              label={getTranslation('kyc:yourResidency')}
-              placeholder={getTranslation('kyc:selectResidency')}
+              label={<Trans>Your residency</Trans>}
+              placeholder={<Trans>Select residency</Trans>}
               errors={this.props.errors.country}
               value={this.props.country}
               onChange={this.handleChangeCountry}
@@ -117,7 +127,7 @@ export class UserDataForm extends React.Component<Props> {
               this.props.isDisabled
             }
           >
-            {getTranslation('common:submit')}
+            <Trans>Submit</Trans>
           </Button>
         </Form.Field>
       </Form>

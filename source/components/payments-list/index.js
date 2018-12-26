@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
-import { getTranslation } from '~/domains/app/i18n';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import styles from './styles.css';
 import { getEtherscanTransactionUrl } from '~/modules/etherscan';
 
@@ -17,15 +18,15 @@ export class PaymentsList extends React.Component<Props> {
   renderPaymentStatus = (payment: Payment) => {
     switch (payment.status) {
       case 'COMPLETED': {
-        return 'finished';
+        return <Trans>finished</Trans>;
       }
 
       case 'ERROR': {
-        return 'error';
+        return <Trans>error</Trans>;
       }
 
       default: {
-        return 'pending';
+        return <Trans>pending</Trans>;
       }
     }
   };
@@ -70,9 +71,7 @@ export class PaymentsList extends React.Component<Props> {
             </p>
 
             <p className={styles.cell}>
-              {getTranslation(
-                `paymentsList:${this.renderPaymentStatus(payment)}`,
-              )}
+              {this.renderPaymentStatus(payment)}
               &nbsp;
               {this.renderEtherscanLink(payment)}
             </p>

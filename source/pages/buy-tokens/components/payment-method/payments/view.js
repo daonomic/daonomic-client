@@ -1,6 +1,7 @@
 //@flow
 import * as React from 'react';
-import { getTranslation } from '~/domains/app/i18n';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Heading } from '~/components/heading';
 import { PaymentsList } from '~/components/payments-list';
 import styles from './styles.css';
@@ -25,7 +26,7 @@ export class Payments extends React.Component<Props> {
     return (
       <React.Fragment>
         <Heading tagName="h3" size="small" className={styles.subtitle}>
-          {getTranslation('paymentMethods:transactions')}
+          <Trans>Transactions</Trans>
         </Heading>
 
         <PaymentsList

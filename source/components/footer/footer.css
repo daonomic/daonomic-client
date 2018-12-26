@@ -7,7 +7,7 @@
 
 .inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   padding-top: 20px;
@@ -25,4 +25,12 @@
 .link:focus {
   color: var(--theme-nav-link-hover);
   transition: none;
+}
+
+.list {
+  list-style: none;
+}
+
+.item:not(:last-child) {
+  padding-bottom: 0.25em;
 }

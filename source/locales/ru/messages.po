@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2018-12-25 12:13+0300\n"
+"Mime-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: source/components/json-schema-form/array-field-template/index.js:90
+msgid "Add"
+msgstr "Добавить"
+
+#: source/pages/buy-tokens/components/payment-method/instruction/view.js:24
+msgid "After your payment will be completed you will get tokens to the selected ethereum address:"
+msgstr "После завершения платежа токены будут зачислены на указанный Ethereum-адрес:"
+
+#: source/components/auth/create-new-password/index.js:147
+#: source/components/auth/signup/index.js:134
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:82
+msgid "Amount"
+msgstr "Количество"
+
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:51
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:62
+msgid "Buy"
+msgstr "Купить"
+
+#: source/components/header/index.js:59
+msgid "Buy tokens"
+msgstr "Покупка токенов"
+
+#: source/pages/faq/components/email-us/index.js:20
+msgid "Can’t find what are you looking for?"
+msgstr "Нужна помощь?"
+
+#: source/components/auth/create-new-password/index.js:93
+msgid "Confirm new password"
+msgstr "Подтверждение пароля"
+
+#: source/components/copy-to-clipboard/index.js:51
+msgid "Copied"
+msgstr "Скопировано"
+
+#: source/components/copy-to-clipboard/index.js:59
+msgid "Copy"
+msgstr "Скопировать"
+
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:96
+msgid "Cost"
+msgstr "Стоимость"
+
+#: source/components/auth/create-new-password/index.js:68
+#: source/components/auth/create-new-password/index.js:107
+#: source/components/auth/create-new-password/index.js:118
+msgid "Create new password"
+msgstr "Создание нового пароля"
+
+#: source/components/header/index.js:60
+msgid "Create wallet"
+msgstr "Создание кошелька"
+
+#: source/pages/buy-tokens/components/kyc/view.js:103
+msgid "Denial reason: {0}"
+msgstr "Причина отказа: {0}"
+
+#: source/components/auth/signin/index.js:128
+msgid "Don’t have an account?"
+msgstr "Ещё нет аккаунта?"
+
+#: source/components/auth/reset-password/index.js:75
+#: source/components/auth/signin/index.js:78
+#: source/components/auth/signup/index.js:76
+msgid "Email"
+msgstr "Эл. почта"
+
+#: source/pages/faq/components/email-us/index.js:22
+msgid "Email us"
+msgstr "Напишите нам"
+
+#: source/components/auth/reset-password/index.js:61
+msgid "Enter the email address you used when you joined and we’ll send you instructions to reset your password."
+msgstr "Введите использованный при регистрации адрес почты. Мы пришлём вам инструкцию по сбросу пароля."
+
+#: source/components/copy-to-clipboard/index.js:55
+msgid "Failed to copy"
+msgstr "Не удалось скопировать"
+
+#: source/components/external-select/index.js:67
+#: source/components/json-schema-form/external-select/index.js:76
+msgid "Failed to load options"
+msgstr "Не удалось загрузить опции"
+
+#: source/pages/buy-tokens/components/referral-program/view.js:20
+msgid "Failed to load referral link"
+msgstr "Не удалось загрузить реферальную ссылку"
+
+#: source/components/header/index.js:61
+msgid "For investors"
+msgstr "Инвесторам"
+
+#: source/components/auth/reset-password/index.js:57
+#: source/components/auth/signin/index.js:115
+msgid "Forgot password?"
+msgstr "Забыли пароль?"
+
+#: source/pages/faq/index.js:30
+msgid "Frequently asked questions"
+msgstr "Часто задаваемые вопросы"
+
+#: source/pages/buy-tokens/components/payment-method/select/view.js:35
+msgid "I want to pay with"
+msgstr "Способ оплаты"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:62
+msgid "In order to recieve tokens you need to give your Ethereum Wallet Address."
+msgstr "Чтобы получить токены, вы должны указать адрес своего кошелька Ethereum."
+
+#: source/components/auth/reset-password/index.js:104
+msgid "Instructions to reset your password have been sent to you. Please check your email."
+msgstr "Инструкции по сбросу пароля отправлены. Пожалуйста, проверьте почту."
+
+#: source/components/external-select/index.js:59
+#: source/components/json-schema-form/external-select/index.js:68
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
+#: source/pages/buy-tokens/components/payment-method/address/view.js:27
+#: source/pages/buy-tokens/components/referral-program/view.js:22
+#: source/pages/buy-tokens/view.js:36
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: source/components/auth/create-new-password/index.js:149
+#: source/components/auth/reset-password/index.js:133
+#: source/components/auth/signin/index.js:107
+#: source/components/auth/signup/index.js:139
+msgid "Log In"
+msgstr "Войти"
+
+#: source/components/header/index.js:107
+msgid "Log Out"
+msgstr "Выйти"
+
+#: source/components/auth/create-new-password/index.js:80
+msgid "New password"
+msgstr "Новый пароль"
+
+#: source/components/auth/create-new-password/index.js:122
+msgid "New password have been created"
+msgstr "Новый пароль создан"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:67
+msgid "Note: address could not be changed after approval!"
+msgstr "Внимание: после подтверждения изменить адрес будет нельзя!"
+
+#: source/components/auth/signin/index.js:92
+msgid "Password"
+msgstr "Пароль"
+
+#: source/components/auth/signup/index.js:109
+msgid "Password has been sent to email"
+msgstr "Пароль отправлен на эл. почту"
+
+#: source/pages/buy-tokens/components/payment-method/instruction/view.js:20
+msgid "Payment Instruction"
+msgstr "Инструкция по оплате"
+
+#: source/components/footer/index.js:42
+msgid "Powered by"
+msgstr "Работает на"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:101
+msgid "Re-enter your address to make sure it is correct"
+msgstr "Повторите ваш адрес, чтобы убедиться в его корректности"
+
+#: source/pages/buy-tokens/components/referral-program/view.js:56
+msgid "Referral link"
+msgstr "Реферальная ссылка"
+
+#: source/components/auth/reset-password/index.js:100
+msgid "Reset instructions sent"
+msgstr "Инструкция по сбросу пароля отправлена"
+
+#: source/pages/buy-tokens/components/sale-period-guard/index.js:89
+msgid "Sale is finished!"
+msgstr "Распродажа окончена!"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:112
+msgid "Select residency"
+msgstr "Гражданство"
+
+#: source/pages/buy-tokens/components/payment-method/address/view.js:40
+msgid "Send funds to this {0} address:"
+msgstr "Оплачивайте на этот адрес {0}"
+
+#: source/components/auth/reset-password/index.js:89
+msgid "Send reset instructions"
+msgstr "Отправить инструкцию"
+
+#: source/components/auth/signin/index.js:133
+#: source/components/auth/signup/index.js:89
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
+msgid "Something went wrong"
+msgstr "Что-то пошло не так"
+
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:59
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:78
+msgid "Something went wrong, please try again"
+msgstr "Что-то пошло не так. Попробуйте снова"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:85
+msgid "Starts with 0x, then 40 characters"
+msgstr "Начинается с 0x, затем 40 символов"
+
+#: source/pages/buy-tokens/components/payment-method/view.js:33
+msgid "Step 2: Buy tokens"
+msgstr "Шаг 2: покупка токенов"
+
+#: source/components/json-schema-form/index.js:61
+#: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:90
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:130
+msgid "Submit"
+msgstr "Отправить"
+
+#: source/components/footer/index.js:28
+msgid "Terms of Service"
+msgstr "Правила пользования"
+
+#: source/pages/buy-tokens/components/token-price/view.js:56
+msgid "Token price"
+msgstr "Стоимость токена"
+
+#: source/pages/buy-tokens/components/sale-period-guard/index.js:46
+msgid "Token sale starts in {days, plural, one {1 day} other {# days}} {hours, plural, one {1 hour} other {# hours}} {minutes, plural, one {1 minute} other {# minutes}} {seconds, plural, one {1 second} other {# seconds}}"
+msgstr "Распродажа начнётся через {days, plural, one {1 день} few {# дня} many {# дней} other {# дней}} {hours, plural, one {1 час} few {# часа} many {# часов} other {# часов}} {minutes, plural, one {1 минуту} few {# минуты} many {# минут} other {# минут}} {seconds, plural, one {1 секунду} few {# секунды} many {# секунд} other {# секунд}}"
+
+#: source/pages/buy-tokens/components/token-price/view.js:33
+msgid "Tokens sold"
+msgstr "Продано"
+
+#: source/pages/buy-tokens/components/payment-method/payments/view.js:29
+msgid "Transactions"
+msgstr "Транзакции"
+
+#: source/pages/buy-tokens/components/kyc/view.js:28
+msgid "Verify Your Identity"
+msgstr "Подтверждение личности"
+
+#: source/pages/buy-tokens/components/kyc/view.js:55
+msgid "Verify identity"
+msgstr "Подтвердить"
+
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:75
+msgid "Verify identity with Civic"
+msgstr "Подтвердить личность через Civic"
+
+#: source/pages/buy-tokens/components/kyc/view.js:145
+msgid "Waiting for review"
+msgstr "На проверке"
+
+#: source/pages/buy-tokens/components/kyc/view.js:42
+msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
+msgstr "Нам нужно "
+
+#: source/pages/buy-tokens/components/kyc/view.js:82
+msgid "Your Ethereum wallet"
+msgstr "Кошелёк Ethereum"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
+#: source/pages/buy-tokens/components/kyc/view.js:154
+#: source/pages/buy-tokens/components/kyc/view.js:167
+msgid "Your Ethereum wallet address"
+msgstr "Адрес кошелька Ethereum"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:96
+msgid "Your Ethereum wallet address confirmation"
+msgstr "Подтверждение адреса кошелька Ethereum"
+
+#: source/pages/buy-tokens/components/kyc/view.js:148
+msgid "Your data is being reviewed. Please, wait for approval."
+msgstr "Ваши данные на проверке. Пожалуйста, ожидайте."
+
+#: source/pages/buy-tokens/components/kyc/view.js:99
+msgid "Your data was denied. Please, fix and resubmit your data."
+msgstr "Ваши данные были отклонены. Пожалуйста, исправьте их и отправьте ещё раз"
+
+#: source/pages/buy-tokens/components/kyc/user-data-form/view.js:111
+msgid "Your residency"
+msgstr "Гражданство"
+
+#: source/pages/buy-tokens/components/balance/view.js:22
+msgid "Your wallet balance"
+msgstr "Баланс кошелька"
+
+#: source/components/auth/signin/index.js:68
+msgid "auth.loginHeading"
+msgstr "Вход"
+
+#: source/components/auth/signup/index.js:119
+msgid "auth.signUpHeading"
+msgstr "Регистрация"
+
+#: source/components/payments-list/index.js:25
+msgid "error"
+msgstr "ошибка"
+
+#: source/components/payments-list/index.js:21
+msgid "finished"
+msgstr "завершено"
+
+#: source/components/payments-list/index.js:29
+msgid "pending"
+msgstr "на ожидании"

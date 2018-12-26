@@ -1,9 +1,10 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import { Input, Panel, Badge } from '@daonomic/ui';
-import { Heading } from '~/components/heading';
-import { getTranslation } from '~/domains/app/i18n';
+import { Title } from './title';
 import { getMarker } from '~/utils/get-marker';
 import { UserDataForm } from './user-data-form';
 import { ExtendedKycForm } from './extended-kyc-form';
@@ -22,10 +23,10 @@ export type Props = {|
 export default class KycView extends React.Component<Props> {
   exteralKycMarker = getMarker('external-kyc');
 
-  renderTitle = (translationKey: string) => (
-    <Heading className={styles.title} tagName="h2" size="normal">
-      {getTranslation(translationKey)}
-    </Heading>
+  renderVerifyIdentityTitle = () => (
+    <Title>
+      <Trans>Verify Your Identity</Trans>
+    </Title>
   );
 
   renderForm = (kycData: KycTypes.State) => {
@@ -37,7 +38,13 @@ export default class KycView extends React.Component<Props> {
       case 'EXTERNAL_KYC': {
         return (
           <React.Fragment>
-            <p>{getTranslation('kyc:externalAnnotation')}</p>
+            <p>
+              <Trans>
+                We need to verify your identity before you get access to token
+                sale. Please click the link below and fill the opened form. Your
+                data will be reviewed and then approved or denied.
+              </Trans>
+            </p>
             <p>
               <a
                 data-marker={this.exteralKycMarker('link')()}
@@ -45,7 +52,7 @@ export default class KycView extends React.Component<Props> {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {getTranslation('kyc:verifyIdentity')}
+                <Trans>Verify identity</Trans>
               </a>
             </p>
           </React.Fragment>
@@ -71,7 +78,10 @@ export default class KycView extends React.Component<Props> {
       case 'NOT_SET': {
         return (
           <Panel>
-            {this.renderTitle('kyc:userDataTitle')}
+            <Title>
+              <Trans>Your Ethereum wallet</Trans>
+            </Title>
+
             <UserDataForm
               countryRequired={kycData.countryRequired}
               onSubmit={this.props.onSubmitUserData}
@@ -83,15 +93,14 @@ export default class KycView extends React.Component<Props> {
       case 'DENIED': {
         return (
           <Panel>
-            {this.renderTitle('kyc:verifyYourIdentity')}
+            {this.renderVerifyIdentityTitle()}
 
             <p className={cn(styles.paragraph, styles.red)}>
-              {getTranslation('kyc:denied')}
+              <Trans>
+                Your data was denied. Please, fix and resubmit your data.
+              </Trans>
               <br />
-              {kycData.reason &&
-                getTranslation('kyc:denialReason', {
-                  reason: kycData.reason,
-                })}
+              {kycData.reason && <Trans>Denial reason: {kycData.reason}</Trans>}
             </p>
 
             {this.renderForm(kycData.childStatus)}
@@ -102,7 +111,7 @@ export default class KycView extends React.Component<Props> {
       case 'INTERNAL_KYC': {
         return (
           <Panel>
-            {this.renderTitle('kyc:verifyYourIdentity')}
+            {this.renderVerifyIdentityTitle()}
             {this.renderForm(kycData)}
           </Panel>
         );
@@ -111,7 +120,7 @@ export default class KycView extends React.Component<Props> {
       case 'EXTERNAL_KYC': {
         return (
           <Panel data-marker={this.exteralKycMarker()}>
-            {this.renderTitle('kyc:verifyYourIdentity')}
+            {this.renderVerifyIdentityTitle()}
             {this.renderForm(kycData)}
           </Panel>
         );
@@ -120,7 +129,7 @@ export default class KycView extends React.Component<Props> {
       case 'CIVIC_KYC': {
         return (
           <Panel>
-            {this.renderTitle('kyc:verifyYourIdentity')}
+            {this.renderVerifyIdentityTitle()}
             <CivicKycForm
               action={kycData.url}
               applicationId={kycData.applicationId}
@@ -133,14 +142,16 @@ export default class KycView extends React.Component<Props> {
         return (
           <Panel>
             <Badge color="danger">
-              {getTranslation('kyc:waitingForReview')}
+              <Trans>Waiting for review</Trans>
             </Badge>
             <p data-marker="kyc-review-annotation" className={styles.paragraph}>
-              {getTranslation('kyc:onReview')}
+              <Trans>
+                Your data is being reviewed. Please, wait for approval.
+              </Trans>
             </p>
             <Input
               disabled
-              label={getTranslation('kyc:yourEthereumWalletAddress')}
+              label={<Trans>Your Ethereum wallet address</Trans>}
               value={this.props.userWalletAddress}
               onChange={() => {}}
             />
@@ -153,7 +164,7 @@ export default class KycView extends React.Component<Props> {
           <Panel>
             <Input
               disabled
-              label={getTranslation('kyc:yourEthereumWalletAddress')}
+              label={<Trans>Your Ethereum wallet address</Trans>}
               value={this.props.userWalletAddress}
               onChange={() => {}}
             />

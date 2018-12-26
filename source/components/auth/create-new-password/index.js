@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { Link } from '~/components/link';
@@ -7,7 +9,6 @@ import Layout from '../layout';
 import { getMarker } from '~/utils/get-marker';
 import commonStyles from '../common.css';
 import { getRouteUrl } from '~/domains/app/router';
-import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 type Props = {|
@@ -64,7 +65,7 @@ export default class CreateNewPassword extends React.Component<Props> {
       <Panel>
         <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
-            {getTranslation('auth:createNewPasswordTitle')}
+            <Trans>Create new password</Trans>
           </Heading>
 
           {this.renderCommonError()}
@@ -76,7 +77,7 @@ export default class CreateNewPassword extends React.Component<Props> {
               value={password}
               type="password"
               autoComplete="new-password"
-              label={getTranslation('auth:newPassword')}
+              label={<Trans>New password</Trans>}
               errors={errors.password}
               onChange={onChangePassword}
               disabled={isSaving}
@@ -89,7 +90,7 @@ export default class CreateNewPassword extends React.Component<Props> {
               required
               value={confirmedPassword}
               type="password"
-              label={getTranslation('auth:confirmNewPassword')}
+              label={<Trans>Confirm new password</Trans>}
               errors={errors.confirmedPassword}
               onChange={onChangeConfirmedPassword}
               disabled={isSaving}
@@ -103,7 +104,7 @@ export default class CreateNewPassword extends React.Component<Props> {
               type="submit"
               disabled={isSaving}
             >
-              {getTranslation('auth:submitNewPassword')}
+              <Trans>Create new password</Trans>
             </Button>
           </div>
         </form>
@@ -114,11 +115,11 @@ export default class CreateNewPassword extends React.Component<Props> {
   renderSuccessMessage = () => (
     <Panel data-marker={this.marker('success-message')()}>
       <Heading size="large" tagName="h1" className={commonStyles.title}>
-        {getTranslation('auth:createNewPasswordTitle')}
+        <Trans>Create new password</Trans>
       </Heading>
 
       <Text design="muted" element="p">
-        {getTranslation('auth:successfulNewPasswordCreation')}
+        <Trans>New password have been created</Trans>
       </Text>
     </Panel>
   );
@@ -143,9 +144,9 @@ export default class CreateNewPassword extends React.Component<Props> {
             align="center"
             className={styles.paragraph}
           >
-            {getTranslation('auth:alreadyHaveAccount')}{' '}
+            <Trans>Already have an account?</Trans>{' '}
             <Link href={getRouteUrl('signIn')}>
-              {getTranslation('auth:logIn')}
+              <Trans>Log In</Trans>
               &nbsp;⟩
             </Link>
           </Text>

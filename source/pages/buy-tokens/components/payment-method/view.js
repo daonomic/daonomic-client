@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
-import { getTranslation } from '~/domains/app/i18n';
 import ExchangeForm from './exchange-form';
 import { getMarker } from '~/utils/get-marker';
 import { PaymentMethodSelect } from './select';
@@ -29,7 +30,7 @@ export default class PaymentMethodView extends React.Component<Props> {
     return (
       <Panel data-marker={this.marker()}>
         <Heading className={styles.title} tagName="h2" size="normal">
-          {getTranslation('paymentMethods:title')}
+          <Trans>Step 2: Buy tokens</Trans>
         </Heading>
 
         <PaymentMethodSelect marker={this.marker} />

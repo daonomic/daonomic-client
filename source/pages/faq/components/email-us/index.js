@@ -1,10 +1,14 @@
-import React, { PureComponent } from 'react';
+// @flow
+import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel, Text } from '@daonomic/ui';
 import textStyles from '~/components/text/text.css';
 import config from '~/domains/app/config';
-import { getTranslation } from '~/domains/app/i18n';
 
-export default class EmailUs extends PureComponent {
+type Props = {};
+
+export default class EmailUs extends React.PureComponent<Props> {
   render() {
     if (!config.contactEmail) {
       return null;
@@ -13,9 +17,9 @@ export default class EmailUs extends PureComponent {
     return (
       <Panel>
         <Text align="center" element="p">
-          {getTranslation('widgets:cantFindWhatLookingFor')}{' '}
+          <Trans>Can’t find what are you looking for?</Trans>{' '}
           <a href={`mailto:${config.contactEmail}`} className={textStyles.link}>
-            {getTranslation('widgets:emailUs')}
+            <Trans>Email us</Trans>
             &nbsp;⟩
           </a>
         </Text>

@@ -1,12 +1,13 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { mergeDeepRight } from 'ramda';
 import { observable, action, runInAction, computed, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Button, FieldHint } from '@daonomic/ui';
 import { JsonSchemaForm } from '~/components/json-schema-form';
 import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
-import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 import type { Form } from '~/modules/kyc/types';
@@ -61,7 +62,7 @@ class ExtendedKycFormContainer extends React.Component<Props> {
 
     return (
       <FieldHint type="error">
-        {getTranslation('common:somethingWentWrong')}
+        <Trans>Something went wrong</Trans>
       </FieldHint>
     );
   };
@@ -86,7 +87,7 @@ class ExtendedKycFormContainer extends React.Component<Props> {
             type="submit"
             disabled={this.isSaving}
           >
-            {getTranslation('common:submit')}
+            <Trans>Submit</Trans>
           </Button>
           {this.renderSavingError()}
         </JsonSchemaForm>

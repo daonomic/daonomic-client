@@ -7,8 +7,8 @@ type Props = {|
   id: string,
   disabled: boolean,
   required: boolean,
-  label: string,
-  placeholder?: string,
+  label: React.Node,
+  placeholder?: React.Node,
   rawErrors: string[],
   options: {
     enumOptions: {|
@@ -30,7 +30,12 @@ export class BaseSelect extends React.Component<Props> {
         name={this.props.id}
         disabled={this.props.disabled}
         required={this.props.required}
-        label={`${this.props.label}${this.props.required ? '*' : ''}`}
+        label={
+          <React.Fragment>
+            {this.props.label}
+            {this.props.required ? '*' : ''}
+          </React.Fragment>
+        }
         description={
           this.props.schema.description ? (
             <UnstyledFieldDescription>

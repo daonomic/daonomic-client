@@ -1,9 +1,0 @@
-{
-  "yourWalletBalance": "Your Wallet Balance",
-  "tokenPrice": "Token Price",
-  "tokensSold": "Tokens Sold",
-  "cantFindWhatLookingFor": "Can’t find what are you looking for?",
-  "emailUs": "Email Us",
-  "saleStartsIn": "Token sale starts in {days, plural, one {1 day} other {# days}} {hours, plural, one {1 hour} other {# hours}} {minutes, plural, one {1 minute} other {# minutes}} {seconds, plural, one {1 second} other {# seconds}}",
-  "saleFinished": "Sale is finished!"
-}
