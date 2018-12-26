@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import client from '~/domains/app/api/client';
 import { BaseSelect } from '~/components/json-schema-form/base-select';
-import { getTranslation } from '~/domains/app/i18n';
 
 import type { DataState } from '~/types/common';
 
@@ -64,7 +65,7 @@ export class ExternalSelect extends React.Component<Props, State> {
   getPlaceholder = () => {
     switch (this.state.dataState) {
       case 'loading': {
-        return `${getTranslation('common:loading')}...`;
+        return <Trans>Loading...</Trans>;
       }
 
       case 'loaded': {
@@ -72,7 +73,7 @@ export class ExternalSelect extends React.Component<Props, State> {
       }
 
       default: {
-        return getTranslation('common:failedToLoadOptions');
+        return <Trans>Failed to load options</Trans>;
       }
     }
   };

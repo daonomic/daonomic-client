@@ -1,8 +1,9 @@
 //@flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Heading } from '~/components/heading';
 import textStyles from '~/components/text/text.css';
-import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 export type Props = {
@@ -16,10 +17,15 @@ export class PaymentInstruction extends React.Component<Props> {
     return (
       <div {...restProps}>
         <Heading className={styles.title} tagName="h3" size="small">
-          {getTranslation('paymentMethods:instructionTitle')}
+          <Trans>Payment Instruction</Trans>
         </Heading>
 
-        <p>{getTranslation('paymentMethods:instructionText')}</p>
+        <p>
+          <Trans>
+            After your payment will be completed you will get tokens to the
+            selected ethereum address:
+          </Trans>
+        </p>
         <p className={textStyles['word-break-all']}>
           {userWalletAddress || ''}
         </p>

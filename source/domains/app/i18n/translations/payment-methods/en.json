@@ -1,8 +1,0 @@
-{
-  "title": "Step 2: Buy tokens",
-  "wantToPayWith": "I want to pay with",
-  "sendFundsTo": "Send funds to this {paymentMethod} address:",
-  "transactions": "Transactions",
-  "instructionTitle": "Payment Instruction",
-  "instructionText": "After your payment will be completed you will get tokens to the selected ethereum address:"
-}

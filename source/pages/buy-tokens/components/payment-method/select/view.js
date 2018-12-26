@@ -1,7 +1,8 @@
 //@flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Select } from '@daonomic/ui';
-import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
@@ -31,7 +32,7 @@ export class PaymentMethodSelect extends React.Component<Props> {
     return (
       <div className={styles.root}>
         <label className={styles.label} htmlFor={selectId}>
-          {getTranslation('paymentMethods:wantToPayWith')}
+          <Trans>I want to pay with</Trans>
         </label>
 
         <Select

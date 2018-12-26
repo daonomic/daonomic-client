@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Form, Input, Button } from '@daonomic/ui';
-import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 import { KyberButton } from '~/components/kyber-button';
 
@@ -47,7 +48,7 @@ export default class ExchangeFormView extends React.Component<Props> {
         type="submit"
         disabled={this.props.amount === 0}
       >
-        {getTranslation('exchange:buy')}
+        <Trans>Buy</Trans>
       </Button>
     );
 
@@ -58,7 +59,7 @@ export default class ExchangeFormView extends React.Component<Props> {
           ethAmount={this.props.cost}
           disabled={this.props.cost === 0}
         >
-          {getTranslation('exchange:buy')}
+          <Trans>Buy</Trans>
         </KyberButton>
       );
     }
@@ -78,7 +79,7 @@ export default class ExchangeFormView extends React.Component<Props> {
             <Input
               data-marker={this.marker('amount')()}
               type="number"
-              label={getTranslation('exchange:amount')}
+              label={<Trans>Amount</Trans>}
               value={String(this.props.amount)}
               onChange={this.handleChangeAmount}
             />
@@ -92,7 +93,7 @@ export default class ExchangeFormView extends React.Component<Props> {
               step={parseFloat(
                 `0.${'0'.repeat(this.props.costPrecision - 1)}1`,
               )}
-              label={getTranslation('exchange:cost')}
+              label={<Trans>Cost</Trans>}
               value={String(this.props.cost)}
               onChange={this.handleChangeCost}
             />

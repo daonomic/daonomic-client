@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import TwoColumnsLayout from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
@@ -10,7 +12,6 @@ import Balance from './components/balance';
 import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
 import styles from './buy-tokens.css';
-import { getTranslation } from '~/domains/app/i18n';
 
 export type Props = {|
   isLoaded: boolean,
@@ -32,8 +33,7 @@ export default class BuyTokensPageView extends React.Component<Props> {
   renderPreloader = () => (
     <Panel>
       <Heading tagName="h1" className={styles.placeholder} size="large">
-        {getTranslation('common:loading')}
-        ...
+        <Trans>Loading...</Trans>
       </Heading>
     </Panel>
   );

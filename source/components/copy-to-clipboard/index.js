@@ -1,7 +1,10 @@
 //@flow
 import * as React from 'react';
+// $FlowFixMe
+import { I18n } from '@lingui/react';
+// $FlowFixMe
+import { t } from '@lingui/macro';
 import copyToClipboard from 'clipboard-copy';
-import { getTranslation } from '~/domains/app/i18n';
 
 type CopyState = 'initial' | 'copied' | 'failed';
 
@@ -42,27 +45,33 @@ export class CopyToClipboard extends React.Component<Props, State> {
       });
   };
 
-  getCopyText = () => {
+  getCopyText = ({ i18n }: { i18n: any }) => {
     switch (this.state.copyState) {
       case 'copied': {
-        return getTranslation('copy:copied');
+        return i18n._(t`Copied`);
       }
 
       case 'failed': {
-        return getTranslation('copy:failedToCopy');
+        return i18n._(t`Failed to copy`);
       }
 
       default: {
-        return getTranslation('copy:copy');
+        return i18n._(t`Copy`);
       }
     }
   };
 
   render() {
-    return this.props.children({
-      state: this.state.copyState,
-      text: this.getCopyText(),
-      copy: this.handleCopy,
-    });
+    return (
+      <I18n>
+        {({ i18n }) =>
+          this.props.children({
+            state: this.state.copyState,
+            text: this.getCopyText({ i18n }),
+            copy: this.handleCopy,
+          })
+        }
+      </I18n>
+    );
   }
 }

@@ -1,14 +1,15 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import { Button, Panel } from '@daonomic/ui';
 import { Navigation } from '~/components/navigation';
 import { Burger } from '~/components/burger';
-import styles from './header.css';
 import { getRouteUrl } from '~/domains/app/router';
 import { getMarker } from '~/utils/get-marker';
-import { getTranslation } from '~/domains/app/i18n';
+import styles from './header.css';
 
 type InjectedProps = {|
   currentRouteName: string,
@@ -55,20 +56,20 @@ class Header extends React.Component<Props, State> {
 
   renderNavigation = () => {
     const items = [
-      { routeName: 'buyTokens', title: 'Buy Tokens' },
-      { routeName: 'createWallet', title: 'Create Wallet' },
-      { routeName: 'faq', title: 'For Investors' },
+      { routeName: 'buyTokens', content: <Trans>Buy tokens</Trans> },
+      { routeName: 'createWallet', content: <Trans>Create wallet</Trans> },
+      { routeName: 'faq', content: <Trans>For investors</Trans> },
     ];
 
     return (
       <Navigation>
-        {items.map(({ routeName, title }) => (
+        {items.map(({ routeName, content }) => (
           <Navigation.Item
             key={routeName}
             isActive={routeName === this.props.currentRouteName}
             href={getRouteUrl(routeName)}
           >
-            {title}
+            {content}
           </Navigation.Item>
         ))}
       </Navigation>
@@ -103,7 +104,7 @@ class Header extends React.Component<Props, State> {
             design="secondary"
             onClick={this.handleClickLogout}
           >
-            {getTranslation('auth:logOut')}
+            <Trans>Log Out</Trans>
           </Button>
         </div>
       </Panel>

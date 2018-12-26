@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans, t } from '@lingui/macro';
 import { message } from 'antd';
 import axios from 'axios';
 import raven from 'raven-js';
@@ -9,11 +11,15 @@ import { fromPromise } from 'mobx-utils';
 import { Button } from '@daonomic/ui';
 import { initCivicSip } from '~/modules/kyc/civic';
 import { loadAndSetKycState } from '~/modules/kyc/actions';
-import { getTranslation } from '~/domains/app/i18n';
+import { i18n } from '~/domains/app/i18n';
 
-export type Props = {|
+type ExternalProps = {|
   action: string,
   applicationId: string,
+|};
+
+type Props = ExternalProps & {|
+  i18n: any,
 |};
 
 export const CivicKycForm = observer(
@@ -50,7 +56,7 @@ export const CivicKycForm = observer(
         await loadAndSetKycState();
       } catch (error) {
         raven.captureException(error);
-        message.error(getTranslation('common:somethingWentWrongTryAgain'));
+        message.error(i18n._(t`Something went wrong, please try again`));
       }
     };
 
@@ -63,13 +69,13 @@ export const CivicKycForm = observer(
 
     render() {
       return this.civicSip.case({
-        pending: () => `${getTranslation('common:loading')}...`,
+        pending: () => <Trans>Loading...</Trans>,
         fulfilled: () => (
           <Button design="primary" onClick={this.handleClickVerify}>
-            {getTranslation('kyc:verifyIdentityWithCivic')}
+            <Trans>Verify identity with Civic</Trans>
           </Button>
         ),
-        rejected: () => getTranslation('common:somethingWentWrongTryAgain'),
+        rejected: () => <Trans>Something went wrong, please try again</Trans>,
       });
     }
   },

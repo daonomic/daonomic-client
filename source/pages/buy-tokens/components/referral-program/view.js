@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
-import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 import { getReferralLinkForToken } from '~/modules/referral-program/utils';
 import styles from './styles.css';
@@ -16,9 +17,9 @@ export type Props = {|
 export class ReferralProgram extends React.Component<Props> {
   marker = getMarker('referral-program');
 
-  renderError = () => getTranslation('referralProgram:linkLoadingError');
+  renderError = () => <Trans>Failed to load referral link</Trans>;
 
-  renderPreloader = () => `${getTranslation('common:loading')}...`;
+  renderPreloader = () => <Trans>Loading...</Trans>;
 
   renderLink = (userToken: ReferralProgramTypes.Token) => {
     return <p className={styles.link}>{getReferralLinkForToken(userToken)}</p>;
@@ -52,7 +53,7 @@ export class ReferralProgram extends React.Component<Props> {
     return (
       <Panel data-marker={this.marker()} className={styles.root}>
         <h3 className={styles.title}>
-          {getTranslation('referralProgram:referralLink')}
+          <Trans>Referral link</Trans>
         </h3>
 
         {this.renderContent()}

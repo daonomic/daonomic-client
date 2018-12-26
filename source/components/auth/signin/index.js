@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { Link } from '~/components/link';
@@ -8,7 +10,6 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 import { getRouteUrl } from '~/domains/app/router';
-import { getTranslation } from '~/domains/app/i18n';
 
 type Props = {|
   email: string,
@@ -64,7 +65,7 @@ export default class SignIn extends React.Component<Props> {
         <Panel>
           <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
             <Heading size="large" tagName="h1" className={commonStyles.title}>
-              {getTranslation('auth:logIn')}
+              <Trans id="auth.loginHeading" />
             </Heading>
 
             {this.renderCommonError()}
@@ -74,7 +75,7 @@ export default class SignIn extends React.Component<Props> {
                 data-marker={this.marker('email')()}
                 required
                 type="email"
-                label={getTranslation('auth:email')}
+                label={<Trans>Email</Trans>}
                 value={email}
                 errors={errors.email}
                 onChange={onChangeEmail}
@@ -88,7 +89,7 @@ export default class SignIn extends React.Component<Props> {
                 required
                 type="password"
                 autoComplete="new-password"
-                label={getTranslation('auth:password')}
+                label={<Trans>Password</Trans>}
                 value={password}
                 errors={errors.password}
                 onChange={onChangePassword}
@@ -103,7 +104,7 @@ export default class SignIn extends React.Component<Props> {
                 disabled={isLoading}
                 data-marker={this.marker('submit')()}
               >
-                {getTranslation('auth:logIn')}
+                <Trans>Log In</Trans>
               </Button>
 
               <Link
@@ -111,7 +112,7 @@ export default class SignIn extends React.Component<Props> {
                 className={styles.link}
                 data-marker={this.marker('reset-password')()}
               >
-                {getTranslation('auth:forgotPassword')}
+                <Trans>Forgot password?</Trans>
               </Link>
             </div>
           </form>
@@ -124,12 +125,12 @@ export default class SignIn extends React.Component<Props> {
             element="p"
             className={styles.paragraph}
           >
-            {getTranslation('auth:dontHaveAccount')}{' '}
+            <Trans>Don’t have an account?</Trans>{' '}
             <Link
               data-marker={this.marker('sign-up-link')()}
               href={getRouteUrl('signUp')}
             >
-              {getTranslation('auth:signUp')}
+              <Trans>Sign up</Trans>
               &nbsp;⟩
             </Link>
           </Text>

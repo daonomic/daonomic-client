@@ -1,9 +1,10 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Button, FieldHint } from '@daonomic/ui';
 import { FieldDescription } from '~/components/json-schema-form/field-description';
 import styles from './styles.css';
-import { getTranslation } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 type Props = {
@@ -86,7 +87,7 @@ export default class ArrayFieldTemplate extends React.Component<Props> {
         disabled={this.props.disabled}
         onClick={this.props.onAddClick}
       >
-        {getTranslation('common:add')}
+        <Trans>Add</Trans>
       </Button>
     );
   };

@@ -1,8 +1,10 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import styles from './balance.css';
-import { getTranslation, formatNumber } from '~/domains/app/i18n';
+import { formatNumber } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 export type Props = {|
@@ -17,7 +19,7 @@ export default class Balance extends React.Component<Props> {
     return (
       <Panel data-marker={this.marker()} className={styles.root}>
         <h3 className={styles.title}>
-          {getTranslation('widgets:yourWalletBalance')}
+          <Trans>Your wallet balance</Trans>
         </h3>
 
         <p className={styles.balance}>

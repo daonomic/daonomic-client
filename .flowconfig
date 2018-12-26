@@ -4,6 +4,7 @@
 .*/node_modules/rc-util/lib/PureRenderMixin.js
 .*/node_modules/rc-cascader/node_modules/warning/warning.js
 .*/node_modules/rc-tree-select/node_modules/warning/warning.js
+.*/node_modules/@lingui/
 
 [include]
 
@@ -12,6 +13,7 @@
 [lints]
 
 [options]
+module.name_mapper='^@lingui/loader!.*' -> 'LingUiCatalog'
 module.name_mapper='.*\(.css\)' -> 'CSSModule'
 module.name_mapper='^~/' -> '<PROJECT_ROOT>/source/'
 module.system=haste

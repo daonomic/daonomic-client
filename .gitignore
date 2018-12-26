@@ -6,6 +6,8 @@
 build/
 storybook-static/
 test-reports/
+source/locales/_build/
+source/locales/**/*.js
 
 # Development stuff
 platforms/

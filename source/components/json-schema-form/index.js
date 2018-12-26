@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import OriginalJsonSchemaForm from 'react-jsonschema-form';
 import { Form, Button } from '@daonomic/ui';
 import FieldTemplate from './field-template';
@@ -12,7 +14,6 @@ import { BaseSelect } from './base-select';
 import { ExternalSelect } from './external-select';
 import { BaseFile } from './base-file';
 import { removeEmptyEntries } from './utils/remove-empty-entries';
-import { getTranslation } from '~/domains/app/i18n';
 
 const widgets = {
   BaseInput,
@@ -54,9 +55,11 @@ export class JsonSchemaForm extends React.Component<Props> {
     if (!children) {
       children = (
         <Button type="submit" design="primary">
-          {this.props.submitButtonText
-            ? this.props.submitButtonText
-            : getTranslation('common:submit')}
+          {this.props.submitButtonText ? (
+            this.props.submitButtonText
+          ) : (
+            <Trans>Submit</Trans>
+          )}
         </Button>
       );
     }

@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Link } from '~/components/link';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
@@ -7,7 +9,6 @@ import Layout from '../layout';
 import commonStyles from '../common.css';
 import { getMarker } from '~/utils/get-marker';
 import { getRouteUrl } from '~/domains/app/router';
-import { getTranslation } from '~/domains/app/i18n';
 import styles from './styles.css';
 
 type Props = {|
@@ -53,26 +54,25 @@ export default class ResetPassword extends React.Component<Props> {
       <Panel>
         <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
           <Heading size="large" tagName="h1" className={commonStyles.title}>
-            {getTranslation('auth:forgotPassword')}
+            <Trans>Forgot password?</Trans>
           </Heading>
 
           <Text design="muted" element="p" className={commonStyles.row}>
-            {getTranslation('auth:forgotPasswordInstruction')}
-          </Text>
-
-          <Text design="muted" element="p" className={commonStyles.row}>
-            {getTranslation('auth:forgotPasswordSecurity')}
+            <Trans>
+              Enter the email address you used when you joined and we’ll send
+              you instructions to reset your password.
+            </Trans>
           </Text>
 
           {this.renderCommonError()}
 
           <div className={commonStyles.row}>
             <Input
-              data-marker={this.marker('email')()}
               required
+              data-marker={this.marker('email')()}
               value={email}
               type="email"
-              label={getTranslation('auth:email')}
+              label={<Trans>Email</Trans>}
               errors={errors.email}
               onChange={onChangeEmail}
               disabled={isSaving}
@@ -86,7 +86,7 @@ export default class ResetPassword extends React.Component<Props> {
               type="submit"
               disabled={isSaving}
             >
-              {getTranslation('auth:forgotPasswordSubmit')}
+              <Trans>Send reset instructions</Trans>
             </Button>
           </div>
         </form>
@@ -97,11 +97,14 @@ export default class ResetPassword extends React.Component<Props> {
   renderSuccessMessage = () => (
     <Panel data-marker={this.marker('success-message')()}>
       <Heading size="large" tagName="h1" className={commonStyles.title}>
-        {getTranslation('auth:successfulResetTitle')}
+        <Trans>Reset instructions sent</Trans>
       </Heading>
 
       <Text design="muted" element="p">
-        {getTranslation('auth:successfulResetAnnotation')}
+        <Trans>
+          Instructions to reset your password have been sent to you. Please
+          check your email.
+        </Trans>
       </Text>
     </Panel>
   );
@@ -127,7 +130,7 @@ export default class ResetPassword extends React.Component<Props> {
             className={styles.paragraph}
           >
             <Link href={getRouteUrl('signIn')}>
-              {getTranslation('auth:logIn')}
+              <Trans>Log In</Trans>
               &nbsp;⟩
             </Link>
           </Text>
