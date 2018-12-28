@@ -189,7 +189,7 @@ msgstr "Реферальная ссылка"
 msgid "Reset instructions sent"
 msgstr "Инструкция по сбросу пароля отправлена"
 
-#: source/pages/buy-tokens/components/sale-period-guard/index.js:89
+#: source/pages/buy-tokens/components/sale-period-guard/index.js:97
 msgid "Sale is finished!"
 msgstr "Распродажа окончена!"
 
@@ -237,15 +237,15 @@ msgstr "Отправить"
 msgid "Terms of Service"
 msgstr "Правила пользования"
 
-#: source/pages/buy-tokens/components/token-price/view.js:56
+#: source/pages/buy-tokens/components/token-price/view.js:57
 msgid "Token price"
 msgstr "Стоимость токена"
 
-#: source/pages/buy-tokens/components/sale-period-guard/index.js:46
+#: source/pages/buy-tokens/components/sale-period-guard/index.js:45
 msgid "Token sale starts in {days, plural, one {1 day} other {# days}} {hours, plural, one {1 hour} other {# hours}} {minutes, plural, one {1 minute} other {# minutes}} {seconds, plural, one {1 second} other {# seconds}}"
 msgstr "Распродажа начнётся через {days, plural, one {1 день} few {# дня} many {# дней} other {# дней}} {hours, plural, one {1 час} few {# часа} many {# часов} other {# часов}} {minutes, plural, one {1 минуту} few {# минуты} many {# минут} other {# минут}} {seconds, plural, one {1 секунду} few {# секунды} many {# секунд} other {# секунд}}"
 
-#: source/pages/buy-tokens/components/token-price/view.js:33
+#: source/pages/buy-tokens/components/token-price/view.js:32
 msgid "Tokens sold"
 msgstr "Продано"
 
@@ -322,3 +322,7 @@ msgstr "завершено"
 #: source/components/payments-list/index.js:29
 msgid "pending"
 msgstr "на ожидании"
+
+#: source/pages/buy-tokens/components/token-price/view.js:40
+msgid "soldOf"
+msgstr "из"

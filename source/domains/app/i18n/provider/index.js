@@ -3,8 +3,10 @@ import { fromPairs } from 'ramda';
 // $FlowFixMe
 import { setupI18n } from '@lingui/core';
 import NanoEvents from 'nanoevents';
-import en from '@lingui/loader!~/locales/en/messages.po'; // eslint-disable-line import/no-extraneous-dependencies
-import ru from '@lingui/loader!~/locales/ru/messages.po'; // eslint-disable-line import/no-extraneous-dependencies
+// $FlowFixMe
+import en from '~/locales/en/messages.po';
+// $FlowFixMe
+import ru from '~/locales/ru/messages.po';
 
 export const supportedLanguages = [
   { id: 'en', name: 'English', catalog: en },

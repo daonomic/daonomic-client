@@ -1,10 +1,9 @@
 // @flow
 import * as React from 'react';
 // $FlowFixMe
-import { Trans } from '@lingui/macro';
+import { Trans, NumberFormat } from '@lingui/macro';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
 import styles from './token-price.css';
-import { formatNumber } from '~/domains/app/i18n';
 
 export type Props = {|
   tokenSymbol: string,
@@ -36,8 +35,10 @@ export default class TokenPrice extends React.Component<Props> {
         <Meter value={tokensCount.sold / tokensCount.total || 0} />
 
         <p className={styles.sold}>
-          {formatNumber(tokensCount.sold)} {this.props.tokenSymbol}{' '}
-          <Text design="muted">of {formatNumber(tokensCount.total)}</Text>
+          <NumberFormat value={tokensCount.sold} /> {this.props.tokenSymbol}{' '}
+          <Text design="muted">
+            <Trans id="soldOf" /> <NumberFormat>tokensCount.total</NumberFormat>
+          </Text>
         </p>
       </div>
     );
@@ -58,7 +59,10 @@ export default class TokenPrice extends React.Component<Props> {
 
         {prices.map(({ rate, label }) => (
           <p key={label} className={styles.price}>
-            1 {label} = <Badge>{formatNumber(rate)}</Badge>{' '}
+            1 {label} ={' '}
+            <Badge>
+              <NumberFormat value={rate} />
+            </Badge>{' '}
             {this.props.tokenSymbol}
           </p>
         ))}

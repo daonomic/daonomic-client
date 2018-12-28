@@ -87,6 +87,10 @@ const config = {
           mimetype: 'image/jpg',
         },
       },
+      {
+        test: /\.po$/,
+        loader: '@lingui/loader',
+      },
     ],
   },
 

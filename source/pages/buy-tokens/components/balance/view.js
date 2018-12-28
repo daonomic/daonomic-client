@@ -1,10 +1,9 @@
 // @flow
 import * as React from 'react';
 // $FlowFixMe
-import { Trans } from '@lingui/macro';
+import { Trans, NumberFormat } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import styles from './balance.css';
-import { formatNumber } from '~/domains/app/i18n';
 import { getMarker } from '~/utils/get-marker';
 
 export type Props = {|
@@ -27,7 +26,7 @@ export default class Balance extends React.Component<Props> {
             data-marker={this.marker('amount')()}
             data-raw-value={this.props.balance}
           >
-            {formatNumber(this.props.balance)}
+            <NumberFormat value={this.props.balance} />
           </span>{' '}
           {this.props.tokenSymbol}
         </p>

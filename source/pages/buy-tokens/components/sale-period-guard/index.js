@@ -1,12 +1,11 @@
 //@flow
 import * as React from 'react';
 // $FlowFixMe
-import { Trans, Plural } from '@lingui/macro';
+import { Trans, Plural, DateFormat } from '@lingui/macro';
 import CountdownTimer from 'react-countdown-now';
 import { Text } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
 import { Panel } from '@daonomic/ui';
-import { formatDate, formatTime } from '~/domains/app/i18n';
 import { Heading } from '~/components/heading';
 import style from './style.css';
 
@@ -57,7 +56,16 @@ export class SalePeriodGuard extends React.Component<Props> {
               element="p"
               className={style.paragraph}
             >
-              {formatDate(startDate)} {formatTime(startDate)}
+              <DateFormat
+                value={startDate}
+                format={{
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                }}
+              />
             </Text>
           </div>
         </Panel>
