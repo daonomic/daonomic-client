@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const {
   paths,
@@ -95,6 +97,7 @@ const config = {
   },
 
   plugins: [
+    new DuplicatePackageCheckerPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.ENVIRONMENT': JSON.stringify(api),
@@ -114,7 +117,13 @@ const config = {
   },
 
   optimization: {
-    minimize: false,
+    minimizer: [
+      new TerserWebpackPlugin({
+        parallel: true,
+        cache: true,
+        sourceMap: areSourcemapsEnabled,
+      }),
+    ],
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
