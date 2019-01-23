@@ -1,5 +1,5 @@
 // @flow
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 
 export interface IAuthToken {

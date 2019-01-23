@@ -4,10 +4,10 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
-import { getReferralLinkForToken } from '~/modules/referral-program/utils';
+import { referralProgramService } from '~/domains/business/referral-program';
 import styles from './styles.css';
 
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import * as DataStateTypes from '~/modules/data-state/types';
 
 export type Props = {|
@@ -22,7 +22,11 @@ export class ReferralProgram extends React.Component<Props> {
   renderPreloader = () => <Trans>Loading...</Trans>;
 
   renderLink = (userToken: ReferralProgramTypes.Token) => {
-    return <p className={styles.link}>{getReferralLinkForToken(userToken)}</p>;
+    return (
+      <p className={styles.link}>
+        {referralProgramService.getReferralLinkForToken(userToken)}
+      </p>
+    );
   };
 
   renderContent = () => {

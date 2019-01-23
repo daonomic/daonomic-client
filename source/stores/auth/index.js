@@ -5,7 +5,7 @@ import { getRouteUrl } from '~/domains/app/router';
 
 import type { IApi } from '~/domains/app/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import type { IAuth, IAuthToken } from './types';
 
 export class AuthStore implements IAuth {

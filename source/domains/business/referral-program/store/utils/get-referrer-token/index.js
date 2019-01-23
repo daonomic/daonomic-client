@@ -4,9 +4,11 @@ import urlSearchParams from 'url-search-params';
 import {
   referralCookieName,
   referralUrlParamName,
-} from '~/modules/referral-program/config';
+} from '~/domains/business/referral-program/config';
 
-export function getReferrerToken() {
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
+
+export function getReferrerToken(): ?ReferralProgramTypes.Token {
   const persistedToken = cookies.get(referralCookieName);
 
   if (persistedToken) {

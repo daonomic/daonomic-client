@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import SignUp from '~/components/auth/signup';
 
 import type { FormValidationError, DataState } from '~/types/common';
-import type { IReferralProgramService } from '~/modules/referral-program/types';
+import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { IAuth } from '~/stores/auth/types';
 
 type Props = {|
@@ -92,15 +92,15 @@ class SignUpPage extends React.Component<Props> {
 export default inject(
   ({
     auth,
-    referralProgramService,
-  }: {
+    referralProgramStore,
+  }: {|
     auth: IAuth,
-    referralProgramService: IReferralProgramService,
-  }): Props => ({
+    referralProgramStore: ReferralProgramStore,
+  |}): Props => ({
     register: ({ email }) => {
       return auth.register({
         email,
-        ref: referralProgramService.referrerToken,
+        ref: referralProgramStore.referrerToken,
       });
     },
   }),

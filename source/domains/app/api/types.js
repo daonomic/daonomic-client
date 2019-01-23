@@ -3,7 +3,7 @@ import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 import type { Payment } from '~/types/payment';
 import * as UserDataTypes from '~/modules/user-data/types';
 import * as KycTypes from '~/modules/kyc/types';
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Response<Data> = Promise<{|
