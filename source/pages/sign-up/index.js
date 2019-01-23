@@ -100,7 +100,7 @@ export default inject(
     register: ({ email }) => {
       return auth.register({
         email,
-        ref: referralProgramStore.referrerToken,
+        referralData: referralProgramStore.referrerData,
       });
     },
   }),

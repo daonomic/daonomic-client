@@ -25,7 +25,7 @@ export interface IApi {
     login({| email: string, password: string |}): Response<LoginResponse>,
     register({|
       email: string,
-      ref?: ?ReferralProgramTypes.Token,
+      referralData: ?ReferralProgramTypes.Data,
     |}): Response<{}>,
     resetPassword({|
       email: string,

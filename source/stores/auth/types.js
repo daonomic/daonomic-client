@@ -18,7 +18,10 @@ export interface IAuth {
   setToken: (token: AuthToken) => void;
 
   login({ email: string, password: string }): Promise<void>;
-  register({ email: string, ref?: ?ReferralProgramTypes.Token }): Promise<{}>;
+  register({|
+    email: string,
+    referralData: ?ReferralProgramTypes.Data,
+  |}): Promise<{}>;
   resetPassword({ email: string }): Promise<{}>;
   createNewPassword: (params: PasswordRecoveryParams) => Promise<{}>;
 

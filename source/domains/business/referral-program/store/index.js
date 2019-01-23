@@ -1,6 +1,6 @@
 // @flow
 import { observable, action } from 'mobx';
-import { getReferrerToken } from './utils/get-referrer-token';
+import { getReferrerData } from './utils/get-referrer-data';
 
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import * as DataStateTypes from '~/modules/data-state/types';
@@ -12,10 +12,10 @@ export class ReferralProgramStore {
   };
 
   @observable
-  referrerToken: ?ReferralProgramTypes.Token;
+  referrerData: ?ReferralProgramTypes.Data;
 
   constructor() {
-    this.referrerToken = getReferrerToken();
+    this.referrerData = getReferrerData();
   }
 
   @action

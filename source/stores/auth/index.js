@@ -63,12 +63,12 @@ export class AuthStore implements IAuth {
 
   register = ({
     email,
-    ref,
-  }: {
+    referralData,
+  }: {|
     email: string,
-    ref?: ?ReferralProgramTypes.Token,
-  }) => {
-    return this.api.auth.register({ email, ref });
+    referralData: ?ReferralProgramTypes.Data,
+  |}) => {
+    return this.api.auth.register({ email, referralData });
   };
 
   resetPassword = ({ email }: { email: string }) => {
