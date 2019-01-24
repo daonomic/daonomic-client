@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { CreateWalletForm } from './components/form';
@@ -31,7 +33,7 @@ export class CreateWalletPage extends React.Component<Props> {
     return (
       <Panel>
         <Heading tagName="h1" size="normal" className={styles.title}>
-          Create New Ethereum Wallet
+          <Trans id="createEthWalletTitle" />
         </Heading>
 
         {this.renderForm()}

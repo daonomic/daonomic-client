@@ -13,8 +13,16 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: source/pages/create-wallet/components/form/view.js:104
+msgid "6 characters minimum"
+msgstr ""
+
 #: source/components/json-schema-form/array-field-template/index.js:90
 msgid "Add"
+msgstr ""
+
+#: source/pages/create-wallet/components/generated-wallet/view.js:51
+msgid "Address"
 msgstr ""
 
 #: source/pages/buy-tokens/components/payment-method/instruction/view.js:24
@@ -69,6 +77,10 @@ msgstr ""
 msgid "Cost"
 msgstr ""
 
+#: source/pages/create-wallet/components/form/view.js:134
+msgid "Create Wallet"
+msgstr ""
+
 #: source/components/auth/create-new-password/index.js:68
 #: source/components/auth/create-new-password/index.js:107
 #: source/components/auth/create-new-password/index.js:118
@@ -83,8 +95,16 @@ msgstr ""
 msgid "Denial reason: {0}"
 msgstr ""
 
+#: source/pages/create-wallet/components/form/view.js:118
+msgid "Do NOT forget to save this password! It encrypts your private key. This does not act as a seed to generate your keys. You will need this password + your private key to unlock your wallet."
+msgstr ""
+
 #: source/components/auth/signin/index.js:128
 msgid "Don’t have an account?"
+msgstr ""
+
+#: source/pages/create-wallet/components/generated-wallet/view.js:94
+msgid "Download Keystore File"
 msgstr ""
 
 #: source/components/auth/reset-password/index.js:75
@@ -179,11 +199,21 @@ msgid "Note: address could not be changed after approval!"
 msgstr ""
 
 #: source/components/auth/signin/index.js:92
+#: source/pages/create-wallet/components/form/view.js:80
+#: source/pages/create-wallet/components/generated-wallet/view.js:75
 msgid "Password"
+msgstr ""
+
+#: source/pages/create-wallet/components/form/view.js:93
+msgid "Password confirmation"
 msgstr ""
 
 #: source/components/auth/signup/index.js:109
 msgid "Password has been sent to email"
+msgstr ""
+
+#: source/pages/create-wallet/components/form/view.js:113
+msgid "Passwords should match"
 msgstr ""
 
 #: source/pages/buy-tokens/components/payment-method/instruction/view.js:20
@@ -192,6 +222,10 @@ msgstr ""
 
 #: source/components/footer/index.js:42
 msgid "Powered by"
+msgstr ""
+
+#: source/pages/create-wallet/components/generated-wallet/view.js:63
+msgid "Private key"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:101
@@ -356,6 +390,10 @@ msgstr "Log In"
 #: source/components/auth/signup/index.js:119
 msgid "auth.signUpHeading"
 msgstr "Sign Up"
+
+#: source/pages/create-wallet/view.js:36
+msgid "createEthWalletTitle"
+msgstr "Create Ethereum Wallet"
 
 #: source/components/payments-list/index.js:25
 msgid "error"
