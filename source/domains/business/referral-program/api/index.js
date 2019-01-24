@@ -1,8 +1,8 @@
 // @flow
-import { loadUserToken } from './load-user-token';
+import { loadUserData } from './load-user-data';
 import { loadReferrals } from './load-referrals';
 
 export const referralProgramApi = {
-  loadUserToken,
+  loadUserData,
   loadReferrals,
 };

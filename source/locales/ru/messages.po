@@ -30,6 +30,16 @@ msgstr "Уже есть аккаунт?"
 msgid "Amount"
 msgstr "Количество"
 
+#: source/pages/referral/components/referral-statistics/view.js:47
+#: source/pages/referral/view.js:61
+msgid "Bonus"
+msgstr "Бонус"
+
+#: source/pages/referral/components/referral-statistics/view.js:38
+#: source/pages/referral/view.js:58
+msgid "Bought"
+msgstr "Куплено"
+
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:51
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:62
 msgid "Buy"
@@ -101,10 +111,15 @@ msgid "Failed to load options"
 msgstr "Не удалось загрузить опции"
 
 #: source/pages/buy-tokens/components/referral-program/view.js:20
+#: source/pages/referral/components/referral-link/view.js:21
 msgid "Failed to load referral link"
 msgstr "Не удалось загрузить реферальную ссылку"
 
-#: source/components/header/index.js:61
+#: source/pages/referral/components/referral-statistics/view.js:18
+msgid "Failed to load referral statistics"
+msgstr "Не удалось загрузить статистику"
+
+#: source/components/header/index.js:62
 msgid "For investors"
 msgstr "Инвесторам"
 
@@ -135,6 +150,8 @@ msgstr "Инструкции по сбросу пароля отправлены
 #: source/pages/buy-tokens/components/payment-method/address/view.js:27
 #: source/pages/buy-tokens/components/referral-program/view.js:22
 #: source/pages/buy-tokens/view.js:36
+#: source/pages/referral/components/referral-link/view.js:23
+#: source/pages/referral/components/referral-statistics/view.js:20
 msgid "Loading..."
 msgstr "Загрузка..."
 
@@ -145,7 +162,7 @@ msgstr "Загрузка..."
 msgid "Log In"
 msgstr "Войти"
 
-#: source/components/header/index.js:107
+#: source/components/header/index.js:108
 msgid "Log Out"
 msgstr "Выйти"
 
@@ -181,9 +198,30 @@ msgstr "Работает на"
 msgid "Re-enter your address to make sure it is correct"
 msgstr "Повторите ваш адрес, чтобы убедиться в его корректности"
 
-#: source/pages/buy-tokens/components/referral-program/view.js:56
+#: source/pages/referral/view.js:55
+msgid "Referee"
+msgstr "Реферал"
+
+#: source/components/header/index.js:61
+#: source/pages/referral/view.js:36
+msgid "Referral"
+msgstr "Партнёрская программа"
+
+#: source/pages/buy-tokens/components/referral-program/view.js:60
 msgid "Referral link"
 msgstr "Реферальная ссылка"
+
+#: source/pages/referral/view.js:49
+msgid "Referrals"
+msgstr "Рефералы"
+
+#: source/pages/referral/components/referral-statistics/view.js:29
+msgid "Referrals count"
+msgstr "Количество рефералов"
+
+#: source/pages/referral/view.js:64
+msgid "Registration date"
+msgstr "Дата регистрации"
 
 #: source/components/auth/reset-password/index.js:100
 msgid "Reset instructions sent"
@@ -218,6 +256,10 @@ msgstr "Что-то пошло не так"
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:78
 msgid "Something went wrong, please try again"
 msgstr "Что-то пошло не так. Попробуйте снова"
+
+#: source/pages/referral/view.js:67
+msgid "Source"
+msgstr "Источник"
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:85
 msgid "Starts with 0x, then 40 characters"
@@ -273,6 +315,10 @@ msgstr "На проверке"
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr "Нам нужно "
 
+#: source/pages/referral/view.js:50
+msgid "You have no referrals"
+msgstr "У вас пока нет рефералов"
+
 #: source/pages/buy-tokens/components/kyc/view.js:82
 msgid "Your Ethereum wallet"
 msgstr "Кошелёк Ethereum"
@@ -299,7 +345,7 @@ msgstr "Ваши данные были отклонены. Пожалуйста,
 msgid "Your residency"
 msgstr "Гражданство"
 
-#: source/pages/buy-tokens/components/balance/view.js:22
+#: source/pages/buy-tokens/components/balance/view.js:21
 msgid "Your wallet balance"
 msgstr "Баланс кошелька"
 

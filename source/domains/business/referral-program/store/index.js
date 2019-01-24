@@ -9,12 +9,12 @@ import * as DataStateTypes from '~/modules/data-state/types';
 
 export class ReferralProgramStore {
   @observable
-  userToken: DataStateTypes.LoadableData<ReferralProgramTypes.Token> = {
+  userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData> = {
     dataState: 'initial',
   };
 
   @observable
-  referrerData: ?ReferralProgramTypes.Data;
+  referrerData: ?ReferralProgramTypes.ReferrerData;
 
   @observable
   referrals: PaginatedList<
@@ -32,15 +32,15 @@ export class ReferralProgramStore {
   }
 
   @action
-  setUserToken = (
-    userToken: DataStateTypes.LoadableData<ReferralProgramTypes.Token>,
+  setUserData = (
+    userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData>,
   ) => {
-    this.userToken = userToken;
+    this.userData = userData;
   };
 
   @action
   reset = () => {
-    this.setUserToken({ dataState: 'initial' });
+    this.setUserData({ dataState: 'initial' });
   };
 }
 

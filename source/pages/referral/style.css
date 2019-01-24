@@ -1,5 +1,14 @@
 @import '~/domains/app/config/styles/spacing.css';
 
-.link {
-  margin: var(--spacing-l) 0;
+.link,
+.statistics {
+  margin-bottom: var(--spacing-l);
+}
+
+.pagination {
+  margin-top: var(--spacing-m);
+}
+
+.numeric {
+  text-align: right;
 }

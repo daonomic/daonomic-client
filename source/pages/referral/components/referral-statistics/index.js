@@ -1,11 +1,11 @@
 // @flow
 import { inject, observer } from 'mobx-react';
-import { ReferralProgram as ReferralProgramView } from './view';
+import { ReferralStatistics as ReferralStatisticsView } from './view';
 
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { Props } from './view';
 
-export const ReferralProgram = inject(
+export const ReferralStatistics = inject(
   ({
     referralProgramStore,
   }: {|
@@ -13,4 +13,4 @@ export const ReferralProgram = inject(
   |}): Props => ({
     userData: referralProgramStore.userData,
   }),
-)(observer(ReferralProgramView));
+)(observer(ReferralStatisticsView));

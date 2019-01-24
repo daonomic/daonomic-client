@@ -20,7 +20,7 @@ export interface IAuth {
   login({ email: string, password: string }): Promise<void>;
   register({|
     email: string,
-    referralData: ?ReferralProgramTypes.Data,
+    referralData: ?ReferralProgramTypes.ReferrerData,
   |}): Promise<{}>;
   resetPassword({ email: string }): Promise<{}>;
   createNewPassword: (params: PasswordRecoveryParams) => Promise<{}>;

@@ -9,7 +9,7 @@ import {
 
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 
-export function getReferrerData(): ?ReferralProgramTypes.Data {
+export function getReferrerData(): ?ReferralProgramTypes.ReferrerData {
   const persistedToken = cookies.get(tokenCookieName);
   const persistedUrl = cookies.get(urlCookieName);
 

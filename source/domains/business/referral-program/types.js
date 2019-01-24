@@ -2,16 +2,26 @@
 export type Token = string;
 export type Url = string;
 
-export type Data = {|
+export type Statistics = {|
+  users: number,
+  sold: number,
+  bonus: number,
+|};
+
+export type UserData = {|
+  token: Token,
+  statistics: Statistics,
+|};
+
+export type ReferrerData = {|
   token: Token,
   url: ?Url,
 |};
 
 export type Referral = {|
   email: string,
-  date: number,
-  txHash: string,
-  bought: number,
+  registrationDate: number,
+  sold: number,
   bonus: number,
-  url: string,
+  source: string,
 |};

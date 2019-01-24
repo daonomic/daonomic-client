@@ -66,7 +66,7 @@ export class AuthStore implements IAuth {
     referralData,
   }: {|
     email: string,
-    referralData: ?ReferralProgramTypes.Data,
+    referralData: ?ReferralProgramTypes.ReferrerData,
   |}) => {
     return this.api.auth.register({ email, referralData });
   };

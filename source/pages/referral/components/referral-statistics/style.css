@@ -1,0 +1,27 @@
+@import '~/domains/app/config/styles/spacing.css';
+
+.root {
+  list-style: none;
+
+  @media (--tablet) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.item {
+  min-width: 0;
+  padding-right: 1em;
+  padding-bottom: 1em;
+  @media (--tablet) {
+    padding-bottom: 0;
+  }
+}
+
+.count {
+  display: block;
+  font-size: 2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

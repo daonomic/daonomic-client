@@ -11,6 +11,6 @@ export const ReferralLink = inject(
   }: {|
     referralProgramStore: ReferralProgramStore,
   |}): Props => ({
-    userToken: referralProgramStore.userToken,
+    userData: referralProgramStore.userData,
   }),
 )(observer(ReferralLinkView));

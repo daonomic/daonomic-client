@@ -8,14 +8,14 @@ import type { IAuth } from '~/stores/auth/types';
 export function init(auth: IAuth) {
   autorun(async () => {
     if (auth.isAuthenticated) {
-      referralProgramStore.setUserToken({ dataState: 'loading' });
+      referralProgramStore.setUserData({ dataState: 'loading' });
 
       try {
-        const token = await referralProgramApi.loadUserToken();
+        const data = await referralProgramApi.loadUserData();
 
-        referralProgramStore.setUserToken({ dataState: 'loaded', data: token });
+        referralProgramStore.setUserData({ dataState: 'loaded', data });
       } catch (error) {
-        referralProgramStore.setUserToken({ dataState: 'failed' });
+        referralProgramStore.setUserData({ dataState: 'failed' });
       }
     } else {
       referralProgramStore.reset();

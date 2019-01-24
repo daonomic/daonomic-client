@@ -11,7 +11,7 @@ import * as ReferralProgramTypes from '~/domains/business/referral-program/types
 import * as DataStateTypes from '~/modules/data-state/types';
 
 export type Props = {|
-  userToken: DataStateTypes.LoadableData<ReferralProgramTypes.Token>,
+  userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData>,
 |};
 
 export class ReferralProgram extends React.Component<Props> {
@@ -21,16 +21,16 @@ export class ReferralProgram extends React.Component<Props> {
 
   renderPreloader = () => <Trans>Loading...</Trans>;
 
-  renderLink = (userToken: ReferralProgramTypes.Token) => {
+  renderLink = (userData: ReferralProgramTypes.UserData) => {
     return (
       <p className={styles.link}>
-        {referralProgramService.getReferralLinkForToken(userToken)}
+        {referralProgramService.getReferralLinkForToken(userData.token)}
       </p>
     );
   };
 
   renderContent = () => {
-    switch (this.props.userToken.dataState) {
+    switch (this.props.userData.dataState) {
       case 'initial': {
         return this.renderError();
       }
@@ -40,7 +40,7 @@ export class ReferralProgram extends React.Component<Props> {
       }
 
       case 'loaded': {
-        return this.renderLink(this.props.userToken.data);
+        return this.renderLink(this.props.userData.data);
       }
 
       case 'failed': {
@@ -48,7 +48,7 @@ export class ReferralProgram extends React.Component<Props> {
       }
 
       default: {
-        (this.props.userToken.dataState: empty);
+        (this.props.userData.dataState: empty);
       }
     }
   };
