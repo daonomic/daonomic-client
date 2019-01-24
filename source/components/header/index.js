@@ -58,6 +58,7 @@ class Header extends React.Component<Props, State> {
     const items = [
       { routeName: 'buyTokens', content: <Trans>Buy tokens</Trans> },
       { routeName: 'createWallet', content: <Trans>Create wallet</Trans> },
+      { routeName: 'referral', content: <Trans>Referral</Trans> },
       { routeName: 'faq', content: <Trans>For investors</Trans> },
     ];
 

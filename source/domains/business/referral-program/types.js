@@ -6,3 +6,12 @@ export type Data = {|
   token: Token,
   url: ?Url,
 |};
+
+export type Referral = {|
+  email: string,
+  date: number,
+  txHash: string,
+  bought: number,
+  bonus: number,
+  url: string,
+|};
