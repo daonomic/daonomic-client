@@ -26,7 +26,7 @@ export class ReferralLink extends React.Component<Props> {
     const link = referralProgramService.getReferralLinkForToken(userData.token);
 
     return (
-      <p className={styles.link}>
+      <p data-marker={this.marker()} className={styles.link}>
         <Input readOnly className={styles.input} value={link} />
 
         <CopyToClipboard value={link}>

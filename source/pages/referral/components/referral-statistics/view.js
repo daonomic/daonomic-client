@@ -13,7 +13,7 @@ export type Props = {|
 |};
 
 export class ReferralStatistics extends React.Component<Props> {
-  marker = getMarker('referral-link');
+  marker = getMarker('referral-statistics');
 
   renderError = () => <Trans>Failed to load referral statistics</Trans>;
 
@@ -23,12 +23,16 @@ export class ReferralStatistics extends React.Component<Props> {
     const { statistics } = userData;
 
     return (
-      <ul className={style.root}>
+      <ul data-marker={this.marker()} className={style.root}>
         <li className={style.item}>
           <span className={style.name}>
             <Trans>Referrals count</Trans>
           </span>
-          <span className={style.count} title={statistics.users}>
+          <span
+            data-marker={this.marker('users')()}
+            className={style.count}
+            title={statistics.users}
+          >
             <NumberFormat value={statistics.users} />
           </span>
         </li>
@@ -37,7 +41,11 @@ export class ReferralStatistics extends React.Component<Props> {
           <span className={style.name}>
             <Trans>Bought</Trans>
           </span>
-          <span className={style.count} title={statistics.sold}>
+          <span
+            data-marker={this.marker('sold')()}
+            className={style.count}
+            title={statistics.sold}
+          >
             <NumberFormat value={statistics.sold} />
           </span>
         </li>
@@ -46,7 +54,11 @@ export class ReferralStatistics extends React.Component<Props> {
           <span className={style.name}>
             <Trans>Bonus</Trans>
           </span>
-          <span className={style.count} title={statistics.bonus}>
+          <span
+            data-marker={this.marker('bonus')()}
+            className={style.count}
+            title={statistics.bonus}
+          >
             <NumberFormat value={statistics.bonus} />
           </span>
         </li>

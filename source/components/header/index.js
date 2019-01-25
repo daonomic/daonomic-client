@@ -55,18 +55,37 @@ class Header extends React.Component<Props, State> {
   };
 
   renderNavigation = () => {
+    const navigationMarker = getMarker('navigation');
+
     const items = [
-      { routeName: 'buyTokens', content: <Trans>Buy tokens</Trans> },
-      { routeName: 'createWallet', content: <Trans>Create wallet</Trans> },
-      { routeName: 'referral', content: <Trans>Referral</Trans> },
-      { routeName: 'faq', content: <Trans>For investors</Trans> },
+      {
+        routeName: 'buyTokens',
+        marker: navigationMarker('buy-tokens')(),
+        content: <Trans>Buy tokens</Trans>,
+      },
+      {
+        routeName: 'createWallet',
+        marker: navigationMarker('create-wallet')(),
+        content: <Trans>Create wallet</Trans>,
+      },
+      {
+        routeName: 'referral',
+        marker: navigationMarker('referral')(),
+        content: <Trans>Referral</Trans>,
+      },
+      {
+        routeName: 'faq',
+        marker: navigationMarker('faq')(),
+        content: <Trans>For investors</Trans>,
+      },
     ];
 
     return (
-      <Navigation>
-        {items.map(({ routeName, content }) => (
+      <Navigation data-marker={navigationMarker()}>
+        {items.map(({ routeName, marker, content }) => (
           <Navigation.Item
             key={routeName}
+            data-marker={marker}
             isActive={routeName === this.props.currentRouteName}
             href={getRouteUrl(routeName)}
           >

@@ -6,6 +6,7 @@ import { Panel, Table, Pagination } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { ReferralLink } from './components/referral-link';
 import { ReferralStatistics } from './components/referral-statistics';
+import { getMarker } from '~/utils/get-marker';
 import style from './style.css';
 
 import type { PaginatedList } from '~/domains/data/paginated-list';
@@ -20,6 +21,8 @@ export type Props = {|
 |};
 
 export class ReferralPage extends React.Component<Props> {
+  marker = getMarker('referral-page');
+
   componentDidMount() {
     this.props.referrals.loadPage(1);
   }
@@ -31,7 +34,7 @@ export class ReferralPage extends React.Component<Props> {
 
   render() {
     return (
-      <Panel>
+      <Panel data-marker={this.marker()}>
         <Heading tagName="h1" size="normal">
           <Trans>Referral</Trans>
         </Heading>
@@ -45,6 +48,7 @@ export class ReferralPage extends React.Component<Props> {
         </div>
 
         <Table
+          data-marker={this.marker('referrals')()}
           isEmpty={this.props.referrals.currentPageItems.length === 0}
           caption={<Trans>Referrals</Trans>}
           placeholder={<Trans>You have no referrals</Trans>}
