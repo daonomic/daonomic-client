@@ -26,7 +26,7 @@ export class ReferralStatistics extends React.Component<Props> {
       <ul data-marker={this.marker()} className={style.root}>
         <li className={style.item}>
           <span className={style.name}>
-            <Trans>Referrals count</Trans>
+            <Trans>Referees count</Trans>
           </span>
           <span
             data-marker={this.marker('users')()}

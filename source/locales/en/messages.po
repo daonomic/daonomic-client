@@ -38,13 +38,13 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: source/pages/referral/components/referral-statistics/view.js:47
-#: source/pages/referral/view.js:61
+#: source/pages/referral/components/referral-statistics/view.js:55
+#: source/pages/referral/view.js:65
 msgid "Bonus"
 msgstr ""
 
-#: source/pages/referral/components/referral-statistics/view.js:38
-#: source/pages/referral/view.js:58
+#: source/pages/referral/components/referral-statistics/view.js:42
+#: source/pages/referral/view.js:62
 msgid "Bought"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Buy"
 msgstr ""
 
-#: source/components/header/index.js:59
+#: source/components/header/index.js:64
 msgid "Buy tokens"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Create new password"
 msgstr ""
 
-#: source/components/header/index.js:60
+#: source/components/header/index.js:69
 msgid "Create wallet"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Failed to load referral statistics"
 msgstr ""
 
-#: source/components/header/index.js:62
+#: source/components/header/index.js:79
 msgid "For investors"
 msgstr ""
 
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: source/components/header/index.js:108
+#: source/components/header/index.js:127
 msgid "Log Out"
 msgstr ""
 
@@ -232,12 +232,20 @@ msgstr ""
 msgid "Re-enter your address to make sure it is correct"
 msgstr ""
 
-#: source/pages/referral/view.js:55
+#: source/pages/referral/view.js:59
 msgid "Referee"
 msgstr ""
 
-#: source/components/header/index.js:61
-#: source/pages/referral/view.js:36
+#: source/pages/referral/view.js:53
+msgid "Referees"
+msgstr ""
+
+#: source/pages/referral/components/referral-statistics/view.js:29
+msgid "Referees count"
+msgstr ""
+
+#: source/components/header/index.js:74
+#: source/pages/referral/view.js:39
 msgid "Referral"
 msgstr ""
 
@@ -246,14 +254,14 @@ msgid "Referral link"
 msgstr ""
 
 #: source/pages/referral/view.js:49
-msgid "Referrals"
-msgstr ""
+#~ msgid "Referrals"
+#~ msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:29
-msgid "Referrals count"
-msgstr ""
+#~ msgid "Referrals count"
+#~ msgstr ""
 
-#: source/pages/referral/view.js:64
+#: source/pages/referral/view.js:68
 msgid "Registration date"
 msgstr ""
 
@@ -291,7 +299,7 @@ msgstr ""
 msgid "Something went wrong, please try again"
 msgstr ""
 
-#: source/pages/referral/view.js:67
+#: source/pages/referral/view.js:71
 msgid "Source"
 msgstr ""
 
@@ -349,9 +357,13 @@ msgstr ""
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/referral/view.js:50
-msgid "You have no referrals"
+#: source/pages/referral/view.js:54
+msgid "You have no referees"
 msgstr ""
+
+#: source/pages/referral/view.js:50
+#~ msgid "You have no referrals"
+#~ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/view.js:82
 msgid "Your Ethereum wallet"
