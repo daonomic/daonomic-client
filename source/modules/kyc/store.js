@@ -12,6 +12,13 @@ export class KycStore {
     return toJS(this.observableState);
   }
 
+  @computed
+  get isAllowed(): boolean {
+    return (
+      this.state.dataState === 'loaded' && this.state.data.status === 'ALLOWED'
+    );
+  }
+
   @action
   setState = (state: LoadableData<State>) => {
     this.observableState = state;

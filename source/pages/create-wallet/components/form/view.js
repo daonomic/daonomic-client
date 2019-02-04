@@ -1,5 +1,7 @@
 //@flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { Button, Input } from '@daonomic/ui';
 import { CriteriaList } from '~/components/criteria-list';
 import styles from './styles.css';
@@ -75,7 +77,7 @@ export class CreateWalletForm extends React.Component<Props, State> {
             required
             autoComplete="new-password"
             minLength="6"
-            label="Password"
+            label={<Trans>Password</Trans>}
             type="password"
             disabled={this.props.isLoading}
             value={this.state.password}
@@ -88,7 +90,7 @@ export class CreateWalletForm extends React.Component<Props, State> {
             required
             autoComplete="new-password"
             minLength="6"
-            label="Password confirmation"
+            label={<Trans>Password confirmation</Trans>}
             type="password"
             disabled={this.props.isLoading}
             value={this.state.passwordConfirmation}
@@ -99,7 +101,7 @@ export class CreateWalletForm extends React.Component<Props, State> {
 
         <CriteriaList className={styles.row}>
           <CriteriaList.Item isMet={this.state.password.length >= 6}>
-            6 characters minimum
+            <Trans>6 characters minimum</Trans>
           </CriteriaList.Item>
 
           <CriteriaList.Item
@@ -108,14 +110,16 @@ export class CreateWalletForm extends React.Component<Props, State> {
               this.state.password === this.state.passwordConfirmation
             }
           >
-            Passwords should match
+            <Trans>Passwords should match</Trans>
           </CriteriaList.Item>
         </CriteriaList>
 
         <p className={styles.row}>
-          Do NOT forget to save this password! It encrypts your private key.
-          This does not act as a seed to generate your keys. You will need this
-          password + your private key to unlock your wallet.
+          <Trans>
+            Do NOT forget to save this password! It encrypts your private key.
+            This does not act as a seed to generate your keys. You will need
+            this password + your private key to unlock your wallet.
+          </Trans>
         </p>
 
         <div className={styles.row}>
@@ -124,9 +128,11 @@ export class CreateWalletForm extends React.Component<Props, State> {
             type="submit"
             disabled={this.props.isLoading}
           >
-            {this.props.isLoading
-              ? `${Math.round(this.props.progress * 100)}%`
-              : 'Create New Wallet'}
+            {this.props.isLoading ? (
+              `${Math.round(this.props.progress * 100)}%`
+            ) : (
+              <Trans>Create Wallet</Trans>
+            )}
           </Button>
         </div>
       </form>

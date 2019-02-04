@@ -5,10 +5,9 @@ import { Trans } from '@lingui/macro';
 import { inject, observer } from 'mobx-react';
 import cn from 'classnames';
 import { Button, Panel } from '@daonomic/ui';
-import { Navigation } from '~/components/navigation';
 import { Burger } from '~/components/burger';
-import { getRouteUrl } from '~/domains/app/router';
 import { getMarker } from '~/utils/get-marker';
+import { HeaderNavigation } from './components/navigation';
 import styles from './header.css';
 
 type InjectedProps = {|
@@ -54,28 +53,6 @@ class Header extends React.Component<Props, State> {
     this.props.onLogout();
   };
 
-  renderNavigation = () => {
-    const items = [
-      { routeName: 'buyTokens', content: <Trans>Buy tokens</Trans> },
-      { routeName: 'createWallet', content: <Trans>Create wallet</Trans> },
-      { routeName: 'faq', content: <Trans>For investors</Trans> },
-    ];
-
-    return (
-      <Navigation>
-        {items.map(({ routeName, content }) => (
-          <Navigation.Item
-            key={routeName}
-            isActive={routeName === this.props.currentRouteName}
-            href={getRouteUrl(routeName)}
-          >
-            {content}
-          </Navigation.Item>
-        ))}
-      </Navigation>
-    );
-  };
-
   render() {
     const { className } = this.props;
     const { isNavigationExpanded } = this.state;
@@ -94,7 +71,7 @@ class Header extends React.Component<Props, State> {
             [styles.navigation_expanded]: isNavigationExpanded,
           })}
         >
-          {this.renderNavigation()}
+          <HeaderNavigation marker={this.marker('navigation')} />
         </div>
 
         <div className={styles.right}>

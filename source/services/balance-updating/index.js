@@ -17,10 +17,7 @@ export function balanceUpdatingService(
       clearInterval(balanceUpdateIntervalId);
     }
 
-    const isKycAllowed =
-      kyc.state.dataState === 'loaded' && kyc.state.data.status === 'ALLOWED';
-
-    if (isKycAllowed) {
+    if (kyc.isAllowed) {
       walletBalance.loadBalance();
       balanceUpdateIntervalId = setInterval(() => {
         walletBalance.loadBalance();

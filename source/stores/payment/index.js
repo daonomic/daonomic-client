@@ -104,11 +104,7 @@ export class PaymentStore {
 
     // Load and set payment method address on selected method change or kyc change
     reaction(
-      () =>
-        this.isLoaded &&
-        this.kyc.state.dataState === 'loaded' &&
-        this.kyc.state.data.status === 'ALLOWED' &&
-        this.state.selectedMethodId,
+      () => this.isLoaded && this.kyc.isAllowed && this.state.selectedMethodId,
       () => {
         this.loadCurrentMethod();
       },
@@ -187,13 +183,10 @@ export class PaymentStore {
     }
 
     const { id, token } = this.selectedMethod;
-    const isKycAllowed =
-      this.kyc.state.dataState === 'loaded' &&
-      this.kyc.state.data.status === 'ALLOWED';
 
     if (
       !this.isLoaded ||
-      !isKycAllowed ||
+      !this.kyc.isAllowed ||
       this.state.addressesByMethodId.get(id)
     ) {
       return;

@@ -4,14 +4,15 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
-import { getReferralLinkForToken } from '~/modules/referral-program/utils';
+import { referralProgramService } from '~/domains/business/referral-program';
 import styles from './styles.css';
 
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import * as DataStateTypes from '~/modules/data-state/types';
 
 export type Props = {|
-  userToken: DataStateTypes.LoadableData<ReferralProgramTypes.Token>,
+  isReferralAvailable: boolean,
+  userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData>,
 |};
 
 export class ReferralProgram extends React.Component<Props> {
@@ -21,12 +22,16 @@ export class ReferralProgram extends React.Component<Props> {
 
   renderPreloader = () => <Trans>Loading...</Trans>;
 
-  renderLink = (userToken: ReferralProgramTypes.Token) => {
-    return <p className={styles.link}>{getReferralLinkForToken(userToken)}</p>;
+  renderLink = (userData: ReferralProgramTypes.UserData) => {
+    return (
+      <p className={styles.link}>
+        {referralProgramService.getReferralLinkForToken(userData.token)}
+      </p>
+    );
   };
 
   renderContent = () => {
-    switch (this.props.userToken.dataState) {
+    switch (this.props.userData.dataState) {
       case 'initial': {
         return this.renderError();
       }
@@ -36,7 +41,7 @@ export class ReferralProgram extends React.Component<Props> {
       }
 
       case 'loaded': {
-        return this.renderLink(this.props.userToken.data);
+        return this.renderLink(this.props.userData.data);
       }
 
       case 'failed': {
@@ -44,12 +49,16 @@ export class ReferralProgram extends React.Component<Props> {
       }
 
       default: {
-        (this.props.userToken.dataState: empty);
+        (this.props.userData.dataState: empty);
       }
     }
   };
 
   render() {
+    if (!this.props.isReferralAvailable) {
+      return null;
+    }
+
     return (
       <Panel data-marker={this.marker()} className={styles.root}>
         <h3 className={styles.title}>

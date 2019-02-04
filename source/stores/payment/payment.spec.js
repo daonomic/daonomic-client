@@ -64,8 +64,7 @@ describe('payment store', () => {
     await when(
       () =>
         auth.isAuthenticated &&
-        kyc.state.dataState === 'loaded' &&
-        kyc.state.data.status === 'ALLOWED' &&
+        kyc.isAllowed &&
         payment.isLoaded &&
         payment.state.addressesByMethodId.size > 0 &&
         payment.state.selectedMethodAddressQRCode !== '',

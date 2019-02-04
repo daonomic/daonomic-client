@@ -10,7 +10,8 @@ export const api: IApi = {
   auth: {
     login: ({ email, password }) =>
       client.post('/login', { username: email, password }),
-    register: ({ email, ref }) => client.post('/register', { email, ref }),
+    register: ({ email, referralData }) =>
+      client.post('/register', { email, referralData }),
     resetPassword: ({ email, passwordRestorationPagePath }) =>
       client.post('/password/change', {
         email,

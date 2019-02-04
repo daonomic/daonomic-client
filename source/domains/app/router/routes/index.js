@@ -77,6 +77,11 @@ const routes = new UniversalRouter([
                 action: exactMatch(createRoute),
               },
               {
+                path: '/referral',
+                name: 'referral',
+                action: exactMatch(createRoute),
+              },
+              {
                 path: '/faq',
                 name: 'faq',
                 action: exactMatch(createRoute),

@@ -1,5 +1,5 @@
 // @flow
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
 
 export interface IAuthToken {
@@ -18,7 +18,10 @@ export interface IAuth {
   setToken: (token: AuthToken) => void;
 
   login({ email: string, password: string }): Promise<void>;
-  register({ email: string, ref?: ?ReferralProgramTypes.Token }): Promise<{}>;
+  register({|
+    email: string,
+    referralData: ?ReferralProgramTypes.ReferrerData,
+  |}): Promise<{}>;
   resetPassword({ email: string }): Promise<{}>;
   createNewPassword: (params: PasswordRecoveryParams) => Promise<{}>;
 

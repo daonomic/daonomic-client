@@ -8,6 +8,7 @@ export type RouteName =
   | 'app'
   | 'buyTokens'
   | 'createWallet'
+  | 'referral'
   | 'faq';
 
 export type RouteParams = {

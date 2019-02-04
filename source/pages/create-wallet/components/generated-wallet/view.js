@@ -1,5 +1,7 @@
 //@flow
 import * as React from 'react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
 import { saveAs } from 'file-saver';
 import { Button, Input } from '@daonomic/ui';
 import { CopyToClipboard } from '~/components/copy-to-clipboard';
@@ -46,7 +48,7 @@ export class GeneratedWallet extends React.Component<Props> {
         <div className={styles.row}>
           <Input
             disabled
-            label="Address"
+            label={<Trans>Address</Trans>}
             type="text"
             value={generatedWallet.address}
           />
@@ -58,7 +60,7 @@ export class GeneratedWallet extends React.Component<Props> {
         <div className={styles.row}>
           <Input
             disabled
-            label="Private key"
+            label={<Trans>Private key</Trans>}
             type="password"
             value={generatedWallet.privateKey}
           />
@@ -70,7 +72,7 @@ export class GeneratedWallet extends React.Component<Props> {
         <div className={styles.row}>
           <Input
             disabled
-            label="Password"
+            label={<Trans>Password</Trans>}
             type="password"
             value={generatedWallet.password}
           />
@@ -89,7 +91,7 @@ export class GeneratedWallet extends React.Component<Props> {
             )}`}
             onClick={this.handleDownloadKeystore}
           >
-            Download Keystore File
+            <Trans>Download Keystore File</Trans>
           </Button>
         </div>
       </div>

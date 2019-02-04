@@ -5,7 +5,7 @@ import { getRouteUrl } from '~/domains/app/router';
 
 import type { IApi } from '~/domains/app/api/types';
 import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
-import * as ReferralProgramTypes from '~/modules/referral-program/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 import type { IAuth, IAuthToken } from './types';
 
 export class AuthStore implements IAuth {
@@ -63,12 +63,12 @@ export class AuthStore implements IAuth {
 
   register = ({
     email,
-    ref,
-  }: {
+    referralData,
+  }: {|
     email: string,
-    ref?: ?ReferralProgramTypes.Token,
-  }) => {
-    return this.api.auth.register({ email, ref });
+    referralData: ?ReferralProgramTypes.ReferrerData,
+  |}) => {
+    return this.api.auth.register({ email, referralData });
   };
 
   resetPassword = ({ email }: { email: string }) => {

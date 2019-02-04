@@ -31,10 +31,7 @@ describe('balance updating service', () => {
     });
 
     when(
-      () =>
-        kyc.state.dataState === 'loaded' &&
-        kyc.state.data.status === 'ALLOWED' &&
-        walletBalance.isLoading,
+      () => kyc.isAllowed && walletBalance.isLoading,
       (): void => {
         when(
           () => walletBalance.isLoaded,
