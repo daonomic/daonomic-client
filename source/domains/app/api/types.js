@@ -63,6 +63,7 @@ export interface IApi {
     token: {
       symbol: string,
     },
+    features: string[],
   |}>;
   getPaymentAddress(
     params: PaymentParams,

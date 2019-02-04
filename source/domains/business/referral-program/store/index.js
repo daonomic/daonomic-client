@@ -9,6 +9,12 @@ import * as DataStateTypes from '~/modules/data-state/types';
 
 export class ReferralProgramStore {
   @observable
+  isSupportedBySale: boolean = false;
+
+  @observable
+  isAvailable: boolean = false;
+
+  @observable
   userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData> = {
     dataState: 'initial',
   };
@@ -39,7 +45,18 @@ export class ReferralProgramStore {
   };
 
   @action
+  setSupport = ({ isSupported }: {| isSupported: boolean |}) => {
+    this.isSupportedBySale = isSupported;
+  };
+
+  @action
+  setAvailability = ({ isAvailable }: {| isAvailable: boolean |}) => {
+    this.isAvailable = isAvailable;
+  };
+
   reset = () => {
+    this.setSupport({ isSupported: false });
+    this.setAvailability({ isAvailable: false });
     this.setUserData({ dataState: 'initial' });
   };
 }

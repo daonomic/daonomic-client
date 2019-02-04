@@ -11,6 +11,7 @@ export const ReferralProgram = inject(
   }: {|
     referralProgramStore: ReferralProgramStore,
   |}): Props => ({
+    isReferralAvailable: referralProgramStore.isAvailable,
     userData: referralProgramStore.userData,
   }),
 )(observer(ReferralProgramView));

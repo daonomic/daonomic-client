@@ -1,8 +1,12 @@
 @import '~/domains/app/config/styles/spacing.css';
 
+.paragraph {
+  margin: 1em 0;
+}
+
 .link,
 .statistics {
-  margin-bottom: var(--spacing-l);
+  margin: var(--spacing-l) 0;
 }
 
 .pagination {

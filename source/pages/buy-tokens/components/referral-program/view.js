@@ -11,6 +11,7 @@ import * as ReferralProgramTypes from '~/domains/business/referral-program/types
 import * as DataStateTypes from '~/modules/data-state/types';
 
 export type Props = {|
+  isReferralAvailable: boolean,
   userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData>,
 |};
 
@@ -54,6 +55,10 @@ export class ReferralProgram extends React.Component<Props> {
   };
 
   render() {
+    if (!this.props.isReferralAvailable) {
+      return null;
+    }
+
     return (
       <Panel data-marker={this.marker()} className={styles.root}>
         <h3 className={styles.title}>

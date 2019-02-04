@@ -37,7 +37,12 @@ export function init() {
     [balanceUpdatingService, authProvider, kyc, walletBalanceProvider],
     [initKyc, authProvider],
     [initUserData, authProvider],
-    [referralProgramService.init.bind(referralProgramService), authProvider],
+    [
+      referralProgramService.init.bind(referralProgramService),
+      authProvider,
+      kyc,
+      saleProvider,
+    ],
   ).then((system) => {
     const stores = {
       router: system(routerProvider),

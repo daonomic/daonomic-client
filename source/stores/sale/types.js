@@ -13,4 +13,5 @@ export interface ISaleStoreState {
   };
   address: string;
   payWithErc20: boolean;
+  features: string[];
 }
