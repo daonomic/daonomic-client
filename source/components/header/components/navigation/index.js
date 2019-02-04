@@ -7,9 +7,7 @@ import type { Props } from './view';
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { RouterStore } from '~/domains/app/router/store';
 
-type ExternalProps = {|
-  marker: Function,
-|};
+type ExternalProps = {||};
 
 export const HeaderNavigation: React.ComponentType<ExternalProps> = inject(
   ({

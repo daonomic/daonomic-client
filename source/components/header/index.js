@@ -71,7 +71,7 @@ class Header extends React.Component<Props, State> {
             [styles.navigation_expanded]: isNavigationExpanded,
           })}
         >
-          <HeaderNavigation marker={this.marker('navigation')} />
+          <HeaderNavigation />
         </div>
 
         <div className={styles.right}>

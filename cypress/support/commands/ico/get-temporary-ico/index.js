@@ -26,8 +26,10 @@ Cypress.Commands.add('getTemporaryIco', (getIcoData = () => defaultIcoData) => {
         }),
       { timeout: 1000 * 20 },
     )
-    .then(({ body }) => ({
-      saleId: body.sale.id,
-      realmId: body.token.id,
-    }));
+    .then(({ body }) => {
+      return {
+        saleId: body.transaction.sale.id,
+        realmId: body.transaction.token.id,
+      };
+    });
 });

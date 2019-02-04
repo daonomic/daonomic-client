@@ -4,24 +4,26 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Navigation } from '~/components/navigation';
 import { getRouteUrl } from '~/domains/app/router';
+import { getMarker } from '~/utils/get-marker';
 
 export type Props = {|
-  marker: Function,
   currentRouteName: string,
   isReferralSupported: boolean,
 |};
 
 export class HeaderNavigation extends React.Component<Props> {
+  marker = getMarker('navigation');
+
   render() {
     const items = [
       {
         routeName: 'buyTokens',
-        marker: this.props.marker('buy-tokens')(),
+        marker: this.marker('buy-tokens')(),
         content: <Trans>Buy tokens</Trans>,
       },
       {
         routeName: 'createWallet',
-        marker: this.props.marker('create-wallet')(),
+        marker: this.marker('create-wallet')(),
         content: <Trans>Create wallet</Trans>,
       },
     ];
@@ -29,19 +31,19 @@ export class HeaderNavigation extends React.Component<Props> {
     if (this.props.isReferralSupported) {
       items.push({
         routeName: 'referral',
-        marker: this.props.marker('referral')(),
+        marker: this.marker('referral')(),
         content: <Trans>Referral</Trans>,
       });
     }
 
     items.push({
       routeName: 'faq',
-      marker: this.props.marker('faq')(),
+      marker: this.marker('faq')(),
       content: <Trans>For investors</Trans>,
     });
 
     return (
-      <Navigation data-marker={this.props.marker()}>
+      <Navigation data-marker={this.marker()}>
         {items.map(({ routeName, marker, content }) => (
           <Navigation.Item
             key={routeName}
