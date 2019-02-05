@@ -59,7 +59,6 @@ export interface IApi {
     total: number,
     startDate: number,
     endDate: number,
-    payWithErc20: boolean,
     token: {
       symbol: string,
     },

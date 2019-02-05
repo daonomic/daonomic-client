@@ -223,24 +223,16 @@ export class PaymentStore {
 
     try {
       const {
-        data: { paymentMethods: originalPaymentMethods = [], payWithErc20 },
+        data: { paymentMethods: originalPaymentMethods = [] },
       } = await this.api.getSaleInfo();
       const ethPaymentMethod = originalPaymentMethods.find(
         (method) => method.id === 'ETH',
       );
-      const additionalPaymentMethods = [];
-
-      if (payWithErc20) {
-        additionalPaymentMethods.push({
-          ...ethPaymentMethod,
-          id: 'ERC20',
-          label: 'ERC20',
-        });
-      }
-
-      const paymentMethods = originalPaymentMethods.concat(
-        additionalPaymentMethods,
-      );
+      const paymentMethods = originalPaymentMethods.concat({
+        ...ethPaymentMethod,
+        id: 'ERC20',
+        label: 'ERC20',
+      });
 
       runInAction(() => {
         this.state.dataState = 'loaded';

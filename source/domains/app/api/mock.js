@@ -100,7 +100,6 @@ export function createMockApi(): IApi {
           current: 10,
           startDate: Date.now() - 1000,
           endDate: Date.now() * 10,
-          payWithErc20: true,
           paymentMethods: [
             {
               id: 'ETH',
@@ -157,7 +156,6 @@ export function createMockApi(): IApi {
           current: 10,
           startDate: Date.now() - 1000,
           endDate: Date.now() * 10,
-          payWithErc20: true,
           token: {
             symbol: 'TIKR',
           },
@@ -183,7 +181,6 @@ export function createMockApi(): IApi {
           id: '0x99a09f0d85bc6e95e110348a8522f98443e31c4a',
           total: 20,
           current: 10,
-          payWithErc20: true,
           token: {
             symbol: 'TIKR',
           },
