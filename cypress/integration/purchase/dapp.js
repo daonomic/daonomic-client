@@ -22,7 +22,7 @@ describe('Immediate tokens purchase with Web3', () => {
   });
 
   it('should be able to purchase tokens through exchange form with different address', () => {
-    const differentUserAddress = `0x${'0'.repeat(40)}`;
+    const differentUserAddress = '0x50d09C441B3DEcF388e440D495ebE3c94b849410';
 
     cy.wrap(differentUserAddress).should(
       'not.equal',
