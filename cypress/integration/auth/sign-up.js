@@ -1,5 +1,7 @@
+import faker from 'faker';
 import { signInPage } from '../../objects/pages/auth/sign-in';
 import { signUpPage } from '../../objects/pages/auth/sign-up';
+import { header } from '../../objects/header';
 
 describe('Sign up page', () => {
   beforeEach(() => {
@@ -22,13 +24,19 @@ describe('Sign up page', () => {
   });
 
   it('should sign up with new email and prefill registered email on sign in page', () => {
-    const testEmail = 'test@example.com';
+    const testEmail = faker.internet.email();
 
     signUpPage.getEmail().type(testEmail);
     signUpPage.getSubmitButton().click();
     signUpPage.getSuccessMessage().should('be.visible');
 
-    signUpPage.getSignInLink().click();
-    signInPage.getEmail().should('have.value', testEmail);
+    cy.getRegisteredUserPassword({ email: testEmail }).then((password) => {
+      cy.visit(signInPage.getUrl());
+      signInPage.getForm().should('be.visible');
+      signInPage.getEmail().should('have.value', testEmail);
+      signInPage.getPassword().type(password);
+      signInPage.getSubmitButton().click();
+      header.getRoot().should('be.visible');
+    });
   });
 });

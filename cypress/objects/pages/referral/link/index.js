@@ -6,6 +6,10 @@ class ReferralLink {
   getRoot() {
     return cy.get(this.marker());
   }
+
+  getInput() {
+    return cy.get(this.marker('input')());
+  }
 }
 
 export const referralLink = new ReferralLink();

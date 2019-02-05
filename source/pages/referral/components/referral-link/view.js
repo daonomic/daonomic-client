@@ -27,7 +27,12 @@ export class ReferralLink extends React.Component<Props> {
 
     return (
       <p data-marker={this.marker()} className={styles.link}>
-        <Input readOnly className={styles.input} value={link} />
+        <Input
+          data-marker={this.marker('input')()}
+          readOnly
+          className={styles.input}
+          value={link}
+        />
 
         <CopyToClipboard value={link}>
           {({ state, text, copy }) => (
