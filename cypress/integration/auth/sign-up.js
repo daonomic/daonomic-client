@@ -14,7 +14,7 @@ describe('Sign up page', () => {
   });
 
   it('should not sign up with already used email', () => {
-    cy.getStableUser().then(({ email }) => {
+    cy.getCurrentUser().then(({ email }) => {
       signUpPage.getEmail().type(email);
       signUpPage.getSubmitButton().click();
       signUpPage.getError().should('contain', 'Email is occupied');

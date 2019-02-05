@@ -1,7 +1,14 @@
+import { testUserAddress } from '../../config';
 import { navigation } from '../../objects/navigation';
 import { referralPage } from '../../objects/pages/referral';
+import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
+import { kycReviewAnnotation } from '../../objects/kyc/review-annotation';
+import { paymentMethod } from '../../objects/payment-method';
 
 describe('Referral', () => {
+  let currentIco = null;
+  let currentUser = null;
+
   beforeEach(() => {
     cy.getInternalKycParams({
       fields: [
@@ -13,10 +20,12 @@ describe('Referral', () => {
         },
       ],
     })
-      .then((kyc) => cy.getTemporaryIco((data) => ({ ...data, kyc })))
+      .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
       .then((ico) => {
-        cy.getTemporaryUser({ ico }).then(({ email, password }) => {
-          cy.login({ ico, email, password });
+        currentIco = ico;
+        cy.createUser({ ico }).then((user) => {
+          currentUser = user;
+          cy.login({ ico, email: user.email, password: user.password });
         });
       });
   });
@@ -42,6 +51,16 @@ describe('Referral', () => {
   });
 
   describe('ICO with KYC', () => {
+    function passKyc() {
+      cy.fillUserData({ address: testUserAddress });
+      extendedKycForm.getRoot().should('be.visible');
+      extendedKycForm.getCheckbox({ name: 'terms' }).click();
+      extendedKycForm.getSubmit().click();
+      kycReviewAnnotation.getRoot().should('be.visible');
+      cy.whitelistUser({ ico: currentIco, userId: currentUser.id });
+      paymentMethod.getRoot().should('be.visible');
+    }
+
     it('should show required KYC passage notification', () => {
       cy.visit(referralPage.getUrl());
       referralPage.getRoot().should('be.visible');
@@ -49,22 +68,29 @@ describe('Referral', () => {
       referralPage.getContent().should('not.exist');
     });
 
-    it.skip('should load and show statistics after KYC passage', () => {});
-    it.skip('should load and show referrals after KYC passage', () => {});
+    it('should load and show link, statistics and referees after KYC passage', () => {
+      cy.server();
+      cy.route('GET', '**/ref').as('referralStatisticsRequest');
+      cy.route('POST', '**/ref/referees').as('refereesListRequest');
+
+      passKyc();
+      cy.visit(referralPage.getUrl());
+      cy.wait('@referralStatisticsRequest');
+      cy.wait('@refereesListRequest');
+
+      referralPage.getRoot().should('be.visible');
+      referralPage.getRequiredKycNotification().should('not.exist');
+      referralPage.getContent().should('be.visible');
+
+      referralPage.link.getRoot().should('be.visible');
+      referralPage.getReferrals().should('be.visible');
+
+      referralPage.statistics.getRoot().should('be.visible');
+      referralPage.statistics.getUsers().should('be.visible');
+      referralPage.statistics.getBonus().should('be.visible');
+      referralPage.statistics.getSold().should('be.visible');
+    });
   });
 
   describe('ICO without KYC', () => {});
-
-  it.skip('should contain referral link, statistics and referrals list', () => {
-    cy.visit(referralPage.getUrl());
-
-    referralPage.getRoot().should('be.visible');
-    referralPage.getReferrals().should('be.visible');
-    referralPage.link.getRoot().should('be.visible');
-
-    referralPage.statistics.getRoot().should('be.visible');
-    referralPage.statistics.getUsers().should('be.visible');
-    referralPage.statistics.getBonus().should('be.visible');
-    referralPage.statistics.getSold().should('be.visible');
-  });
 });

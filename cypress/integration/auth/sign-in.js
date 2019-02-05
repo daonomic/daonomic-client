@@ -22,7 +22,7 @@ describe('Sign in page', () => {
   });
 
   it('should login with valid credentials', () => {
-    cy.getStableUser().then(({ email, password }) => {
+    cy.getCurrentUser().then(({ email, password }) => {
       signInPage.getEmail().type(email);
       signInPage.getPassword().type(password);
       signInPage.getSubmitButton().click();

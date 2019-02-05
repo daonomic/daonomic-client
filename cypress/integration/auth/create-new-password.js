@@ -5,7 +5,7 @@ describe('Create new password page', () => {
   let token = null;
 
   before(() => {
-    cy.getStableUser()
+    cy.getCurrentUser()
       .then(({ email }) => {
         cy.visit(passwordResetPage.getUrl());
         cy.initApplication();
@@ -34,7 +34,7 @@ describe('Create new password page', () => {
   });
 
   it('should show success message after submitting valid passwords', () => {
-    cy.getStableUser().then(({ password }) => {
+    cy.getCurrentUser().then(({ password }) => {
       createNewPasswordPage.getPassword().type(password);
       createNewPasswordPage.getPassword2().type(password);
       createNewPasswordPage.getSubmitButton().click();

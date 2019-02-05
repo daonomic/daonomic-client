@@ -21,7 +21,7 @@ describe('Password reset page', () => {
   it('should reset known user password', () => {
     cy.visit(passwordResetPage.getUrl());
     cy.initApplication();
-    cy.getStableUser().then(({ email }) => {
+    cy.getCurrentUser().then(({ email }) => {
       passwordResetPage.getEmail().type(email);
       passwordResetPage.getSubmitButton().click();
       passwordResetPage.getSuccessMessage().should('be.visible');

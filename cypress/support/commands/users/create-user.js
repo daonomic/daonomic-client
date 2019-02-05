@@ -1,6 +1,6 @@
 import { createUser } from '../../server-api';
 
-Cypress.Commands.add('getTemporaryUser', ({ ico } = {}) => {
+Cypress.Commands.add('createUser', ({ ico } = {}) => {
   let icoPromise;
 
   if (ico) {

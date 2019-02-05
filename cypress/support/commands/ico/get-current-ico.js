@@ -5,7 +5,7 @@ Cypress.Commands.add('getCurrentIco', () => {
     return cy.wrap(currentIco);
   }
 
-  return cy.getTemporaryIco().then((ico) => {
+  return cy.createIco().then((ico) => {
     currentIco = ico;
     return ico;
   });

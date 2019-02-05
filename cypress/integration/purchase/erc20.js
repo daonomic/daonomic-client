@@ -7,7 +7,7 @@ describe('Tokens purchase via ERC20', () => {
   });
 
   it('should have ERC20 payment method', () => {
-    cy.getTemporaryUser()
+    cy.createUser()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: wallet.getAddressString() }))
       .then(() => {

@@ -1,10 +1,10 @@
 import { createUser } from '../../server-api';
 
-let stableUser;
+let currentUser;
 
-Cypress.Commands.add('getStableUser', () => {
-  if (stableUser) {
-    return stableUser;
+Cypress.Commands.add('getCurrentUser', () => {
+  if (currentUser) {
+    return currentUser;
   }
 
   return cy
@@ -12,7 +12,7 @@ Cypress.Commands.add('getStableUser', () => {
     .then(cy.getCurrentIco.bind(cy))
     .then(({ realmId }) => createUser({ realmId }))
     .then((user) => {
-      stableUser = user;
+      currentUser = user;
       return user;
     });
 });

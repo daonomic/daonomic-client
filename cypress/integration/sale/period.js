@@ -14,11 +14,11 @@ describe('Sale period', () => {
     const end = start + hour;
     const salePeriod = { start, end };
 
-    cy.getTemporaryIco((data) => ({
+    cy.createIco((data) => ({
       ...data,
       sale: assoc('period', salePeriod, data.sale),
     })).then((ico) => {
-      cy.getTemporaryUser({ ico })
+      cy.createUser({ ico })
         .then(({ email, password }) => cy.login({ ico, email, password }))
         .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
     });
@@ -34,11 +34,11 @@ describe('Sale period', () => {
     const end = start + hour / 2;
     const salePeriod = { start, end };
 
-    cy.getTemporaryIco((data) => ({
+    cy.createIco((data) => ({
       ...data,
       sale: assoc('period', salePeriod, data.sale),
     })).then((ico) => {
-      cy.getTemporaryUser({ ico })
+      cy.createUser({ ico })
         .then(({ email, password }) => cy.login({ ico, email, password }))
         .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
     });
@@ -49,7 +49,7 @@ describe('Sale period', () => {
   });
 
   it('Should show payment method if sale is active', () => {
-    cy.getTemporaryUser()
+    cy.createUser()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
 

@@ -48,7 +48,7 @@ export class ReferralPage extends React.Component<Props> {
         </Heading>
 
         {this.props.isReferralAvailable && (
-          <div data-marker={this.marker('content')}>
+          <div data-marker={this.marker('content')()}>
             <div className={style.link}>
               <ReferralLink />
             </div>

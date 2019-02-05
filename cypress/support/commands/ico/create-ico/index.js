@@ -11,7 +11,7 @@ const defaultIcoData = {
   mail: marketingForm,
 };
 
-Cypress.Commands.add('getTemporaryIco', (getIcoData = () => defaultIcoData) => {
+Cypress.Commands.add('createIco', (getIcoData = () => defaultIcoData) => {
   const icoData = getIcoData(defaultIcoData);
 
   return cy
@@ -30,6 +30,7 @@ Cypress.Commands.add('getTemporaryIco', (getIcoData = () => defaultIcoData) => {
       return {
         saleId: body.transaction.sale.id,
         realmId: body.transaction.token.id,
+        adminData: body.loginResponse,
       };
     });
 });
