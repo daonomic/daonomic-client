@@ -1,7 +1,7 @@
 import { testKycProviderUrl, testUserAddress } from '../../config';
 import { externalKyc } from '../../objects/kyc/external-kyc';
 
-describe('External KYC flow', () => {
+describe.skip('External KYC flow', () => {
   beforeEach(() => {
     cy.createExternalKycProvider({
       jurisdiction: 'OTHER',
