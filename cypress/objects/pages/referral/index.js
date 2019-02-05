@@ -22,6 +22,14 @@ class ReferralPage {
   getReferrals() {
     return cy.get(this.marker('referrals')());
   }
+
+  getRequiredKycNotification() {
+    return cy.get(this.marker('required-kyc')());
+  }
+
+  getContent() {
+    return cy.get(this.marker('content')());
+  }
 }
 
 export const referralPage = new ReferralPage();

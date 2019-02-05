@@ -48,7 +48,7 @@ export class ReferralPage extends React.Component<Props> {
         </Heading>
 
         {this.props.isReferralAvailable && (
-          <React.Fragment>
+          <div data-marker={this.marker('content')}>
             <div className={style.link}>
               <ReferralLink />
             </div>
@@ -127,11 +127,14 @@ export class ReferralPage extends React.Component<Props> {
               totalPages={this.props.referrals.totalPagesCount}
               onChangePage={this.handleChangePage}
             />
-          </React.Fragment>
+          </div>
         )}
 
         {!this.props.isReferralAvailable && (
-          <p className={style.paragraph}>
+          <p
+            data-marker={this.marker('required-kyc')()}
+            className={style.paragraph}
+          >
             Referral will become available after the passage of KYC.
           </p>
         )}

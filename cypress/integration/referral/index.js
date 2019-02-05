@@ -25,19 +25,35 @@ describe('Referral', () => {
     cy.logout();
   });
 
-  it('should open referral page directly', () => {
-    cy.visit(referralPage.getUrl());
-    referralPage.getRoot().should('be.visible');
+  describe('Common cases', () => {
+    it('should open referral page directly', () => {
+      cy.visit(referralPage.getUrl());
+      referralPage.getRoot().should('be.visible');
+    });
+
+    it('should open referral page by clicking navigation link', () => {
+      navigation.getRoot().should('be.visible');
+      navigation.getReferralLink().should('be.visible');
+      referralPage.getRoot().should('not.exist');
+
+      navigation.getReferralLink().click();
+      referralPage.getRoot().should('be.visible');
+    });
   });
 
-  it('should open referral page by clicking navigation link', () => {
-    navigation.getRoot().should('be.visible');
-    navigation.getReferralLink().should('be.visible');
-    referralPage.getRoot().should('not.exist');
+  describe('ICO with KYC', () => {
+    it('should show required KYC passage notification', () => {
+      cy.visit(referralPage.getUrl());
+      referralPage.getRoot().should('be.visible');
+      referralPage.getRequiredKycNotification().should('be.visible');
+      referralPage.getContent().should('not.exist');
+    });
 
-    navigation.getReferralLink().click();
-    referralPage.getRoot().should('be.visible');
+    it.skip('should load and show statistics', () => {});
+    it.skip('should load and show referrals', () => {});
   });
+
+  describe('ICO without KYC', () => {});
 
   it.skip('should contain referral link, statistics and referrals list', () => {
     cy.visit(referralPage.getUrl());
