@@ -49,8 +49,8 @@ describe('Referral', () => {
       referralPage.getContent().should('not.exist');
     });
 
-    it.skip('should load and show statistics', () => {});
-    it.skip('should load and show referrals', () => {});
+    it.skip('should load and show statistics after KYC passage', () => {});
+    it.skip('should load and show referrals after KYC passage', () => {});
   });
 
   describe('ICO without KYC', () => {});

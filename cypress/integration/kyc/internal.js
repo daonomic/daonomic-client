@@ -1,3 +1,4 @@
+import { testUserAddress } from '../../config';
 import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
 import { kycReviewAnnotation } from '../../objects/kyc/review-annotation';
 
@@ -38,9 +39,7 @@ describe('Internal KYC flow', () => {
   });
 
   it('should save KYC data and show review annotation', () => {
-    const testAddress = `0x${'0'.repeat(40)}`;
-
-    cy.fillUserData({ address: testAddress });
+    cy.fillUserData({ address: testUserAddress });
     extendedKycForm.getRoot().should('be.visible');
     extendedKycForm.getField({ name: 'firstName' }).type('Sarah');
     extendedKycForm.getField({ name: 'lastName' }).type('O’Connor');

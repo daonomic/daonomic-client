@@ -1,3 +1,4 @@
+import { testUserAddress } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
 import wallet from '../../support/web3-mock/wallet';
@@ -24,7 +25,7 @@ describe('Simple KYC flow', () => {
   });
 
   it('should save address and show payment methods', () => {
-    cy.fillUserData({ address: `0x${'0'.repeat(40)}` });
+    cy.fillUserData({ address: testUserAddress });
     paymentMethod.getRoot().should('be.visible');
   });
 });

@@ -1,4 +1,4 @@
-import { testKycProviderUrl } from '../../config';
+import { testKycProviderUrl, testUserAddress } from '../../config';
 import { externalKyc } from '../../objects/kyc/external-kyc';
 
 describe('External KYC flow', () => {
@@ -22,9 +22,7 @@ describe('External KYC flow', () => {
   });
 
   it('should show external kyc link', () => {
-    const testAddress = `0x${'0'.repeat(40)}`;
-
-    cy.fillSecurityUserData({ address: testAddress });
+    cy.fillSecurityUserData({ address: testUserAddress });
     externalKyc.getRoot().should('be.visible');
     externalKyc.getLink().then(($el) => {
       cy.wrap($el.attr('href').startsWith(testKycProviderUrl)).should(
