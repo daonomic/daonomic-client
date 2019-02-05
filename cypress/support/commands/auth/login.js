@@ -3,6 +3,7 @@ import { header } from '../../../objects/header';
 
 Cypress.Commands.add('login', ({ ico, email, password }) => {
   cy.visit(signInPage.getUrl());
+  cy.reload();
   cy.initApplication({ ico });
   signInPage.getForm().should('be.visible');
   signInPage.getEmail().type(email);

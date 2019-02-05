@@ -9,7 +9,19 @@ describe('Referral', () => {
   let currentIco = null;
   let currentUser = null;
 
+  function loginAsCurrentUser() {
+    cy.login({
+      ico: currentIco,
+      email: currentUser.email,
+      password: currentUser.password,
+    });
+  }
+
   beforeEach(() => {
+    if (currentIco && currentUser) {
+      return;
+    }
+
     cy.getInternalKycParams({
       fields: [
         {
@@ -23,10 +35,10 @@ describe('Referral', () => {
       .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
       .then((ico) => {
         currentIco = ico;
-        cy.createUser({ ico }).then((user) => {
-          currentUser = user;
-          cy.login({ ico, email: user.email, password: user.password });
-        });
+        return cy.createUser({ ico });
+      })
+      .then((user) => {
+        currentUser = user;
       });
   });
 
@@ -36,11 +48,13 @@ describe('Referral', () => {
 
   describe('Common cases', () => {
     it('should open referral page directly', () => {
+      loginAsCurrentUser();
       cy.visit(referralPage.getUrl());
       referralPage.getRoot().should('be.visible');
     });
 
     it('should open referral page by clicking navigation link', () => {
+      loginAsCurrentUser();
       navigation.getRoot().should('be.visible');
       navigation.getReferralLink().should('be.visible');
       referralPage.getRoot().should('not.exist');
@@ -62,6 +76,8 @@ describe('Referral', () => {
     }
 
     it('should show required KYC passage notification', () => {
+      loginAsCurrentUser();
+
       cy.visit(referralPage.getUrl());
       referralPage.getRoot().should('be.visible');
       referralPage.getRequiredKycNotification().should('be.visible');
@@ -72,6 +88,8 @@ describe('Referral', () => {
       cy.server();
       cy.route('GET', '**/ref').as('referralStatisticsRequest');
       cy.route('POST', '**/ref/referees').as('refereesListRequest');
+
+      loginAsCurrentUser();
 
       passKyc();
       cy.visit(referralPage.getUrl());
