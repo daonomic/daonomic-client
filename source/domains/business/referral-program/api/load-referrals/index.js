@@ -12,5 +12,8 @@ export function loadReferrals({
 }): Promise<{| count: number, items: ReferralProgramTypes.Referral[] |}> {
   return client
     .post('/ref/referees', { page: page - 1, size: countPerPage })
-    .then(({ data }) => data);
+    .then(({ headers, data }) => ({
+      items: data,
+      count: headers['x-total-count'],
+    }));
 }
