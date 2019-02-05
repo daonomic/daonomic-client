@@ -14,6 +14,6 @@ export function loadReferrals({
     .post('/ref/referees', { page: page - 1, size: countPerPage })
     .then(({ headers, data }) => ({
       items: data,
-      count: headers['x-total-count'],
+      count: Number(headers['x-total-count']) || 1,
     }));
 }
