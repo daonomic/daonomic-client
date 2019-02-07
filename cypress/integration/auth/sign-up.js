@@ -21,11 +21,14 @@ describe('Sign up page', () => {
     });
   });
 
-  it('should sign up with new email', () => {
+  it('should sign up with new email and prefill registered email on sign in page', () => {
     const testEmail = 'test@example.com';
 
     signUpPage.getEmail().type(testEmail);
     signUpPage.getSubmitButton().click();
     signUpPage.getSuccessMessage().should('be.visible');
+
+    signUpPage.getSignInLink().click();
+    signInPage.getEmail().should('have.value', testEmail);
   });
 });

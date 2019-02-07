@@ -3,6 +3,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { observable, action, runInAction, toJS } from 'mobx';
 import SignIn from '~/components/auth/signin';
+import { registrationService } from '~/domains/business/auth';
 
 import type { FormValidationError } from '~/types/common';
 
@@ -18,7 +19,9 @@ const initialErrors = {
 
 @observer
 class SignInPage extends React.Component<Props> {
-  @observable email: string = '';
+  @observable email: string =
+    registrationService.getPersistedRegisteredEmail() || '';
+
   @observable password: string = '';
   @observable isLoading: boolean = false;
   @observable errors = initialErrors;
@@ -85,6 +88,8 @@ class SignInPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ auth }): Props => ({
-  login: auth.login,
-}))(SignInPage);
+export default inject(
+  ({ auth }): Props => ({
+    login: auth.login,
+  }),
+)(SignInPage);

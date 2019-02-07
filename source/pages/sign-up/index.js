@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { action, observable, computed, runInAction, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import { registrationService } from '~/domains/business/auth';
 import SignUp from '~/components/auth/signup';
 
 import type { FormValidationError, DataState } from '~/types/common';
@@ -43,14 +44,17 @@ class SignUpPage extends React.Component<Props> {
 
   @action
   register = () => {
+    const { email } = this;
+
     this.errors = initialErrors;
     this.registrationState = 'loading';
     this.props
-      .register({ email: this.email })
+      .register({ email })
       .then(() => {
         runInAction(() => {
           this.registrationState = 'loaded';
         });
+        registrationService.persistRegisteredEmail(email);
       })
       .catch((error: FormValidationError) => {
         runInAction(() => {
