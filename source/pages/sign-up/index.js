@@ -5,7 +5,8 @@ import { inject, observer } from 'mobx-react';
 import { registrationService } from '~/domains/business/auth';
 import SignUp from '~/components/auth/signup';
 
-import type { FormValidationError, DataState } from '~/types/common';
+import type { FormValidationError } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { IAuth } from '~/stores/auth/types';
 
@@ -23,7 +24,7 @@ class SignUpPage extends React.Component<Props> {
   @observable
   email: string = '';
   @observable
-  registrationState: DataState = 'initial';
+  registrationState: DataStateTypes.DataState = 'initial';
   @observable
   errors = initialErrors;
 

@@ -5,7 +5,7 @@ import { Trans } from '@lingui/macro';
 import client from '~/domains/app/api/client';
 import { Select } from '@daonomic/ui';
 
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type Props = {
   disabled?: boolean,
@@ -20,7 +20,7 @@ type Option = {|
 |};
 
 type State = {|
-  dataState: DataState,
+  dataState: DataStateTypes.DataState,
   options: Option[],
 |};
 

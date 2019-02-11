@@ -1,11 +1,11 @@
 // @flow
 import { observable, action } from 'mobx';
 
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { Address, Country } from '~/modules/user-data/types';
 
 class UserDataModel {
-  @observable dataState: DataState = 'initial';
+  @observable dataState: DataStateTypes.DataState = 'initial';
   @observable prospectiveAddress: ?Address = null;
   @observable address: ?Address = null;
   @observable country: ?Country = null;
@@ -15,7 +15,7 @@ export class UserDataStore {
   @observable model = new UserDataModel();
 
   @action
-  setDataState = (dataState: DataState) => {
+  setDataState = (dataState: DataStateTypes.DataState) => {
     this.model.dataState = dataState;
   };
 

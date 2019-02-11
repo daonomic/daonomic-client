@@ -1,8 +1,8 @@
 // @flow
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export interface ISaleStoreState {
-  dataState: DataState;
+  dataState: DataStateTypes.DataState;
   tokenSymbol: string;
   startTimestamp: ?number;
   endTimestamp: ?number;

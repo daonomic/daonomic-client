@@ -1,7 +1,7 @@
 // @flow
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export interface IWalletBalanceState {
-  balanceState: DataState;
+  balanceState: DataStateTypes.DataState;
   balance: number;
 }

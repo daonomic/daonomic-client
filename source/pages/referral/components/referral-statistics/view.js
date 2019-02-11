@@ -6,7 +6,7 @@ import { getMarker } from '~/utils/get-marker';
 import style from './style.css';
 
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
-import * as DataStateTypes from '~/modules/data-state/types';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export type Props = {|
   userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData>,

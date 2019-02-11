@@ -1,4 +1,5 @@
 // @flow
+export type DataState = 'initial' | 'loading' | 'loaded' | 'failed';
 
 type Initial = { dataState: 'initial' };
 type Loading = { dataState: 'loading' };

@@ -11,11 +11,11 @@ import { ExtendedKycForm } from './extended-kyc-form';
 import { CivicKycForm } from './civic-kyc-form';
 import styles from './styles.css';
 
-import type { LoadableData } from '~/modules/data-state/types';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 import * as KycTypes from '~/modules/kyc/types';
 
 export type Props = {|
-  kycState: LoadableData<KycTypes.State>,
+  kycState: DataStateTypes.LoadableData<KycTypes.State>,
   userWalletAddress: ?string,
   onSubmitUserData(): mixed,
 |};

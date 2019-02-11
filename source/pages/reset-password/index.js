@@ -4,7 +4,8 @@ import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import ResetPassword from '~/components/auth/reset-password';
 
-import type { DataState, FormValidationError } from '~/types/common';
+import type { FormValidationError } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type Props = {|
   resetPassword: Function,
@@ -18,7 +19,7 @@ const initialErrors = {
 @observer
 class ResetPasswordPage extends React.Component<Props> {
   @observable email: string = '';
-  @observable passwordResetState: DataState = 'initial';
+  @observable passwordResetState: DataStateTypes.DataState = 'initial';
   @observable errors = initialErrors;
 
   @computed
@@ -84,6 +85,8 @@ class ResetPasswordPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ auth }): Props => ({
-  resetPassword: auth.resetPassword,
-}))(ResetPasswordPage);
+export default inject(
+  ({ auth }): Props => ({
+    resetPassword: auth.resetPassword,
+  }),
+)(ResetPasswordPage);

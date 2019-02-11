@@ -5,7 +5,7 @@ import { Trans } from '@lingui/macro';
 import client from '~/domains/app/api/client';
 import { BaseSelect } from '~/components/json-schema-form/base-select';
 
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type Props = {|
   schema: {
@@ -29,7 +29,7 @@ type Option = {|
 |};
 
 type State = {|
-  dataState: DataState,
+  dataState: DataStateTypes.DataState,
   options: Option[],
 |};
 

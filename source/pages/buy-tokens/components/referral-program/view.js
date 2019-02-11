@@ -8,7 +8,7 @@ import { referralProgramService } from '~/domains/business/referral-program';
 import styles from './styles.css';
 
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
-import * as DataStateTypes from '~/modules/data-state/types';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export type Props = {|
   isReferralAvailable: boolean,

@@ -1,14 +1,16 @@
 // @flow
 import { observable, action, computed, toJS } from 'mobx';
 
-import type { LoadableData } from '~/modules/data-state/types';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { State } from '~/modules/kyc/types';
 
 export class KycStore {
-  @observable observableState: LoadableData<State> = { dataState: 'initial' };
+  @observable observableState: DataStateTypes.LoadableData<State> = {
+    dataState: 'initial',
+  };
 
   @computed
-  get state(): LoadableData<State> {
+  get state(): DataStateTypes.LoadableData<State> {
     return toJS(this.observableState);
   }
 
@@ -20,7 +22,7 @@ export class KycStore {
   }
 
   @action
-  setState = (state: LoadableData<State>) => {
+  setState = (state: DataStateTypes.LoadableData<State>) => {
     this.observableState = state;
   };
 

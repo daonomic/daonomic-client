@@ -4,7 +4,8 @@ import { action, observable, computed, runInAction, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import CreateNewPassword from '~/components/auth/create-new-password';
 
-import type { DataState, FormValidationError } from '~/types/common';
+import type { FormValidationError } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type InjectedProps = {|
   createNewPassword: Function,
@@ -24,7 +25,7 @@ const initialErrors = {
 class CreateNewPasswordPage extends React.Component<Props> {
   @observable password: string = '';
   @observable confirmedPassword: string = '';
-  @observable passwordCreationState: DataState = 'initial';
+  @observable passwordCreationState: DataStateTypes.DataState = 'initial';
   @observable errors = initialErrors;
 
   @computed
@@ -105,6 +106,8 @@ class CreateNewPasswordPage extends React.Component<Props> {
   }
 }
 
-export default inject(({ auth }): InjectedProps => ({
-  createNewPassword: auth.createNewPassword,
-}))(CreateNewPasswordPage);
+export default inject(
+  ({ auth }): InjectedProps => ({
+    createNewPassword: auth.createNewPassword,
+  }),
+)(CreateNewPasswordPage);

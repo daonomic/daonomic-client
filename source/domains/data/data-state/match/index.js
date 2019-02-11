@@ -1,8 +1,8 @@
 // @flow
-import type { DataState } from '~/types/common';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export function matchDataState<T>(
-  dataStates: DataState[],
+  dataStates: DataStateTypes.DataState[],
   states: { loading: () => T, loaded: () => T, failed: () => T },
 ): T {
   if (dataStates.some((state) => state === 'failed')) {

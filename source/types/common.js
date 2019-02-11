@@ -6,8 +6,6 @@ export type ComponentProps = {
   className?: string,
 };
 
-export type DataState = 'initial' | 'loading' | 'loaded' | 'failed';
-
 export type FormValidationResult = {|
   reason?: string,
   genericErrors: string[],
