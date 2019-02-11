@@ -7,7 +7,7 @@ const defaultNodeEnv = 'production';
 module.exports = {
   paths: {
     sourceDir,
-    assetsDir: path.resolve(__dirname, './assets'),
+    assetsDir: path.resolve(sourceDir, './assets'),
     buildDir: path.resolve(__dirname, './build'),
     e2eTestsDir: path.resolve(__dirname, './cypress'),
     sentryConfigFile:

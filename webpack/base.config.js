@@ -53,6 +53,11 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        include: [paths.assetsDir],
+        use: 'file-loader',
+      },
+      {
         test: /\.jsx?$/,
         include: [paths.sourceDir, /@daonomic\/ui/],
         use: 'babel-loader',

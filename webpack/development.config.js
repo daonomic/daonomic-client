@@ -24,6 +24,7 @@ module.exports = Object.assign({}, baseConfig, {
       {
         test: /\.css$/,
         include: [paths.sourceDir, /daonomic\/ui/],
+        exclude: [paths.assetsDir],
         use: [
           'style-loader',
           {
@@ -70,6 +71,5 @@ module.exports = Object.assign({}, baseConfig, {
     port: devServerPort,
     historyApiFallback: true,
     hot: true,
-    contentBase: paths.assetsDir,
   },
 });

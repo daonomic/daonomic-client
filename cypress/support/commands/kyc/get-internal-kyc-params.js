@@ -5,7 +5,7 @@ Cypress.Commands.add('getInternalKycParams', ({ fields }) => {
     type: 'WHITELIST',
     whitelist: {
       provider: 'SELF_SERVICE',
-      form: {
+      selfService: {
         serverUrl: testKycServerUrl,
         fields,
       },

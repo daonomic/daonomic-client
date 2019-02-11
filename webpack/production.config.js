@@ -46,6 +46,7 @@ module.exports = smp.wrap(
         {
           test: /\.css$/,
           include: [paths.sourceDir, /daonomic\/ui/],
+          exclude: [paths.assetsDir],
           use: [
             MiniCssExtractPlugin.loader,
             {
