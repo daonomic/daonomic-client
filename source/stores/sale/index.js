@@ -108,7 +108,7 @@ export class SaleStore {
         this.state.tokenSymbol = token.symbol;
         this.state.tokensCount.sold = sold;
         this.state.tokensCount.total = total;
-        this.state.features = features;
+        this.state.features = features || [];
 
         if (startDate) {
           this.state.startTimestamp = startDate;

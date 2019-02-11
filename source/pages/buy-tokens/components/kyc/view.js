@@ -9,6 +9,7 @@ import { getMarker } from '~/utils/get-marker';
 import { UserDataForm } from './user-data-form';
 import { ExtendedKycForm } from './extended-kyc-form';
 import { CivicKycForm } from './civic-kyc-form';
+import { SumsubKycForm } from './sumsub-kyc-form';
 import styles from './styles.css';
 
 import * as DataStateTypes from '~/domains/data/data-state/types';
@@ -20,7 +21,7 @@ export type Props = {|
   onSubmitUserData(): mixed,
 |};
 
-export default class KycView extends React.Component<Props> {
+export class KycView extends React.Component<Props> {
   exteralKycMarker = getMarker('external-kyc');
 
   renderVerifyIdentityTitle = () => (
@@ -134,6 +135,15 @@ export default class KycView extends React.Component<Props> {
               action={kycData.url}
               applicationId={kycData.applicationId}
             />
+          </Panel>
+        );
+      }
+
+      case 'SUM_SUB_KYC': {
+        return (
+          <Panel>
+            {this.renderVerifyIdentityTitle()}
+            <SumsubKycForm configuration={kycData.config} />
           </Panel>
         );
       }

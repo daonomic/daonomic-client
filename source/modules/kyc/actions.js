@@ -10,12 +10,18 @@ export async function loadAndSetKycState(): Promise<void> {
   try {
     const { data: state } = await api.kyc.getStatus();
 
-    kyc.setState({
-      dataState: 'loaded',
-      data: state,
-    });
+    if (
+      kyc.state.dataState !== 'loaded' ||
+      (kyc.state.dataState === 'loaded' &&
+        kyc.state.data.status !== state.status)
+    ) {
+      kyc.setState({
+        dataState: 'loaded',
+        data: state,
+      });
+    }
 
-    if (state.status === 'ON_REVIEW') {
+    if (['ON_REVIEW', 'SUM_SUB_KYC'].includes(state.status)) {
       setTimeout(loadAndSetKycState, 1000);
     }
   } catch (error) {
