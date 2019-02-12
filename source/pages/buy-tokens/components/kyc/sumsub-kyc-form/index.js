@@ -52,7 +52,7 @@ export const SumsubKycForm = observer(
             pending: () => <Spinner />,
             fulfilled: () => (
               <div
-                data-marker={this.marker('iframe-target')}
+                data-marker={this.marker('iframe-target')()}
                 id={iframeTargetId}
               />
             ),

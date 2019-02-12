@@ -1,7 +1,7 @@
 import { testUserAddress } from '../../config';
 import { sumAndSubstanceKycForm } from '../../objects/kyc/sum-and-substance-form';
 
-describe.skip('Sum & Substance KYC flow', () => {
+describe('Sum & Substance KYC flow', () => {
   beforeEach(() => {
     cy.getSumAndSubstanceKycParams()
       .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
