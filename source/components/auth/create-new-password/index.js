@@ -118,7 +118,7 @@ export default class CreateNewPassword extends React.Component<Props> {
         <Trans>Create new password</Trans>
       </Heading>
 
-      <Text design="muted" element="p">
+      <Text color="muted" element="p">
         <Trans>New password have been created</Trans>
       </Text>
     </Panel>
@@ -139,7 +139,7 @@ export default class CreateNewPassword extends React.Component<Props> {
 
         <Panel>
           <Text
-            design="muted"
+            color="muted"
             element="p"
             align="center"
             className={styles.paragraph}

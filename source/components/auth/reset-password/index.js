@@ -57,7 +57,7 @@ export default class ResetPassword extends React.Component<Props> {
             <Trans>Forgot password?</Trans>
           </Heading>
 
-          <Text design="muted" element="p" className={commonStyles.row}>
+          <Text color="muted" element="p" className={commonStyles.row}>
             <Trans>
               Enter the email address you used when you joined and we’ll send
               you instructions to reset your password.
@@ -100,7 +100,7 @@ export default class ResetPassword extends React.Component<Props> {
         <Trans>Reset instructions sent</Trans>
       </Heading>
 
-      <Text design="muted" element="p">
+      <Text color="muted" element="p">
         <Trans>
           Instructions to reset your password have been sent to you. Please
           check your email.
@@ -124,7 +124,7 @@ export default class ResetPassword extends React.Component<Props> {
 
         <Panel>
           <Text
-            design="muted"
+            color="muted"
             align="center"
             element="p"
             className={styles.paragraph}

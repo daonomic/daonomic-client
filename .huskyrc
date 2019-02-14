@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "npm run ensure-git-credentials && lint-staged && npm run test:lint && npm run test:unit && npm run test:types"
+  }
+}

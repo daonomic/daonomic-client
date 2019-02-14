@@ -36,7 +36,7 @@ export default class TokenPrice extends React.Component<Props> {
 
         <p className={styles.sold}>
           <NumberFormat value={tokensCount.sold} /> {this.props.tokenSymbol}{' '}
-          <Text design="muted">
+          <Text color="muted">
             <Trans id="soldOf" /> <NumberFormat>tokensCount.total</NumberFormat>
           </Text>
         </p>

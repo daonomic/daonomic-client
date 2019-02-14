@@ -120,7 +120,7 @@ export default class SignIn extends React.Component<Props> {
 
         <Panel>
           <Text
-            design="muted"
+            color="muted"
             align="center"
             element="p"
             className={styles.paragraph}

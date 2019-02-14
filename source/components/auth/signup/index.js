@@ -103,7 +103,7 @@ export default class SignUp extends React.Component<Props> {
     return (
       <Text
         data-marker={this.marker('success-message')()}
-        design="muted"
+        color="muted"
         element="p"
       >
         <Trans>Password has been sent to email</Trans>
@@ -126,7 +126,7 @@ export default class SignUp extends React.Component<Props> {
 
         <Panel>
           <Text
-            design="muted"
+            color="muted"
             align="center"
             element="p"
             className={styles.paragraph}

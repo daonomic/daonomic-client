@@ -60,7 +60,6 @@ export class ReferralPage extends React.Component<Props> {
             <Table
               data-marker={this.marker('referrals')()}
               isEmpty={this.props.referrals.currentPageItems.length === 0}
-              caption={<Trans>Referees</Trans>}
               placeholder={<Trans>You have no referees</Trans>}
             >
               <thead>
