@@ -1,6 +1,7 @@
 import { testUserAddress } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
+import { navigation } from '../../objects/navigation';
 import wallet from '../../support/web3-mock/wallet';
 
 describe('Simple KYC flow', () => {
@@ -27,5 +28,11 @@ describe('Simple KYC flow', () => {
   it('should save address and show payment methods', () => {
     cy.fillUserData({ address: testUserAddress });
     paymentMethod.getRoot().should('be.visible');
+  });
+
+  it('should hide wallet creation page after saving user address', () => {
+    navigation.getCreateWalletLink().should('be.visible');
+    cy.fillUserData({ address: testUserAddress });
+    navigation.getCreateWalletLink().should('not.be.visible');
   });
 });

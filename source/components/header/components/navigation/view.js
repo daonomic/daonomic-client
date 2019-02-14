@@ -9,6 +9,7 @@ import { getMarker } from '~/utils/get-marker';
 export type Props = {|
   currentRouteName: string,
   isReferralSupported: boolean,
+  isKycNotSet: boolean,
 |};
 
 export class HeaderNavigation extends React.Component<Props> {
@@ -21,12 +22,15 @@ export class HeaderNavigation extends React.Component<Props> {
         marker: this.marker('buy-tokens')(),
         content: <Trans>Buy tokens</Trans>,
       },
-      {
+    ];
+
+    if (this.props.isKycNotSet) {
+      items.push({
         routeName: 'createWallet',
         marker: this.marker('create-wallet')(),
         content: <Trans>Create wallet</Trans>,
-      },
-    ];
+      });
+    }
 
     if (this.props.isReferralSupported) {
       items.push({

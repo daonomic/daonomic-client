@@ -21,6 +21,13 @@ export class KycStore {
     );
   }
 
+  @computed
+  get isNotSet(): boolean {
+    return (
+      this.state.dataState === 'loaded' && this.state.data.status === 'NOT_SET'
+    );
+  }
+
   @action
   setState = (state: DataStateTypes.LoadableData<State>) => {
     this.observableState = state;

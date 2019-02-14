@@ -2,6 +2,7 @@ import { testUserAddress } from '../../config';
 import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
 import { kycReviewAnnotation } from '../../objects/kyc/review-annotation';
 import { paymentMethod } from '../../objects/payment-method';
+import { navigation } from '../../objects/navigation';
 
 describe('Internal KYC flow', () => {
   let currentIco = null;
@@ -44,16 +45,20 @@ describe('Internal KYC flow', () => {
     cy.logout();
   });
 
-  it('should save KYC data, show review annotation and show payment methods after confirmation', () => {
+  it('should save KYC data, show review annotation, show payment methods and hide wallet creation page after confirmation', () => {
+    navigation.getCreateWalletLink().should('be.visible');
+
     cy.fillUserData({ address: testUserAddress });
     extendedKycForm.getRoot().should('be.visible');
     extendedKycForm.getField({ name: 'firstName' }).type('Sarah');
     extendedKycForm.getField({ name: 'lastName' }).type('O’Connor');
     extendedKycForm.getCheckbox({ name: 'terms' }).click();
     extendedKycForm.getSubmit().click();
-    kycReviewAnnotation.getRoot().should('be.visible');
 
+    kycReviewAnnotation.getRoot().should('be.visible');
+    navigation.getCreateWalletLink().should('not.exist');
     paymentMethod.getRoot().should('not.exist');
+
     cy.whitelistUser({ ico: currentIco, userId: currentUser.id });
     paymentMethod.getRoot().should('be.visible');
   });
