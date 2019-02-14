@@ -21,7 +21,7 @@ function getInputNumberValue(input: HTMLInputElement): number {
   return Number(input.value) || 0;
 }
 
-export default class ExchangeFormView extends React.Component<Props> {
+export class ExchangeFormView extends React.Component<Props> {
   marker = getMarker('exchange-form');
 
   handleChangeAmount = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -79,6 +79,8 @@ export default class ExchangeFormView extends React.Component<Props> {
             <Input
               data-marker={this.marker('amount')()}
               type="number"
+              step="any"
+              min="0"
               label={<Trans>Amount</Trans>}
               value={String(this.props.amount)}
               onChange={this.handleChangeAmount}

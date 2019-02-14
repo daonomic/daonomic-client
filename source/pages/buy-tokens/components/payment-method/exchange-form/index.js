@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
-import ExchangeFormView from './view';
+import { ExchangeFormView } from './view';
 
 import type { ImmediatePurchaseStore } from '~/stores/immediate-purchase';
 import type { PaymentStore } from '~/stores/payment';

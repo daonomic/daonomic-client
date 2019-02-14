@@ -97,7 +97,7 @@
     "yargs": "12.0.5"
   },
   "dependencies": {
-    "@daonomic/ui": "16.2.0",
+    "@daonomic/ui": "16.2.1",
     "@lingui/core": "2.7.3",
     "@lingui/macro": "2.7.3",
     "@lingui/react": "2.7.3",
