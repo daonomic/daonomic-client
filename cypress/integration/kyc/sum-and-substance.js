@@ -24,7 +24,7 @@ describe('Sum & Substance KYC flow', () => {
     sumAndSubstanceKycForm.getIframe().should('be.visible');
   });
 
-  it.only('should hide wallet creation page after filling user data', () => {
+  it('should hide wallet creation page after filling user data', () => {
     navigation.getCreateWalletLink().should('be.visible');
 
     cy.fillUserData({ address: testUserAddress });
