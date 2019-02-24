@@ -1,5 +1,5 @@
 // @flow
-import appConfig from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 import {
   expectedEthereumNetwork,
   type EthereumNetworkId,
@@ -35,7 +35,7 @@ export function getKyberWidgetUrl({
   saleAddress: string,
   buyerAddress: string,
 |}) {
-  return `${appConfig.kyberWidgetUrl}/?mode=tab&network=${networkIdToKyberName(
+  return `${config.kyberWidgetUrl}/?mode=tab&network=${networkIdToKyberName(
     expectedEthereumNetwork.id,
   )}&saleAddr=${saleAddress}&buyerAddr=${buyerAddress}&amount=${amount}`;
 }

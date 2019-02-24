@@ -3,14 +3,16 @@ import * as React from 'react';
 import { action, observable, computed, runInAction, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import { registrationService } from '~/domains/business/auth';
-import SignUp from '~/components/auth/signup';
+import { SignUp } from '~/components/auth/signup';
 
 import type { FormValidationError } from '~/types/common';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { IAuth } from '~/stores/auth/types';
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 
 type Props = {|
+  referrerData: ?ReferralProgramTypes.ReferrerData,
   register: ({ email: string }) => Promise<mixed>,
 |};
 
@@ -84,6 +86,7 @@ class SignUpPage extends React.Component<Props> {
     return (
       <SignUp
         isLoading={this.isLoading}
+        referrerData={this.props.referrerData}
         email={this.email}
         errors={toJS(this.errors)}
         isRegistered={this.isRegistered}
@@ -102,6 +105,7 @@ export default inject(
     auth: IAuth,
     referralProgramStore: ReferralProgramStore,
   |}): Props => ({
+    referrerData: referralProgramStore.referrerData,
     register: ({ email }) => {
       return auth.register({
         email,

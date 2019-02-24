@@ -5,8 +5,8 @@ import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { Spoiler } from '~/components/spoiler';
-import config from '~/domains/app/config';
-import EmailUs from './components/email-us';
+import { config } from '~/domains/app/config';
+import { EmailUs } from './components/email-us';
 import styles from './faq.css';
 
 import type { FaqEntry } from '~/types/faq';
@@ -15,7 +15,7 @@ type Props = {
   entries: FaqEntry[],
 };
 
-export default class Faq extends React.PureComponent<Props> {
+export class FaqPage extends React.PureComponent<Props> {
   static defaultProps = {
     entries: config.faq,
   };

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import startup from '@slonoed/startup';
 import Root from '~/root';
-import config from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 import { routerProvider } from '~/domains/app/router';
 import { authTokenProvider } from '~/stores/auth/token';
 import { apiProvider } from '~/domains/app/api';

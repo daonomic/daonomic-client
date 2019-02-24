@@ -1,7 +1,7 @@
 // @flow
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import createViewModel, { type ViewModel } from '~/utils/create-view-model';
-import config from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 import type { IAuth } from '~/stores/auth/types';
 import type { IApi } from '~/domains/app/api/types';
 import type { ISaleStoreState } from './types';

@@ -1,7 +1,7 @@
 // @flow
 import axios from 'axios';
 import { path } from 'ramda';
-import config from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 import { baseApiUrl } from '~/domains/app/config/api';
 import authToken from '~/stores/auth/token';
 

@@ -9,7 +9,7 @@ import CreateNewPassword from '~/pages/create-new-password';
 import BuyTokens from '~/pages/buy-tokens';
 import { CreateWalletPage } from '~/pages/create-wallet';
 import { ReferralPage } from '~/pages/referral';
-import Faq from '~/pages/faq';
+import { FaqPage } from '~/pages/faq';
 
 import type { Route } from '~/domains/app/router/types';
 
@@ -65,7 +65,7 @@ class CurrentPage extends React.Component<Props> {
       }
 
       case 'faq': {
-        appLayoutContent = <Faq />;
+        appLayoutContent = <FaqPage />;
         break;
       }
 

@@ -16,7 +16,7 @@
   },
   "settings": {
     "import/resolver": "webpack",
-    "polyfills": ["promises"]
+    "polyfills": ["promises", "url", "urlsearchparams"]
   },
   "rules": {
     "import/no-extraneous-dependencies": [

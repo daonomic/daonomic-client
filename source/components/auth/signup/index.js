@@ -11,19 +11,22 @@ import commonStyles from '../common.css';
 import { getRouteUrl } from '~/domains/app/router';
 import styles from './styles.css';
 
+import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
+
 type Props = {|
   email: string,
   errors: {|
     common: string[],
     email: string[],
   |},
+  referrerData: ?ReferralProgramTypes.ReferrerData,
   isLoading: boolean,
   isRegistered: boolean,
   onSubmit: Function,
   onChangeEmail: Function,
 |};
 
-export default class SignUp extends React.Component<Props> {
+export class SignUp extends React.Component<Props> {
   static defaultProps = {
     email: '',
   };
@@ -55,6 +58,7 @@ export default class SignUp extends React.Component<Props> {
   renderForm = () => {
     const {
       isLoading,
+      referrerData,
       email,
       onSubmit,
       onChangeEmail,
@@ -66,30 +70,41 @@ export default class SignUp extends React.Component<Props> {
     }
 
     return (
-      <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
-        <div className={commonStyles.row}>
-          <Input
-            data-marker={this.marker('email')()}
-            required
-            value={email}
-            type="email"
-            label={<Trans>Email</Trans>}
-            onChange={onChangeEmail}
-            disabled={isLoading}
-          />
-        </div>
+      <React.Fragment>
+        {referrerData && referrerData.token.length > 0 && (
+          <p>
+            <Trans>
+              Congrats! Referral code <mark>{referrerData.token}</mark> is
+              applied and you will get bonus for tokens purchase.
+            </Trans>
+          </p>
+        )}
 
-        <div className={commonStyles.footer}>
-          <Button
-            data-marker={this.marker('submit')()}
-            design="primary"
-            type="submit"
-            disabled={isLoading}
-          >
-            <Trans>Sign up</Trans>
-          </Button>
-        </div>
-      </form>
+        <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
+          <div className={commonStyles.row}>
+            <Input
+              data-marker={this.marker('email')()}
+              required
+              value={email}
+              type="email"
+              label={<Trans>Email</Trans>}
+              onChange={onChangeEmail}
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className={commonStyles.footer}>
+            <Button
+              data-marker={this.marker('submit')()}
+              design="primary"
+              type="submit"
+              disabled={isLoading}
+            >
+              <Trans>Sign up</Trans>
+            </Button>
+          </div>
+        </form>
+      </React.Fragment>
     );
   };
 

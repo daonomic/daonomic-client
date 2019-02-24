@@ -4,11 +4,11 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Panel, Text } from '@daonomic/ui';
 import textStyles from '~/components/text/text.css';
-import config from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 
 type Props = {};
 
-export default class EmailUs extends React.PureComponent<Props> {
+export class EmailUs extends React.PureComponent<Props> {
   render() {
     if (!config.contactEmail) {
       return null;

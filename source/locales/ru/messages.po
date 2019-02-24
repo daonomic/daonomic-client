@@ -30,21 +30,21 @@ msgid "After your payment will be completed you will get tokens to the selected 
 msgstr "После завершения платежа токены будут зачислены на указанный Ethereum-адрес:"
 
 #: source/components/auth/create-new-password/index.js:147
-#: source/components/auth/signup/index.js:134
+#: source/components/auth/signup/index.js:149
 msgid "Already have an account?"
 msgstr "Уже есть аккаунт?"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:82
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:84
 msgid "Amount"
 msgstr "Количество"
 
 #: source/pages/referral/components/referral-statistics/view.js:55
-#: source/pages/referral/view.js:65
+#: source/pages/referral/view.js:74
 msgid "Bonus"
 msgstr "Бонус"
 
 #: source/pages/referral/components/referral-statistics/view.js:42
-#: source/pages/referral/view.js:62
+#: source/pages/referral/view.js:71
 msgid "Bought"
 msgstr "Куплено"
 
@@ -53,7 +53,7 @@ msgstr "Куплено"
 msgid "Buy"
 msgstr "Купить"
 
-#: source/components/header/index.js:64
+#: source/components/header/components/navigation/view.js:23
 msgid "Buy tokens"
 msgstr "Покупка токенов"
 
@@ -65,6 +65,10 @@ msgstr "Нужна помощь?"
 msgid "Confirm new password"
 msgstr "Подтверждение пароля"
 
+#: source/components/auth/signup/index.js:76
+msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
+msgstr "Поздравляем! Реферальный код <0>{0}</0> применён и вы получите бонус при покупке токенов."
+
 #: source/components/copy-to-clipboard/index.js:51
 msgid "Copied"
 msgstr "Скопировано"
@@ -73,7 +77,7 @@ msgstr "Скопировано"
 msgid "Copy"
 msgstr "Скопировать"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:96
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:98
 msgid "Cost"
 msgstr "Стоимость"
 
@@ -87,11 +91,11 @@ msgstr "Создать кошелёк"
 msgid "Create new password"
 msgstr "Создание нового пароля"
 
-#: source/components/header/index.js:69
+#: source/components/header/components/navigation/view.js:31
 msgid "Create wallet"
 msgstr "Создание кошелька"
 
-#: source/pages/buy-tokens/components/kyc/view.js:103
+#: source/pages/buy-tokens/components/kyc/view.js:104
 msgid "Denial reason: {0}"
 msgstr "Причина отказа: {0}"
 
@@ -109,7 +113,7 @@ msgstr "Скачать файл ключей"
 
 #: source/components/auth/reset-password/index.js:75
 #: source/components/auth/signin/index.js:78
-#: source/components/auth/signup/index.js:76
+#: source/components/auth/signup/index.js:90
 msgid "Email"
 msgstr "Эл. почта"
 
@@ -130,7 +134,7 @@ msgstr "Не удалось скопировать"
 msgid "Failed to load options"
 msgstr "Не удалось загрузить опции"
 
-#: source/pages/buy-tokens/components/referral-program/view.js:20
+#: source/pages/buy-tokens/components/referral-program/view.js:21
 #: source/pages/referral/components/referral-link/view.js:21
 msgid "Failed to load referral link"
 msgstr "Не удалось загрузить реферальную ссылку"
@@ -139,7 +143,7 @@ msgstr "Не удалось загрузить реферальную ссылк
 msgid "Failed to load referral statistics"
 msgstr "Не удалось загрузить статистику"
 
-#: source/components/header/index.js:79
+#: source/components/header/components/navigation/view.js:46
 msgid "For investors"
 msgstr "Инвесторам"
 
@@ -168,7 +172,7 @@ msgstr "Инструкции по сбросу пароля отправлены
 #: source/components/json-schema-form/external-select/index.js:68
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
 #: source/pages/buy-tokens/components/payment-method/address/view.js:27
-#: source/pages/buy-tokens/components/referral-program/view.js:22
+#: source/pages/buy-tokens/components/referral-program/view.js:23
 #: source/pages/buy-tokens/view.js:36
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
@@ -178,11 +182,11 @@ msgstr "Загрузка..."
 #: source/components/auth/create-new-password/index.js:149
 #: source/components/auth/reset-password/index.js:133
 #: source/components/auth/signin/index.js:107
-#: source/components/auth/signup/index.js:139
+#: source/components/auth/signup/index.js:154
 msgid "Log In"
 msgstr "Войти"
 
-#: source/components/header/index.js:127
+#: source/components/header/index.js:84
 msgid "Log Out"
 msgstr "Выйти"
 
@@ -208,7 +212,7 @@ msgstr "Пароль"
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: source/components/auth/signup/index.js:109
+#: source/components/auth/signup/index.js:124
 msgid "Password has been sent to email"
 msgstr "Пароль отправлен на эл. почту"
 
@@ -232,29 +236,28 @@ msgstr "Приватный ключ"
 msgid "Re-enter your address to make sure it is correct"
 msgstr "Повторите ваш адрес, чтобы убедиться в его корректности"
 
-#: source/pages/referral/view.js:59
+#: source/pages/referral/view.js:68
 msgid "Referee"
 msgstr "Реферал"
 
 #: source/pages/referral/view.js:53
-msgid "Referees"
-msgstr "Рефералы"
+#~ msgid "Referees"
+#~ msgstr "Рефералы"
 
 #: source/pages/referral/components/referral-statistics/view.js:29
 msgid "Referees count"
 msgstr "Количество рефералов"
 
-#: source/components/header/index.js:74
-#: source/pages/referral/view.js:39
+#: source/components/header/components/navigation/view.js:39
+#: source/pages/referral/view.js:47
 msgid "Referral"
 msgstr "Партнёрская программа"
 
-#: source/pages/buy-tokens/components/referral-program/view.js:60
+#: source/pages/buy-tokens/components/referral-program/view.js:65
 msgid "Referral link"
 msgstr "Реферальная ссылка"
 
-
-#: source/pages/referral/view.js:68
+#: source/pages/referral/view.js:77
 msgid "Registration date"
 msgstr "Дата регистрации"
 
@@ -279,7 +282,7 @@ msgid "Send reset instructions"
 msgstr "Отправить инструкцию"
 
 #: source/components/auth/signin/index.js:133
-#: source/components/auth/signup/index.js:89
+#: source/components/auth/signup/index.js:103
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
@@ -289,10 +292,11 @@ msgstr "Что-то пошло не так"
 
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:59
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:78
+#: source/pages/buy-tokens/components/kyc/sumsub-kyc-form/index.js:61
 msgid "Something went wrong, please try again"
 msgstr "Что-то пошло не так. Попробуйте снова"
 
-#: source/pages/referral/view.js:71
+#: source/pages/referral/view.js:80
 msgid "Source"
 msgstr "Источник"
 
@@ -330,11 +334,11 @@ msgstr "Продано"
 msgid "Transactions"
 msgstr "Транзакции"
 
-#: source/pages/buy-tokens/components/kyc/view.js:28
+#: source/pages/buy-tokens/components/kyc/view.js:29
 msgid "Verify Your Identity"
 msgstr "Подтверждение личности"
 
-#: source/pages/buy-tokens/components/kyc/view.js:55
+#: source/pages/buy-tokens/components/kyc/view.js:56
 msgid "Verify identity"
 msgstr "Подтвердить"
 
@@ -342,25 +346,25 @@ msgstr "Подтвердить"
 msgid "Verify identity with Civic"
 msgstr "Подтвердить личность через Civic"
 
-#: source/pages/buy-tokens/components/kyc/view.js:145
+#: source/pages/buy-tokens/components/kyc/view.js:155
 msgid "Waiting for review"
 msgstr "На проверке"
 
-#: source/pages/buy-tokens/components/kyc/view.js:42
+#: source/pages/buy-tokens/components/kyc/view.js:43
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr "Нам нужно "
 
-#: source/pages/referral/view.js:54
+#: source/pages/referral/view.js:63
 msgid "You have no referees"
 msgstr "У вас нет рефералов"
 
-#: source/pages/buy-tokens/components/kyc/view.js:82
+#: source/pages/buy-tokens/components/kyc/view.js:83
 msgid "Your Ethereum wallet"
 msgstr "Кошелёк Ethereum"
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
-#: source/pages/buy-tokens/components/kyc/view.js:154
-#: source/pages/buy-tokens/components/kyc/view.js:167
+#: source/pages/buy-tokens/components/kyc/view.js:164
+#: source/pages/buy-tokens/components/kyc/view.js:177
 msgid "Your Ethereum wallet address"
 msgstr "Адрес кошелька Ethereum"
 
@@ -368,11 +372,11 @@ msgstr "Адрес кошелька Ethereum"
 msgid "Your Ethereum wallet address confirmation"
 msgstr "Подтверждение адреса кошелька Ethereum"
 
-#: source/pages/buy-tokens/components/kyc/view.js:148
+#: source/pages/buy-tokens/components/kyc/view.js:158
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr "Ваши данные на проверке. Пожалуйста, ожидайте."
 
-#: source/pages/buy-tokens/components/kyc/view.js:99
+#: source/pages/buy-tokens/components/kyc/view.js:100
 msgid "Your data was denied. Please, fix and resubmit your data."
 msgstr "Ваши данные были отклонены. Пожалуйста, исправьте их и отправьте ещё раз"
 
@@ -388,7 +392,7 @@ msgstr "Баланс кошелька"
 msgid "auth.loginHeading"
 msgstr "Вход"
 
-#: source/components/auth/signup/index.js:119
+#: source/components/auth/signup/index.js:134
 msgid "auth.signUpHeading"
 msgstr "Регистрация"
 

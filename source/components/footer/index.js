@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import { LanguageSelect } from '~/components/language-select';
-import config from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 import styles from './footer.css';
 
 type Props = {|

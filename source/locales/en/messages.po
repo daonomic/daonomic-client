@@ -30,21 +30,21 @@ msgid "After your payment will be completed you will get tokens to the selected 
 msgstr ""
 
 #: source/components/auth/create-new-password/index.js:147
-#: source/components/auth/signup/index.js:134
+#: source/components/auth/signup/index.js:149
 msgid "Already have an account?"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:82
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:84
 msgid "Amount"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:55
-#: source/pages/referral/view.js:65
+#: source/pages/referral/view.js:74
 msgid "Bonus"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:42
-#: source/pages/referral/view.js:62
+#: source/pages/referral/view.js:71
 msgid "Bought"
 msgstr ""
 
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Buy"
 msgstr ""
 
-#: source/components/header/index.js:64
+#: source/components/header/components/navigation/view.js:23
 msgid "Buy tokens"
 msgstr ""
 
@@ -65,6 +65,14 @@ msgstr ""
 msgid "Confirm new password"
 msgstr ""
 
+#: source/components/auth/signup/index.js:76
+#~ msgid "Congrats! Referral code <0>asd</0> is applied and you will get bonus for tokens purchase."
+#~ msgstr ""
+
+#: source/components/auth/signup/index.js:76
+msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
+msgstr ""
+
 #: source/components/copy-to-clipboard/index.js:51
 msgid "Copied"
 msgstr ""
@@ -73,7 +81,7 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:96
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:98
 msgid "Cost"
 msgstr ""
 
@@ -87,11 +95,11 @@ msgstr ""
 msgid "Create new password"
 msgstr ""
 
-#: source/components/header/index.js:69
+#: source/components/header/components/navigation/view.js:31
 msgid "Create wallet"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:103
+#: source/pages/buy-tokens/components/kyc/view.js:104
 msgid "Denial reason: {0}"
 msgstr ""
 
@@ -109,7 +117,7 @@ msgstr ""
 
 #: source/components/auth/reset-password/index.js:75
 #: source/components/auth/signin/index.js:78
-#: source/components/auth/signup/index.js:76
+#: source/components/auth/signup/index.js:90
 msgid "Email"
 msgstr ""
 
@@ -130,7 +138,7 @@ msgstr ""
 msgid "Failed to load options"
 msgstr ""
 
-#: source/pages/buy-tokens/components/referral-program/view.js:20
+#: source/pages/buy-tokens/components/referral-program/view.js:21
 #: source/pages/referral/components/referral-link/view.js:21
 msgid "Failed to load referral link"
 msgstr ""
@@ -139,7 +147,7 @@ msgstr ""
 msgid "Failed to load referral statistics"
 msgstr ""
 
-#: source/components/header/index.js:79
+#: source/components/header/components/navigation/view.js:46
 msgid "For investors"
 msgstr ""
 
@@ -168,7 +176,7 @@ msgstr ""
 #: source/components/json-schema-form/external-select/index.js:68
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
 #: source/pages/buy-tokens/components/payment-method/address/view.js:27
-#: source/pages/buy-tokens/components/referral-program/view.js:22
+#: source/pages/buy-tokens/components/referral-program/view.js:23
 #: source/pages/buy-tokens/view.js:36
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
@@ -178,11 +186,11 @@ msgstr ""
 #: source/components/auth/create-new-password/index.js:149
 #: source/components/auth/reset-password/index.js:133
 #: source/components/auth/signin/index.js:107
-#: source/components/auth/signup/index.js:139
+#: source/components/auth/signup/index.js:154
 msgid "Log In"
 msgstr ""
 
-#: source/components/header/index.js:127
+#: source/components/header/index.js:84
 msgid "Log Out"
 msgstr ""
 
@@ -208,7 +216,7 @@ msgstr ""
 msgid "Password confirmation"
 msgstr ""
 
-#: source/components/auth/signup/index.js:109
+#: source/components/auth/signup/index.js:124
 msgid "Password has been sent to email"
 msgstr ""
 
@@ -232,24 +240,24 @@ msgstr ""
 msgid "Re-enter your address to make sure it is correct"
 msgstr ""
 
-#: source/pages/referral/view.js:59
+#: source/pages/referral/view.js:68
 msgid "Referee"
 msgstr ""
 
 #: source/pages/referral/view.js:53
-msgid "Referees"
-msgstr ""
+#~ msgid "Referees"
+#~ msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:29
 msgid "Referees count"
 msgstr ""
 
-#: source/components/header/index.js:74
-#: source/pages/referral/view.js:39
+#: source/components/header/components/navigation/view.js:39
+#: source/pages/referral/view.js:47
 msgid "Referral"
 msgstr ""
 
-#: source/pages/buy-tokens/components/referral-program/view.js:60
+#: source/pages/buy-tokens/components/referral-program/view.js:65
 msgid "Referral link"
 msgstr ""
 
@@ -261,7 +269,7 @@ msgstr ""
 #~ msgid "Referrals count"
 #~ msgstr ""
 
-#: source/pages/referral/view.js:68
+#: source/pages/referral/view.js:77
 msgid "Registration date"
 msgstr ""
 
@@ -286,7 +294,7 @@ msgid "Send reset instructions"
 msgstr ""
 
 #: source/components/auth/signin/index.js:133
-#: source/components/auth/signup/index.js:89
+#: source/components/auth/signup/index.js:103
 msgid "Sign up"
 msgstr ""
 
@@ -296,10 +304,11 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:59
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:78
+#: source/pages/buy-tokens/components/kyc/sumsub-kyc-form/index.js:61
 msgid "Something went wrong, please try again"
 msgstr ""
 
-#: source/pages/referral/view.js:71
+#: source/pages/referral/view.js:80
 msgid "Source"
 msgstr ""
 
@@ -337,11 +346,11 @@ msgstr ""
 msgid "Transactions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:28
+#: source/pages/buy-tokens/components/kyc/view.js:29
 msgid "Verify Your Identity"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:55
+#: source/pages/buy-tokens/components/kyc/view.js:56
 msgid "Verify identity"
 msgstr ""
 
@@ -349,15 +358,15 @@ msgstr ""
 msgid "Verify identity with Civic"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:145
+#: source/pages/buy-tokens/components/kyc/view.js:155
 msgid "Waiting for review"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:42
+#: source/pages/buy-tokens/components/kyc/view.js:43
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/referral/view.js:54
+#: source/pages/referral/view.js:63
 msgid "You have no referees"
 msgstr ""
 
@@ -365,13 +374,13 @@ msgstr ""
 #~ msgid "You have no referrals"
 #~ msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:82
+#: source/pages/buy-tokens/components/kyc/view.js:83
 msgid "Your Ethereum wallet"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
-#: source/pages/buy-tokens/components/kyc/view.js:154
-#: source/pages/buy-tokens/components/kyc/view.js:167
+#: source/pages/buy-tokens/components/kyc/view.js:164
+#: source/pages/buy-tokens/components/kyc/view.js:177
 msgid "Your Ethereum wallet address"
 msgstr ""
 
@@ -379,11 +388,11 @@ msgstr ""
 msgid "Your Ethereum wallet address confirmation"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:148
+#: source/pages/buy-tokens/components/kyc/view.js:158
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:99
+#: source/pages/buy-tokens/components/kyc/view.js:100
 msgid "Your data was denied. Please, fix and resubmit your data."
 msgstr ""
 
@@ -399,7 +408,7 @@ msgstr ""
 msgid "auth.loginHeading"
 msgstr "Log In"
 
-#: source/components/auth/signup/index.js:119
+#: source/components/auth/signup/index.js:134
 msgid "auth.signUpHeading"
 msgstr "Sign Up"
 
