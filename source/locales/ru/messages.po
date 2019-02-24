@@ -257,6 +257,10 @@ msgstr "Партнёрская программа"
 msgid "Referral link"
 msgstr "Реферальная ссылка"
 
+#: source/pages/referral/view.js:137
+msgid "Referral will become available after the KYC approval."
+msgstr "Партнёрская программа станет доступна после прохождения KYC."
+
 #: source/pages/referral/view.js:77
 msgid "Registration date"
 msgstr "Дата регистрации"

@@ -244,10 +244,6 @@ msgstr ""
 msgid "Referee"
 msgstr ""
 
-#: source/pages/referral/view.js:53
-#~ msgid "Referees"
-#~ msgstr ""
-
 #: source/pages/referral/components/referral-statistics/view.js:29
 msgid "Referees count"
 msgstr ""
@@ -261,13 +257,9 @@ msgstr ""
 msgid "Referral link"
 msgstr ""
 
-#: source/pages/referral/view.js:49
-#~ msgid "Referrals"
-#~ msgstr ""
-
-#: source/pages/referral/components/referral-statistics/view.js:29
-#~ msgid "Referrals count"
-#~ msgstr ""
+#: source/pages/referral/view.js:137
+msgid "Referral will become available after the KYC approval."
+msgstr ""
 
 #: source/pages/referral/view.js:77
 msgid "Registration date"

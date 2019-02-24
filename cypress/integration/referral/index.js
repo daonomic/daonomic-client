@@ -75,7 +75,7 @@ describe('Referral', () => {
       paymentMethod.getRoot().should('be.visible');
     }
 
-    it('should show required KYC passage notification', () => {
+    it('should show required KYC approval notification', () => {
       loginAsCurrentUser();
 
       cy.visit(referralPage.getUrl());
@@ -84,7 +84,7 @@ describe('Referral', () => {
       referralPage.getContent().should('not.exist');
     });
 
-    it('should load and show link, statistics and referees after KYC passage', () => {
+    it('should load and show link, statistics and referees after KYC approval', () => {
       cy.server();
       cy.route('GET', '**/ref').as('referralStatisticsRequest');
       cy.route('POST', '**/ref/referees').as('refereesListRequest');

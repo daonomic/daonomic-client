@@ -134,7 +134,9 @@ export class ReferralPage extends React.Component<Props> {
             data-marker={this.marker('required-kyc')()}
             className={style.paragraph}
           >
-            Referral will become available after the passage of KYC.
+            <Trans>
+              Referral will become available after the KYC approval.
+            </Trans>
           </p>
         )}
       </Panel>
