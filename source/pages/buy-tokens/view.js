@@ -6,7 +6,7 @@ import { Panel } from '@daonomic/ui';
 import TwoColumnsLayout from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
 import Kyc from './components/kyc';
-import PaymentMethod from './components/payment-method';
+import { PaymentMethod } from './components/payment-method';
 import TokenPrice from './components/token-price';
 import Balance from './components/balance';
 import { ReferralProgram } from './components/referral-program';
@@ -25,7 +25,7 @@ export type Props = {|
   onMount(): void,
 |};
 
-export default class BuyTokensPageView extends React.Component<Props> {
+export class BuyTokensPageView extends React.Component<Props> {
   componentDidMount() {
     this.props.onMount();
   }

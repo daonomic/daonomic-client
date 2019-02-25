@@ -6,7 +6,7 @@ import type { IWalletBalanceState } from './types';
 
 class WalletBalanceState implements IWalletBalanceState {
   @observable
-  balanceState = 'initial';
+  balanceState = 'idle';
   @observable
   balance = 0;
 }

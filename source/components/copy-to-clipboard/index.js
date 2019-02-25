@@ -6,7 +6,7 @@ import { I18n } from '@lingui/react';
 import { t } from '@lingui/macro';
 import copyToClipboard from 'clipboard-copy';
 
-type CopyState = 'initial' | 'copied' | 'failed';
+type CopyState = 'idle' | 'copied' | 'failed';
 
 type Props = {|
   value: string,
@@ -19,7 +19,7 @@ type State = {|
 
 export class CopyToClipboard extends React.Component<Props, State> {
   state = {
-    copyState: 'initial',
+    copyState: 'idle',
   };
 
   handleCopy = () => {
@@ -38,7 +38,7 @@ export class CopyToClipboard extends React.Component<Props, State> {
         setTimeout(
           () =>
             this.setState({
-              copyState: 'initial',
+              copyState: 'idle',
             }),
           1500,
         );

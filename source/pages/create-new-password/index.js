@@ -25,7 +25,7 @@ const initialErrors = {
 class CreateNewPasswordPage extends React.Component<Props> {
   @observable password: string = '';
   @observable confirmedPassword: string = '';
-  @observable passwordCreationState: DataStateTypes.DataState = 'initial';
+  @observable passwordCreationState: DataStateTypes.DataState = 'idle';
   @observable errors = initialErrors;
 
   @computed

@@ -33,7 +33,7 @@ export class GeneratedWallet extends React.Component<Props> {
   renderCopyButton = (value: string) => (
     <CopyToClipboard value={value}>
       {({ state, text, copy }) => (
-        <Button disabled={state !== 'initial'} size="s" onClick={copy}>
+        <Button disabled={state !== 'idle'} size="s" onClick={copy}>
           {text}
         </Button>
       )}

@@ -43,7 +43,7 @@ export class PaymentMethodAddress extends React.Component<Props> {
           <div className={styles.address}>{selectedPaymentMethodAddress}</div>
           <CopyToClipboard value={selectedPaymentMethodAddress}>
             {({ state, text, copy }) => (
-              <Button disabled={state !== 'initial'} size="s" onClick={copy}>
+              <Button disabled={state !== 'idle'} size="s" onClick={copy}>
                 {text}
               </Button>
             )}

@@ -16,7 +16,7 @@ export class ReferralProgramStore {
 
   @observable
   userData: DataStateTypes.LoadableData<ReferralProgramTypes.UserData> = {
-    dataState: 'initial',
+    dataState: 'idle',
   };
 
   @observable
@@ -57,7 +57,7 @@ export class ReferralProgramStore {
   reset = () => {
     this.setSupport({ isSupported: false });
     this.setAvailability({ isAvailable: false });
-    this.setUserData({ dataState: 'initial' });
+    this.setUserData({ dataState: 'idle' });
   };
 }
 

@@ -1,85 +1,12 @@
 // @flow
-import * as React from 'react';
-import { inject } from 'mobx-react';
-import AppLayout from '~/components/app-layout';
-import SignIn from '~/pages/sign-in';
-import SignUp from '~/pages/sign-up';
-import ResetPassword from '~/pages/reset-password';
-import CreateNewPassword from '~/pages/create-new-password';
-import BuyTokens from '~/pages/buy-tokens';
-import { CreateWalletPage } from '~/pages/create-wallet';
-import { ReferralPage } from '~/pages/referral';
-import { FaqPage } from '~/pages/faq';
+import { inject, observer } from 'mobx-react';
+import { CurrentPage as CurrentPageView } from './view';
 
-import type { Route } from '~/domains/app/router/types';
+import type { Props } from './view';
+import type { RouterStore } from '~/domains/app/router/store';
 
-type Props = {|
-  currentRoute: ?Route,
-|};
-
-class CurrentPage extends React.Component<Props> {
-  render() {
-    const { currentRoute } = this.props;
-
-    if (!currentRoute) {
-      return null;
-    }
-
-    const currentPageName = currentRoute.name;
-    let appLayoutContent = null;
-
-    switch (currentPageName) {
-      case 'signIn': {
-        return <SignIn />;
-      }
-
-      case 'signUp': {
-        return <SignUp />;
-      }
-
-      case 'resetPassword': {
-        return <ResetPassword />;
-      }
-
-      case 'createNewPassword': {
-        return <CreateNewPassword token={currentRoute.params.token} />;
-      }
-
-      case 'app': {
-        break;
-      }
-
-      case 'buyTokens': {
-        appLayoutContent = <BuyTokens />;
-        break;
-      }
-
-      case 'createWallet': {
-        appLayoutContent = <CreateWalletPage />;
-        break;
-      }
-
-      case 'referral': {
-        appLayoutContent = <ReferralPage />;
-        break;
-      }
-
-      case 'faq': {
-        appLayoutContent = <FaqPage />;
-        break;
-      }
-
-      default: {
-        (currentPageName: empty);
-      }
-    }
-
-    return <AppLayout>{appLayoutContent}</AppLayout>;
-  }
-}
-
-export default inject(
-  ({ router }): Props => ({
+export const CurrentPage = inject(
+  ({ router }: {| router: RouterStore |}): Props => ({
     currentRoute: router.currentRoute,
   }),
-)(CurrentPage);
+)(observer(CurrentPageView));

@@ -26,7 +26,7 @@ class SignUpPage extends React.Component<Props> {
   @observable
   email: string = '';
   @observable
-  registrationState: DataStateTypes.DataState = 'initial';
+  registrationState: DataStateTypes.DataState = 'idle';
   @observable
   errors = initialErrors;
 

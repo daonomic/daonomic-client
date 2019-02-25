@@ -5,7 +5,7 @@ import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { Address, Country } from '~/modules/user-data/types';
 
 class UserDataModel {
-  @observable dataState: DataStateTypes.DataState = 'initial';
+  @observable dataState: DataStateTypes.DataState = 'idle';
   @observable prospectiveAddress: ?Address = null;
   @observable address: ?Address = null;
   @observable country: ?Country = null;

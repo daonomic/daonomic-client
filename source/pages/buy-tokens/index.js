@@ -1,6 +1,6 @@
 // @flow
 import { inject, observer } from 'mobx-react';
-import BuyTokensPageView from './view';
+import { BuyTokensPageView } from './view';
 import { loadAndSetKycState } from '~/modules/kyc/actions';
 import { loadAndSetUserData } from '~/modules/user-data/actions';
 
@@ -9,7 +9,7 @@ import type { UserDataStore } from '~/modules/user-data/store';
 import type { KycStore } from '~/modules/kyc/store';
 import type { Props } from './view';
 
-export default inject(
+export const BuyTokensPage = inject(
   ({
     sale,
     kyc,

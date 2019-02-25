@@ -1,9 +1,9 @@
 // @flow
-export type DataState = 'initial' | 'loading' | 'loaded' | 'failed';
+export type DataState = 'idle' | 'loading' | 'loaded' | 'failed';
 
-type Initial = { dataState: 'initial' };
+type Idle = { dataState: 'idle' };
 type Loading = { dataState: 'loading' };
 type Failed = { dataState: 'failed' };
 type Loaded<Data> = { dataState: 'loaded', data: Data };
 
-export type LoadableData<Data> = Initial | Loading | Failed | Loaded<Data>;
+export type LoadableData<Data> = Idle | Loading | Failed | Loaded<Data>;

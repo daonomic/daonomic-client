@@ -26,7 +26,7 @@ type State = {|
 
 export class ExternalSelect extends React.Component<Props, State> {
   state = {
-    dataState: 'initial',
+    dataState: 'idle',
     options: [],
   };
 

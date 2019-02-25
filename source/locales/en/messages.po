@@ -34,7 +34,7 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:84
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:95
 msgid "Amount"
 msgstr ""
 
@@ -48,8 +48,8 @@ msgstr ""
 msgid "Bought"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:51
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:62
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:53
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:64
 msgid "Buy"
 msgstr ""
 
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:98
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:109
 msgid "Cost"
 msgstr ""
 
@@ -427,3 +427,7 @@ msgstr ""
 #: source/pages/buy-tokens/components/token-price/view.js:40
 msgid "soldOf"
 msgstr "of"
+
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:88
+msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
+msgstr ""

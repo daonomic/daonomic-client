@@ -17,7 +17,7 @@ const getInitialTokensCount = () => ({
 
 class SaleStoreState implements ISaleStoreState {
   @observable
-  dataState = 'initial';
+  dataState = 'idle';
   @observable
   address = '';
   @observable

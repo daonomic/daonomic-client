@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
-import ExchangeForm from './exchange-form';
+import { ExchangeForm } from './exchange-form';
 import { getMarker } from '~/utils/get-marker';
 import { PaymentMethodSelect } from './select';
 import { PaymentMethodAddress } from './address';
@@ -19,7 +19,7 @@ export type Props = {|
   onMount(): mixed,
 |};
 
-export default class PaymentMethodView extends React.Component<Props> {
+export class PaymentMethodView extends React.Component<Props> {
   marker = getMarker('payment-method');
 
   componentDidMount() {

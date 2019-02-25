@@ -34,7 +34,7 @@ msgstr "После завершения платежа токены будут �
 msgid "Already have an account?"
 msgstr "Уже есть аккаунт?"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:84
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:95
 msgid "Amount"
 msgstr "Количество"
 
@@ -48,8 +48,8 @@ msgstr "Бонус"
 msgid "Bought"
 msgstr "Куплено"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:51
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:62
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:53
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:64
 msgid "Buy"
 msgstr "Купить"
 
@@ -81,7 +81,7 @@ msgstr "Скопировано"
 msgid "Copy"
 msgstr "Скопировать"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:98
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:109
 msgid "Cost"
 msgstr "Стоимость"
 
@@ -423,3 +423,7 @@ msgstr "на ожидании"
 #: source/pages/buy-tokens/components/token-price/view.js:40
 msgid "soldOf"
 msgstr "из"
+
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:88
+msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
+msgstr "{0, plural, one {Вы получите # бонусный токен!} few {Вы получите # бонусных токена!} many {Вы получите # бонусных токенов!} other {Вы получите # бонусных токенов!}}"

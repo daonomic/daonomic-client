@@ -32,7 +32,7 @@ export class ReferralProgram extends React.Component<Props> {
 
   renderContent = () => {
     switch (this.props.userData.dataState) {
-      case 'initial': {
+      case 'idle': {
         return this.renderError();
       }
 

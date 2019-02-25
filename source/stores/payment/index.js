@@ -19,7 +19,7 @@ import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 class PaymentStoreState implements IPaymentStoreState {
   @observable
-  dataState = 'initial';
+  dataState = 'idle';
   @observable
   methods = [];
   @observable
@@ -90,12 +90,12 @@ export class PaymentStore {
     );
   }
 
-  constructor(options: {
+  constructor(options: {|
     api: IApi,
     auth: IAuth,
     kyc: KycStore,
     sale: string,
-  }) {
+  |}) {
     this.auth = options.auth;
     this.api = options.api;
     this.kyc = options.kyc;

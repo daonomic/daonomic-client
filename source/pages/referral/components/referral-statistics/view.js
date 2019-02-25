@@ -68,7 +68,7 @@ export class ReferralStatistics extends React.Component<Props> {
 
   render() {
     switch (this.props.userData.dataState) {
-      case 'initial': {
+      case 'idle': {
         return this.renderError();
       }
 

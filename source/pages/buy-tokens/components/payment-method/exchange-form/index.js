@@ -1,10 +1,13 @@
 // @flow
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
+import debounce from 'debounce-fn';
+import { paymentService } from '~/domains/business/payment';
 import { ExchangeFormView } from './view';
 
 import type { ImmediatePurchaseStore } from '~/stores/immediate-purchase';
 import type { PaymentStore } from '~/stores/payment';
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type InjectedProps = {|
   paymentMethodId: string,
@@ -13,18 +16,23 @@ type InjectedProps = {|
   buyTokens({ costInEthers: number }): mixed,
 |};
 
-type Props = InjectedProps & {|
+type ExternalProps = {|
   paymentMethodRate: number,
 |};
 
+type Props = InjectedProps & ExternalProps;
+
 type State = {|
   amount: number,
+  bonus: DataStateTypes.LoadableData<number>,
 |};
 
-class ExchangeForm extends React.Component<Props, State> {
+class ExchangeFormContainer extends React.Component<Props, State> {
   costPrecision = 6;
+
   state = {
     amount: 0,
+    bonus: { dataState: 'idle' },
   };
 
   get cost() {
@@ -39,16 +47,49 @@ class ExchangeForm extends React.Component<Props, State> {
     this.props.checkImmediatePurchaseAvailability();
   }
 
+  loadBonus = debounce(
+    async () => {
+      const { amount } = this.state;
+
+      this.setState({
+        bonus: { dataState: 'loading' },
+      });
+
+      try {
+        const bonus = await paymentService.determineBonus({ amount });
+
+        if (this.state.amount === amount) {
+          this.setState({
+            bonus: { dataState: 'loaded', data: bonus },
+          });
+        }
+      } catch (error) {
+        this.setState({
+          bonus: { dataState: 'failed' },
+        });
+      }
+    },
+    { wait: 300 },
+  );
+
   handleChangeAmount = (amount: number) => {
-    this.setState({
-      amount,
-    });
+    this.setState(
+      {
+        amount,
+        bonus: { dataState: 'idle' },
+      },
+      this.loadBonus,
+    );
   };
 
   handleChangeCost = (cost: number) => {
-    this.setState({
-      amount: cost * this.props.paymentMethodRate,
-    });
+    this.setState(
+      {
+        amount: cost * this.props.paymentMethodRate,
+        bonus: { dataState: 'idle' },
+      },
+      this.loadBonus,
+    );
   };
 
   handleBuy = () => {
@@ -61,6 +102,9 @@ class ExchangeForm extends React.Component<Props, State> {
         amount={this.state.amount}
         cost={this.cost}
         costPrecision={this.costPrecision}
+        bonus={
+          this.state.bonus.dataState === 'loaded' ? this.state.bonus.data : null
+        }
         onChangeAmount={this.handleChangeAmount}
         onChangeCost={this.handleChangeCost}
         isBuyButtonVisible={this.props.isImmediatePurchaseAvailable}
@@ -71,16 +115,14 @@ class ExchangeForm extends React.Component<Props, State> {
   }
 }
 
-const ObservingExchangeForm = observer(ExchangeForm);
-
-export default inject(
+export const ExchangeForm: React.ComponentType<ExternalProps> = inject(
   ({
     immediatePurchase,
     payment,
-  }: {
+  }: {|
     payment: PaymentStore,
     immediatePurchase: ImmediatePurchaseStore,
-  }): InjectedProps => {
+  |}): InjectedProps => {
     const paymentMethodId = (payment.selectedMethod || {}).id;
 
     return {
@@ -92,4 +134,4 @@ export default inject(
       buyTokens: immediatePurchase.buyTokens,
     };
   },
-)(ObservingExchangeForm);
+)(observer(ExchangeFormContainer));

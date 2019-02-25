@@ -6,7 +6,7 @@ import type { State } from '~/modules/kyc/types';
 
 export class KycStore {
   @observable observableState: DataStateTypes.LoadableData<State> = {
-    dataState: 'initial',
+    dataState: 'idle',
   };
 
   @computed
@@ -35,7 +35,7 @@ export class KycStore {
 
   @action
   reset = () => {
-    this.observableState = { dataState: 'initial' };
+    this.observableState = { dataState: 'idle' };
   };
 }
 

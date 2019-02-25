@@ -6,7 +6,7 @@ describe('matchDataState', () => {
     const failedFn = jest.fn();
     const otherFn = jest.fn();
 
-    matchDataState(['initial', 'loading', 'failed'], {
+    matchDataState(['idle', 'loading', 'failed'], {
       loading: otherFn,
       loaded: otherFn,
       failed: failedFn,

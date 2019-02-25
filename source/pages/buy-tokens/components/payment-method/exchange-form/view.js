@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 // $FlowFixMe
-import { Trans } from '@lingui/macro';
+import { Trans, Plural } from '@lingui/macro';
 import { Form, Input, Button } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
 import { KyberButton } from '~/components/kyber-button';
@@ -10,6 +10,7 @@ type Props = {|
   amount: number,
   cost: number,
   costPrecision: number,
+  bonus: ?number,
   isBuyButtonVisible?: boolean,
   isKyber?: boolean,
   onChangeAmount(number): void,
@@ -81,6 +82,15 @@ export class ExchangeFormView extends React.Component<Props> {
               type="number"
               step="any"
               min="0"
+              description={
+                this.props.bonus && (
+                  <Plural
+                    value={this.props.bonus}
+                    one="You will receive # bonus token!"
+                    other="You will receive # bonus tokens!"
+                  />
+                )
+              }
               label={<Trans>Amount</Trans>}
               value={String(this.props.amount)}
               onChange={this.handleChangeAmount}

@@ -19,7 +19,7 @@ const initialErrors = {
 @observer
 class ResetPasswordPage extends React.Component<Props> {
   @observable email: string = '';
-  @observable passwordResetState: DataStateTypes.DataState = 'initial';
+  @observable passwordResetState: DataStateTypes.DataState = 'idle';
   @observable errors = initialErrors;
 
   @computed

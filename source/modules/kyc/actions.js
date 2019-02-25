@@ -3,7 +3,7 @@ import { api } from '~/domains/app/api';
 import { kyc } from '~/modules/kyc/store';
 
 export async function loadAndSetKycState(): Promise<void> {
-  if (kyc.state.dataState === 'initial') {
+  if (kyc.state.dataState === 'idle') {
     kyc.setState({ dataState: 'loading' });
   }
 
@@ -21,7 +21,7 @@ export async function loadAndSetKycState(): Promise<void> {
       });
     }
 
-    if (['ON_REVIEW', 'SUM_SUB_KYC'].includes(state.status)) {
+    if (['ON_REVIEW', 'SUM_SUB_KYC', 'PROCESSING'].includes(state.status)) {
       setTimeout(loadAndSetKycState, 1000);
     }
   } catch (error) {

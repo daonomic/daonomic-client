@@ -33,7 +33,7 @@ export class ReferralLink extends React.Component<Props> {
           {({ state, text, copy }) => (
             <Button
               className={styles.button}
-              disabled={state !== 'initial'}
+              disabled={state !== 'idle'}
               size="m"
               onClick={copy}
             >
@@ -47,7 +47,7 @@ export class ReferralLink extends React.Component<Props> {
 
   render() {
     switch (this.props.userData.dataState) {
-      case 'initial': {
+      case 'idle': {
         return this.renderError();
       }
 
