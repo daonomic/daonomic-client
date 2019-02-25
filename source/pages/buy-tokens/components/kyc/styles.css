@@ -19,3 +19,13 @@
 .red {
   color: var(--color-danger);
 }
+
+.processing {
+  max-width: 20em;
+  margin: 1em auto;
+}
+
+.processing-annotation {
+  margin: 1em auto 0;
+  text-align: center;
+}

@@ -26,6 +26,7 @@ type StateDenied = {|
   reason: string,
   childStatus: StateInternalKyc | StateExternalKyc,
 |};
+type StateProcessing = {| status: 'PROCESSING' |};
 type StateAllowed = {| status: 'ALLOWED' |};
 
 export type State =
@@ -35,5 +36,6 @@ export type State =
   | StateCivicKyc
   | StateSumAndSubstanceKyc
   | StateOnReview
+  | StateProcessing
   | StateDenied
   | StateAllowed;

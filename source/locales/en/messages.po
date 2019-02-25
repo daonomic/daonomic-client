@@ -73,6 +73,10 @@ msgstr ""
 msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
 msgstr ""
 
+#: source/pages/buy-tokens/components/kyc/view.js:178
+msgid "Congrats! Your data is approved and now being processed. Please wait a bit, usually it takes 1-2 minutes."
+msgstr ""
+
 #: source/components/copy-to-clipboard/index.js:51
 msgid "Copied"
 msgstr ""
@@ -372,7 +376,7 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
 #: source/pages/buy-tokens/components/kyc/view.js:164
-#: source/pages/buy-tokens/components/kyc/view.js:177
+#: source/pages/buy-tokens/components/kyc/view.js:193
 msgid "Your Ethereum wallet address"
 msgstr ""
 

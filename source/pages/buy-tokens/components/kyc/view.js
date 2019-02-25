@@ -3,7 +3,7 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import cn from 'classnames';
-import { Input, Panel, Badge } from '@daonomic/ui';
+import { Spinner, Input, Panel, Badge } from '@daonomic/ui';
 import { Title } from './title';
 import { getMarker } from '~/utils/get-marker';
 import { UserDataForm } from './user-data-form';
@@ -165,6 +165,22 @@ export class KycView extends React.Component<Props> {
               value={this.props.userWalletAddress}
               onChange={() => {}}
             />
+          </Panel>
+        );
+      }
+
+      case 'PROCESSING': {
+        return (
+          <Panel>
+            <div data-marker="kyc-processing" className={styles.processing}>
+              <Spinner />
+              <p className={styles['processing-annotation']}>
+                <Trans>
+                  Congrats! Your data is approved and now being processed.
+                  Please wait a bit, usually it takes 1-2 minutes.
+                </Trans>
+              </p>
+            </div>
           </Panel>
         );
       }
