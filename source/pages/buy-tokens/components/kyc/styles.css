@@ -8,16 +8,18 @@
   }
 }
 
+.error {
+  margin: 0;
+  padding: 0;
+  color: var(--color-danger);
+}
+
 .footer {
   padding-top: 20px;
 
   @media (--desktop) {
     padding-top: 30px;
   }
-}
-
-.red {
-  color: var(--color-danger);
 }
 
 .processing {

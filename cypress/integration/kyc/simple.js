@@ -1,5 +1,6 @@
 import { testUserAddress } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
+import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 import { navigation } from '../../objects/navigation';
 import wallet from '../../support/web3-mock/wallet';
@@ -34,5 +35,20 @@ describe('Simple KYC flow', () => {
     navigation.getCreateWalletLink().should('be.visible');
     cy.fillUserData({ address: testUserAddress });
     navigation.getCreateWalletLink().should('not.be.visible');
+  });
+
+  it('should support simple denial', () => {
+    cy.server();
+    cy.route({
+      method: 'GET',
+      url: '**/status',
+      delay: 500,
+      status: 200,
+      response: { status: 'DENIED' },
+    }).as('kycStatusRequest');
+
+    cy.fillUserData({ address: testUserAddress });
+    cy.wait('@kycStatusRequest');
+    kycView.getDenialAnnotation().should('be.visible');
   });
 });

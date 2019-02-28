@@ -34,7 +34,7 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:95
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
 msgid "Amount"
 msgstr ""
 
@@ -48,8 +48,8 @@ msgstr ""
 msgid "Bought"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:53
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:64
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:52
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:63
 msgid "Buy"
 msgstr ""
 
@@ -66,14 +66,10 @@ msgid "Confirm new password"
 msgstr ""
 
 #: source/components/auth/signup/index.js:76
-#~ msgid "Congrats! Referral code <0>asd</0> is applied and you will get bonus for tokens purchase."
-#~ msgstr ""
-
-#: source/components/auth/signup/index.js:76
 msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:178
+#: source/pages/buy-tokens/components/kyc/view.js:186
 msgid "Congrats! Your data is approved and now being processed. Please wait a bit, usually it takes 1-2 minutes."
 msgstr ""
 
@@ -85,7 +81,7 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:109
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:108
 msgid "Cost"
 msgstr ""
 
@@ -103,7 +99,7 @@ msgstr ""
 msgid "Create wallet"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:104
+#: source/pages/buy-tokens/components/kyc/view.js:109
 msgid "Denial reason: {0}"
 msgstr ""
 
@@ -232,6 +228,10 @@ msgstr ""
 msgid "Payment Instruction"
 msgstr ""
 
+#: source/pages/buy-tokens/components/kyc/view.js:106
+msgid "Please, fix and resubmit your data."
+msgstr ""
+
 #: source/components/footer/index.js:42
 msgid "Powered by"
 msgstr ""
@@ -304,6 +304,10 @@ msgstr ""
 msgid "Something went wrong, please try again"
 msgstr ""
 
+#: source/pages/buy-tokens/components/kyc/view.js:104
+msgid "Sorry, your data was denied."
+msgstr ""
+
 #: source/pages/referral/view.js:80
 msgid "Source"
 msgstr ""
@@ -342,11 +346,11 @@ msgstr ""
 msgid "Transactions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:29
+#: source/pages/buy-tokens/components/kyc/view.js:30
 msgid "Verify Your Identity"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:56
+#: source/pages/buy-tokens/components/kyc/view.js:57
 msgid "Verify identity"
 msgstr ""
 
@@ -354,11 +358,11 @@ msgstr ""
 msgid "Verify identity with Civic"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:155
+#: source/pages/buy-tokens/components/kyc/view.js:160
 msgid "Waiting for review"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:43
+#: source/pages/buy-tokens/components/kyc/view.js:44
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
@@ -366,17 +370,13 @@ msgstr ""
 msgid "You have no referees"
 msgstr ""
 
-#: source/pages/referral/view.js:50
-#~ msgid "You have no referrals"
-#~ msgstr ""
-
-#: source/pages/buy-tokens/components/kyc/view.js:83
+#: source/pages/buy-tokens/components/kyc/view.js:84
 msgid "Your Ethereum wallet"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
-#: source/pages/buy-tokens/components/kyc/view.js:164
-#: source/pages/buy-tokens/components/kyc/view.js:193
+#: source/pages/buy-tokens/components/kyc/view.js:172
+#: source/pages/buy-tokens/components/kyc/view.js:201
 msgid "Your Ethereum wallet address"
 msgstr ""
 
@@ -384,12 +384,8 @@ msgstr ""
 msgid "Your Ethereum wallet address confirmation"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:158
+#: source/pages/buy-tokens/components/kyc/view.js:166
 msgid "Your data is being reviewed. Please, wait for approval."
-msgstr ""
-
-#: source/pages/buy-tokens/components/kyc/view.js:100
-msgid "Your data was denied. Please, fix and resubmit your data."
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:111
@@ -428,6 +424,6 @@ msgstr ""
 msgid "soldOf"
 msgstr "of"
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:88
+#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:87
 msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
 msgstr ""

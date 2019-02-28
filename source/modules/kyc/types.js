@@ -23,8 +23,8 @@ type StateSumAndSubstanceKyc = {|
 type StateOnReview = {| status: 'ON_REVIEW' |};
 type StateDenied = {|
   status: 'DENIED',
-  reason: string,
-  childStatus: StateInternalKyc | StateExternalKyc,
+  reason?: string,
+  childStatus?: StateInternalKyc | StateExternalKyc,
 |};
 type StateProcessing = {| status: 'PROCESSING' |};
 type StateAllowed = {| status: 'ALLOWED' |};

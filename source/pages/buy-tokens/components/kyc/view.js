@@ -22,6 +22,7 @@ export type Props = {|
 |};
 
 export class KycView extends React.Component<Props> {
+  marker = getMarker('kyc');
   exteralKycMarker = getMarker('external-kyc');
 
   renderVerifyIdentityTitle = () => (
@@ -96,15 +97,19 @@ export class KycView extends React.Component<Props> {
           <Panel>
             {this.renderVerifyIdentityTitle()}
 
-            <p className={cn(styles.paragraph, styles.red)}>
-              <Trans>
-                Your data was denied. Please, fix and resubmit your data.
-              </Trans>
+            <p
+              data-marker={this.marker('denial-annotation')()}
+              className={cn(styles.error)}
+            >
+              <Trans>Sorry, your data was denied.</Trans>{' '}
+              {kycData.childStatus && (
+                <Trans>Please, fix and resubmit your data.</Trans>
+              )}
               <br />
               {kycData.reason && <Trans>Denial reason: {kycData.reason}</Trans>}
             </p>
 
-            {this.renderForm(kycData.childStatus)}
+            {kycData.childStatus && this.renderForm(kycData.childStatus)}
           </Panel>
         );
       }
@@ -154,7 +159,10 @@ export class KycView extends React.Component<Props> {
             <Badge color="danger">
               <Trans>Waiting for review</Trans>
             </Badge>
-            <p data-marker="kyc-review-annotation" className={styles.paragraph}>
+            <p
+              data-marker={this.marker('review-annotation')()}
+              className={styles.paragraph}
+            >
               <Trans>
                 Your data is being reviewed. Please, wait for approval.
               </Trans>
