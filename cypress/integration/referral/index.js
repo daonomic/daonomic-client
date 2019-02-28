@@ -2,7 +2,7 @@ import { testUserAddress } from '../../config';
 import { navigation } from '../../objects/navigation';
 import { referralPage } from '../../objects/pages/referral';
 import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
-import { kycReviewAnnotation } from '../../objects/kyc/review-annotation';
+import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 
 describe('Referral', () => {
@@ -70,7 +70,7 @@ describe('Referral', () => {
       extendedKycForm.getRoot().should('be.visible');
       extendedKycForm.getCheckbox({ name: 'terms' }).click();
       extendedKycForm.getSubmit().click();
-      kycReviewAnnotation.getRoot().should('be.visible');
+      kycView.getReviewAnnotation().should('be.visible');
       cy.whitelistUser({ ico: currentIco, userId: currentUser.id });
       paymentMethod.getRoot().should('be.visible');
     }

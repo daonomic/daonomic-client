@@ -55,7 +55,7 @@ describe('Internal KYC flow', () => {
     extendedKycForm.getCheckbox({ name: 'terms' }).click();
     extendedKycForm.getSubmit().click();
 
-    kycView.getRoot().should('be.visible');
+    kycView.getReviewAnnotation().should('be.visible');
     navigation.getCreateWalletLink().should('not.exist');
     paymentMethod.getRoot().should('not.exist');
 
