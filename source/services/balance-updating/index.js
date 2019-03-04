@@ -1,9 +1,9 @@
 // @flow
 import { autorun } from 'mobx';
 
-import type { IAuth } from '~/stores/auth/types';
+import type { IAuth } from '~/domains/business/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
-import type { WalletBalanceStore } from '~/stores/wallet/balance';
+import type { WalletBalanceStore } from '~/domains/business/wallet-balance/store';
 
 export function balanceUpdatingService(
   auth: IAuth,

@@ -1,6 +1,6 @@
 import mockedApi from '~/domains/app/api/mock';
 import { freshAuthTokenProvider } from './token';
-import { authProvider } from './';
+import { authProvider } from '.';
 
 describe('auth store', () => {
   const testEmail = 'pupkin@yandex.ru';

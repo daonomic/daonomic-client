@@ -1,9 +1,9 @@
 // @flow
 import { when } from 'mobx';
 import api from '~/domains/app/api/mock';
-import { freshAuthTokenProvider } from '~/stores/auth/token';
-import { authProvider } from '~/stores/auth';
-import { saleProvider } from './';
+import { freshAuthTokenProvider } from '~/domains/business/auth/store/token';
+import { authProvider } from '~/domains/business/auth/store';
+import { saleProvider } from '.';
 
 jest.useFakeTimers();
 

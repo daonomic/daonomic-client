@@ -1,6 +1,6 @@
 import QRCode from 'qrcode';
 
-export default function generateQrCode(rawData) {
+export function generateQrCode(rawData) {
   return new Promise((resolve, reject) => {
     QRCode.toDataURL(
       rawData,

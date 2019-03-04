@@ -2,9 +2,9 @@
 import { observable, computed, action, autorun, runInAction } from 'mobx';
 import createViewModel, { type ViewModel } from '~/utils/create-view-model';
 import { config } from '~/domains/app/config';
-import type { IAuth } from '~/stores/auth/types';
+import type { IAuth } from '~/domains/business/auth/types';
 import type { IApi } from '~/domains/app/api/types';
-import type { ISaleStoreState } from './types';
+import type { ISaleStoreState } from '~/domains/business/sale/types';
 
 const getInitialTokensCount = () => ({
   sold: 0,

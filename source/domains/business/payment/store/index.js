@@ -9,12 +9,13 @@ import {
   toJS,
 } from 'mobx';
 import createViewModel, { type ViewModel } from '~/utils/create-view-model';
-import generateQRCode from '~/utils/generate-qrcode';
+import { generateQrCode } from '~/utils/generate-qrcode';
+
 import type { IApi } from '~/domains/app/api/types';
-import type { IAuth } from '~/stores/auth/types';
+import type { IAuth } from '~/domains/business/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
 import type { Payment } from '~/types/payment';
-import type { IPaymentStoreState } from './types';
+import type { IPaymentStoreState } from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 class PaymentStoreState implements IPaymentStoreState {
@@ -210,7 +211,7 @@ export class PaymentStore {
       return;
     }
 
-    const generatedQrCode = await generateQRCode(address);
+    const generatedQrCode = await generateQrCode(address);
 
     runInAction(() => {
       this.state.selectedMethodAddressQRCode = generatedQrCode;

@@ -1,34 +1,39 @@
 // @flow
 import { observable, action, computed, autorun, runInAction } from 'mobx';
-import localStorage from '~/utils/local-storage';
+import { appLocalStorage } from '~/domains/app/local-storage';
 import { getRouteUrl } from '~/domains/app/router';
 
 import type { IApi } from '~/domains/app/api/types';
-import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
+import type {
+  AuthToken,
+  UserId,
+  PasswordRecoveryParams,
+  IAuth,
+  IAuthToken,
+} from '~/domains/business/auth/types';
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
-import type { IAuth, IAuthToken } from './types';
 
 export class AuthStore implements IAuth {
   api: IApi;
   token: IAuthToken;
 
   @observable
-  id = localStorage.getItem('id') || '';
+  id = appLocalStorage.getItem('id') || '';
 
   @computed
   get isAuthenticated(): boolean {
     return this.token.value !== null;
   }
 
-  constructor({ api, authToken }: { api: IApi, authToken: IAuthToken }) {
+  constructor({ api, authToken }: {| api: IApi, authToken: IAuthToken |}) {
     this.api = api;
     this.token = authToken;
 
     autorun(() => {
       if (this.id) {
-        localStorage.setItem('id', this.id);
+        appLocalStorage.setItem('id', this.id);
       } else {
-        localStorage.removeItem('id');
+        appLocalStorage.removeItem('id');
       }
     });
 

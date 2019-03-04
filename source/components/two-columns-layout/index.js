@@ -10,7 +10,7 @@ type Props = {
   children: React.Node,
 };
 
-export default class TwoColumnsLayout extends React.PureComponent<Props, {}> {
+export class TwoColumnsLayout extends React.PureComponent<Props, {}> {
   static Left = Left;
   static Right = Right;
 

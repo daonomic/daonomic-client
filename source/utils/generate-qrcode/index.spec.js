@@ -1,4 +1,5 @@
-import generateQRCode from './';
+// @flow
+import { generateQrCode } from '.';
 
 describe('QRCode generator', () => {
   const promises = [
@@ -13,7 +14,7 @@ describe('QRCode generator', () => {
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKfSURBVO3BQW7kQAwEwUxC//9yrY88NSBIY88SjDA/WGMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRrl4iGV35SETuUkCZ1Kl4QTld+UhCeKNUqxRinWKBcvS8KbVN6UhE6lS8JJEt6k8qZijVKsUYo1ysWHqdyRhDepdEl4k8odSfikYo1SrFGKNcrFfy4JJyqdSpeESYo1SrFGKdYoxRqlWKMUa5RijXLxYUn4JJW/lIRvUqxRijVKsUa5eJnKX0pCp9IloVPpknCi8s2KNUqxRinWKBcPJeGbqLwpCf+TYo1SrFGKNcrFh6nckYROpUvCSRI6lTtU7kjCicodSXiiWKMUa5RijXLxkMqbVLokdCpdEjqVLgl3JOFE5UTlLxVrlGKNUqxRLl6WhBOVO1TepPJEEjqVLgmdykkS3lSsUYo1SrFGMT94QKVLQqfSJeEJlSeS0Kl8kyQ8UaxRijVKsUa5+HIqXRI6lZMknCThRKVLQqdykoTfVKxRijVKsUYxP/iPqZwkoVPpknCHSpeEE5U7kvBEsUYp1ijFGuXiIZXflIQuCScqXRI6lS4JncoTSehUuiS8qVijFGuUYo1y8bIkvEnlDpUTlROVkyR0KnckoVPpkvBEsUYp1ijFGuXiw1TuSMIdKl0STlROktCpnCThDpUuCW8q1ijFGqVYo1wMp3KShJMkdConSThJwicVa5RijVKsUS6GUXlC5SQJJyonSfikYo1SrFGKNcrFhyXhk5Jwh0qn0iWhU+lUvlmxRinWKMUa5eJlKn9J5SQJTyShU+mScKLSJeFNxRqlWKMUaxTzgzVGsUYp1ijFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKNUqxR/gH3yO78aomP2AAAAABJRU5ErkJggg==',
     },
   ].map(({ original, code }) =>
-    generateQRCode(original).then((result) => {
+    generateQrCode(original).then((result) => {
       expect(result).toBe(code);
     }),
   );

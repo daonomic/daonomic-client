@@ -2,13 +2,11 @@
 import { inject, observer } from 'mobx-react';
 import BalanceView from './view';
 
-import type { SaleStore } from '~/stores/sale';
-import type { WalletBalanceStore } from '~/stores/wallet/balance';
+import type { SaleStore } from '~/domains/business/sale/store';
+import type { WalletBalanceStore } from '~/domains/business/wallet-balance/store';
 import type { Props } from './view';
 
-const ObservingBalanceView = observer(BalanceView);
-
-export default inject(
+export const Balance = inject(
   ({
     walletBalance,
     sale,
@@ -19,4 +17,4 @@ export default inject(
     balance: walletBalance.state.balance,
     tokenSymbol: sale.state.tokenSymbol,
   }),
-)(ObservingBalanceView);
+)(observer(BalanceView));

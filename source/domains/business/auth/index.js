@@ -1,2 +1,2 @@
 // @flow
-export { registrationService } from './registration';
+export { registrationService } from './services/registration';

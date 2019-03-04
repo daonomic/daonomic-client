@@ -106,7 +106,3 @@ export class ImmediatePurchaseStore {
     }
   };
 }
-
-export function immediatePurchaseProvider(api: IApi) {
-  return new ImmediatePurchaseStore({ api });
-}

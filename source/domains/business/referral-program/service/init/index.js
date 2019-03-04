@@ -3,9 +3,9 @@ import { autorun } from 'mobx';
 import { referralProgramStore } from '~/domains/business/referral-program/store';
 import { referralProgramApi } from '~/domains/business/referral-program/api';
 
-import type { IAuth } from '~/stores/auth/types';
+import type { IAuth } from '~/domains/business/auth/types';
 import type { KycStore } from '~/modules/kyc/store';
-import type { SaleStore } from '~/stores/sale';
+import type { SaleStore } from '~/domains/business/sale/store';
 
 export function init(auth: IAuth, kyc: KycStore, sale: SaleStore) {
   autorun(() => {

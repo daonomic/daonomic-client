@@ -2,8 +2,8 @@
 import { observer, inject } from 'mobx-react';
 import { Payments as PaymentsView } from './view';
 
-import type { PaymentStore } from '~/stores/payment';
-import type { SaleStore } from '~/stores/sale';
+import type { PaymentStore } from '~/domains/business/payment/store';
+import type { SaleStore } from '~/domains/business/sale/store';
 import type { Props } from './view';
 
 export const Payments = inject(

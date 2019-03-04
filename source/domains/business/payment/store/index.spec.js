@@ -1,8 +1,8 @@
 // @flow
 import { when, reaction } from 'mobx';
 import { createMockApi } from '~/domains/app/api/mock';
-import { freshAuthTokenProvider } from '~/stores/auth/token';
-import { authProvider } from '~/stores/auth';
+import { freshAuthTokenProvider } from '~/domains/business/auth/store/token';
+import { authProvider } from '~/domains/business/auth/store';
 import { KycStore } from '~/modules/kyc/store';
 import { paymentProvider } from './';
 

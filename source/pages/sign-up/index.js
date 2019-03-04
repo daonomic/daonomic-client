@@ -8,7 +8,7 @@ import { SignUp } from '~/components/auth/signup';
 import type { FormValidationError } from '~/types/common';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
-import type { IAuth } from '~/stores/auth/types';
+import type { IAuth } from '~/domains/business/auth/types';
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 
 type Props = {|

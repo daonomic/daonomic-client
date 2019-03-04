@@ -1,5 +1,5 @@
 // @flow
-import client from '~/domains/app/api/client';
+import { client } from '~/domains/app/api/client';
 import { config } from '~/domains/app/config';
 
 export function determineBonus({

@@ -3,12 +3,12 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
-import TwoColumnsLayout from '~/components/two-columns-layout';
+import { TwoColumnsLayout } from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
-import Kyc from './components/kyc';
+import { Kyc } from './components/kyc';
 import { PaymentMethod } from './components/payment-method';
-import TokenPrice from './components/token-price';
-import Balance from './components/balance';
+import { TokenPrice } from './components/token-price';
+import { Balance } from './components/balance';
 import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
 import styles from './buy-tokens.css';

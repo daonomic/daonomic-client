@@ -1,8 +1,8 @@
 // @flow
 import axios from 'axios';
 import { config } from '~/domains/app/config';
-import cacheResult from '~/utils/cache-result';
-import client from '~/domains/app/api/client';
+import { cacheResult } from '~/utils/cache-result';
+import { client } from '~/domains/app/api/client';
 
 import type { IApi } from './types';
 

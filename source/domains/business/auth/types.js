@@ -1,6 +1,15 @@
 // @flow
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
-import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
+
+export type AuthToken = string;
+export type PasswordRecoveryToken = string;
+export type UserId = string;
+
+export type PasswordRecoveryParams = {|
+  token: PasswordRecoveryToken,
+  password: string,
+  confirmedPassword: string,
+|};
 
 export interface IAuthToken {
   value: ?AuthToken;

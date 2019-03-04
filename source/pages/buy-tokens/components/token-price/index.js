@@ -2,16 +2,14 @@
 import { observer, inject } from 'mobx-react';
 import TokenPriceView from './view';
 
-import type { SaleStore } from '~/stores/sale';
-import type { PaymentStore } from '~/stores/payment';
+import type { SaleStore } from '~/domains/business/sale/store';
+import type { PaymentStore } from '~/domains/business/payment/store';
 import type { Props } from './view';
 
-const ObservingTokenPriceView = observer(TokenPriceView);
-
-export default inject(
-  ({ payment, sale }: { payment: PaymentStore, sale: SaleStore }): Props => ({
+export const TokenPrice = inject(
+  ({ payment, sale }: {| payment: PaymentStore, sale: SaleStore |}): Props => ({
     tokenSymbol: sale.state.tokenSymbol,
     tokensCount: sale.state.tokensCount,
     prices: payment.publicPrices,
   }),
-)(ObservingTokenPriceView);
+)(observer(TokenPriceView));

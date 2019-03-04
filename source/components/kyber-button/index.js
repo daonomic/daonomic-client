@@ -3,7 +3,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { KyberButton as KyberButtonView } from './view';
 
-import type { SaleStore } from '~/stores/sale';
+import type { SaleStore } from '~/domains/business/sale/store';
 import type { UserDataStore } from '~/modules/user-data/store';
 import type { Props } from './view';
 

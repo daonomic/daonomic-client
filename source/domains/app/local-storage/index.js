@@ -1,5 +1,5 @@
 // @flow
-export default {
+export const appLocalStorage = {
   getItem(key: string): ?string {
     let result = null;
 

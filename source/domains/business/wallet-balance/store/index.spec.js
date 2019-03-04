@@ -1,6 +1,6 @@
 import { when } from 'mobx';
 import api from '~/domains/app/api/mock';
-import { walletBalanceProvider } from './';
+import { walletBalanceProvider } from '.';
 
 describe('wallet balance store', () => {
   test('should not load balance by default', () => {

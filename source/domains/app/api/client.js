@@ -3,7 +3,7 @@ import axios from 'axios';
 import { path } from 'ramda';
 import { config } from '~/domains/app/config';
 import { baseApiUrl } from '~/domains/app/config/api';
-import authToken from '~/stores/auth/token';
+import { authToken } from '~/domains/business/auth/store/token';
 
 const axiosClient = axios.create({ baseURL: baseApiUrl });
 
@@ -26,7 +26,7 @@ function handleFailedResponse(error) {
   throw error;
 }
 
-export default {
+export const client = {
   get: (path: string, options?: {} = {}) => {
     return axiosClient
       .get(path, {

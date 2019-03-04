@@ -1,5 +1,9 @@
 // @flow
-import type { AuthToken, UserId, PasswordRecoveryParams } from '~/types/auth';
+import type {
+  AuthToken,
+  UserId,
+  PasswordRecoveryParams,
+} from '~/domains/business/auth/types';
 import type { Payment } from '~/types/payment';
 import * as UserDataTypes from '~/modules/user-data/types';
 import * as KycTypes from '~/modules/kyc/types';

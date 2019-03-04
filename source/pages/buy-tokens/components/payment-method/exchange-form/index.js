@@ -5,8 +5,8 @@ import debounce from 'debounce-fn';
 import { paymentService } from '~/domains/business/payment';
 import { ExchangeFormView } from './view';
 
-import type { ImmediatePurchaseStore } from '~/stores/immediate-purchase';
-import type { PaymentStore } from '~/stores/payment';
+import type { ImmediatePurchaseStore } from '~/domains/business/immediate-purchase/store';
+import type { PaymentStore } from '~/domains/business/payment/store';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type InjectedProps = {|

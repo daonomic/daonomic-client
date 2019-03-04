@@ -1,10 +1,10 @@
 // @flow
 import { when, reaction } from 'mobx';
 import api from '~/domains/app/api/mock';
-import { freshAuthTokenProvider } from '~/stores/auth/token';
-import { authProvider } from '~/stores/auth';
+import { freshAuthTokenProvider } from '~/domains/business/auth/store/token';
+import { authProvider } from '~/domains/business/auth/store';
 import { KycStore } from '~/modules/kyc/store';
-import { walletBalanceProvider } from '~/stores/wallet/balance';
+import { walletBalanceProvider } from '~/domains/business/wallet-balance';
 import { balanceUpdatingService } from './';
 
 describe('balance updating service', () => {

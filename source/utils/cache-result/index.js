@@ -1,8 +1,5 @@
 // @flow
-export default function cacheResult<T>(
-  fn: () => T,
-  timeout: number = 0,
-): () => T {
+export function cacheResult<T>(fn: () => T, timeout: number = 0): () => T {
   let lastCallTimestamp = 0;
   let lastResult;
 

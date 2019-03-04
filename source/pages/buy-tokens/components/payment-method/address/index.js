@@ -2,7 +2,7 @@
 import { observer, inject } from 'mobx-react';
 import { PaymentMethodAddress as PaymentMethodAddressView } from './view';
 
-import type { PaymentStore } from '~/stores/payment';
+import type { PaymentStore } from '~/domains/business/payment/store';
 import type { Props } from './view';
 
 export const PaymentMethodAddress = inject(
