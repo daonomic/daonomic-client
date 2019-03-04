@@ -1,11 +1,4 @@
 // @flow
-import * as React from 'react';
-
-export type ComponentProps = {
-  children?: React.Node,
-  className?: string,
-};
-
 export type FormValidationResult = {|
   reason?: string,
   genericErrors: string[],
