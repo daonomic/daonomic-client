@@ -2,12 +2,15 @@
 import * as React from 'react';
 import { action, observable, computed, toJS, runInAction } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import ResetPassword from '~/components/auth/reset-password';
+import { ResetPassword } from '~/components/auth/reset-password';
 
 import type { FormValidationError } from '~/types/common';
 import * as DataStateTypes from '~/domains/data/data-state/types';
+import type { RootStore } from '~/domains/app/stores';
 
-type Props = {|
+type ExternalProps = {||};
+
+type Props = ExternalProps & {|
   resetPassword: Function,
 |};
 
@@ -17,7 +20,7 @@ const initialErrors = {
 };
 
 @observer
-class ResetPasswordPage extends React.Component<Props> {
+class ResetPasswordPageContainer extends React.Component<Props> {
   @observable email: string = '';
   @observable passwordResetState: DataStateTypes.DataState = 'idle';
   @observable errors = initialErrors;
@@ -85,8 +88,8 @@ class ResetPasswordPage extends React.Component<Props> {
   }
 }
 
-export default inject(
-  ({ auth }): Props => ({
+export const ResetPasswordPage: React.ComponentType<ExternalProps> = inject(
+  ({ auth }: RootStore): $Diff<Props, ExternalProps> => ({
     resetPassword: auth.resetPassword,
   }),
-)(ResetPasswordPage);
+)(ResetPasswordPageContainer);

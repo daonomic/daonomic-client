@@ -30,10 +30,6 @@ class Token implements IAuthToken {
 
 export const authToken = new Token();
 
-export function authTokenProvider(): IAuthToken {
-  return authToken;
-}
-
 export function freshAuthTokenProvider(): IAuthToken {
   return new Token();
 }

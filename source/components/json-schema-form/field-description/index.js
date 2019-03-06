@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import cn from 'classnames';
-import descriptionToMarkup from './utils/description-to-markup';
+import { descriptionToMarkup } from './utils/description-to-markup';
 import styles from './styles.css';
 
 type Props = {|

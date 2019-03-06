@@ -2,7 +2,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import styles from './navigation.css';
-import NavigationItem from './navigation-item';
+import { NavigationItem } from './navigation-item';
 
 type Props = {
   children: React.Node,

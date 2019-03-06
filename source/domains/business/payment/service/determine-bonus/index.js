@@ -1,13 +1,14 @@
 // @flow
-import { client } from '~/domains/app/api/client';
-import { config } from '~/domains/app/config';
+import { apiClient } from '~/domains/app/api-client';
 
 export function determineBonus({
   amount,
+  saleId,
 }: {|
   amount: number,
+  saleId: string,
 |}): Promise<number> {
-  return client
-    .post(`/sales/${config.saleId}/bonus`, { amount })
+  return apiClient
+    .post(`/sales/${saleId}/bonus`, { amount })
     .then((response) => response.data);
 }

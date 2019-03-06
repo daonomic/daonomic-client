@@ -1,2 +1,2 @@
 // @flow
-export { walletGeneratorProvider } from './store';
+export { walletGenerator } from './store';

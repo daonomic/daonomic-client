@@ -2,12 +2,15 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { observable, action, runInAction, toJS } from 'mobx';
-import SignIn from '~/components/auth/signin';
+import { SignIn } from '~/components/auth/signin';
 import { registrationService } from '~/domains/business/auth';
 
 import type { FormValidationError } from '~/types/common';
+import type { RootStore } from '~/domains/app/stores';
 
-type Props = {|
+type ExternalProps = {||};
+
+type Props = ExternalProps & {|
   login: Function,
 |};
 
@@ -18,7 +21,7 @@ const initialErrors = {
 };
 
 @observer
-class SignInPage extends React.Component<Props> {
+class SignInPageContainer extends React.Component<Props> {
   @observable email: string =
     registrationService.getPersistedRegisteredEmail() || '';
 
@@ -88,8 +91,8 @@ class SignInPage extends React.Component<Props> {
   }
 }
 
-export default inject(
-  ({ auth }): Props => ({
+export const SignInPage: React.ComponentType<ExternalProps> = inject(
+  ({ auth }: RootStore): $Diff<Props, ExternalProps> => ({
     login: auth.login,
   }),
-)(SignInPage);
+)(SignInPageContainer);

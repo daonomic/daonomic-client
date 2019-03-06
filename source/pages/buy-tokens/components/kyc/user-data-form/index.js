@@ -4,10 +4,14 @@ import { path } from 'ramda';
 import { observable, action, runInAction } from 'mobx';
 import { observer, inject } from 'mobx-react';
 import { UserDataForm as UserDataFormView } from './view';
-import { saveUserData } from '~/modules/user-data/actions';
+import { userDataService } from '~/domains/business/user-data';
 
-import type { UserDataStore } from '~/modules/user-data/store';
-import type { Address, Country, UserData } from '~/modules/user-data/types';
+import type { UserDataStore } from '~/domains/business/user-data/store';
+import type {
+  Address,
+  Country,
+  UserData,
+} from '~/domains/business/user-data/types';
 
 type InjectedProps = {|
   prospectiveAddress?: ?string,
@@ -16,7 +20,7 @@ type InjectedProps = {|
 
 type ExternalProps = {|
   countryRequired: boolean,
-  onSubmit(): mixed,
+  onSubmit(): Promise<mixed>,
 |};
 
 type Props = InjectedProps & ExternalProps;
@@ -66,7 +70,7 @@ class UserDataFormContainer extends React.Component<Props, State> {
 
     try {
       await this.props.onSaveUserData(this.userData);
-      this.props.onSubmit();
+      await this.props.onSubmit();
     } catch (error) {
       const fieldErrors =
         path(['response', 'data', 'fieldErrors'], error) || {};
@@ -132,6 +136,6 @@ class UserDataFormContainer extends React.Component<Props, State> {
 export const UserDataForm: React.ComponentType<ExternalProps> = inject(
   ({ userData }: { userData: UserDataStore }): InjectedProps => ({
     prospectiveAddress: userData.model.prospectiveAddress,
-    onSaveUserData: saveUserData,
+    onSaveUserData: userDataService.saveUserData,
   }),
 )(observer(UserDataFormContainer));

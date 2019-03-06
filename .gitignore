@@ -8,6 +8,7 @@ storybook-static/
 test-reports/
 source/locales/_build/
 source/locales/**/*.js
+cypress/screenshots/
 
 # Development stuff
 platforms/

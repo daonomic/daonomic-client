@@ -9,9 +9,9 @@ import { observable, when } from 'mobx';
 import { observer } from 'mobx-react';
 import { fromPromise } from 'mobx-utils';
 import { Button } from '@daonomic/ui';
-import { initCivicSip } from '~/modules/kyc/civic';
-import { loadAndSetKycState } from '~/modules/kyc/actions';
+import { kycService } from '~/domains/business/kyc';
 import { i18n } from '~/domains/app/i18n';
+import { initCivicSip } from './civic';
 
 type ExternalProps = {|
   action: string,
@@ -53,7 +53,7 @@ export const CivicKycForm = observer(
         await axios.post(this.props.action, {
           jwtToken,
         });
-        await loadAndSetKycState();
+        await kycService.loadKycState();
       } catch (error) {
         raven.captureException(error);
         message.error(i18n._(t`Something went wrong, please try again`));

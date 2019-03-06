@@ -11,7 +11,7 @@ export type Props = {|
   tokenSymbol: string,
 |};
 
-export default class Balance extends React.Component<Props> {
+export class Balance extends React.Component<Props> {
   marker = getMarker('balance');
 
   render() {

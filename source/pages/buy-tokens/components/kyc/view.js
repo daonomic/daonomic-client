@@ -13,23 +13,25 @@ import { SumsubKycForm } from './sumsub-kyc-form';
 import styles from './styles.css';
 
 import * as DataStateTypes from '~/domains/data/data-state/types';
-import * as KycTypes from '~/modules/kyc/types';
+import * as KycTypes from '~/domains/business/kyc/types';
 
 export type Props = {|
   kycState: DataStateTypes.LoadableData<KycTypes.State>,
   userWalletAddress: ?string,
-  onSubmitUserData(): mixed,
+  onSubmitUserData(): Promise<mixed>,
 |};
 
-export class KycView extends React.Component<Props> {
-  marker = getMarker('kyc');
-  exteralKycMarker = getMarker('external-kyc');
-
-  renderVerifyIdentityTitle = () => (
+function VerifyIdentityTitle() {
+  return (
     <Title>
       <Trans>Verify Your Identity</Trans>
     </Title>
   );
+}
+
+export class KycView extends React.Component<Props> {
+  marker = getMarker('kyc');
+  exteralKycMarker = getMarker('external-kyc');
 
   renderForm = (kycData: KycTypes.State) => {
     switch (kycData.status) {
@@ -95,7 +97,7 @@ export class KycView extends React.Component<Props> {
       case 'DENIED': {
         return (
           <Panel>
-            {this.renderVerifyIdentityTitle()}
+            <VerifyIdentityTitle />
 
             <p
               data-marker={this.marker('denial-annotation')()}
@@ -117,7 +119,7 @@ export class KycView extends React.Component<Props> {
       case 'INTERNAL_KYC': {
         return (
           <Panel>
-            {this.renderVerifyIdentityTitle()}
+            <VerifyIdentityTitle />
             {this.renderForm(kycData)}
           </Panel>
         );
@@ -126,7 +128,7 @@ export class KycView extends React.Component<Props> {
       case 'EXTERNAL_KYC': {
         return (
           <Panel data-marker={this.exteralKycMarker()}>
-            {this.renderVerifyIdentityTitle()}
+            <VerifyIdentityTitle />
             {this.renderForm(kycData)}
           </Panel>
         );
@@ -135,7 +137,7 @@ export class KycView extends React.Component<Props> {
       case 'CIVIC_KYC': {
         return (
           <Panel>
-            {this.renderVerifyIdentityTitle()}
+            <VerifyIdentityTitle />
             <CivicKycForm
               action={kycData.url}
               applicationId={kycData.applicationId}
@@ -147,7 +149,7 @@ export class KycView extends React.Component<Props> {
       case 'SUM_SUB_KYC': {
         return (
           <Panel>
-            {this.renderVerifyIdentityTitle()}
+            <VerifyIdentityTitle />
             <SumsubKycForm configuration={kycData.config} />
           </Panel>
         );
@@ -195,7 +197,7 @@ export class KycView extends React.Component<Props> {
 
       case 'ALLOWED': {
         return (
-          <Panel>
+          <Panel data-marker={this.marker('allowed-annotation')()}>
             <Input
               disabled
               label={<Trans>Your Ethereum wallet address</Trans>}

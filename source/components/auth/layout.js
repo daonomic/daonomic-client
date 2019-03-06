@@ -9,20 +9,16 @@ type Props = {|
   children: React.Node,
 |};
 
-export default class Layout extends React.PureComponent<Props> {
-  render() {
-    return (
-      <Page>
-        <Page.Content>
-          <div className={cn(styles.container, styles.content)}>
-            {this.props.children}
-          </div>
-        </Page.Content>
+export function AuthLayout({ children }: Props) {
+  return (
+    <Page>
+      <Page.Content>
+        <div className={cn(styles.container, styles.content)}>{children}</div>
+      </Page.Content>
 
-        <Page.Footer>
-          <Footer className={styles.container} />
-        </Page.Footer>
-      </Page>
-    );
-  }
+      <Page.Footer>
+        <Footer className={styles.container} />
+      </Page.Footer>
+    </Page>
+  );
 }

@@ -1,19 +1,49 @@
-// @flow
+//@flow
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { PaymentMethodSelect as PaymentMethodSelectView } from './view';
+import { observer } from 'mobx-react';
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
+import { Select } from '@daonomic/ui';
+import styles from './styles.css';
 
-import type { PaymentStore } from '~/domains/business/payment/store';
-import type { Props } from './view';
+import type { SaleStore } from '~/domains/business/sale/store';
 
-type ExternalProps = {|
+export type Props = {|
   marker: Function,
+  sale: SaleStore,
 |};
 
-export const PaymentMethodSelect: React.ComponentType<ExternalProps> = inject(
-  ({ payment }: { payment: PaymentStore }): $Diff<Props, ExternalProps> => ({
-    selectedPaymentMethod: payment.selectedMethod,
-    paymentMethods: payment.state.methods,
-    onChange: payment.setMethod,
-  }),
-)(observer(PaymentMethodSelectView));
+export const PaymentMethodSelect: React.ComponentType<Props> = observer(
+  ({ sale, marker }: Props) => {
+    const { selectedMethod: selectedPaymentMethod } = sale.payment;
+
+    if (!selectedPaymentMethod || sale.data.paymentMethods.length === 1) {
+      return null;
+    }
+
+    const selectId = 'payment-method';
+
+    return (
+      <div className={styles.root}>
+        <label className={styles.label} htmlFor={selectId}>
+          <Trans>I want to pay with</Trans>
+        </label>
+
+        <Select
+          data-marker={marker('select')()}
+          id={selectId}
+          value={selectedPaymentMethod.id}
+          onChange={(event: SyntheticInputEvent<HTMLSelectElement>) => {
+            sale.payment.setMethod(event.target.value);
+          }}
+        >
+          {sale.data.paymentMethods.map(({ id, label }) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </Select>
+      </div>
+    );
+  },
+);

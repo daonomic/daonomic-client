@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
-import AppLayout from '~/components/app-layout';
-import SignIn from '~/pages/sign-in';
-import SignUp from '~/pages/sign-up';
-import ResetPassword from '~/pages/reset-password';
-import CreateNewPassword from '~/pages/create-new-password';
+import { AppLayout } from '~/components/app-layout';
+import { SignInPage } from '~/pages/sign-in';
+import { SignUpPage } from '~/pages/sign-up';
+import { ResetPasswordPage } from '~/pages/reset-password';
+import { CreateNewPasswordPage } from '~/pages/create-new-password';
 import { BuyTokensPage } from '~/pages/buy-tokens';
 import { CreateWalletPage } from '~/pages/create-wallet';
 import { ReferralPage } from '~/pages/referral';
@@ -29,19 +29,19 @@ export class CurrentPage extends React.Component<Props> {
 
     switch (currentPageName) {
       case 'signIn': {
-        return <SignIn />;
+        return <SignInPage />;
       }
 
       case 'signUp': {
-        return <SignUp />;
+        return <SignUpPage />;
       }
 
       case 'resetPassword': {
-        return <ResetPassword />;
+        return <ResetPasswordPage />;
       }
 
       case 'createNewPassword': {
-        return <CreateNewPassword token={currentRoute.params.token} />;
+        return <CreateNewPasswordPage token={currentRoute.params.token} />;
       }
 
       case 'app': {

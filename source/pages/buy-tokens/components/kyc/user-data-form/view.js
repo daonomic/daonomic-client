@@ -7,7 +7,7 @@ import { ExternalSelect } from '~/components/external-select';
 import { getMarker } from '~/utils/get-marker';
 import { baseApiUrl } from '~/domains/app/config/api';
 
-import type { Address, Country } from '~/modules/user-data/types';
+import type { Address, Country } from '~/domains/business/user-data/types';
 
 export type Props = {|
   initialAddress?: ?Address,

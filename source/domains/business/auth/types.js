@@ -30,9 +30,25 @@ export interface IAuth {
   register({|
     email: string,
     referralData: ?ReferralProgramTypes.ReferrerData,
-  |}): Promise<{}>;
-  resetPassword({ email: string }): Promise<{}>;
-  createNewPassword: (params: PasswordRecoveryParams) => Promise<{}>;
+  |}): Promise<void>;
+  resetPassword({ email: string }): Promise<void>;
+  createNewPassword: (params: PasswordRecoveryParams) => Promise<void>;
 
   logout: () => void;
+}
+
+export interface IAuthApi {
+  login({| email: string, password: string |}): Promise<{|
+    token: AuthToken,
+    id: UserId,
+  |}>;
+  register({|
+    email: string,
+    referralData: ?ReferralProgramTypes.ReferrerData,
+  |}): Promise<void>;
+  resetPassword({|
+    email: string,
+    passwordRestorationPagePath: string,
+  |}): Promise<void>;
+  createNewPassword(PasswordRecoveryParams): Promise<void>;
 }

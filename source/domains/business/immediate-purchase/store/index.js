@@ -1,36 +1,43 @@
 // @flow
 import raven from 'raven-js';
 import Web3 from 'web3';
-import { observable, runInAction } from 'mobx';
-import { userData } from '~/modules/user-data/store';
+import { observable, runInAction, reaction } from 'mobx';
+import { userData } from '~/domains/business/user-data';
 import { web3Service } from '~/domains/business/web3/service';
-
-import type { IApi } from '~/domains/app/api/types';
+import { tokenStore, tokenService } from '~/domains/business/token';
+import { auth } from '~/domains/business/auth';
 
 function getUserAddress() {
   return userData.model.address || '';
 }
 
 export class ImmediatePurchaseStore {
-  api: IApi;
-
   @observable
   isAvailable = false;
 
   @observable
   saleContractAddress: ?string = null;
 
-  constructor(options: { api: IApi }) {
-    this.api = options.api;
-    this.loadSaleContractAddress();
+  constructor() {
+    reaction(
+      () => auth.isAuthenticated,
+      () => {
+        if (auth.isAuthenticated) {
+          this.loadSaleContractAddress();
+        }
+      },
+    );
   }
 
   loadSaleContractAddress = async () => {
-    const { data } = await this.api.getSaleInfo();
+    await tokenService.loadData();
+    const { sale } = tokenStore;
 
-    runInAction(() => {
-      this.saleContractAddress = data.address;
-    });
+    if (sale) {
+      runInAction(() => {
+        this.saleContractAddress = sale.data.address;
+      });
+    }
   };
 
   checkAvailability = async (): Promise<{ isAvailable: boolean }> => {
@@ -106,3 +113,5 @@ export class ImmediatePurchaseStore {
     }
   };
 }
+
+export const immediatePurchase = new ImmediatePurchaseStore();

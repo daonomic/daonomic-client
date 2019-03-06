@@ -8,36 +8,35 @@ import {
   runInAction,
   toJS,
 } from 'mobx';
-import createViewModel, { type ViewModel } from '~/utils/create-view-model';
+import { createViewModel, type ViewModel } from '~/utils/create-view-model';
 import { generateQrCode } from '~/utils/generate-qrcode';
+import { paymentApi } from '~/domains/business/payment/api';
+import { auth } from '~/domains/business/auth';
+import { kyc } from '~/domains/business/kyc';
 
-import type { IApi } from '~/domains/app/api/types';
-import type { IAuth } from '~/domains/business/auth/types';
-import type { KycStore } from '~/modules/kyc/store';
-import type { Payment } from '~/types/payment';
-import type { IPaymentStoreState } from '~/domains/business/payment/types';
+import type { SaleStore } from '~/domains/business/sale/store';
+import * as PaymentTypes from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
-class PaymentStoreState implements IPaymentStoreState {
-  @observable
-  dataState = 'idle';
-  @observable
-  methods = [];
+class PaymentStoreState {
   @observable
   selectedMethodId = null;
+
   @observable
   addressesByMethodId: Map<string, string> = new Map();
+
   @observable
-  paymentsByMethodId: Map<PaymentMethodTypes.Id, Payment[]> = new Map();
+  paymentsByMethodId: Map<
+    PaymentMethodTypes.Id,
+    PaymentTypes.Payment[],
+  > = new Map();
+
   @observable
-  selectedMethodAddressQRCode = '';
+  selectedMethodAddressQRCode: string = '';
 }
 
 export class PaymentStore {
-  api: IApi;
-  auth: IAuth;
-  kyc: KycStore;
-  sale: string;
+  sale: SaleStore;
 
   @observable
   state: ViewModel<PaymentStoreState> = createViewModel(
@@ -45,23 +44,8 @@ export class PaymentStore {
   );
 
   @computed
-  get isFailed(): boolean {
-    return this.state.dataState === 'failed';
-  }
-
-  @computed
-  get isLoading(): boolean {
-    return this.state.dataState === 'loading';
-  }
-
-  @computed
-  get isLoaded(): boolean {
-    return this.state.dataState === 'loaded';
-  }
-
-  @computed
   get publicPrices(): { rate: number, label: string }[] {
-    return this.state.methods
+    return this.sale.data.paymentMethods
       .filter((method) => method.id !== 'ERC20')
       .map(({ id, rate }) => ({
         rate,
@@ -71,7 +55,7 @@ export class PaymentStore {
 
   @computed
   get selectedMethod(): ?PaymentMethodTypes.Data {
-    return this.state.methods.find(
+    return this.sale.data.paymentMethods.find(
       (method) => method.id === this.state.selectedMethodId,
     );
   }
@@ -84,28 +68,24 @@ export class PaymentStore {
   }
 
   @computed
-  get selectedMethodPayments(): Payment[] {
+  get selectedMethodPayments(): PaymentTypes.Payment[] {
     return toJS(
       this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') ||
         [],
     );
   }
 
-  constructor(options: {|
-    api: IApi,
-    auth: IAuth,
-    kyc: KycStore,
-    sale: string,
-  |}) {
-    this.auth = options.auth;
-    this.api = options.api;
-    this.kyc = options.kyc;
+  constructor(options: {| sale: SaleStore |}) {
     this.sale = options.sale;
-    this.initState();
+    this.reset();
+    if (!options.sale) {
+      return;
+    }
+    this.state.selectedMethodId = (this.sale.data.paymentMethods[0] || {}).id;
 
     // Load and set payment method address on selected method change or kyc change
     reaction(
-      () => this.isLoaded && this.kyc.isAllowed && this.state.selectedMethodId,
+      () => kyc.isAllowed && this.state.selectedMethodId,
       () => {
         this.loadCurrentMethod();
       },
@@ -114,9 +94,7 @@ export class PaymentStore {
     let issueRequestStatusIntervalId = null;
 
     autorun(() => {
-      if (this.auth.isAuthenticated) {
-        this.loadInfo();
-      } else {
+      if (!auth.isAuthenticated) {
         this.reset();
 
         if (issueRequestStatusIntervalId) {
@@ -139,8 +117,8 @@ export class PaymentStore {
         }
 
         const updateIssueRequestStatus = async () => {
-          const { data } = await this.api.getPaymentStatus({
-            saleId: this.sale,
+          const data = await paymentApi.getPaymentStatus({
+            saleId: this.sale.data.id,
             tokenId: selectedMethod.token,
           });
           const actualSelectedMethod = this.selectedMethod;
@@ -171,12 +149,6 @@ export class PaymentStore {
     );
   }
 
-  initState = () => {
-    this.state.reset();
-    this.state.addressesByMethodId = new Map();
-    this.state.paymentsByMethodId = new Map();
-  };
-
   @action
   loadCurrentMethod = async () => {
     if (!this.selectedMethod) {
@@ -185,16 +157,12 @@ export class PaymentStore {
 
     const { id, token } = this.selectedMethod;
 
-    if (
-      !this.isLoaded ||
-      !this.kyc.isAllowed ||
-      this.state.addressesByMethodId.get(id)
-    ) {
+    if (!kyc.isAllowed || this.state.addressesByMethodId.get(id)) {
       return;
     }
 
-    const { data } = await this.api.getPaymentAddress({
-      saleId: this.sale,
+    const data = await paymentApi.getPaymentAddress({
+      saleId: this.sale.data.id,
       tokenId: token,
     });
 
@@ -219,55 +187,14 @@ export class PaymentStore {
   };
 
   @action
-  loadInfo = async () => {
-    this.state.dataState = 'loading';
-
-    try {
-      const {
-        data: { paymentMethods: originalPaymentMethods = [] },
-      } = await this.api.getSaleInfo();
-      const ethPaymentMethod = originalPaymentMethods.find(
-        (method) => method.id === 'ETH',
-      );
-      const paymentMethods = originalPaymentMethods.concat({
-        ...ethPaymentMethod,
-        id: 'ERC20',
-        label: 'ERC20',
-      });
-
-      runInAction(() => {
-        this.state.dataState = 'loaded';
-        this.state.methods = paymentMethods;
-        this.state.selectedMethodId = (paymentMethods[0] || {}).id;
-      });
-    } catch (error) {
-      runInAction(() => {
-        this.state.dataState = 'failed';
-      });
-    }
-  };
-
-  @action
   setMethod = (methodId: PaymentMethodTypes.Id) => {
     this.state.selectedMethodId = methodId;
   };
 
   @action
   reset = () => {
-    this.initState();
+    this.state.reset();
+    this.state.addressesByMethodId = new Map();
+    this.state.paymentsByMethodId = new Map();
   };
-}
-
-export function paymentProvider(
-  api: IApi,
-  auth: IAuth,
-  saleId: string,
-  kyc: KycStore,
-) {
-  return new PaymentStore({
-    auth,
-    sale: saleId,
-    kyc,
-    api,
-  });
 }

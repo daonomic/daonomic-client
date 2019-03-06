@@ -5,20 +5,13 @@ const globalDaonomicConfig = window.daonomicConfig || {};
 export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
-const sales = {
-  development: '5c72e285020d88277ac4656a',
-  staging: '5c3f00c6020d88686a94b389',
-  production: '5c3f00c6020d88686a94b389',
-};
-
 const realms = {
-  development: '5c72e285020d88277ac46568',
-  staging: '5c3f00c6020d88686a94b386',
-  production: '5c3f00c6020d88686a94b386',
+  development: '5c85f6ad020d886206ce00d8',
+  staging: '5c85f6ad020d886206ce00d8',
+  production: '5c85f6ad020d886206ce00d8',
 };
 
 export const config = {
-  saleId: globalDaonomicConfig.sale || sales[environment] || sales.production,
   realmId:
     globalDaonomicConfig.realm || realms[environment] || realms.production,
   contactEmail: 'dev@0v1se.com',
@@ -45,3 +38,9 @@ export const config = {
   ],
   kyberWidgetUrl: 'https://kyber.daonomic.io',
 };
+
+export function actualizeRealmId() {
+  if (globalDaonomicConfig.realm) {
+    config.realmId = globalDaonomicConfig.realm;
+  }
+}

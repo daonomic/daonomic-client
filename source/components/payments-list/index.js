@@ -3,19 +3,19 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import styles from './styles.css';
-import { getEtherscanTransactionUrl } from '~/modules/etherscan';
+import { etherscan } from '~/domains/business/etherscan';
 
-import type { Payment } from '~/types/payment';
+import * as PaymentTypes from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 export type Props = {|
   tokenSymbol: string,
-  payments: Payment[],
+  payments: PaymentTypes.Payment[],
   paymentMethod: PaymentMethodTypes.Data,
 |};
 
 export class PaymentsList extends React.Component<Props> {
-  renderPaymentStatus = (payment: Payment) => {
+  renderPaymentStatus = (payment: PaymentTypes.Payment) => {
     switch (payment.status) {
       case 'COMPLETED': {
         return <Trans>finished</Trans>;
@@ -31,14 +31,14 @@ export class PaymentsList extends React.Component<Props> {
     }
   };
 
-  renderEtherscanLink = (payment: Payment) => {
+  renderEtherscanLink = (payment: PaymentTypes.Payment) => {
     if (payment.status !== 'COMPLETED') {
       return null;
     }
 
     return (
       <a
-        href={getEtherscanTransactionUrl(payment.txHash)}
+        href={etherscan.getTransactionUrl(payment.txHash)}
         target="_blank"
         rel="noopener noreferrer"
       >

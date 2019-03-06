@@ -1,18 +1,19 @@
 // @flow
 import * as React from 'react';
-import { action, observable, computed, runInAction, toJS } from 'mobx';
+import { action, observable, runInAction, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import CreateNewPassword from '~/components/auth/create-new-password';
+import { CreateNewPassword } from '~/components/auth/create-new-password';
 
 import type { FormValidationError } from '~/types/common';
 import * as DataStateTypes from '~/domains/data/data-state/types';
+import type { RootStore } from '~/domains/app/stores';
 
-type InjectedProps = {|
-  createNewPassword: Function,
+type ExternalProps = {|
+  token: string,
 |};
 
-type Props = InjectedProps & {|
-  token: string,
+type Props = ExternalProps & {|
+  createNewPassword: Function,
 |};
 
 const initialErrors = {
@@ -22,21 +23,11 @@ const initialErrors = {
 };
 
 @observer
-class CreateNewPasswordPage extends React.Component<Props> {
+class CreateNewPasswordPageContainer extends React.Component<Props> {
   @observable password: string = '';
   @observable confirmedPassword: string = '';
   @observable passwordCreationState: DataStateTypes.DataState = 'idle';
   @observable errors = initialErrors;
-
-  @computed
-  get isLoading(): boolean {
-    return this.passwordCreationState === 'loading';
-  }
-
-  @computed
-  get isNewPasswordCreated(): boolean {
-    return this.passwordCreationState === 'loaded';
-  }
 
   @action
   setPassword = (password) => {
@@ -96,8 +87,8 @@ class CreateNewPasswordPage extends React.Component<Props> {
         password={this.password}
         confirmedPassword={this.confirmedPassword}
         errors={toJS(this.errors)}
-        isSaving={this.isLoading}
-        isNewPasswordCreated={this.isNewPasswordCreated}
+        isSaving={this.passwordCreationState === 'loading'}
+        isNewPasswordCreated={this.passwordCreationState === 'loaded'}
         onSubmit={this.handleSubmit}
         onChangePassword={this.handleChangePassword}
         onChangeConfirmedPassword={this.handleChangeConfirmedPassword}
@@ -106,8 +97,8 @@ class CreateNewPasswordPage extends React.Component<Props> {
   }
 }
 
-export default inject(
-  ({ auth }): InjectedProps => ({
+export const CreateNewPasswordPage: React.ComponentType<ExternalProps> = inject(
+  ({ auth }: RootStore): $Diff<Props, ExternalProps> => ({
     createNewPassword: auth.createNewPassword,
   }),
-)(CreateNewPasswordPage);
+)(CreateNewPasswordPageContainer);

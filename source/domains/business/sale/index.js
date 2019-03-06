@@ -1,2 +1,2 @@
 // @flow
-export { saleProvider } from './store';
+export { createSaleStore } from './store';

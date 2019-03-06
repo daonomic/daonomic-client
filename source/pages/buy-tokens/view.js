@@ -13,63 +13,112 @@ import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
 import styles from './buy-tokens.css';
 
+import type { TokenStore } from '~/domains/business/token/store';
+
 export type Props = {|
+  token: TokenStore,
   isLoaded: boolean,
   isAllowedToPay: boolean,
-  sale: {
-    isStarted: boolean,
-    isFinished: boolean,
-    startTimestamp: ?number,
-    endTimestamp: ?number,
-  },
   onMount(): void,
 |};
+
+function Error() {
+  return (
+    <TwoColumnsLayout
+      left={
+        <Panel>
+          <Heading tagName="h1" className={styles.placeholder} size="large">
+            <Trans>Something went wrong</Trans>
+          </Heading>
+        </Panel>
+      }
+      right={<Balance />}
+    />
+  );
+}
+
+function Loading() {
+  return (
+    <TwoColumnsLayout
+      left={
+        <Panel>
+          <Heading tagName="h1" className={styles.placeholder} size="large">
+            <Trans>Loading...</Trans>
+          </Heading>
+        </Panel>
+      }
+      right={<Balance />}
+    />
+  );
+}
 
 export class BuyTokensPageView extends React.Component<Props> {
   componentDidMount() {
     this.props.onMount();
   }
 
-  renderPreloader = () => (
-    <Panel>
-      <Heading tagName="h1" className={styles.placeholder} size="large">
-        <Trans>Loading...</Trans>
-      </Heading>
-    </Panel>
-  );
-
-  renderContent = () => {
-    const { isLoaded } = this.props;
-
-    if (!isLoaded) {
-      return this.renderPreloader();
-    }
-
-    return (
-      <React.Fragment>
-        <Kyc />
-        {this.props.isAllowedToPay && (
-          <SalePeriodGuard
-            startTimestamp={this.props.sale.startTimestamp}
-            endTimestamp={this.props.sale.endTimestamp}
-            renderContent={() => <PaymentMethod />}
-          />
-        )}
-      </React.Fragment>
-    );
-  };
-
   render() {
-    return (
-      <TwoColumnsLayout>
-        <TwoColumnsLayout.Left>{this.renderContent()}</TwoColumnsLayout.Left>
+    const { token } = this.props;
 
-        <TwoColumnsLayout.Right>
-          <Balance />
-          <TokenPrice />
-          <ReferralProgram />
-        </TwoColumnsLayout.Right>
-      </TwoColumnsLayout>
-    );
+    switch (token.state.dataState) {
+      case 'idle': {
+        return <Error />;
+      }
+
+      case 'failed': {
+        return <Error />;
+      }
+
+      case 'loading': {
+        return <Loading />;
+      }
+
+      case 'loaded': {
+        const { sale } = token;
+
+        if (sale) {
+          return (
+            <TwoColumnsLayout
+              left={
+                <React.Fragment>
+                  <Kyc />
+                  {this.props.isAllowedToPay && (
+                    <SalePeriodGuard
+                      startDate={sale.data.startDate}
+                      endDate={sale.data.endDate}
+                      renderContent={() => <PaymentMethod sale={sale} />}
+                    />
+                  )}
+                </React.Fragment>
+              }
+              right={
+                <React.Fragment>
+                  <Balance />
+                  <TokenPrice tokenSymbol={token.symbol} sale={sale} />
+                  <ReferralProgram />
+                </React.Fragment>
+              }
+            />
+          );
+        } else {
+          return (
+            <TwoColumnsLayout
+              left={<Kyc />}
+              right={
+                <React.Fragment>
+                  <Balance />
+                  <ReferralProgram />
+                </React.Fragment>
+              }
+            />
+          );
+        }
+      }
+
+      default: {
+        (token.state.dataState: empty);
+        return <Error />;
+      }
+    }
   }
 }

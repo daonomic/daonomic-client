@@ -1,57 +1,71 @@
 // @flow
 import { when, reaction } from 'mobx';
-import api from '~/domains/app/api/mock';
+import { mockAuthApi } from '~/domains/business/auth/api/mock';
+import { createFakeApiClient } from '~/domains/app/api-client/fake';
 import { freshAuthTokenProvider } from '~/domains/business/auth/store/token';
-import { authProvider } from '~/domains/business/auth/store';
-import { KycStore } from '~/modules/kyc/store';
-import { walletBalanceProvider } from '~/domains/business/wallet-balance';
-import { balanceUpdatingService } from './';
+import { AuthStore } from '~/domains/business/auth/store';
+import { KycStore } from '~/domains/business/kyc/store';
+import { walletBalance } from '~/domains/business/wallet-balance';
+import { balanceUpdatingService } from '.';
 
 describe('balance updating service', () => {
-  test('should not load balance if wallet address is not saved yet', () => {
-    const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = new KycStore();
-    const walletBalance = walletBalanceProvider(api);
+  let auth = new AuthStore({
+    api: mockAuthApi,
+    authToken: freshAuthTokenProvider(),
+  });
+  let kyc = new KycStore();
 
-    balanceUpdatingService(auth, kyc, walletBalance);
+  beforeEach(() => {
+    auth = new AuthStore({
+      api: mockAuthApi,
+      authToken: freshAuthTokenProvider(),
+    });
+    kyc = new KycStore();
+  });
+
+  test('should not load balance if wallet address is not saved yet', () => {
+    const apiClient = createFakeApiClient({
+      '/balance': {
+        GET: () => ({ balance: 0 }),
+      },
+    });
+
+    balanceUpdatingService.init(auth, kyc, walletBalance, apiClient);
 
     expect(walletBalance.isLoading).toBe(false);
   });
 
-  test('should automatically load balance if kyc has just been approved', (done) => {
-    const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = new KycStore();
-    const walletBalance = walletBalanceProvider(api);
+  test('should automatically load balance if kyc has just been approved', async (done) => {
+    const apiClient = createFakeApiClient({
+      '/balance': {
+        GET: () => ({ balance: 5 }),
+      },
+    });
 
-    balanceUpdatingService(auth, kyc, walletBalance);
+    balanceUpdatingService.init(auth, kyc, walletBalance, apiClient);
     expect(walletBalance.state.balance).toBe(0);
+
     kyc.setState({
       dataState: 'loaded',
       data: { status: 'ALLOWED' },
     });
 
-    when(
-      () => kyc.isAllowed && walletBalance.isLoading,
-      (): void => {
-        when(
-          () => walletBalance.isLoaded,
-          (): void => {
-            expect(walletBalance.state.balance).toBeGreaterThan(0);
-            done();
-          },
-        );
-      },
-    );
+    await when(() => kyc.isAllowed && walletBalance.isLoading);
+    await when(() => walletBalance.isLoaded);
+    expect(walletBalance.state.balance).toBeGreaterThan(0);
+    done();
   });
 
   test('should update balance regularly', (done) => {
     jest.useFakeTimers();
 
-    const auth = authProvider(api, freshAuthTokenProvider());
-    const kyc = new KycStore();
-    const walletBalance = walletBalanceProvider(api);
+    const apiClient = createFakeApiClient({
+      '/balance': {
+        GET: () => ({ balance: 5 }),
+      },
+    });
 
-    balanceUpdatingService(auth, kyc, walletBalance);
+    balanceUpdatingService.init(auth, kyc, walletBalance, apiClient);
     kyc.setState({
       dataState: 'loaded',
       data: { status: 'ALLOWED' },
@@ -73,15 +87,15 @@ describe('balance updating service', () => {
 
   test('should cancel loading and reset balance if user logs out', async (done) => {
     jest.useFakeTimers();
-
-    const auth = authProvider(api, freshAuthTokenProvider());
-
     auth.setToken('test token');
 
-    const kyc = new KycStore();
-    const walletBalance = walletBalanceProvider(api);
+    const apiClient = createFakeApiClient({
+      '/balance': {
+        GET: () => ({ balance: 5 }),
+      },
+    });
 
-    balanceUpdatingService(auth, kyc, walletBalance);
+    balanceUpdatingService.init(auth, kyc, walletBalance, apiClient);
     kyc.setState({
       dataState: 'loaded',
       data: { status: 'ALLOWED' },

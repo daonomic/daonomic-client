@@ -1,16 +1,14 @@
 // @flow
-import * as DataStateTypes from '~/domains/data/data-state/types';
+import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
-export interface ISaleStoreState {
-  dataState: DataStateTypes.DataState;
-  tokenSymbol: string;
-  startTimestamp: ?number;
-  endTimestamp: ?number;
-  tokensCount: {
-    sold: number,
-    total: number,
-    notLimited: boolean,
-  };
-  address: string;
-  features: string[];
-}
+export type Data = {|
+  id: string,
+  address: string,
+  startDate: ?number,
+  endDate: ?number,
+  sold: number,
+  total: number,
+  address: string,
+  features?: string[],
+  paymentMethods: PaymentMethodTypes.Data[],
+|};

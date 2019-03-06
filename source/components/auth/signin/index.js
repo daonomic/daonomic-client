@@ -6,7 +6,7 @@ import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { Link } from '~/components/link';
 import { getMarker } from '~/utils/get-marker';
-import Layout from '../layout';
+import { AuthLayout } from '../layout';
 import commonStyles from '../common.css';
 import styles from './signin.css';
 import { getRouteUrl } from '~/domains/app/router';
@@ -25,7 +25,7 @@ type Props = {|
   onChangePassword: Function,
 |};
 
-export default class SignIn extends React.Component<Props> {
+export class SignIn extends React.Component<Props> {
   marker = getMarker('sign-in');
 
   renderCommonError = () => {
@@ -61,7 +61,7 @@ export default class SignIn extends React.Component<Props> {
     } = this.props;
 
     return (
-      <Layout>
+      <AuthLayout>
         <Panel>
           <form data-marker={this.marker('form')()} onSubmit={onSubmit}>
             <Heading size="large" tagName="h1" className={commonStyles.title}>
@@ -135,7 +135,7 @@ export default class SignIn extends React.Component<Props> {
             </Link>
           </Text>
         </Panel>
-      </Layout>
+      </AuthLayout>
     );
   }
 }

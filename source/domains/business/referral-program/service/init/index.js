@@ -4,15 +4,16 @@ import { referralProgramStore } from '~/domains/business/referral-program/store'
 import { referralProgramApi } from '~/domains/business/referral-program/api';
 
 import type { IAuth } from '~/domains/business/auth/types';
-import type { KycStore } from '~/modules/kyc/store';
-import type { SaleStore } from '~/domains/business/sale/store';
+import type { KycStore } from '~/domains/business/kyc/store';
+import type { TokenStore } from '~/domains/business/token/store';
 
-export function init(auth: IAuth, kyc: KycStore, sale: SaleStore) {
+export function init(auth: IAuth, kyc: KycStore, token: TokenStore) {
   autorun(() => {
     if (
       auth.isAuthenticated &&
-      sale.state.dataState === 'loaded' &&
-      sale.state.features.includes('REFERRAL')
+      token.state.dataState === 'loaded' &&
+      token.sale &&
+      (token.sale.data.features || []).includes('REFERRAL')
     ) {
       referralProgramStore.setSupport({ isSupported: true });
     }

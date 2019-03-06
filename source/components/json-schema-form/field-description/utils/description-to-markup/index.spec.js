@@ -1,5 +1,5 @@
 // @flow
-import descriptionToMarkup from './';
+import { descriptionToMarkup } from '.';
 
 describe('descriptionToMarkup', () => {
   test('should not modify string without links', () => {

@@ -2,21 +2,20 @@
 import * as React from 'react';
 import cn from 'classnames';
 import styles from './two-columns-layout.css';
-import Left from './left';
-import Right from './right';
+import { LeftColumn } from './left';
+import { RightColumn } from './right';
 
 type Props = {
   className?: string,
-  children: React.Node,
+  left: React.Node,
+  right: React.Node,
 };
 
-export class TwoColumnsLayout extends React.PureComponent<Props, {}> {
-  static Left = Left;
-  static Right = Right;
-
-  render() {
-    const { className, children } = this.props;
-
-    return <div className={cn(className, styles.root)}>{children}</div>;
-  }
+export function TwoColumnsLayout({ className, left, right }: Props) {
+  return (
+    <div className={cn(className, styles.root)}>
+      <LeftColumn>{left}</LeftColumn>
+      <RightColumn>{right}</RightColumn>
+    </div>
+  );
 }

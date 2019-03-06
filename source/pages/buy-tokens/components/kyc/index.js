@@ -1,18 +1,16 @@
 // @flow
 import { observer, inject } from 'mobx-react';
-import { loadAndSetKycState } from '~/modules/kyc/actions';
+import { kycService } from '~/domains/business/kyc';
 import { KycView } from './view';
 
-import type { KycStore } from '~/modules/kyc/store';
-import type { UserDataStore } from '~/modules/user-data/store';
+import type { KycStore } from '~/domains/business/kyc/store';
+import type { UserDataStore } from '~/domains/business/user-data/store';
 import type { Props } from './view';
 
 export const Kyc = inject(
   ({ kyc, userData }: { kyc: KycStore, userData: UserDataStore }): Props => ({
     kycState: kyc.state,
     userWalletAddress: userData.model.address,
-    onSubmitUserData: () => {
-      loadAndSetKycState();
-    },
+    onSubmitUserData: () => kycService.loadKycState(),
   }),
 )(observer(KycView));

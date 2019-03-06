@@ -6,18 +6,18 @@ import { paymentService } from '~/domains/business/payment';
 import { ExchangeFormView } from './view';
 
 import type { ImmediatePurchaseStore } from '~/domains/business/immediate-purchase/store';
-import type { PaymentStore } from '~/domains/business/payment/store';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type InjectedProps = {|
-  paymentMethodId: string,
   isImmediatePurchaseAvailable: boolean,
   checkImmediatePurchaseAvailability(): mixed,
   buyTokens({ costInEthers: number }): mixed,
 |};
 
 type ExternalProps = {|
+  saleId: string,
   paymentMethodRate: number,
+  paymentMethodId: string,
 |};
 
 type Props = InjectedProps & ExternalProps;
@@ -56,7 +56,10 @@ class ExchangeFormContainer extends React.Component<Props, State> {
       });
 
       try {
-        const bonus = await paymentService.determineBonus({ amount });
+        const bonus = await paymentService.determineBonus({
+          amount,
+          saleId: this.props.saleId,
+        });
 
         if (this.state.amount === amount) {
           this.setState({
@@ -116,17 +119,15 @@ class ExchangeFormContainer extends React.Component<Props, State> {
 }
 
 export const ExchangeForm: React.ComponentType<ExternalProps> = inject(
-  ({
-    immediatePurchase,
-    payment,
-  }: {|
-    payment: PaymentStore,
-    immediatePurchase: ImmediatePurchaseStore,
-  |}): InjectedProps => {
-    const paymentMethodId = (payment.selectedMethod || {}).id;
-
+  (
+    {
+      immediatePurchase,
+    }: {|
+      immediatePurchase: ImmediatePurchaseStore,
+    |},
+    { paymentMethodId }: ExternalProps,
+  ): InjectedProps => {
     return {
-      paymentMethodId,
       isImmediatePurchaseAvailable:
         (immediatePurchase.isAvailable && paymentMethodId === 'ETH') ||
         paymentMethodId === 'ERC20',

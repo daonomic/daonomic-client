@@ -8,7 +8,7 @@ type Props = {
   children: React.Node,
 };
 
-export default class LeftColumn extends React.PureComponent<Props, {}> {
+export class LeftColumn extends React.PureComponent<Props, {}> {
   render() {
     const { className, children } = this.props;
 

@@ -2,7 +2,7 @@
 import { observer, inject } from 'mobx-react';
 import { PaymentInstruction as PaymentInstructionView } from './view';
 
-import type { UserDataStore } from '~/modules/user-data/store';
+import type { UserDataStore } from '~/domains/business/user-data/store';
 import type { Props } from './view';
 
 export const PaymentInstruction = inject(

@@ -10,21 +10,21 @@ import { getMarker } from '~/utils/get-marker';
 import { HeaderNavigation } from './components/navigation';
 import styles from './header.css';
 
-type InjectedProps = {|
+type ExternalProps = {
+  className?: string,
+};
+
+type Props = ExternalProps & {|
   currentRouteName: string,
   onLogout: () => void,
 |};
-
-type Props = InjectedProps & {
-  className?: string,
-};
 
 type State = {
   isNavigationExpanded: boolean,
 };
 
 @observer
-class Header extends React.Component<Props, State> {
+class HeaderView extends React.Component<Props, State> {
   state = {
     isNavigationExpanded: false,
   };
@@ -89,9 +89,9 @@ class Header extends React.Component<Props, State> {
   }
 }
 
-export default inject(
-  ({ auth, router }): InjectedProps => ({
+export const Header: React.ComponentType<ExternalProps> = inject(
+  ({ auth, router }): $Diff<Props, ExternalProps> => ({
     currentRouteName: router.currentRoute.name,
     onLogout: auth.logout,
   }),
-)(Header);
+)(HeaderView);

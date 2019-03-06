@@ -1,11 +1,11 @@
 // @flow
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
-import MobxProvider from '~/components/mobx-provider';
+import { MobxProvider } from '~/components/mobx-provider';
 import { CurrentPage } from '~/components/current-page';
 import { I18nProvider } from '~/domains/app/i18n';
 
-function Root(props: { stores: {} }) {
+function RootView(props: { stores: {} }) {
   return (
     <I18nProvider>
       <MobxProvider stores={props.stores}>
@@ -15,4 +15,4 @@ function Root(props: { stores: {} }) {
   );
 }
 
-export default hot(module)(Root);
+export const Root = hot(module)(RootView);
