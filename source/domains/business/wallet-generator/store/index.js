@@ -36,6 +36,4 @@ export class WalletGenerator {
   };
 }
 
-export function walletGeneratorProvider() {
-  return new WalletGenerator();
-}
+export const walletGenerator = new WalletGenerator();

@@ -1,17 +1,21 @@
-// @flow
+//@flow
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { QrCode as QrCodeView } from './view';
+import cn from 'classnames';
+import styles from './styles.css';
 
-import type { PaymentStore } from '~/domains/business/payment/store';
-import type { Props } from './view';
-
-type ExternalProps = {
+export type Props = {
+  qrCodeUrl: string,
   className?: string,
 };
 
-export const QrCode: React.ComponentType<ExternalProps> = inject(
-  ({ payment }: { payment: PaymentStore }): $Diff<Props, ExternalProps> => ({
-    qrCode: payment.state.selectedMethodAddressQRCode,
-  }),
-)(observer(QrCodeView));
+// payment.state.selectedMethodAddressQRCode
+export function QrCode({ qrCodeUrl, className, ...restProps }: Props) {
+  return (
+    <img
+      {...restProps}
+      className={cn(className, styles.root)}
+      src={qrCodeUrl}
+      alt="QR code"
+    />
+  );
+}

@@ -1,9 +1,9 @@
 // @flow
 import { observable, action, computed, autorun, runInAction } from 'mobx';
 import { appLocalStorage } from '~/domains/app/local-storage';
-import { getRouteUrl } from '~/domains/app/router';
+import { getRouteUrl } from '~/domains/app/router/routes';
 
-import type { IApi } from '~/domains/app/api/types';
+import type { IAuthApi } from '~/domains/business/auth/types';
 import type {
   AuthToken,
   UserId,
@@ -14,7 +14,7 @@ import type {
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 
 export class AuthStore implements IAuth {
-  api: IApi;
+  api: IAuthApi;
   token: IAuthToken;
 
   @observable
@@ -25,7 +25,7 @@ export class AuthStore implements IAuth {
     return this.token.value !== null;
   }
 
-  constructor({ api, authToken }: {| api: IApi, authToken: IAuthToken |}) {
+  constructor({ api, authToken }: {| api: IAuthApi, authToken: IAuthToken |}) {
     this.api = api;
     this.token = authToken;
 
@@ -56,9 +56,7 @@ export class AuthStore implements IAuth {
 
   @action
   login = async ({ email, password }: { email: string, password: string }) => {
-    const {
-      data: { token, id },
-    } = await this.api.auth.login({ email, password });
+    const { token, id } = await this.api.login({ email, password });
 
     runInAction(() => {
       this.token.set(token);
@@ -73,11 +71,11 @@ export class AuthStore implements IAuth {
     email: string,
     referralData: ?ReferralProgramTypes.ReferrerData,
   |}) => {
-    return this.api.auth.register({ email, referralData });
+    return this.api.register({ email, referralData });
   };
 
   resetPassword = ({ email }: { email: string }) => {
-    return this.api.auth.resetPassword({
+    return this.api.resetPassword({
       email,
       passwordRestorationPagePath: getRouteUrl('createNewPassword', {
         token: 'tokenId',
@@ -90,7 +88,7 @@ export class AuthStore implements IAuth {
     password,
     confirmedPassword,
   }: PasswordRecoveryParams) => {
-    return this.api.auth.createNewPassword({
+    return this.api.createNewPassword({
       token,
       password,
       confirmedPassword,
@@ -107,12 +105,4 @@ export class AuthStore implements IAuth {
   logout = () => {
     this.token.reset();
   };
-}
-
-export function authProvider(api: IApi, authToken: IAuthToken): AuthStore {
-  if (!api || !authToken) {
-    throw new TypeError('Required parameters are missing at authProvider');
-  }
-
-  return new AuthStore({ api, authToken });
 }

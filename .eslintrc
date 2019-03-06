@@ -31,7 +31,7 @@
         ]
       }
     ],
-    "import/no-default-export": 1,
+    "import/no-default-export": 2,
 
     "compat/compat": "error"
   }

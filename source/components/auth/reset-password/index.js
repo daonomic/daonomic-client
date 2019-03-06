@@ -5,7 +5,7 @@ import { Trans } from '@lingui/macro';
 import { Link } from '~/components/link';
 import { Button, Input, Panel, Text } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
-import Layout from '../layout';
+import { AuthLayout } from '../layout';
 import commonStyles from '../common.css';
 import { getMarker } from '~/utils/get-marker';
 import { getRouteUrl } from '~/domains/app/router';
@@ -23,7 +23,7 @@ type Props = {|
   onSubmit: Function,
 |};
 
-export default class ResetPassword extends React.Component<Props> {
+export class ResetPassword extends React.Component<Props> {
   marker = getMarker('reset-password');
 
   renderCommonError = () => {
@@ -119,7 +119,7 @@ export default class ResetPassword extends React.Component<Props> {
 
   render() {
     return (
-      <Layout>
+      <AuthLayout>
         {this.renderContent()}
 
         <Panel>
@@ -135,7 +135,7 @@ export default class ResetPassword extends React.Component<Props> {
             </Link>
           </Text>
         </Panel>
-      </Layout>
+      </AuthLayout>
     );
   }
 }

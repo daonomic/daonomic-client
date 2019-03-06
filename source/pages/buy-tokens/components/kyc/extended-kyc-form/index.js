@@ -7,10 +7,10 @@ import { observable, action, runInAction, computed, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Button, FieldHint } from '@daonomic/ui';
 import { JsonSchemaForm } from '~/components/json-schema-form';
-import { setInternalKycData, loadAndSetKycState } from '~/modules/kyc/actions';
+import { kycService } from '~/domains/business/kyc';
 import { getMarker } from '~/utils/get-marker';
 
-import type { Form } from '~/modules/kyc/types';
+import type { Form } from '~/domains/business/kyc/types';
 
 type Props = {|
   form: Form,
@@ -39,11 +39,11 @@ class ExtendedKycFormContainer extends React.Component<Props> {
     this.isSaving = true;
 
     try {
-      await setInternalKycData({
+      await kycService.setInternalKycData({
         data: this.formData,
         url: this.props.url,
       });
-      await loadAndSetKycState();
+      await kycService.loadKycState();
     } catch (error) {
       runInAction(() => {
         this.savingFailed = true;

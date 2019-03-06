@@ -1,24 +1,16 @@
 // @flow
-import { observable, computed, action, runInAction } from 'mobx';
-import createViewModel, { type ViewModel } from '~/utils/create-view-model';
+import { observable, computed, action } from 'mobx';
 
-import type { IApi } from '~/domains/app/api/types';
-import type { IWalletBalanceState } from '~/domains/business/wallet-balance/types';
+import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 
-class WalletBalanceState implements IWalletBalanceState {
-  @observable
-  balanceState = 'idle';
-  @observable
-  balance = 0;
-}
+const initialState: WalletBalanceTypes.State = {
+  balanceState: 'idle',
+  balance: 0,
+};
 
 export class WalletBalanceStore {
-  api: IApi;
-
   @observable
-  state: ViewModel<WalletBalanceState> = createViewModel(
-    new WalletBalanceState(),
-  );
+  state: WalletBalanceTypes.State = initialState;
 
   @computed
   get isLoading(): boolean {
@@ -30,29 +22,18 @@ export class WalletBalanceStore {
     return this.state.balanceState === 'loaded';
   }
 
-  constructor(options: { api: IApi }) {
-    this.api = options.api;
-  }
+  @action
+  setState = (state: $Shape<WalletBalanceTypes.State>) => {
+    this.state = {
+      ...this.state,
+      ...state,
+    };
+  };
 
   @action
-  loadBalance = async () => {
-    this.state.balanceState = 'loading';
-
-    try {
-      const { data } = await this.api.getBalance();
-
-      runInAction(() => {
-        this.state.balanceState = 'loaded';
-        this.state.balance = data.balance;
-      });
-    } catch (error) {
-      runInAction(() => {
-        this.state.balanceState = 'failed';
-      });
-    }
+  reset = () => {
+    this.state = initialState;
   };
 }
 
-export function walletBalanceProvider(api: IApi): WalletBalanceStore {
-  return new WalletBalanceStore({ api });
-}
+export const walletBalance = new WalletBalanceStore();

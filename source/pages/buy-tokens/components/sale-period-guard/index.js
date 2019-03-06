@@ -10,8 +10,8 @@ import { Heading } from '~/components/heading';
 import style from './style.css';
 
 type Props = {|
-  startTimestamp: ?number,
-  endTimestamp: ?number,
+  startDate: ?number,
+  endDate: ?number,
   renderContent(): React.Node,
 |};
 
@@ -74,18 +74,18 @@ export class SalePeriodGuard extends React.Component<Props> {
   };
 
   render() {
-    const { startTimestamp, endTimestamp } = this.props;
+    const { startDate, endDate } = this.props;
     const now = Date.now();
 
-    if (startTimestamp && now < startTimestamp) {
+    if (startDate && now < startDate) {
       return (
         <CountdownTimer
-          date={startTimestamp + 1000 * 10}
+          date={startDate + 1000 * 10}
           zeroPadLength={0}
           renderer={this.renderStartNotification}
         />
       );
-    } else if (endTimestamp && now > endTimestamp) {
+    } else if (endDate && now > endDate) {
       return (
         <Panel data-marker={this.marker()}>
           <Heading

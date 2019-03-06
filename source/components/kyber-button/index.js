@@ -3,8 +3,8 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { KyberButton as KyberButtonView } from './view';
 
-import type { SaleStore } from '~/domains/business/sale/store';
-import type { UserDataStore } from '~/modules/user-data/store';
+import { TokenStore } from '~/domains/business/token/store';
+import type { UserDataStore } from '~/domains/business/user-data/store';
 import type { Props } from './view';
 
 type ExternalProps = {
@@ -14,13 +14,13 @@ type ExternalProps = {
 
 export const KyberButton: React.ComponentType<ExternalProps> = inject(
   ({
-    sale,
+    token,
     userData,
-  }: {
-    sale: SaleStore,
+  }: {|
+    token: TokenStore,
     userData: UserDataStore,
-  }): $Diff<Props, ExternalProps> => ({
-    saleAddress: sale.state.address,
+  |}): $Diff<Props, ExternalProps> => ({
+    saleAddress: token.sale ? token.sale.data.address : '',
     buyerAddress: userData.model.address,
   }),
 )(observer(KyberButtonView));

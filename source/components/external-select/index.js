@@ -2,7 +2,7 @@
 import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
-import { client } from '~/domains/app/api/client';
+import { apiClient } from '~/domains/app/api-client';
 import { Select } from '@daonomic/ui';
 
 import * as DataStateTypes from '~/domains/data/data-state/types';
@@ -40,7 +40,7 @@ export class ExternalSelect extends React.Component<Props, State> {
     });
 
     try {
-      const { data: options } = await client.get(this.props.optionsUrl);
+      const { data: options } = await apiClient.get(this.props.optionsUrl);
 
       this.setState({
         dataState: 'loaded',

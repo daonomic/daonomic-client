@@ -1,6 +1,6 @@
 // @flow
 import { inject, observer } from 'mobx-react';
-import { loadAndSetKycState } from '~/modules/kyc/actions';
+import { kycService } from '~/domains/business/kyc';
 import { ReferralPage as ReferralPageView } from './view';
 
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
@@ -15,7 +15,7 @@ export const ReferralPage = inject(
     isReferralAvailable: referralProgramStore.isAvailable,
     referrals: referralProgramStore.referrals,
     onMount: () => {
-      loadAndSetKycState();
+      kycService.loadKycState();
 
       if (referralProgramStore.isAvailable) {
         referralProgramStore.referrals.loadPage(1);

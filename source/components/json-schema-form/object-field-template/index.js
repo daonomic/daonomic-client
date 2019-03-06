@@ -20,7 +20,7 @@ type Props = {
   },
 };
 
-export default class ObjectFieldTemplate extends React.Component<Props> {
+export class ObjectFieldTemplate extends React.Component<Props> {
   renderLegend = () => {
     if (!this.props.uiSchema['ui:title'] && !this.props.schema.title) {
       return null;

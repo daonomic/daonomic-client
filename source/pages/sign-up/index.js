@@ -7,11 +7,12 @@ import { SignUp } from '~/components/auth/signup';
 
 import type { FormValidationError } from '~/types/common';
 import * as DataStateTypes from '~/domains/data/data-state/types';
-import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
-import type { IAuth } from '~/domains/business/auth/types';
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
+import type { RootStore } from '~/domains/app/stores';
 
-type Props = {|
+type ExternalProps = {||};
+
+type Props = ExternalProps & {|
   referrerData: ?ReferralProgramTypes.ReferrerData,
   register: ({ email: string }) => Promise<mixed>,
 |};
@@ -22,7 +23,7 @@ const initialErrors = {
 };
 
 @observer
-class SignUpPage extends React.Component<Props> {
+class SignUpPageContainer extends React.Component<Props> {
   @observable
   email: string = '';
   @observable
@@ -97,14 +98,8 @@ class SignUpPage extends React.Component<Props> {
   }
 }
 
-export default inject(
-  ({
-    auth,
-    referralProgramStore,
-  }: {|
-    auth: IAuth,
-    referralProgramStore: ReferralProgramStore,
-  |}): Props => ({
+export const SignUpPage: React.ComponentType<ExternalProps> = inject(
+  ({ auth, referralProgramStore }: RootStore): $Diff<Props, ExternalProps> => ({
     referrerData: referralProgramStore.referrerData,
     register: ({ email }) => {
       return auth.register({
@@ -113,4 +108,4 @@ export default inject(
       });
     },
   }),
-)(SignUpPage);
+)(SignUpPageContainer);

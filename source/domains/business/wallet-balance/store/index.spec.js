@@ -1,22 +1,33 @@
-import { when } from 'mobx';
-import api from '~/domains/app/api/mock';
-import { walletBalanceProvider } from '.';
+// @flow
+import { WalletBalanceStore } from '.';
 
 describe('wallet balance store', () => {
-  test('should not load balance by default', () => {
-    const walletBalance = walletBalanceProvider(api);
+  let walletBalance = new WalletBalanceStore();
 
-    expect(walletBalance.isLoading).toBe(false);
+  beforeEach(() => {
+    walletBalance = new WalletBalanceStore();
   });
 
-  test('should automatically load balance if wallet address has just been saved', async (done) => {
-    const walletBalance = walletBalanceProvider(api);
-
+  test('should not load balance by default', () => {
+    expect(walletBalance.state.balanceState).toBe('idle');
     expect(walletBalance.state.balance).toBe(0);
-    walletBalance.loadBalance();
-    await when(() => walletBalance.isLoading);
-    await when(() => walletBalance.isLoaded);
-    expect(walletBalance.state.balance).toBeGreaterThan(0);
-    done();
+  });
+
+  test('should automatically load balance if wallet address has just been saved', () => {
+    expect(walletBalance.state.balance).toBe(0);
+
+    walletBalance.setState({
+      balanceState: 'loading',
+    });
+
+    expect(walletBalance.isLoading).toBe(true);
+
+    walletBalance.setState({
+      balanceState: 'loaded',
+      balance: 50,
+    });
+    expect(walletBalance.isLoading).toBe(false);
+    expect(walletBalance.isLoaded).toBe(true);
+    expect(walletBalance.state.balance).toBe(50);
   });
 });

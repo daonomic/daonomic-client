@@ -1,0 +1,28 @@
+// @flow
+import { router } from '~/domains/app/router';
+import { auth } from '~/domains/business/auth';
+import { tokenStore } from '~/domains/business/token';
+import { walletBalance } from '~/domains/business/wallet-balance';
+import { walletGenerator } from '~/domains/business/wallet-generator';
+import { immediatePurchase } from '~/domains/business/immediate-purchase';
+import { userData } from '~/domains/business/user-data';
+import { kyc } from '~/domains/business/kyc';
+import { referralProgramStore } from '~/domains/business/referral-program';
+
+export const stores = {
+  walletBalance,
+  walletGenerator,
+  router,
+  auth,
+  immediatePurchase,
+  token: tokenStore,
+  userData,
+  kyc,
+  referralProgramStore,
+};
+
+if (process.env.NODE_ENV === 'development') {
+  window.stores = stores;
+}
+
+export type RootStore = typeof stores;

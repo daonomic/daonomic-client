@@ -1,5 +1,5 @@
 // @flow
-import { client } from '~/domains/app/api/client';
+import { apiClient } from '~/domains/app/api-client';
 
 import * as ReferralProgramTypes from '~/domains/business/referral-program/types';
 
@@ -10,7 +10,7 @@ export function loadReferrals({
   page: number,
   countPerPage: number,
 }): Promise<{| count: number, items: ReferralProgramTypes.Referral[] |}> {
-  return client
+  return apiClient
     .post('/ref/referees', { page: page - 1, size: countPerPage })
     .then(({ headers, data }) => ({
       items: data,

@@ -1,29 +1,23 @@
 // @flow
 import { observable, action, reaction } from 'mobx';
 import { resolveRouteAction, getRouteUrl } from '~/domains/app/router/routes';
+import { auth } from '~/domains/business/auth';
 
-import type {
-  IHistory,
-  IRouterAuth,
-  Location,
-  Route,
-} from '~/domains/app/router/types';
+import type { IHistory, Location, Route } from '~/domains/app/router/types';
 
 export class RouterStore {
   history: IHistory;
-  auth: IRouterAuth;
 
   @observable
   currentRoute: ?Route = null;
 
-  constructor(options: { history: IHistory, auth: IRouterAuth }) {
+  constructor(options: { history: IHistory }) {
     this.history = options.history;
-    this.auth = options.auth;
     this.history.listen(this.resolveRoute);
     this.resolveRoute(this.history.location);
 
     reaction(
-      () => this.auth.isAuthenticated,
+      () => auth.isAuthenticated,
       (isAuthenticated) => {
         if (isAuthenticated) {
           this.history.push(getRouteUrl('app'));
@@ -42,7 +36,7 @@ export class RouterStore {
   resolveRoute = async (location: Location) => {
     const action = await resolveRouteAction({
       pathname: `${location.pathname}${location.hash}`,
-      isAuthenticated: this.auth.isAuthenticated,
+      isAuthenticated: auth.isAuthenticated,
     });
 
     switch (action.type) {

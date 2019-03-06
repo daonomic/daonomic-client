@@ -1,2 +1,3 @@
 // @flow
-export { walletBalanceProvider } from './store';
+export { walletBalance } from './store';
+export { walletBalanceService } from './service';

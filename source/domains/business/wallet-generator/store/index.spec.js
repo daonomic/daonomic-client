@@ -1,9 +1,13 @@
 import { when } from 'mobx';
-import { walletGeneratorProvider } from './';
-
-const walletGenerator = walletGeneratorProvider();
+import { WalletGenerator } from '.';
 
 describe('walletGenerator', () => {
+  let walletGenerator = new WalletGenerator();
+
+  beforeEach(() => {
+    walletGenerator = new WalletGenerator();
+  });
+
   test('should not generate wallet initially', () => {
     expect(walletGenerator.isGenerated).toBe(false);
     expect(walletGenerator.generatedWallet).toBe(null);

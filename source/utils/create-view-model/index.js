@@ -11,6 +11,6 @@ export interface IViewModel<T> {
 
 export type ViewModel<T> = T & IViewModel<T>;
 
-export default function createViewModel<T>(model: T): ViewModel<T> {
+export function createViewModel<T>(model: T): ViewModel<T> {
   return mobxUtilsCreateViewModel(model);
 }

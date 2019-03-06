@@ -10,6 +10,10 @@ class Kyc {
   getDenialAnnotation() {
     return cy.get(this.marker('denial-annotation')());
   }
+
+  getAllowedAnnotation() {
+    return cy.get(this.marker('allowed-annotation')());
+  }
 }
 
 export const kycView = new Kyc();

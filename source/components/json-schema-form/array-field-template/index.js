@@ -28,7 +28,7 @@ type Props = {
   onAddClick: () => void,
 };
 
-export default class ArrayFieldTemplate extends React.Component<Props> {
+export class ArrayFieldTemplate extends React.Component<Props> {
   marker = getMarker(this.props.idSchema.$id);
 
   renderLegend = () => {

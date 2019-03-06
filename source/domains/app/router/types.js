@@ -45,7 +45,3 @@ export interface IHistory {
   replace(string, ?{}): void;
   listen((Location) => any): Function;
 }
-
-export interface IRouterAuth {
-  isAuthenticated: boolean;
-}

@@ -1,6 +1,6 @@
 // @flow
 import { inject } from 'mobx-react';
-import LinkView, { UnstyledLink as UnstyledLinkView } from './view';
+import { Link as LinkView, UnstyledLink as UnstyledLinkView } from './view';
 
 import type { RouterStore } from '~/domains/app/router/store';
 

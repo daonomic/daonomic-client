@@ -6,7 +6,7 @@ import { HeaderNavigation as HeaderNavigationView } from './view';
 import type { Props } from './view';
 import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
 import type { RouterStore } from '~/domains/app/router/store';
-import type { KycStore } from '~/modules/kyc/store';
+import type { KycStore } from '~/domains/business/kyc/store';
 
 type ExternalProps = {||};
 

@@ -6,9 +6,9 @@ import { Spinner } from '@daonomic/ui';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { fromPromise } from 'mobx-utils';
-import { initSumsub } from '~/modules/kyc/sumsub';
 import { getMarker } from '~/utils/get-marker';
 import customWidgetStylesUrl from '~/assets/sum-and-substance-widget.css';
+import { initSumsub } from './sumsub';
 
 type ExternalProps = {|
   configuration: {

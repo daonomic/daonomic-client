@@ -11,18 +11,19 @@ type Props = {
   isActive?: boolean,
 };
 
-export default class NavigationItem extends React.Component<Props> {
-  render() {
-    const { className, isActive, href, ...restProps } = this.props;
-
-    return (
-      <UnstyledLink
-        {...restProps}
-        className={cn(className, styles.link, {
-          [styles.link_active]: isActive,
-        })}
-        href={href}
-      />
-    );
-  }
+export function NavigationItem({
+  className,
+  isActive,
+  href,
+  ...restProps
+}: Props) {
+  return (
+    <UnstyledLink
+      {...restProps}
+      className={cn(className, styles.link, {
+        [styles.link_active]: isActive,
+      })}
+      href={href}
+    />
+  );
 }

@@ -13,12 +13,10 @@ type Props = {
   },
 };
 
-export default class FieldTemplate extends React.Component<Props> {
-  render() {
-    if (this.props.uiSchema['ui:widget'] === 'hidden') {
-      return this.props.children;
-    }
-
-    return <Form.Field>{this.props.children}</Form.Field>;
+export function FieldTemplate(props: Props) {
+  if (props.uiSchema['ui:widget'] === 'hidden') {
+    return props.children;
   }
+
+  return <Form.Field>{props.children}</Form.Field>;
 }
