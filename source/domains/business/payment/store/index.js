@@ -1,13 +1,5 @@
 // @flow
-import {
-  observable,
-  computed,
-  action,
-  reaction,
-  autorun,
-  runInAction,
-  toJS,
-} from 'mobx';
+import { observable, computed, action, reaction, runInAction } from 'mobx';
 import { createViewModel, type ViewModel } from '~/utils/create-view-model';
 import { generateQrCode } from '~/utils/generate-qrcode';
 import { paymentApi } from '~/domains/business/payment/api';
@@ -15,7 +7,6 @@ import { auth } from '~/domains/business/auth';
 import { kyc } from '~/domains/business/kyc';
 
 import type { SaleStore } from '~/domains/business/sale/store';
-import * as PaymentTypes from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 class PaymentStoreState {
@@ -24,12 +15,6 @@ class PaymentStoreState {
 
   @observable
   addressesByMethodId: Map<string, string> = new Map();
-
-  @observable
-  paymentsByMethodId: Map<
-    PaymentMethodTypes.Id,
-    PaymentTypes.Payment[],
-  > = new Map();
 
   @observable
   selectedMethodAddressQRCode: string = '';
@@ -67,14 +52,6 @@ export class PaymentStore {
     );
   }
 
-  @computed
-  get selectedMethodPayments(): PaymentTypes.Payment[] {
-    return toJS(
-      this.state.paymentsByMethodId.get(this.state.selectedMethodId || '') ||
-        [],
-    );
-  }
-
   constructor(options: {| sale: SaleStore |}) {
     this.sale = options.sale;
     this.reset();
@@ -91,53 +68,12 @@ export class PaymentStore {
       },
     );
 
-    let issueRequestStatusIntervalId = null;
-
-    autorun(() => {
-      if (!auth.isAuthenticated) {
-        this.reset();
-
-        if (issueRequestStatusIntervalId) {
-          clearInterval(issueRequestStatusIntervalId);
-        }
-      }
-    });
-
     reaction(
-      () => this.selectedMethodAddress,
-      (address) => {
-        if (issueRequestStatusIntervalId) {
-          clearInterval(issueRequestStatusIntervalId);
+      () => auth.isAuthenticated,
+      () => {
+        if (!auth.isAuthenticated) {
+          this.reset();
         }
-
-        const { selectedMethod } = this;
-
-        if (!address || !selectedMethod) {
-          return;
-        }
-
-        const updateIssueRequestStatus = async () => {
-          const data = await paymentApi.getPaymentStatus({
-            saleId: this.sale.data.id,
-            tokenId: selectedMethod.token,
-          });
-          const actualSelectedMethod = this.selectedMethod;
-
-          if (
-            actualSelectedMethod &&
-            selectedMethod.token === actualSelectedMethod.token
-          ) {
-            runInAction(() => {
-              this.state.paymentsByMethodId.set(actualSelectedMethod.id, data);
-            });
-          }
-        };
-
-        issueRequestStatusIntervalId = setInterval(
-          updateIssueRequestStatus,
-          3000,
-        );
-        updateIssueRequestStatus();
       },
     );
 
@@ -195,6 +131,5 @@ export class PaymentStore {
   reset = () => {
     this.state.reset();
     this.state.addressesByMethodId = new Map();
-    this.state.paymentsByMethodId = new Map();
   };
 }

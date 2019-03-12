@@ -9,7 +9,6 @@ import { ExchangeForm } from './exchange-form';
 import { getMarker } from '~/utils/get-marker';
 import { PaymentMethodSelect } from './select';
 import { PaymentMethodAddress } from './address';
-import { Payments } from './payments';
 import { PaymentInstruction } from './instruction';
 import styles from './styles.css';
 
@@ -46,8 +45,6 @@ class PaymentMethodView extends React.Component<Props> {
         )}
         <Panel.Separator />
         <PaymentMethodAddress sale={sale} />
-        <Panel.Separator />
-        <Payments sale={sale} />
         <Panel.Separator />
         <PaymentInstruction data-marker={this.marker('instruction')()} />
       </Panel>
