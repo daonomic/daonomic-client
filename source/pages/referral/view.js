@@ -2,7 +2,7 @@
 import * as React from 'react';
 // $FlowFixMe
 import { Trans, DateFormat, NumberFormat } from '@lingui/macro';
-import { Panel, Table, Pagination } from '@daonomic/ui';
+import { Panel, DataTable, Pagination } from '@daonomic/ui';
 import { Heading } from '~/components/heading';
 import { ReferralLink } from './components/referral-link';
 import { ReferralStatistics } from './components/referral-statistics';
@@ -57,68 +57,72 @@ export class ReferralPage extends React.Component<Props> {
               <ReferralStatistics />
             </div>
 
-            <Table
+            <DataTable
+              getRowKey={(referee: ReferralProgramTypes.Referral) =>
+                referee.email
+              }
               data-marker={this.marker('referrals')()}
-              isEmpty={this.props.referrals.currentPageItems.length === 0}
               placeholder={<Trans>You have no referees</Trans>}
-            >
-              <thead>
-                <tr>
-                  <th>
-                    <Trans>Referee</Trans>
-                  </th>
-                  <th className={style.numeric}>
-                    <Trans>Bought</Trans>
-                  </th>
-                  <th className={style.numeric}>
-                    <Trans>Bonus</Trans>
-                  </th>
-                  <th className={style.numeric}>
-                    <Trans>Registration date</Trans>
-                  </th>
-                  <th>
-                    <Trans>Source</Trans>
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {this.props.referrals.currentPageItems.map((referral) => (
-                  <tr key={referral.email}>
-                    <td>{referral.email}</td>
-                    <td className={style.numeric}>
-                      <NumberFormat
-                        value={referral.sold}
-                        format={{
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }}
-                      />
-                    </td>
-                    <td className={style.numeric}>
-                      <NumberFormat
-                        value={referral.bonus}
-                        format={{
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        }}
-                      />
-                    </td>
-                    <td className={style.numeric}>
-                      <DateFormat
-                        value={referral.registrationDate}
-                        format={{
-                          year: 'numeric',
-                          month: 'numeric',
-                          day: 'numeric',
-                        }}
-                      />
-                    </td>
-                    <td>{referral.source}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+              errorPlaceholder={<Trans>Failed to load referees</Trans>}
+              schema={[
+                {
+                  id: 'referee',
+                  name: <Trans>Referee</Trans>,
+                  render: (referee: ReferralProgramTypes.Referral) =>
+                    referee.email,
+                },
+                {
+                  id: 'bought',
+                  name: <Trans>Bought</Trans>,
+                  align: 'right',
+                  render: (referee: ReferralProgramTypes.Referral) => (
+                    <NumberFormat
+                      value={referee.sold}
+                      format={{
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }}
+                    />
+                  ),
+                },
+                {
+                  id: 'bonus',
+                  name: <Trans>Bonus</Trans>,
+                  align: 'right',
+                  render: (referee: ReferralProgramTypes.Referral) => (
+                    <NumberFormat
+                      value={referee.bonus}
+                      format={{
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }}
+                    />
+                  ),
+                },
+                {
+                  id: 'registrationDate',
+                  name: <Trans>Registration date</Trans>,
+                  align: 'right',
+                  render: (referee: ReferralProgramTypes.Referral) => (
+                    <DateFormat
+                      value={referee.registrationDate}
+                      format={{
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                      }}
+                    />
+                  ),
+                },
+                {
+                  id: 'source',
+                  name: <Trans>Source</Trans>,
+                  render: (referee: ReferralProgramTypes.Referral) =>
+                    referee.source,
+                },
+              ]}
+              data={this.props.referrals.currentPageItems}
+            />
 
             <Pagination
               className={style.pagination}
