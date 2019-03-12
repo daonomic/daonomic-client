@@ -11,6 +11,7 @@ import { TokenPrice } from './components/token-price';
 import { Balance } from './components/balance';
 import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
+import { Transactions } from './components/transactions';
 import styles from './buy-tokens.css';
 
 import type { TokenStore } from '~/domains/business/token/store';
@@ -18,7 +19,7 @@ import type { TokenStore } from '~/domains/business/token/store';
 export type Props = {|
   token: TokenStore,
   isLoaded: boolean,
-  isAllowedToPay: boolean,
+  isKycAllowed: boolean,
   onMount(): void,
 |};
 
@@ -82,13 +83,14 @@ export class BuyTokensPageView extends React.Component<Props> {
               left={
                 <React.Fragment>
                   <Kyc />
-                  {this.props.isAllowedToPay && (
+                  {this.props.isKycAllowed && (
                     <SalePeriodGuard
                       startDate={sale.data.startDate}
                       endDate={sale.data.endDate}
                       renderContent={() => <PaymentMethod sale={sale} />}
                     />
                   )}
+                  {this.props.isKycAllowed && <Transactions />}
                 </React.Fragment>
               }
               right={
@@ -103,7 +105,12 @@ export class BuyTokensPageView extends React.Component<Props> {
         } else {
           return (
             <TwoColumnsLayout
-              left={<Kyc />}
+              left={
+                <React.Fragment>
+                  <Kyc />
+                  {this.props.isKycAllowed && <Transactions />}
+                </React.Fragment>
+              }
               right={
                 <React.Fragment>
                   <Balance />

@@ -37,6 +37,7 @@ export const config = {
     },
   ],
   kyberWidgetUrl: 'https://kyber.daonomic.io',
+  defaultPollingInterval: 3000,
 };
 
 export function actualizeRealmId() {

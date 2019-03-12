@@ -23,7 +23,7 @@ export const BuyTokensPage = inject(
     isLoaded: [kyc.state.dataState, userData.model.dataState].every(
       (dataState) => dataState === 'loaded',
     ),
-    isAllowedToPay: kyc.isAllowed,
+    isKycAllowed: kyc.isAllowed,
     onMount: () => {
       userDataService.loadUserData();
       kycService.loadKycState();

@@ -8,6 +8,7 @@ import { immediatePurchase } from '~/domains/business/immediate-purchase';
 import { userData } from '~/domains/business/user-data';
 import { kyc } from '~/domains/business/kyc';
 import { referralProgramStore } from '~/domains/business/referral-program';
+import { transactionsStore } from '~/domains/business/transactions';
 
 export const stores = {
   walletBalance,
@@ -19,6 +20,7 @@ export const stores = {
   userData,
   kyc,
   referralProgramStore,
+  transactionsStore,
 };
 
 if (process.env.NODE_ENV === 'development') {
