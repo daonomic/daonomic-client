@@ -1,0 +1,14 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}

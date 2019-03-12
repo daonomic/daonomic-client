@@ -16,6 +16,7 @@ module.exports = {
     'postcss-calc': {},
     'postcss-color-function': {},
     'postcss-flexbugs-fixes': {},
+    'postcss-selector-matches': {},
     autoprefixer: {},
     'postcss-csso': {},
   },

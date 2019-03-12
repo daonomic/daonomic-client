@@ -2,15 +2,11 @@
 import { inject, observer } from 'mobx-react';
 import { ReferralProgram as ReferralProgramView } from './view';
 
-import type { ReferralProgramStore } from '~/domains/business/referral-program/store';
+import type { RootStore } from '~/domains/app/stores';
 import type { Props } from './view';
 
 export const ReferralProgram = inject(
-  ({
-    referralProgramStore,
-  }: {|
-    referralProgramStore: ReferralProgramStore,
-  |}): Props => ({
+  ({ referralProgramStore }: RootStore): Props => ({
     isReferralAvailable: referralProgramStore.isAvailable,
     userData: referralProgramStore.userData,
   }),

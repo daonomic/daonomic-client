@@ -19,14 +19,14 @@ export class ImmediatePurchaseStore {
   saleContractAddress: ?string = null;
 
   constructor() {
-    reaction(
-      () => auth.isAuthenticated,
-      () => {
-        if (auth.isAuthenticated) {
-          this.loadSaleContractAddress();
-        }
-      },
-    );
+    const handleAuthChange = () => {
+      if (auth.isAuthenticated) {
+        this.loadSaleContractAddress();
+      }
+    };
+
+    reaction(() => auth.isAuthenticated, handleAuthChange);
+    handleAuthChange();
   }
 
   loadSaleContractAddress = async () => {

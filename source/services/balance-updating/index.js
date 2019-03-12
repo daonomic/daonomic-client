@@ -1,6 +1,7 @@
 // @flow
 import { autorun } from 'mobx';
 import { walletBalanceService } from '~/domains/business/wallet-balance';
+import { config } from '~/domains/app/config';
 
 import type { IAuth } from '~/domains/business/auth/types';
 import type { KycStore } from '~/domains/business/kyc/store';
@@ -17,20 +18,19 @@ export const balanceUpdatingService = {
     let balanceUpdateIntervalId = null;
 
     autorun(() => {
-      if (balanceUpdateIntervalId) {
-        clearInterval(balanceUpdateIntervalId);
-      }
+      clearInterval(balanceUpdateIntervalId);
 
       if (kyc.isAllowed) {
         walletBalanceService.loadBalance({ apiClient });
         balanceUpdateIntervalId = setInterval(() => {
           walletBalanceService.loadBalance({ apiClient });
-        }, 3000);
+        }, config.defaultPollingInterval);
       }
     });
 
     autorun(() => {
       if (!auth.isAuthenticated) {
+        clearInterval(balanceUpdateIntervalId);
         walletBalance.reset();
       }
     });
