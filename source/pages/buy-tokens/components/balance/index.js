@@ -1,20 +1,15 @@
 // @flow
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import { Balance as BalanceView } from './view';
 
-import { TokenStore } from '~/domains/business/token/store';
-import type { WalletBalanceStore } from '~/domains/business/wallet-balance/store';
+import type { RootStore } from '~/domains/app/stores';
 import type { Props } from './view';
 
 export const Balance = inject(
-  ({
-    walletBalance,
-    token,
-  }: {
-    walletBalance: WalletBalanceStore,
-    token: TokenStore,
-  }): Props => ({
+  ({ walletBalance, token, kyc }: RootStore): Props => ({
+    balanceDataState: walletBalance.state.dataState,
     balance: walletBalance.state.balance,
+    isKycAllowed: kyc.isAllowed,
     tokenSymbol: token.symbol,
   }),
-)(observer(BalanceView));
+)(BalanceView);

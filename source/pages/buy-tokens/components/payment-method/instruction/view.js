@@ -3,7 +3,7 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import { Heading } from '~/components/heading';
-import textStyles from '~/components/text/text.css';
+import { Address } from '~/components/address';
 import styles from './styles.css';
 
 export type Props = {
@@ -23,11 +23,9 @@ export class PaymentInstruction extends React.Component<Props> {
         <p>
           <Trans>
             After your payment will be completed you will get tokens to the
-            selected ethereum address:
+            selected ethereum address{' '}
+            <Address address={userWalletAddress || ''} />
           </Trans>
-        </p>
-        <p className={textStyles['word-break-all']}>
-          {userWalletAddress || ''}
         </p>
       </div>
     );

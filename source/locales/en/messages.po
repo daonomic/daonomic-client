@@ -21,13 +21,18 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+#: source/pages/buy-tokens/components/locks-balance/index.js:49
 #: source/pages/create-wallet/components/generated-wallet/view.js:51
 msgid "Address"
 msgstr ""
 
 #: source/pages/buy-tokens/components/payment-method/instruction/view.js:24
-msgid "After your payment will be completed you will get tokens to the selected ethereum address:"
+msgid "After your payment will be completed you will get tokens to the selected ethereum address <0/>"
 msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/instruction/view.js:24
+#~ msgid "After your payment will be completed you will get tokens to the selected ethereum address:"
+#~ msgstr ""
 
 #: source/components/auth/create-new-password/index.js:147
 #: source/components/auth/signup/index.js:149
@@ -35,16 +40,21 @@ msgid "Already have an account?"
 msgstr ""
 
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
+#: source/pages/buy-tokens/components/transactions/view.js:78
 msgid "Amount"
 msgstr ""
 
+#: source/pages/buy-tokens/components/locks-balance/index.js:63
+msgid "Available"
+msgstr ""
+
 #: source/pages/referral/components/referral-statistics/view.js:55
-#: source/pages/referral/view.js:74
+#: source/pages/referral/view.js:90
 msgid "Bonus"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:42
-#: source/pages/referral/view.js:71
+#: source/pages/referral/view.js:76
 msgid "Bought"
 msgstr ""
 
@@ -69,7 +79,7 @@ msgstr ""
 msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:186
+#: source/pages/buy-tokens/components/kyc/view.js:188
 msgid "Congrats! Your data is approved and now being processed. Please wait a bit, usually it takes 1-2 minutes."
 msgstr ""
 
@@ -99,7 +109,11 @@ msgstr ""
 msgid "Create wallet"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:109
+#: source/pages/buy-tokens/components/transactions/view.js:50
+msgid "Date"
+msgstr ""
+
+#: source/pages/buy-tokens/components/kyc/view.js:111
 msgid "Denial reason: {0}"
 msgstr ""
 
@@ -133,9 +147,17 @@ msgstr ""
 msgid "Failed to copy"
 msgstr ""
 
+#: source/pages/buy-tokens/components/locks-balance/index.js:42
+msgid "Failed to load locks"
+msgstr ""
+
 #: source/components/external-select/index.js:67
 #: source/components/json-schema-form/external-select/index.js:76
 msgid "Failed to load options"
+msgstr ""
+
+#: source/pages/referral/view.js:66
+msgid "Failed to load referees"
 msgstr ""
 
 #: source/pages/buy-tokens/components/referral-program/view.js:21
@@ -147,6 +169,10 @@ msgstr ""
 msgid "Failed to load referral statistics"
 msgstr ""
 
+#: source/pages/buy-tokens/components/transactions/view.js:44
+msgid "Failed to load transactions"
+msgstr ""
+
 #: source/components/header/components/navigation/view.js:46
 msgid "For investors"
 msgstr ""
@@ -156,11 +182,11 @@ msgstr ""
 msgid "Forgot password?"
 msgstr ""
 
-#: source/pages/faq/index.js:30
+#: source/pages/faq/index.js:31
 msgid "Frequently asked questions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/select/view.js:35
+#: source/pages/buy-tokens/components/payment-method/select/index.js:29
 msgid "I want to pay with"
 msgstr ""
 
@@ -175,12 +201,16 @@ msgstr ""
 #: source/components/external-select/index.js:59
 #: source/components/json-schema-form/external-select/index.js:68
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
-#: source/pages/buy-tokens/components/payment-method/address/view.js:27
+#: source/pages/buy-tokens/components/payment-method/address/index.js:27
 #: source/pages/buy-tokens/components/referral-program/view.js:23
-#: source/pages/buy-tokens/view.js:36
+#: source/pages/buy-tokens/view.js:48
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
 msgid "Loading..."
+msgstr ""
+
+#: source/pages/buy-tokens/components/locks-balance/index.js:36
+msgid "Locks balance"
 msgstr ""
 
 #: source/components/auth/create-new-password/index.js:149
@@ -200,6 +230,18 @@ msgstr ""
 
 #: source/components/auth/create-new-password/index.js:122
 msgid "New password have been created"
+msgstr ""
+
+#: source/pages/buy-tokens/components/locks-balance/index.js:72
+msgid "Next unlock"
+msgstr ""
+
+#: source/pages/buy-tokens/components/locks-balance/index.js:41
+msgid "No locks found"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:43
+msgid "No transactions found"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:67
@@ -228,7 +270,7 @@ msgstr ""
 msgid "Payment Instruction"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:106
+#: source/pages/buy-tokens/components/kyc/view.js:108
 msgid "Please, fix and resubmit your data."
 msgstr ""
 
@@ -244,7 +286,7 @@ msgstr ""
 msgid "Re-enter your address to make sure it is correct"
 msgstr ""
 
-#: source/pages/referral/view.js:68
+#: source/pages/referral/view.js:70
 msgid "Referee"
 msgstr ""
 
@@ -261,11 +303,11 @@ msgstr ""
 msgid "Referral link"
 msgstr ""
 
-#: source/pages/referral/view.js:137
+#: source/pages/referral/view.js:141
 msgid "Referral will become available after the KYC approval."
 msgstr ""
 
-#: source/pages/referral/view.js:77
+#: source/pages/referral/view.js:104
 msgid "Registration date"
 msgstr ""
 
@@ -281,7 +323,7 @@ msgstr ""
 msgid "Select residency"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/address/view.js:40
+#: source/pages/buy-tokens/components/payment-method/address/index.js:44
 msgid "Send funds to this {0} address:"
 msgstr ""
 
@@ -295,6 +337,7 @@ msgid "Sign up"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
+#: source/pages/buy-tokens/view.js:33
 msgid "Something went wrong"
 msgstr ""
 
@@ -304,11 +347,11 @@ msgstr ""
 msgid "Something went wrong, please try again"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:104
+#: source/pages/buy-tokens/components/kyc/view.js:106
 msgid "Sorry, your data was denied."
 msgstr ""
 
-#: source/pages/referral/view.js:80
+#: source/pages/referral/view.js:119
 msgid "Source"
 msgstr ""
 
@@ -316,7 +359,11 @@ msgstr ""
 msgid "Starts with 0x, then 40 characters"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/view.js:33
+#: source/pages/buy-tokens/components/transactions/view.js:66
+msgid "Status"
+msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/index.js:34
 msgid "Step 2: Buy tokens"
 msgstr ""
 
@@ -330,7 +377,7 @@ msgstr ""
 msgid "Terms of Service"
 msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/view.js:57
+#: source/pages/buy-tokens/components/token-price/index.js:29
 msgid "Token price"
 msgstr ""
 
@@ -338,19 +385,27 @@ msgstr ""
 msgid "Token sale starts in {days, plural, one {1 day} other {# days}} {hours, plural, one {1 hour} other {# hours}} {minutes, plural, one {1 minute} other {# minutes}} {seconds, plural, one {1 second} other {# seconds}}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/view.js:32
+#: source/pages/buy-tokens/components/token-price/index.js:47
 msgid "Tokens sold"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/payments/view.js:29
+#: source/pages/buy-tokens/components/locks-balance/index.js:56
+msgid "Total amount"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:35
 msgid "Transactions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:30
+#: source/pages/buy-tokens/components/transactions/view.js:72
+msgid "Type"
+msgstr ""
+
+#: source/pages/buy-tokens/components/kyc/view.js:27
 msgid "Verify Your Identity"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:57
+#: source/pages/buy-tokens/components/kyc/view.js:59
 msgid "Verify identity"
 msgstr ""
 
@@ -358,25 +413,25 @@ msgstr ""
 msgid "Verify identity with Civic"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:160
+#: source/pages/buy-tokens/components/kyc/view.js:162
 msgid "Waiting for review"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:44
+#: source/pages/buy-tokens/components/kyc/view.js:46
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/referral/view.js:63
+#: source/pages/referral/view.js:65
 msgid "You have no referees"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:84
+#: source/pages/buy-tokens/components/kyc/view.js:86
 msgid "Your Ethereum wallet"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
-#: source/pages/buy-tokens/components/kyc/view.js:172
-#: source/pages/buy-tokens/components/kyc/view.js:201
+#: source/pages/buy-tokens/components/kyc/view.js:174
+#: source/pages/buy-tokens/components/kyc/view.js:203
 msgid "Your Ethereum wallet address"
 msgstr ""
 
@@ -384,7 +439,7 @@ msgstr ""
 msgid "Your Ethereum wallet address confirmation"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:166
+#: source/pages/buy-tokens/components/kyc/view.js:168
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr ""
 
@@ -409,21 +464,25 @@ msgid "createEthWalletTitle"
 msgstr "Create Ethereum Wallet"
 
 #: source/components/payments-list/index.js:25
-msgid "error"
-msgstr ""
+#~ msgid "error"
+#~ msgstr ""
 
 #: source/components/payments-list/index.js:21
-msgid "finished"
-msgstr ""
+#~ msgid "finished"
+#~ msgstr ""
 
 #: source/components/payments-list/index.js:29
-msgid "pending"
-msgstr ""
+#~ msgid "pending"
+#~ msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/view.js:40
+#: source/pages/buy-tokens/components/token-price/index.js:55
 msgid "soldOf"
 msgstr "of"
 
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:87
 msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
+msgstr ""
+
+#: source/pages/buy-tokens/components/locks-balance/index.js:75
+msgid "{0,number} on {1,date,date0}"
 msgstr ""

@@ -7,6 +7,7 @@ import { Button } from '@daonomic/ui';
 import { CopyToClipboard } from '~/components/copy-to-clipboard';
 import { getMarker } from '~/utils/get-marker';
 import { QrCode } from './qr-code';
+import { Address } from '~/components/address';
 import styles from './styles.css';
 
 import { SaleStore } from '~/domains/business/sale/store';
@@ -40,15 +41,17 @@ function PaymentMethodAddressView({ sale }: Props) {
       />
 
       <div className={styles.text}>
-        <Trans>Send funds to this {selectedMethod.label} address:</Trans>
-        <div className={styles.address}>{selectedMethodAddress}</div>
-        <CopyToClipboard value={selectedMethodAddress}>
-          {({ state, text, copy }) => (
-            <Button disabled={state !== 'idle'} size="s" onClick={copy}>
-              {text}
-            </Button>
-          )}
-        </CopyToClipboard>
+        <Trans>Send funds to this {selectedMethod.label} address:</Trans>{' '}
+        <Address address={selectedMethodAddress} />
+        <div className={styles.copy}>
+          <CopyToClipboard value={selectedMethodAddress}>
+            {({ state, text, copy }) => (
+              <Button disabled={state !== 'idle'} size="s" onClick={copy}>
+                {text}
+              </Button>
+            )}
+          </CopyToClipboard>
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { Balance } from './components/balance';
 import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
 import { Transactions } from './components/transactions';
+import { LocksBalance } from './components/locks-balance';
 import styles from './buy-tokens.css';
 
 import type { TokenStore } from '~/domains/business/token/store';
@@ -90,6 +91,7 @@ export class BuyTokensPageView extends React.Component<Props> {
                       renderContent={() => <PaymentMethod sale={sale} />}
                     />
                   )}
+                  {this.props.isKycAllowed && <LocksBalance />}
                   {this.props.isKycAllowed && <Transactions />}
                 </React.Fragment>
               }
@@ -108,6 +110,7 @@ export class BuyTokensPageView extends React.Component<Props> {
               left={
                 <React.Fragment>
                   <Kyc />
+                  {this.props.isKycAllowed && <LocksBalance />}
                   {this.props.isKycAllowed && <Transactions />}
                 </React.Fragment>
               }

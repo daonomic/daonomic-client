@@ -1,41 +1,17 @@
 // @flow
-import { config } from '~/domains/app/config';
+import { createAsyncObserver } from '~/utils/create-async-observer';
 import { transactionsApi } from '~/domains/business/transactions/api';
 import { transactionsStore } from '~/domains/business/transactions/store';
 
-let timerId = null;
-let isUnsubscribed = false;
+export const observeTransactions = createAsyncObserver(async () => {
+  try {
+    const data = await transactionsApi.loadTransactions();
 
-export function observeTransactions() {
-  isUnsubscribed = false;
-
-  const unsubscribe = () => {
-    clearTimeout(timerId);
-    isUnsubscribed = true;
-    timerId = null;
-  };
-
-  if (timerId) {
-    return unsubscribe;
+    transactionsStore.setState({
+      dataState: 'loaded',
+      data,
+    });
+  } catch (error) {
+    console.error(error);
   }
-
-  const load = async () => {
-    try {
-      const data = await transactionsApi.loadTransactions();
-
-      transactionsStore.setState({
-        dataState: 'loaded',
-        data,
-      });
-    } catch (error) {
-      // ...
-    }
-
-    if (!isUnsubscribed) {
-      timerId = setTimeout(load, config.defaultPollingInterval);
-    }
-  };
-
-  timerId = setTimeout(load, config.defaultPollingInterval);
-  return unsubscribe;
-}
+});

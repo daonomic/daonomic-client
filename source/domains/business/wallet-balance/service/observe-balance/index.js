@@ -1,12 +1,9 @@
 // @flow
 import { walletBalance } from '~/domains/business/wallet-balance';
 import { walletBalanceApi } from '~/domains/business/wallet-balance/api';
+import { createAsyncObserver } from '~/utils/create-async-observer';
 
-export async function loadBalance() {
-  walletBalance.setState({
-    dataState: 'loading',
-  });
-
+export const observeBalance = createAsyncObserver(async () => {
   try {
     const { balance, locks = [] } = await walletBalanceApi.loadBalance();
 
@@ -16,8 +13,6 @@ export async function loadBalance() {
       locks,
     });
   } catch (error) {
-    walletBalance.setState({
-      dataState: 'failed',
-    });
+    console.error(error);
   }
-}
+});

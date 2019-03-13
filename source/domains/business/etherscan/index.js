@@ -1,15 +1,17 @@
 // @flow
 import { expectedEthereumNetwork } from '~/domains/app/config/ethereum-network';
 
-export const etherscan = {
-  getTransactionUrl: (txHash: string) => {
-    let etherscanSubdomain =
-      expectedEthereumNetwork.name === 'Main'
-        ? ''
-        : expectedEthereumNetwork.name.toLowerCase();
+const etherscanSubdomain =
+  expectedEthereumNetwork.name === 'Main'
+    ? ''
+    : expectedEthereumNetwork.name.toLowerCase();
 
-    return `https://${
-      etherscanSubdomain ? `${etherscanSubdomain}.` : ''
-    }etherscan.io/tx/${txHash}`;
-  },
+const etherscanHost = `https://${etherscanSubdomain}${
+  etherscanSubdomain ? '.' : ''
+}etherscan.io`;
+
+export const etherscan = {
+  getAddressUrl: (address: string): string =>
+    `${etherscanHost}/address/${address}`,
+  getTransactionUrl: (hash: string): string => `${etherscanHost}/tx/${hash}`,
 };

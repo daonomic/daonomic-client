@@ -9,7 +9,7 @@ describe('wallet balance store', () => {
   });
 
   test('should not load balance by default', () => {
-    expect(walletBalance.state.balanceState).toBe('idle');
+    expect(walletBalance.state.dataState).toBe('idle');
     expect(walletBalance.state.balance).toBe(0);
   });
 
@@ -17,13 +17,13 @@ describe('wallet balance store', () => {
     expect(walletBalance.state.balance).toBe(0);
 
     walletBalance.setState({
-      balanceState: 'loading',
+      dataState: 'loading',
     });
 
     expect(walletBalance.isLoading).toBe(true);
 
     walletBalance.setState({
-      balanceState: 'loaded',
+      dataState: 'loaded',
       balance: 50,
     });
     expect(walletBalance.isLoading).toBe(false);

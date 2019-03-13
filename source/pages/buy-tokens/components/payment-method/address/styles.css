@@ -11,9 +11,7 @@
   flex: 1 1 auto;
 }
 
-.address {
-  margin-bottom: 10px;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.copy {
+  display: block;
+  margin-top: 0.5em;
 }

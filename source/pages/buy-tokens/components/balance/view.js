@@ -3,34 +3,51 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans, NumberFormat } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
-import styles from './balance.css';
 import { getMarker } from '~/utils/get-marker';
+import { walletBalanceService } from '~/domains/business/wallet-balance';
+import styles from './balance.css';
+
+import * as DataStateTypes from '~/domains/data/data-state/types';
 
 export type Props = {|
+  isKycAllowed: boolean,
+  balanceDataState: DataStateTypes.DataState,
   balance: number,
   tokenSymbol: string,
 |};
 
-export class Balance extends React.Component<Props> {
-  marker = getMarker('balance');
+const marker = getMarker('balance');
 
-  render() {
-    return (
-      <Panel data-marker={this.marker()} className={styles.root}>
-        <h3 className={styles.title}>
-          <Trans>Your wallet balance</Trans>
-        </h3>
+export function Balance({
+  balance,
+  balanceDataState,
+  isKycAllowed,
+  tokenSymbol,
+}: Props) {
+  React.useEffect(() => {
+    if (!isKycAllowed) {
+      return;
+    }
 
-        <p className={styles.balance}>
-          <span
-            data-marker={this.marker('amount')()}
-            data-raw-value={this.props.balance}
-          >
-            <NumberFormat value={this.props.balance} />
-          </span>{' '}
-          {this.props.tokenSymbol}
-        </p>
-      </Panel>
-    );
-  }
+    if (balanceDataState === 'idle') {
+      walletBalanceService.loadBalance();
+    } else if (balanceDataState === 'loaded') {
+      return walletBalanceService.observeBalance();
+    }
+  }, [isKycAllowed, balanceDataState]);
+
+  return (
+    <Panel data-marker={marker()} className={styles.root}>
+      <h3 className={styles.title}>
+        <Trans>Your wallet balance</Trans>
+      </h3>
+
+      <p className={styles.balance}>
+        <span data-marker={marker('amount')()} data-raw-value={balance}>
+          <NumberFormat value={balance} />
+        </span>{' '}
+        {tokenSymbol}
+      </p>
+    </Panel>
+  );
 }

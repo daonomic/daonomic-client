@@ -4,8 +4,9 @@ import { observable, computed, action } from 'mobx';
 import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 
 const initialState: WalletBalanceTypes.State = {
-  balanceState: 'idle',
+  dataState: 'idle',
   balance: 0,
+  locks: [],
 };
 
 export class WalletBalanceStore {
@@ -14,12 +15,12 @@ export class WalletBalanceStore {
 
   @computed
   get isLoading(): boolean {
-    return this.state.balanceState === 'loading';
+    return this.state.dataState === 'loading';
   }
 
   @computed
   get isLoaded(): boolean {
-    return this.state.balanceState === 'loaded';
+    return this.state.dataState === 'loaded';
   }
 
   @action

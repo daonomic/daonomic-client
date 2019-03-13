@@ -19,6 +19,8 @@
     "polyfills": ["promises", "url", "urlsearchparams"]
   },
   "rules": {
+    "no-console": 1,
+
     "import/no-extraneous-dependencies": [
       "error",
       {
