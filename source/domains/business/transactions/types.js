@@ -1,30 +1,37 @@
 // @flow
-type Status =
-  | 'PENDING'
-  | 'CONFIRMED'
-  | 'EXECUTING'
-  | 'WAITING'
-  | 'SUCCESS'
-  | 'ERROR';
-
 type BaseTransaction = {|
+  id: string,
   hash: string,
-  status: Status,
-  createDate: number,
+  status: string,
+  createDate: string,
 |};
 
 type PurchaseTransaction = {|
   ...BaseTransaction,
   type: 'PURCHASE',
+  paymentMethodType: string,
+  value: number,
   sold: number,
+  bonus: number,
 |};
 
-type PoolTransaction = {|
+type CreateHolderTransaction = {|
   ...BaseTransaction,
   type: 'CREATE_HOLDER',
   form: {|
+    address: string,
     amount: number,
   |},
+  creates?: string,
 |};
 
-export type Transaction = PurchaseTransaction | PoolTransaction;
+type ReleaseVestedTokensTransaction = {|
+  ...BaseTransaction,
+  type: 'RELEASE',
+  amount: number,
+|};
+
+export type Transaction =
+  | PurchaseTransaction
+  | CreateHolderTransaction
+  | ReleaseVestedTokensTransaction;

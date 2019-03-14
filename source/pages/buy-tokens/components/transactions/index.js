@@ -7,7 +7,8 @@ import type { RootStore } from '~/domains/app/stores';
 import type { Props } from './view';
 
 export const Transactions: React.ComponentType<{||}> = inject(
-  ({ transactionsStore }: RootStore): Props => ({
+  ({ token, transactionsStore }: RootStore): Props => ({
+    tokenSymbol: token.symbol,
     transactionsState: transactionsStore.state.dataState,
     transactions:
       transactionsStore.state.dataState === 'loaded'

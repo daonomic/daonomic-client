@@ -14,13 +14,18 @@ import * as DataStateTypes from '~/domains/data/data-state/types';
 import * as TransactionsTypes from '~/domains/business/transactions/types';
 
 export type Props = {|
+  tokenSymbol: string,
   transactionsState: DataStateTypes.DataState,
   transactions: TransactionsTypes.Transaction[],
 |};
 
 const marker = getMarker('transactions');
 
-export function Transactions({ transactionsState, transactions }: Props) {
+export function Transactions({
+  tokenSymbol,
+  transactionsState,
+  transactions,
+}: Props) {
   React.useEffect(() => {
     if (transactionsState === 'idle') {
       transactionsService.loadTransactions();
@@ -38,7 +43,7 @@ export function Transactions({ transactionsState, transactions }: Props) {
       <DataTable
         data-marker={marker('table')()}
         getRowKey={(transaction: TransactionsTypes.Transaction) =>
-          transaction.hash
+          transaction.id
         }
         placeholder={<Trans>No transactions found</Trans>}
         errorPlaceholder={<Trans>Failed to load transactions</Trans>}
@@ -68,31 +73,83 @@ export function Transactions({ transactionsState, transactions }: Props) {
               transaction.status,
           },
           {
-            id: 'type',
-            name: <Trans>Type</Trans>,
-            render: (transaction: TransactionsTypes.Transaction) =>
-              transaction.type,
-          },
-          {
-            id: 'amount',
-            name: <Trans>Amount</Trans>,
-            render: (transaction: TransactionsTypes.Transaction) => (
-              <NumberFormat
-                value={
-                  transaction.type === 'PURCHASE'
-                    ? transaction.sold
-                    : transaction.form.amount
+            id: 'transactionInfo',
+            name: <Trans>Transaction info</Trans>,
+            render: (transaction: TransactionsTypes.Transaction) => {
+              switch (transaction.type) {
+                case 'PURCHASE': {
+                  return (
+                    <React.Fragment>
+                      <div>
+                        <Trans>
+                          Purchased <NumberFormat value={transaction.sold} />{' '}
+                          {tokenSymbol} for{' '}
+                          <NumberFormat value={transaction.value} />{' '}
+                          {transaction.paymentMethodType}
+                        </Trans>
+                      </div>
+
+                      {transaction.bonus === 0 && (
+                        <div>
+                          <Trans>
+                            Bonus:{' '}
+                            <NumberFormat value={transaction.bonus + 1} />
+                          </Trans>
+                        </div>
+                      )}
+                    </React.Fragment>
+                  );
                 }
-              />
-            ),
+
+                case 'CREATE_HOLDER': {
+                  if (transaction.creates) {
+                    return (
+                      <Trans>
+                        Received{' '}
+                        <NumberFormat value={transaction.form.amount} /> locked{' '}
+                        {tokenSymbol}
+                      </Trans>
+                    );
+                  }
+
+                  return (
+                    <Trans>
+                      Received <NumberFormat value={transaction.form.amount} />{' '}
+                      {tokenSymbol}
+                    </Trans>
+                  );
+                }
+
+                case 'RELEASE': {
+                  return (
+                    <Trans>
+                      Withdrawed <NumberFormat value={transaction.amount} />{' '}
+                      {tokenSymbol}
+                    </Trans>
+                  );
+                }
+
+                default: {
+                  (transaction.type: empty);
+                  return null;
+                }
+              }
+            },
           },
           {
             id: 'etherscan',
-            render: (transaction: TransactionsTypes.Transaction) => (
-              <EtherscanLink
-                href={etherscan.getTransactionUrl(transaction.hash)}
-              />
-            ),
+            align: 'right',
+            render: (transaction: TransactionsTypes.Transaction) => {
+              if (!transaction.hash) {
+                return null;
+              }
+
+              return (
+                <EtherscanLink
+                  href={etherscan.getTransactionUrl(transaction.hash)}
+                />
+              );
+            },
           },
         ]}
       />

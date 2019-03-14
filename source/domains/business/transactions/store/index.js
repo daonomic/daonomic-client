@@ -6,15 +6,22 @@ import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type State = DataStateTypes.LoadableData<TransactionsTypes.Transaction[]>;
 
+const initialState: State = {
+  dataState: 'idle',
+};
+
 export class TransactionsStore {
   @observable
-  state: State = {
-    dataState: 'idle',
-  };
+  state: State = initialState;
 
   @action
   setState = (state: State) => {
     this.state = state;
+  };
+
+  @action
+  reset = () => {
+    this.state = initialState;
   };
 }
 

@@ -21,7 +21,7 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:49
+#: source/pages/buy-tokens/components/locks-balance/view.js:51
 #: source/pages/create-wallet/components/generated-wallet/view.js:51
 msgid "Address"
 msgstr ""
@@ -40,17 +40,20 @@ msgid "Already have an account?"
 msgstr ""
 
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
-#: source/pages/buy-tokens/components/transactions/view.js:78
 msgid "Amount"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:63
+#: source/pages/buy-tokens/components/locks-balance/view.js:65
 msgid "Available"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:55
 #: source/pages/referral/view.js:90
 msgid "Bonus"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:90
+msgid "Bonus: {0,number}"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:42
@@ -109,7 +112,7 @@ msgstr ""
 msgid "Create wallet"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:50
+#: source/pages/buy-tokens/components/transactions/view.js:51
 msgid "Date"
 msgstr ""
 
@@ -147,7 +150,7 @@ msgstr ""
 msgid "Failed to copy"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:42
+#: source/pages/buy-tokens/components/locks-balance/view.js:44
 msgid "Failed to load locks"
 msgstr ""
 
@@ -169,7 +172,7 @@ msgstr ""
 msgid "Failed to load referral statistics"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:44
+#: source/pages/buy-tokens/components/transactions/view.js:154
 msgid "Failed to load transactions"
 msgstr ""
 
@@ -209,7 +212,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:36
+#: source/pages/buy-tokens/components/locks-balance/view.js:38
 msgid "Locks balance"
 msgstr ""
 
@@ -232,15 +235,15 @@ msgstr ""
 msgid "New password have been created"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:72
+#: source/pages/buy-tokens/components/locks-balance/view.js:74
 msgid "Next unlock"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:41
+#: source/pages/buy-tokens/components/locks-balance/view.js:43
 msgid "No locks found"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:43
+#: source/pages/buy-tokens/components/transactions/view.js:153
 msgid "No transactions found"
 msgstr ""
 
@@ -282,8 +285,20 @@ msgstr ""
 msgid "Private key"
 msgstr ""
 
+#: source/pages/buy-tokens/components/transactions/view.js:80
+msgid "Purchased {0,number} {tokenSymbol} for {1,number} {2}"
+msgstr ""
+
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:101
 msgid "Re-enter your address to make sure it is correct"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:103
+msgid "Received {0,number} locked {tokenSymbol}"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:112
+msgid "Received {0,number} {tokenSymbol}"
 msgstr ""
 
 #: source/pages/referral/view.js:70
@@ -359,7 +374,7 @@ msgstr ""
 msgid "Starts with 0x, then 40 characters"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:66
+#: source/pages/buy-tokens/components/transactions/view.js:67
 msgid "Status"
 msgstr ""
 
@@ -389,17 +404,21 @@ msgstr ""
 msgid "Tokens sold"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:56
+#: source/pages/buy-tokens/components/locks-balance/view.js:58
 msgid "Total amount"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:35
+#: source/pages/buy-tokens/components/transactions/view.js:73
+msgid "Transaction info"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:40
 msgid "Transactions"
 msgstr ""
 
 #: source/pages/buy-tokens/components/transactions/view.js:72
-msgid "Type"
-msgstr ""
+#~ msgid "Type"
+#~ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/view.js:27
 msgid "Verify Your Identity"
@@ -419,6 +438,10 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/view.js:46
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:121
+msgid "Withdrawed {0,number} {tokenSymbol}"
 msgstr ""
 
 #: source/pages/referral/view.js:65
@@ -447,7 +470,7 @@ msgstr ""
 msgid "Your residency"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance/view.js:21
+#: source/pages/buy-tokens/components/balance/view.js:42
 msgid "Your wallet balance"
 msgstr ""
 
@@ -483,6 +506,6 @@ msgstr "of"
 msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/index.js:75
+#: source/pages/buy-tokens/components/locks-balance/view.js:77
 msgid "{0,number} on {1,date,date0}"
 msgstr ""

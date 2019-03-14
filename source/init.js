@@ -7,6 +7,7 @@ import { userDataService } from '~/domains/business/user-data';
 import { kyc, kycService } from '~/domains/business/kyc';
 import { referralProgramService } from '~/domains/business/referral-program';
 import { walletBalanceService } from '~/domains/business/wallet-balance';
+import { transactionsService } from '~/domains/business/transactions';
 import { Root } from '~/root';
 import { stores } from '~/domains/app/stores';
 import { actualizeRealmId } from '~/domains/app/config';
@@ -18,6 +19,7 @@ export function init() {
   referralProgramService.init(auth, kyc, tokenStore);
   tokenService.init(auth);
   walletBalanceService.init();
+  transactionsService.init();
 
   const renderTarget = document.getElementById('app');
 
