@@ -1,7 +1,7 @@
-.title {
+.root {
   padding-bottom: 20px;
 
   @media (--desktop) {
-    padding-bottom: 34px;
+    padding-bottom: 25px;
   }
 }

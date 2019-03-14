@@ -4,50 +4,70 @@ import * as React from 'react';
 import { Trans, NumberFormat } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
-import { walletBalanceService } from '~/domains/business/wallet-balance';
+import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
 import styles from './balance.css';
 
-import * as DataStateTypes from '~/domains/data/data-state/types';
-
 export type Props = {|
-  isKycAllowed: boolean,
-  balanceDataState: DataStateTypes.DataState,
-  balance: number,
   tokenSymbol: string,
 |};
 
 const marker = getMarker('balance');
 
-export function Balance({
-  balance,
-  balanceDataState,
-  isKycAllowed,
-  tokenSymbol,
-}: Props) {
-  React.useEffect(() => {
-    if (!isKycAllowed) {
-      return;
-    }
-
-    if (balanceDataState === 'idle') {
-      walletBalanceService.loadBalance();
-    } else if (balanceDataState === 'loaded') {
-      return walletBalanceService.observeBalance();
-    }
-  }, [isKycAllowed, balanceDataState]);
+export function Balance(props: Props) {
+  const { tokenSymbol } = props;
 
   return (
     <Panel data-marker={marker()} className={styles.root}>
       <h3 className={styles.title}>
-        <Trans>Your wallet balance</Trans>
+        <Trans>Your balance</Trans>
       </h3>
+      <WalletBalanceProvider>
+        {({ lockedBalance, state }) => {
+          if (!lockedBalance) {
+            return (
+              <p className={styles.balance}>
+                <span
+                  data-marker={marker('amount')()}
+                  data-raw-value={state.balance}
+                >
+                  <NumberFormat value={state.balance} />
+                </span>
+                <span className={styles.symbol}>{tokenSymbol}</span>
+              </p>
+            );
+          }
+          return (
+            <React.Fragment>
+              <div className={styles.zone}>
+                <h4 className={styles.subtitle}>In wallet</h4>
 
-      <p className={styles.balance}>
-        <span data-marker={marker('amount')()} data-raw-value={balance}>
-          <NumberFormat value={balance} />
-        </span>{' '}
-        {tokenSymbol}
-      </p>
+                <p className={styles.balance}>
+                  <span
+                    data-marker={marker('amount')()}
+                    data-raw-value={state.balance}
+                  >
+                    <NumberFormat value={state.balance} />
+                  </span>
+                  <span className={styles.symbol}>{tokenSymbol}</span>
+                </p>
+              </div>
+              <div className={styles.zone}>
+                <h4 className={styles.subtitle}>Locked</h4>
+
+                <p className={styles.balance}>
+                  <span
+                    data-marker={marker('locked')()}
+                    data-raw-value={lockedBalance}
+                  >
+                    <NumberFormat value={lockedBalance} />
+                  </span>
+                  <span className={styles.symbol}>{tokenSymbol}</span>
+                </p>
+              </div>
+            </React.Fragment>
+          );
+        }}
+      </WalletBalanceProvider>
     </Panel>
   );
 }

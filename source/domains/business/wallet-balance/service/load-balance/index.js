@@ -8,11 +8,16 @@ export async function loadBalance() {
   });
 
   try {
-    const { balance, locks = [] } = await walletBalanceApi.loadBalance();
+    const {
+      balance,
+      totalReceived,
+      locks = [],
+    } = await walletBalanceApi.loadBalance();
 
     walletBalance.setState({
       dataState: 'loaded',
       balance,
+      totalReceived,
       locks,
     });
   } catch (error) {

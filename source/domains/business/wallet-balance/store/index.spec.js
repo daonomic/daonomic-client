@@ -1,5 +1,6 @@
 // @flow
 import { WalletBalanceStore } from '.';
+import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 
 describe('wallet balance store', () => {
   let walletBalance = new WalletBalanceStore();
@@ -29,5 +30,62 @@ describe('wallet balance store', () => {
     expect(walletBalance.isLoading).toBe(false);
     expect(walletBalance.isLoaded).toBe(true);
     expect(walletBalance.state.balance).toBe(50);
+  });
+
+  test('should calculate nearest unlock date', () => {
+    const primaryEvent: WalletBalanceTypes.UnlockEvent = {
+      date: 1558575127790,
+      amount: 1,
+    };
+
+    const locks: WalletBalanceTypes.Lock[] = [
+      {
+        address: 'test',
+        balance: {
+          total: 100,
+          released: 50,
+          vested: 20,
+        },
+        unlockEvents: [
+          {
+            date: 1552575968515,
+            amount: 1,
+          },
+          primaryEvent,
+          {
+            date: 1552575187790,
+            amount: 1,
+          },
+        ],
+      },
+      {
+        address: 'test1',
+        balance: {
+          total: 100,
+          released: 50,
+          vested: 20,
+        },
+        unlockEvents: [
+          {
+            date: 1552575117790,
+            amount: 1,
+          },
+          {
+            date: 1552575127790,
+            amount: 1,
+          },
+          {
+            date: 1552575107790,
+            amount: 1,
+          },
+        ],
+      },
+    ];
+
+    walletBalance.setState({
+      locks,
+    });
+
+    expect(walletBalance.nextUnlockEvent).toEqual(primaryEvent);
   });
 });

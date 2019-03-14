@@ -6,13 +6,14 @@ import { Panel } from '@daonomic/ui';
 import { TwoColumnsLayout } from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
 import { Kyc } from './components/kyc';
+import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
 import { PaymentMethod } from './components/payment-method';
 import { TokenPrice } from './components/token-price';
 import { Balance } from './components/balance';
+import { BalanceOverview } from './components/balance-overview';
 import { ReferralProgram } from './components/referral-program';
 import { SalePeriodGuard } from './components/sale-period-guard';
 import { Transactions } from './components/transactions';
-import { LocksBalance } from './components/locks-balance';
 import styles from './buy-tokens.css';
 
 import type { TokenStore } from '~/domains/business/token/store';
@@ -78,12 +79,19 @@ export class BuyTokensPageView extends React.Component<Props> {
       case 'loaded': {
         const { sale } = token;
 
+        const renderedBalanceOverview = (
+          <WalletBalanceProvider>
+            {(state) => state.lockedBalance > 0 && <BalanceOverview />}
+          </WalletBalanceProvider>
+        );
+
         if (sale) {
           return (
             <TwoColumnsLayout
               left={
                 <React.Fragment>
                   <Kyc />
+
                   {this.props.isKycAllowed && (
                     <SalePeriodGuard
                       startDate={sale.data.startDate}
@@ -91,7 +99,7 @@ export class BuyTokensPageView extends React.Component<Props> {
                       renderContent={() => <PaymentMethod sale={sale} />}
                     />
                   )}
-                  {this.props.isKycAllowed && <LocksBalance />}
+                  {renderedBalanceOverview}
                   {this.props.isKycAllowed && <Transactions />}
                 </React.Fragment>
               }
@@ -110,7 +118,7 @@ export class BuyTokensPageView extends React.Component<Props> {
               left={
                 <React.Fragment>
                   <Kyc />
-                  {this.props.isKycAllowed && <LocksBalance />}
+                  {renderedBalanceOverview}
                   {this.props.isKycAllowed && <Transactions />}
                 </React.Fragment>
               }
