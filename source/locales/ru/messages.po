@@ -21,7 +21,6 @@ msgstr "Минимум 6 символов"
 msgid "Add"
 msgstr "Добавить"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:51
 #: source/pages/create-wallet/components/generated-wallet/view.js:51
 msgid "Address"
 msgstr "Адрес"
@@ -35,20 +34,25 @@ msgstr "После завершения платежа токены будут �
 msgid "Already have an account?"
 msgstr "Уже есть аккаунт?"
 
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:53
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
 msgid "Amount"
 msgstr "Количество"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:65
-msgid "Available"
-msgstr "Доступно"
+#: source/pages/buy-tokens/components/balance-overview/view.js:56
+msgid "Available: <0>{locksAvailable,number}</0>"
+msgstr "Доступно: <0>{locksAvailable,number}</0>"
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:33
+msgid "Balance Statistics"
+msgstr "Статистика по балансу"
 
 #: source/pages/referral/components/referral-statistics/view.js:55
 #: source/pages/referral/view.js:90
 msgid "Bonus"
 msgstr "Бонус"
 
-#: source/pages/buy-tokens/components/transactions/view.js:90
+#: source/pages/buy-tokens/components/transactions/view.js:94
 msgid "Bonus: {0,number}"
 msgstr "Бонус: {0,number}"
 
@@ -108,7 +112,8 @@ msgstr "Создание нового пароля"
 msgid "Create wallet"
 msgstr "Создание кошелька"
 
-#: source/pages/buy-tokens/components/transactions/view.js:51
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:37
+#: source/pages/buy-tokens/components/transactions/view.js:55
 msgid "Date"
 msgstr "Дата"
 
@@ -146,10 +151,6 @@ msgstr "Введите использованный при регистраци�
 msgid "Failed to copy"
 msgstr "Не удалось скопировать"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:44
-msgid "Failed to load locks"
-msgstr "Не удалось загрузить локи"
-
 #: source/components/external-select/index.js:67
 #: source/components/json-schema-form/external-select/index.js:76
 msgid "Failed to load options"
@@ -168,9 +169,13 @@ msgstr "Не удалось загрузить реферальную ссылк
 msgid "Failed to load referral statistics"
 msgstr "Не удалось загрузить статистику"
 
-#: source/pages/buy-tokens/components/transactions/view.js:154
+#: source/pages/buy-tokens/components/transactions/view.js:49
 msgid "Failed to load transactions"
 msgstr "Не удалось загрузить транзакции"
+
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:28
+msgid "Failed to load unlock events"
+msgstr "Не удалось загрузить события разлочки"
 
 #: source/components/header/components/navigation/view.js:46
 msgid "For investors"
@@ -202,15 +207,11 @@ msgstr "Инструкции по сбросу пароля отправлены
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
 #: source/pages/buy-tokens/components/payment-method/address/index.js:27
 #: source/pages/buy-tokens/components/referral-program/view.js:23
-#: source/pages/buy-tokens/view.js:48
+#: source/pages/buy-tokens/view.js:49
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
 msgid "Loading..."
 msgstr "Загрузка..."
-
-#: source/pages/buy-tokens/components/locks-balance/view.js:38
-msgid "Locks balance"
-msgstr "Баланс локов"
 
 #: source/components/auth/create-new-password/index.js:149
 #: source/components/auth/reset-password/index.js:133
@@ -231,17 +232,17 @@ msgstr "Новый пароль"
 msgid "New password have been created"
 msgstr "Новый пароль создан"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:74
-msgid "Next unlock"
-msgstr "Следующая разлочка"
+#: source/pages/buy-tokens/components/balance-overview/view.js:80
+msgid "Next unlock event: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
+msgstr "Следующая разблокировка: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:43
-msgid "No locks found"
-msgstr "Локи не найдены"
-
-#: source/pages/buy-tokens/components/transactions/view.js:153
+#: source/pages/buy-tokens/components/transactions/view.js:48
 msgid "No transactions found"
 msgstr "Транзакции не найдены"
+
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:27
+msgid "No unlock events found"
+msgstr "Не удалось найти события разлочки"
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:67
 msgid "Note: address could not be changed after approval!"
@@ -269,6 +270,10 @@ msgstr "Пароли должны совпадать"
 msgid "Payment Instruction"
 msgstr "Инструкция по оплате"
 
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:63
+msgid "Percentage"
+msgstr "Доля"
+
 #: source/pages/buy-tokens/components/kyc/view.js:108
 msgid "Please, fix and resubmit your data."
 msgstr "Пожалуйста, исправьте их и отправьте ещё раз."
@@ -281,7 +286,7 @@ msgstr "Работает на"
 msgid "Private key"
 msgstr "Приватный ключ"
 
-#: source/pages/buy-tokens/components/transactions/view.js:80
+#: source/pages/buy-tokens/components/transactions/view.js:84
 msgid "Purchased {0,number} {tokenSymbol} for {1,number} {2}"
 msgstr "Куплено {0,number} {tokenSymbol} за {1,number} {2}"
 
@@ -289,11 +294,11 @@ msgstr "Куплено {0,number} {tokenSymbol} за {1,number} {2}"
 msgid "Re-enter your address to make sure it is correct"
 msgstr "Повторите ваш адрес, чтобы убедиться в его корректности"
 
-#: source/pages/buy-tokens/components/transactions/view.js:103
+#: source/pages/buy-tokens/components/transactions/view.js:107
 msgid "Received {0,number} locked {tokenSymbol}"
 msgstr "Получено {0,number} залоченных {tokenSymbol}"
 
-#: source/pages/buy-tokens/components/transactions/view.js:112
+#: source/pages/buy-tokens/components/transactions/view.js:116
 msgid "Received {0,number} {tokenSymbol}"
 msgstr "Получено {0,number} {tokenSymbol}"
 
@@ -317,6 +322,10 @@ msgstr "Реферальная ссылка"
 #: source/pages/referral/view.js:141
 msgid "Referral will become available after the KYC approval."
 msgstr "Партнёрская программа станет доступна после прохождения KYC."
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:87
+msgid "Refresh page to update status"
+msgstr "Обновите страницу, чтобы увидеть статус"
 
 #: source/pages/referral/view.js:104
 msgid "Registration date"
@@ -348,7 +357,7 @@ msgid "Sign up"
 msgstr "Зарегистрироваться"
 
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
-#: source/pages/buy-tokens/view.js:33
+#: source/pages/buy-tokens/view.js:34
 msgid "Something went wrong"
 msgstr "Что-то пошло не так"
 
@@ -370,7 +379,7 @@ msgstr "Источник"
 msgid "Starts with 0x, then 40 characters"
 msgstr "Начинается с 0x, затем 40 символов"
 
-#: source/pages/buy-tokens/components/transactions/view.js:67
+#: source/pages/buy-tokens/components/transactions/view.js:71
 msgid "Status"
 msgstr "Статус"
 
@@ -400,21 +409,17 @@ msgstr "Распродажа начнётся через {days, plural, one {1 �
 msgid "Tokens sold"
 msgstr "Продано"
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:58
-msgid "Total amount"
-msgstr "Количество"
+#: source/pages/buy-tokens/components/balance-overview/view.js:41
+msgid "Total received: <0>{0,number}</0>"
+msgstr "Всего получено: <0>{0,number}</0>"
 
-#: source/pages/buy-tokens/components/transactions/view.js:73
+#: source/pages/buy-tokens/components/transactions/view.js:77
 msgid "Transaction info"
 msgstr "Информация о транзакции"
 
 #: source/pages/buy-tokens/components/transactions/view.js:40
 msgid "Transactions"
 msgstr "Транзакции"
-
-#: source/pages/buy-tokens/components/transactions/view.js:72
-#~ msgid "Type"
-#~ msgstr "Тип"
 
 #: source/pages/buy-tokens/components/kyc/view.js:27
 msgid "Verify Your Identity"
@@ -436,7 +441,11 @@ msgstr "На проверке"
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr "Нам нужно "
 
-#: source/pages/buy-tokens/components/transactions/view.js:121
+#: source/pages/buy-tokens/components/balance-overview/view.js:70
+msgid "Withdraw"
+msgstr "Снять средства"
+
+#: source/pages/buy-tokens/components/transactions/view.js:125
 msgid "Withdrawed {0,number} {tokenSymbol}"
 msgstr "Выведено {0,number} {tokenSymbol}"
 
@@ -458,6 +467,11 @@ msgstr "Адрес кошелька Ethereum"
 msgid "Your Ethereum wallet address confirmation"
 msgstr "Подтверждение адреса кошелька Ethereum"
 
+#: source/pages/buy-tokens/components/balance/view.js:27
+#: source/pages/buy-tokens/components/balance/view.js:45
+msgid "Your balance"
+msgstr "Ваш баланс"
+
 #: source/pages/buy-tokens/components/kyc/view.js:168
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr "Ваши данные на проверке. Пожалуйста, ожидайте."
@@ -465,10 +479,6 @@ msgstr "Ваши данные на проверке. Пожалуйста, ож�
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:111
 msgid "Your residency"
 msgstr "Гражданство"
-
-#: source/pages/buy-tokens/components/balance/view.js:42
-msgid "Your wallet balance"
-msgstr "Баланс кошелька"
 
 #: source/components/auth/signin/index.js:68
 msgid "auth.loginHeading"
@@ -482,6 +492,14 @@ msgstr "Регистрация"
 msgid "createEthWalletTitle"
 msgstr "Создание кошелька Ethereum"
 
+#: source/pages/buy-tokens/components/balance-overview/view.js:95
+msgid "in {days} days {hours}:{minutes}:{seconds}"
+msgstr "через {days} дней {hours}:{minutes}:{seconds}"
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:102
+msgid "in {hours}:{minutes}:{seconds}"
+msgstr "через {hours}:{minutes}:{seconds}"
+
 #: source/pages/buy-tokens/components/token-price/index.js:55
 msgid "soldOf"
 msgstr "из"
@@ -489,7 +507,3 @@ msgstr "из"
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:87
 msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
 msgstr "{0, plural, one {Вы получите # бонусный токен!} few {Вы получите # бонусных токена!} many {Вы получите # бонусных токенов!} other {Вы получите # бонусных токенов!}}"
-
-#: source/pages/buy-tokens/components/locks-balance/view.js:77
-msgid "{0,number} on {1,date,date0}"
-msgstr "{0,number}, {1,date,date0}"

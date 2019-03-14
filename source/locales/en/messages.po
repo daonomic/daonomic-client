@@ -21,7 +21,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: source/pages/buy-tokens/components/locks-balance/view.js:51
 #: source/pages/create-wallet/components/generated-wallet/view.js:51
 msgid "Address"
 msgstr ""
@@ -39,12 +38,21 @@ msgstr ""
 msgid "Already have an account?"
 msgstr ""
 
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:53
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
 msgid "Amount"
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:65
-msgid "Available"
+#~ msgid "Available"
+#~ msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:56
+msgid "Available: <0>{locksAvailable,number}</0>"
+msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:33
+msgid "Balance Statistics"
 msgstr ""
 
 #: source/pages/referral/components/referral-statistics/view.js:55
@@ -52,7 +60,7 @@ msgstr ""
 msgid "Bonus"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:90
+#: source/pages/buy-tokens/components/transactions/view.js:94
 msgid "Bonus: {0,number}"
 msgstr ""
 
@@ -112,7 +120,8 @@ msgstr ""
 msgid "Create wallet"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:51
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:37
+#: source/pages/buy-tokens/components/transactions/view.js:55
 msgid "Date"
 msgstr ""
 
@@ -151,8 +160,8 @@ msgid "Failed to copy"
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:44
-msgid "Failed to load locks"
-msgstr ""
+#~ msgid "Failed to load locks"
+#~ msgstr ""
 
 #: source/components/external-select/index.js:67
 #: source/components/json-schema-form/external-select/index.js:76
@@ -172,8 +181,12 @@ msgstr ""
 msgid "Failed to load referral statistics"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:154
+#: source/pages/buy-tokens/components/transactions/view.js:49
 msgid "Failed to load transactions"
+msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:28
+msgid "Failed to load unlock events"
 msgstr ""
 
 #: source/components/header/components/navigation/view.js:46
@@ -206,15 +219,15 @@ msgstr ""
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
 #: source/pages/buy-tokens/components/payment-method/address/index.js:27
 #: source/pages/buy-tokens/components/referral-program/view.js:23
-#: source/pages/buy-tokens/view.js:48
+#: source/pages/buy-tokens/view.js:49
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
 msgid "Loading..."
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:38
-msgid "Locks balance"
-msgstr ""
+#~ msgid "Locks balance"
+#~ msgstr ""
 
 #: source/components/auth/create-new-password/index.js:149
 #: source/components/auth/reset-password/index.js:133
@@ -236,15 +249,23 @@ msgid "New password have been created"
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:74
-msgid "Next unlock"
+#~ msgid "Next unlock"
+#~ msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:80
+msgid "Next unlock event: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:43
-msgid "No locks found"
+#~ msgid "No locks found"
+#~ msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:48
+msgid "No transactions found"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:153
-msgid "No transactions found"
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:27
+msgid "No unlock events found"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:67
@@ -273,6 +294,10 @@ msgstr ""
 msgid "Payment Instruction"
 msgstr ""
 
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:63
+msgid "Percentage"
+msgstr ""
+
 #: source/pages/buy-tokens/components/kyc/view.js:108
 msgid "Please, fix and resubmit your data."
 msgstr ""
@@ -285,7 +310,7 @@ msgstr ""
 msgid "Private key"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:80
+#: source/pages/buy-tokens/components/transactions/view.js:84
 msgid "Purchased {0,number} {tokenSymbol} for {1,number} {2}"
 msgstr ""
 
@@ -293,11 +318,11 @@ msgstr ""
 msgid "Re-enter your address to make sure it is correct"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:103
+#: source/pages/buy-tokens/components/transactions/view.js:107
 msgid "Received {0,number} locked {tokenSymbol}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:112
+#: source/pages/buy-tokens/components/transactions/view.js:116
 msgid "Received {0,number} {tokenSymbol}"
 msgstr ""
 
@@ -320,6 +345,10 @@ msgstr ""
 
 #: source/pages/referral/view.js:141
 msgid "Referral will become available after the KYC approval."
+msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:87
+msgid "Refresh page to update status"
 msgstr ""
 
 #: source/pages/referral/view.js:104
@@ -352,7 +381,7 @@ msgid "Sign up"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
-#: source/pages/buy-tokens/view.js:33
+#: source/pages/buy-tokens/view.js:34
 msgid "Something went wrong"
 msgstr ""
 
@@ -374,7 +403,7 @@ msgstr ""
 msgid "Starts with 0x, then 40 characters"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:67
+#: source/pages/buy-tokens/components/transactions/view.js:71
 msgid "Status"
 msgstr ""
 
@@ -405,10 +434,14 @@ msgid "Tokens sold"
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:58
-msgid "Total amount"
+#~ msgid "Total amount"
+#~ msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:41
+msgid "Total received: <0>{0,number}</0>"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:73
+#: source/pages/buy-tokens/components/transactions/view.js:77
 msgid "Transaction info"
 msgstr ""
 
@@ -440,7 +473,11 @@ msgstr ""
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:121
+#: source/pages/buy-tokens/components/balance-overview/view.js:70
+msgid "Withdraw"
+msgstr ""
+
+#: source/pages/buy-tokens/components/transactions/view.js:125
 msgid "Withdrawed {0,number} {tokenSymbol}"
 msgstr ""
 
@@ -462,6 +499,11 @@ msgstr ""
 msgid "Your Ethereum wallet address confirmation"
 msgstr ""
 
+#: source/pages/buy-tokens/components/balance/view.js:27
+#: source/pages/buy-tokens/components/balance/view.js:45
+msgid "Your balance"
+msgstr ""
+
 #: source/pages/buy-tokens/components/kyc/view.js:168
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr ""
@@ -471,8 +513,8 @@ msgid "Your residency"
 msgstr ""
 
 #: source/pages/buy-tokens/components/balance/view.js:42
-msgid "Your wallet balance"
-msgstr ""
+#~ msgid "Your wallet balance"
+#~ msgstr ""
 
 #: source/components/auth/signin/index.js:68
 msgid "auth.loginHeading"
@@ -494,6 +536,14 @@ msgstr "Create Ethereum Wallet"
 #~ msgid "finished"
 #~ msgstr ""
 
+#: source/pages/buy-tokens/components/balance-overview/view.js:95
+msgid "in {days} days {hours}:{minutes}:{seconds}"
+msgstr ""
+
+#: source/pages/buy-tokens/components/balance-overview/view.js:102
+msgid "in {hours}:{minutes}:{seconds}"
+msgstr ""
+
 #: source/components/payments-list/index.js:29
 #~ msgid "pending"
 #~ msgstr ""
@@ -507,5 +557,5 @@ msgid "{0, plural, one {You will receive # bonus token!} other {You will receive
 msgstr ""
 
 #: source/pages/buy-tokens/components/locks-balance/view.js:77
-msgid "{0,number} on {1,date,date0}"
-msgstr ""
+#~ msgid "{0,number} on {1,date,date0}"
+#~ msgstr ""
