@@ -1,0 +1,30 @@
+.items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  font-size: inherit;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+
+.symbol {
+  margin-left: 0.5em;
+  opacity: 0.8;
+}
+
+.withdraw {
+  margin-left: 0.5em;
+}
+
+.amount {
+  margin-left: 0.5em;
+}
+
+.unlockEvents {
+  margin-top: 20px;
+}

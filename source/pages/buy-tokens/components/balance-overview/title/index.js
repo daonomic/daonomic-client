@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { Heading } from '~/components/heading';
-import styles from './style.css';
+import styles from './styles.css';
 
 type Props = {
   children: React.Node,

@@ -8,10 +8,40 @@
   font-size: 16px;
   opacity: 0.64;
   color: inherit;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0.86;
+  color: inherit;
+  margin-bottom: 0;
 }
 
 .balance {
   font-weight: 600;
   font-size: 24px;
+  padding: 0;
+  margin: 0;
+}
+
+.balance h4 {
   margin-bottom: 0;
+}
+
+.locked {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 0;
+}
+
+.zone:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.symbol {
+  font-size: 80%;
+  opacity: 0.7;
+  margin-left: 7px;
 }
