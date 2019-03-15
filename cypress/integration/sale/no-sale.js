@@ -3,6 +3,8 @@ import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
 import { tokenPrice } from '../../objects/token-price';
 import { balance } from '../../objects/balance';
+import { balanceOverview } from '../../objects/balanceOverview';
+import { unlockEvents } from '../../objects/unlockEvents';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
 
@@ -39,6 +41,8 @@ describe('No public sale', () => {
     tokenPrice.getRoot().should('not.exist');
     kycView.getAllowedAnnotation().should('be.visible');
     balance.getRoot().should('be.visible');
+    balanceOverview.getRoot().should('be.visible');
+    unlockEvents.getRoot().should('be.visible');
     transactions.getRoot().should('be.visible');
   });
 });
