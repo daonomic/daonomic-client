@@ -26,9 +26,7 @@ describe('Immediate tokens purchase with Web3', () => {
     transactions
       .getTableEntries()
       .first()
-      .should('contain', 'PURCHASE')
-      .should('contain', 'SUCCESS')
-      .should('contain', '1');
+      .should('contain', 'Purchased 1');
 
     paymentMethod.exchangeForm.getAmount().type('{selectall}5');
     paymentMethod.exchangeForm.getBuy().click();
@@ -38,9 +36,7 @@ describe('Immediate tokens purchase with Web3', () => {
     transactions
       .getTableEntries()
       .first()
-      .should('contain', 'PURCHASE')
-      .should('contain', 'SUCCESS')
-      .should('contain', '5');
+      .should('contain', 'Purchased 5');
   });
 
   it('should be able to purchase tokens through exchange form with different address', () => {
