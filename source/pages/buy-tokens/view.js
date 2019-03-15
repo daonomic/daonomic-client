@@ -5,6 +5,7 @@ import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
 import { TwoColumnsLayout } from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
+import { RoundsTimeline } from '~/components/rounds-timeline';
 import { Kyc } from './components/kyc';
 import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
 import { PaymentMethod } from './components/payment-method';
@@ -35,7 +36,12 @@ function Error() {
           </Heading>
         </Panel>
       }
-      right={<Balance />}
+      right={
+        <React.Fragment>
+          <Balance />
+          <RoundsTimeline />
+        </React.Fragment>
+      }
     />
   );
 }
@@ -50,7 +56,12 @@ function Loading() {
           </Heading>
         </Panel>
       }
-      right={<Balance />}
+      right={
+        <React.Fragment>
+          <Balance />
+          <RoundsTimeline />
+        </React.Fragment>
+      }
     />
   );
 }
@@ -108,6 +119,7 @@ export class BuyTokensPageView extends React.Component<Props> {
                   <Balance />
                   <TokenPrice tokenSymbol={token.symbol} sale={sale} />
                   <ReferralProgram />
+                  <RoundsTimeline />
                 </React.Fragment>
               }
             />
@@ -126,6 +138,7 @@ export class BuyTokensPageView extends React.Component<Props> {
                 <React.Fragment>
                   <Balance />
                   <ReferralProgram />
+                  <RoundsTimeline />
                 </React.Fragment>
               }
             />
