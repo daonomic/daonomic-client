@@ -47,30 +47,28 @@ export function BalanceOverview({ tokenSymbol }: Props) {
                 </span>
                 <span className={styles.symbol}>{tokenSymbol}</span>
               </li>
-              {!!locksAvailable && (
-                <li className={styles.item}>
-                  <span
-                    data-marker={marker('available')()}
-                    data-raw-value={locksAvailable}
-                  >
-                    <Trans>
-                      Available:{' '}
-                      <span className={styles.number}>
-                        <NumberFormat value={locksAvailable} />
-                      </span>
-                    </Trans>
-                  </span>
-                  <span className={styles.symbol}>{tokenSymbol}</span>
-                  <Button
-                    size="s"
-                    className={styles.withdraw}
-                    disabled
-                    data-marker={marker('withdraw')()}
-                  >
-                    <Trans>Withdraw</Trans>
-                  </Button>
-                </li>
-              )}
+              <li className={styles.item}>
+                <span
+                  data-marker={marker('available')()}
+                  data-raw-value={locksAvailable}
+                >
+                  <Trans>
+                    Available:{' '}
+                    <span className={styles.number}>
+                      <NumberFormat value={locksAvailable} />
+                    </span>
+                  </Trans>
+                </span>
+                <span className={styles.symbol}>{tokenSymbol}</span>
+                <Button
+                  size="s"
+                  className={styles.withdraw}
+                  disabled
+                  data-marker={marker('withdraw')()}
+                >
+                  <Trans>Withdraw</Trans>
+                </Button>
+              </li>
               {nextUnlockEvent && (
                 <li className={styles.item}>
                   <span
@@ -120,6 +118,9 @@ export function BalanceOverview({ tokenSymbol }: Props) {
             {unlockEvents.length > 0 && (
               <div className={styles.unlockEvents}>
                 <Panel.Separator />
+                <Title>
+                  <Trans>Unlock schedule</Trans>
+                </Title>
                 <UnlockEventsTable
                   tokenSymbol={tokenSymbol}
                   dataState={state.dataState}
