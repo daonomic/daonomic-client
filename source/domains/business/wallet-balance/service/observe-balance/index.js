@@ -5,12 +5,17 @@ import { createAsyncObserver } from '~/utils/create-async-observer';
 
 export const observeBalance = createAsyncObserver(async () => {
   try {
-    const { balance, locks = [] } = await walletBalanceApi.loadBalance();
+    const {
+      balance,
+      totalReceived,
+      locks = [],
+    } = await walletBalanceApi.loadBalance();
 
     walletBalance.setState({
       dataState: 'loaded',
       balance,
       locks,
+      totalReceived,
     });
   } catch (error) {
     console.error(error);
