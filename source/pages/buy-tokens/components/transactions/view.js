@@ -89,14 +89,13 @@ export function Transactions({
                         </Trans>
                       </div>
 
-                      {transaction.bonus === 0 && (
+                      {transaction.bonus > 0 ? (
                         <div>
                           <Trans>
-                            Bonus:{' '}
-                            <NumberFormat value={transaction.bonus + 1} />
+                            Bonus: <NumberFormat value={transaction.bonus} />
                           </Trans>
                         </div>
-                      )}
+                      ) : null}
                     </React.Fragment>
                   );
                 }

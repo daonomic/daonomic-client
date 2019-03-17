@@ -52,13 +52,9 @@ export class WalletBalanceStore {
 
   @computed
   get unlockEvents(): WalletBalanceTypes.UnlockEvent[] {
-    const currentDate: number = Date.now();
-
-    return this.state.locks
-      .reduce((result, lock) => {
-        return [...result, ...lock.unlockEvents];
-      }, [])
-      .filter((lock) => currentDate < lock.date);
+    return this.state.locks.reduce((result, lock) => {
+      return [...result, ...lock.unlockEvents];
+    }, []);
   }
 
   @computed

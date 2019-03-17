@@ -13,6 +13,7 @@ describe('Immediate tokens purchase with Web3', () => {
     cy.createUser()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
+    // .catch((error) => console.log(error));
 
     transactions.getRoot().should('be.visible');
     paymentMethod.exchangeForm.getRoot().should('be.visible');

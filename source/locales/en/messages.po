@@ -47,7 +47,7 @@ msgstr ""
 #~ msgid "Available"
 #~ msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:56
+#: source/pages/buy-tokens/components/balance-overview/view.js:55
 msgid "Available: <0>{locksAvailable,number}</0>"
 msgstr ""
 
@@ -252,7 +252,7 @@ msgstr ""
 #~ msgid "Next unlock"
 #~ msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:80
+#: source/pages/buy-tokens/components/balance-overview/view.js:78
 msgid "Next unlock event: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
 msgstr ""
 
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Re-enter your address to make sure it is correct"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:107
+#: source/pages/buy-tokens/components/transactions/view.js:106
 msgid "Received {0,number} locked {tokenSymbol}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:116
+#: source/pages/buy-tokens/components/transactions/view.js:115
 msgid "Received {0,number} {tokenSymbol}"
 msgstr ""
 
@@ -347,7 +347,7 @@ msgstr ""
 msgid "Referral will become available after the KYC approval."
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:87
+#: source/pages/buy-tokens/components/balance-overview/view.js:85
 msgid "Refresh page to update status"
 msgstr ""
 
@@ -453,6 +453,10 @@ msgstr ""
 #~ msgid "Type"
 #~ msgstr ""
 
+#: source/pages/buy-tokens/components/balance-overview/view.js:122
+msgid "Unlock schedule"
+msgstr ""
+
 #: source/pages/buy-tokens/components/kyc/view.js:27
 msgid "Verify Your Identity"
 msgstr ""
@@ -473,11 +477,11 @@ msgstr ""
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:70
+#: source/pages/buy-tokens/components/balance-overview/view.js:69
 msgid "Withdraw"
 msgstr ""
 
-#: source/pages/buy-tokens/components/transactions/view.js:125
+#: source/pages/buy-tokens/components/transactions/view.js:124
 msgid "Withdrawed {0,number} {tokenSymbol}"
 msgstr ""
 
@@ -499,8 +503,7 @@ msgstr ""
 msgid "Your Ethereum wallet address confirmation"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance/view.js:27
-#: source/pages/buy-tokens/components/balance/view.js:45
+#: source/pages/buy-tokens/components/balance/view.js:22
 msgid "Your balance"
 msgstr ""
 
@@ -536,11 +539,11 @@ msgstr "Create Ethereum Wallet"
 #~ msgid "finished"
 #~ msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:95
+#: source/pages/buy-tokens/components/balance-overview/view.js:93
 msgid "in {days} days {hours}:{minutes}:{seconds}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:102
+#: source/pages/buy-tokens/components/balance-overview/view.js:100
 msgid "in {hours}:{minutes}:{seconds}"
 msgstr ""
 
