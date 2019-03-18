@@ -12,6 +12,7 @@ export const observeTransactions = createAsyncObserver(async () => {
       data,
     });
   } catch (error) {
+    // eslint-disable-next-line
     console.error(error);
   }
 });

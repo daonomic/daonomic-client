@@ -18,6 +18,7 @@ export const observeBalance = createAsyncObserver(async () => {
       totalReceived,
     });
   } catch (error) {
+    // eslint-disable-next-line
     console.error(error);
   }
 });

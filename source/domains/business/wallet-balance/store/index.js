@@ -5,6 +5,7 @@ import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 
 const initialState: WalletBalanceTypes.State = {
   dataState: 'idle',
+  withdrawingState: 'idle',
   balance: 0,
   totalReceived: 0,
   locks: [],
@@ -48,6 +49,13 @@ export class WalletBalanceStore {
     return this.state.locks.reduce((available, lock) => {
       return available + (lock.balance.vested - lock.balance.released);
     }, 0);
+  }
+
+  @computed
+  get withdrawableLocks(): WalletBalanceTypes.Lock[] {
+    return this.state.locks.filter(
+      (lock) => lock.balance.vested - lock.balance.released > 0,
+    );
   }
 
   @computed

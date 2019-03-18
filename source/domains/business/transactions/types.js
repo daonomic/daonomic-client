@@ -1,4 +1,7 @@
 // @flow
+
+export type TransactionHash = string;
+
 type BaseTransaction = {|
   id: string,
   hash: string,
