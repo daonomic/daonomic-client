@@ -21,7 +21,7 @@ Cypress.Commands.add('createIco', (getIcoData = () => defaultIcoData) => {
     })
     .then(
       ({ id, txHash }) =>
-        cy.request('POST', `http://ops:9092/v1/transactions/${id}/wait/ico`, {
+        cy.request('POST', `http://ops:9092/v1/transactions/${id}/wait`, {
           txHash,
         }),
       { timeout: 1000 * 20 },
