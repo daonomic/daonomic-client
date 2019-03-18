@@ -2,7 +2,7 @@
 
 import React from 'react';
 // $FlowFixMe
-import { Trans, NumberFormat } from '@lingui/macro';
+import { Trans, NumberFormat, Plural } from '@lingui/macro';
 import Countdown from 'react-countdown-now';
 import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
 import { Panel, Button } from '@daonomic/ui';
@@ -92,7 +92,7 @@ export function BalanceOverview({ tokenSymbol }: Props) {
 
                             const { minutes, days, hours, seconds } = countdown;
 
-                            const renderedSuffix = (
+                            const renderedUnlockEventAmount = (
                               <span className={styles.amount}>
                                 <span>(</span>
                                 <NumberFormat value={nextUnlockEvent.amount} />
@@ -105,18 +105,30 @@ export function BalanceOverview({ tokenSymbol }: Props) {
 
                             if (days) {
                               return (
-                                <span data-marker={marker('countdown-days')}>
+                                <span data-marker={marker('countdown-days')()}>
                                   <Trans>
-                                    {`in ${days} days ${hours}:${minutes}:${seconds}`}
+                                    in{' '}
+                                    <Plural
+                                      value={days}
+                                      one="1 day"
+                                      two="# days"
+                                      few="# days"
+                                      many="# days"
+                                      other="# days"
+                                      zero="0 days"
+                                    />{' '}
+                                    {hours}:{minutes}:{seconds}
                                   </Trans>
                                 </span>
                               );
                             }
 
                             return (
-                              <span data-marker={marker('countdown')}>
-                                <Trans>{`in ${hours}:${minutes}:${seconds}`}</Trans>
-                                {renderedSuffix}
+                              <span data-marker={marker('countdown')()}>
+                                <Trans>
+                                  in {hours}:{minutes}:{seconds}
+                                </Trans>
+                                {renderedUnlockEventAmount}
                               </span>
                             );
                           }}

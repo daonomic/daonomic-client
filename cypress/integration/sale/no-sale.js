@@ -3,23 +3,9 @@ import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
 import { tokenPrice } from '../../objects/token-price';
 import { balance } from '../../objects/balance';
-import userBalanceWithLocks from '../../fixtures/api/balance/user-balance-with-locks.json';
 import { balanceOverview } from '../../objects/balanceOverview';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
-
-const modifyWalletMockWithActualUnlockDate = (walletState, inc) => {
-  const requiredDate = Date.now() + inc;
-
-  const locks = walletState.locks;
-
-  locks[0].unlockEvents[0].date = requiredDate;
-
-  return {
-    ...walletState,
-    locks,
-  };
-};
 
 describe('No public sale', () => {
   beforeEach(() => {
@@ -42,14 +28,6 @@ describe('No public sale', () => {
   });
 
   it('Should allow passing KYC, but should not show payment and token price widgets after approval', () => {
-    cy.route({
-      method: 'GET',
-      url: '**/balance',
-      delay: 500,
-      status: 200,
-      response: 'fixture:api/balance/user-balance-without-locks.json',
-    }).as('balanceRequest');
-
     tokenPrice.getRoot().should('not.exist');
     transactions.getRoot().should('not.exist');
     userDataForm.getRoot().should('be.visible');
@@ -65,18 +43,69 @@ describe('No public sale', () => {
     transactions.getRoot().should('be.visible');
 
     balance.getAmount().should('be.visible');
-    balance.getAmount().should('have.text', '100');
     balanceOverview.getRoot().should('not.be.visible');
   });
 
-  it('Should allow passing KYC and display balance with locked', () => {
+  it('Should display balance with locked', () => {
     cy.server();
+
+    const balanceResponse = {
+      balance: 100,
+      totalReceived: 100,
+      locks: [
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 25000,
+            released: 15000,
+            vested: 20000,
+          },
+          unlockEvents: [
+            {
+              date: Date.now() + 5000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + 86405000,
+              amount: 1500,
+            },
+            {
+              date: Date.now() + 10000,
+              amount: 1000,
+            },
+          ],
+        },
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 20000,
+            released: 5000,
+            vested: 6000,
+          },
+          unlockEvents: [
+            {
+              date: Date.now() + 6000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + 10000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + 7000,
+              amount: 1000,
+            },
+          ],
+        },
+      ],
+    };
+
     cy.route({
       method: 'GET',
       url: '**/balance',
       delay: 500,
       status: 200,
-      response: 'fixture:api/balance/user-balance-with-locks.json',
+      response: balanceResponse,
     }).as('balanceRequest');
 
     cy.fillUserData({ address: testUserAddress });
@@ -85,41 +114,91 @@ describe('No public sale', () => {
 
     balance.getRoot().should('be.visible');
     balance.getLockedBalance().should('be.visible');
-    balance.getLockedBalance().should('have.text', '25,000');
+    balance
+      .getLockedBalance()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', '25000');
     balance.getAmount().should('be.visible');
-    balance.getAmount().should('have.text', '100');
+    balance
+      .getAmount()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(balanceResponse.balance));
   });
 
   it('Should display balance without locked', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      url: '**/balance',
-      delay: 500,
-      status: 200,
-      response: 'fixture:api/balance/user-balance-without-locks.json',
-    }).as('balanceRequest');
-
     cy.fillUserData({ address: testUserAddress });
-
-    cy.wait('@balanceRequest');
 
     balance.getRoot().should('be.visible');
     balance.getLockedBalance().should('not.be.visible');
     balance.getAmount().should('be.visible');
-    balance.getAmount().should('have.text', '100');
+
+    balance
+      .getAmount()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', '0');
   });
 
-  it('Should display balance overview with unlock events', () => {
+  it.only('Should display balance overview with unlock events', () => {
+    const day = 1000 * 60 * 60 * 24;
+    const nextUnlockEventTimestamp = Date.now() + day + 6000;
+
+    const balanceResponse = {
+      balance: 100,
+      totalReceived: 100,
+      locks: [
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 25000,
+            released: 15000,
+            vested: 20000,
+          },
+          unlockEvents: [
+            {
+              date: nextUnlockEventTimestamp,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + day + 7000,
+              amount: 1500,
+            },
+            {
+              date: Date.now() + day + 8000,
+              amount: 1000,
+            },
+          ],
+        },
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 20000,
+            released: 5000,
+            vested: 6000,
+          },
+          unlockEvents: [
+            {
+              date: Date.now() + day + 9000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + day + 10000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + day + 11000,
+              amount: 1000,
+            },
+          ],
+        },
+      ],
+    };
+
     cy.route({
       method: 'GET',
       url: '**/balance',
       delay: 500,
       status: 200,
-      response: modifyWalletMockWithActualUnlockDate(
-        userBalanceWithLocks,
-        86405000,
-      ),
+      response: balanceResponse,
     }).as('balanceRequest');
 
     cy.fillUserData({ address: testUserAddress });
@@ -129,60 +208,117 @@ describe('No public sale', () => {
     balanceOverview.getRoot().should('be.visible');
 
     balanceOverview.getTotalReceived().should('be.visible');
-    balanceOverview.getTotalReceived().should('to.contain', '100');
+    balanceOverview
+      .getTotalReceived()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(balanceResponse.totalReceived));
 
     balanceOverview.getWithdrawButton().should('be.visible');
 
     balanceOverview.getAvailable().should('be.visible');
-    balanceOverview.getAvailable().should('to.contain', '6,000');
 
-    /**
-     * @todo create tests for withdrawing
-     */
+    balanceOverview
+      .getAvailable()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', '6000');
+
     balanceOverview.getWithdrawButton().should('be.visible');
 
     balanceOverview.getNextUnlockDate().should('be.visible');
-    balanceOverview.getNextUnlockDate().should('to.contain', '1 days');
+    balanceOverview.getNextUnlockDate().should('contain', '1 day');
+    balanceOverview
+      .getNextUnlockDate()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(nextUnlockEventTimestamp));
 
     balanceOverview.getRefreshNotification().should('not.be.visible');
     balanceOverview.getUnlocksTable().should('be.visible');
-
-    // 7 because of header row
+    balanceOverview.getCountdownDays().should('be.visible');
+    balanceOverview.getCountdown().should('not.be.visible');
 
     balanceOverview
       .getUnlocksTable()
-      .find('tr')
-      .should('to.have.length', 7);
+      .find('tbody tr')
+      .should('have.length', 6);
 
-    cy.wait(3000);
+    cy.wait(5000);
 
-    balanceOverview.getNextUnlockDate().should('not.to.contain', '1 days');
+    balanceOverview.getNextUnlockDate().should('not.to.contain', '1 day');
+    balanceOverview.getCountdownDays().should('not.be.visible');
+    balanceOverview.getCountdown().should('be.visible');
 
-    // balanceOverview.getAmount().should('have.text', '100');
-  });
+    const closestEvent = Date.now() + 5000;
 
-  it('Should display balance and wait for countdown', () => {
+    const balanceResponseWithClosestEvent = {
+      balance: 100,
+      totalReceived: 100,
+      locks: [
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 25000,
+            released: 15000,
+            vested: 20000,
+          },
+          unlockEvents: [
+            {
+              date: Date.now() + day + 7000,
+              amount: 1000,
+            },
+            {
+              date: closestEvent,
+              amount: 1500,
+            },
+            {
+              date: Date.now() + day + 8000,
+              amount: 1000,
+            },
+          ],
+        },
+        {
+          address: 'very long long long address',
+          balance: {
+            total: 20000,
+            released: 5000,
+            vested: 6000,
+          },
+          unlockEvents: [
+            {
+              date: Date.now() + day + 9000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + day + 10000,
+              amount: 1000,
+            },
+            {
+              date: Date.now() + day + 11000,
+              amount: 1000,
+            },
+          ],
+        },
+      ],
+    };
+
     cy.route({
       method: 'GET',
       url: '**/balance',
       delay: 500,
       status: 200,
-      response: modifyWalletMockWithActualUnlockDate(
-        userBalanceWithLocks,
-        6000,
-      ),
-    }).as('balanceRequest');
+      response: balanceResponseWithClosestEvent,
+    }).as('nextBalanceRequest');
 
-    cy.fillUserData({ address: testUserAddress });
-
-    cy.wait('@balanceRequest');
+    cy.wait('@nextBalanceRequest');
 
     balanceOverview.getRoot().should('be.visible');
 
     balanceOverview.getWithdrawButton().should('be.visible');
+    balanceOverview
+      .getNextUnlockDate()
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(closestEvent));
 
     balanceOverview.getNextUnlockDate().should('be.visible');
-    balanceOverview.getRefreshNotification().should('not.be.visible');
 
     cy.wait(3000);
 
