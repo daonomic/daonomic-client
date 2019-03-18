@@ -9,6 +9,5 @@ export type Data = {|
   sold: number,
   total: number,
   address: string,
-  features?: string[],
   paymentMethods: PaymentMethodTypes.Data[],
 |};
