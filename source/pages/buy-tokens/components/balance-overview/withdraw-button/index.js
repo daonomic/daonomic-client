@@ -12,11 +12,11 @@ type Props = {
 };
 
 export function WithdrawButton(props: Props) {
-  const { withdrawingState, ...restProp } = props;
+  const { withdrawingState, ...restProps } = props;
 
   return (
     <span className={styles.button}>
-      <Button size="s" disabled={withdrawingState === 'loading'} {...restProp}>
+      <Button size="s" disabled={withdrawingState === 'loading'} {...restProps}>
         <Trans>Withdraw</Trans>
       </Button>
       {withdrawingState === 'failed' && (

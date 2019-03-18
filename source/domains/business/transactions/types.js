@@ -7,6 +7,8 @@ type BaseTransaction = {|
   hash: string,
   status: string,
   createDate: string,
+  to: string,
+  data: string,
 |};
 
 type PurchaseTransaction = {|

@@ -34,7 +34,7 @@ describe('wallet balance store', () => {
 
   test('should calculate nearest unlock date', () => {
     const primaryEvent: WalletBalanceTypes.UnlockEvent = {
-      date: 1558575127790,
+      date: Date.now() + 10000,
       amount: 1,
     };
 
@@ -48,12 +48,12 @@ describe('wallet balance store', () => {
         },
         unlockEvents: [
           {
-            date: 1552575968515,
+            date: Date.now() + 50000,
             amount: 1,
           },
           primaryEvent,
           {
-            date: 1552575187790,
+            date: Date.now() + 60000,
             amount: 1,
           },
         ],
@@ -67,15 +67,11 @@ describe('wallet balance store', () => {
         },
         unlockEvents: [
           {
-            date: 1552575117790,
+            date: Date.now() + 80000,
             amount: 1,
           },
           {
-            date: 1552575127790,
-            amount: 1,
-          },
-          {
-            date: 1552575107790,
+            date: Date.now() + 90000,
             amount: 1,
           },
         ],

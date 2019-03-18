@@ -27,14 +27,19 @@ export class WalletBalanceStore {
 
   @computed
   get locksTotal(): number {
-    return this.state.locks.reduce((total, lock) => {
+    return this.locks.reduce((total, lock) => {
       return total + lock.balance.total;
     }, 0);
   }
 
   @computed
+  get locks(): WalletBalanceTypes.Lock[] {
+    return this.state.locks || [];
+  }
+
+  @computed
   get locksReleased(): number {
-    return this.state.locks.reduce((released, lock) => {
+    return this.locks.reduce((released, lock) => {
       return released + lock.balance.released;
     }, 0);
   }
@@ -46,14 +51,14 @@ export class WalletBalanceStore {
 
   @computed
   get locksAvailable(): number {
-    return this.state.locks.reduce((available, lock) => {
+    return this.locks.reduce((available, lock) => {
       return available + (lock.balance.vested - lock.balance.released);
     }, 0);
   }
 
   @computed
   get withdrawableLocks(): WalletBalanceTypes.Lock[] {
-    return this.state.locks.filter(
+    return this.locks.filter(
       (lock) => lock.balance.vested - lock.balance.released > 0,
     );
   }
@@ -62,9 +67,9 @@ export class WalletBalanceStore {
   get unlockEvents(): WalletBalanceTypes.UnlockEvent[] {
     const currentDate: number = Date.now();
 
-    return this.state.locks
+    return this.locks
       .reduce((result, lock) => {
-        return [...result, ...lock.unlockEvents];
+        return [...result, ...(lock.unlockEvents || [])];
       }, [])
       .filter((lock) => currentDate < lock.date);
   }

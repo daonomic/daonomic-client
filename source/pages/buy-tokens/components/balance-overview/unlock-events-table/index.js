@@ -4,7 +4,6 @@ import React from 'react';
 import { DataTable } from '@daonomic/ui';
 // $FlowFixMe
 import { Trans, DateFormat, NumberFormat } from '@lingui/macro';
-import { getMarker } from '~/utils/get-marker';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 import styles from './styles.css';
@@ -14,16 +13,15 @@ export type Props = {|
   dataState: DataStateTypes.DataState,
   locksTotal: number,
   tokenSymbol: string,
+  marker: Function,
 |};
 
-const marker = getMarker('unlock-events-table');
-
 export function UnlockEventsTable(props: Props) {
-  const { unlockEvents, dataState, locksTotal, tokenSymbol } = props;
+  const { marker, unlockEvents, dataState, locksTotal, tokenSymbol } = props;
 
   return (
     <DataTable
-      data-marker={marker()}
+      data-marker={marker('unlocks-table')()}
       placeholder={<Trans>No unlock events found</Trans>}
       errorPlaceholder={<Trans>Failed to load unlock events</Trans>}
       getRowKey={(unlockEvent: WalletBalanceTypes.UnlockEvent) =>

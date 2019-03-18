@@ -2,7 +2,7 @@
 
 import React from 'react';
 // $FlowFixMe
-import { Trans, NumberFormat } from '@lingui/macro';
+import { Trans, NumberFormat, Plural } from '@lingui/macro';
 import Countdown from 'react-countdown-now';
 import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
 import { Panel } from '@daonomic/ui';
@@ -17,7 +17,7 @@ export type Props = {|
   onWithdraw: () => mixed,
 |};
 
-const marker = getMarker('balance');
+const marker = getMarker('balance-overview');
 
 export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
   return (
@@ -30,7 +30,7 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
         locksAvailable,
       }) => {
         return (
-          <Panel className={styles.root} data-maker={marker()}>
+          <Panel className={styles.root} data-marker={marker()}>
             <Title>
               <Trans>Balance Statistics</Trans>
             </Title>
@@ -73,8 +73,8 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
               {nextUnlockEvent && (
                 <li className={styles.item}>
                   <span
-                    data-marker={marker('next-unlock-event')()}
-                    data-raw-value={state.balance}
+                    data-marker={marker('next-unlock-date')()}
+                    data-raw-value={nextUnlockEvent.date}
                   >
                     <Trans>
                       Next unlock event:{' '}
@@ -83,32 +83,58 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                           renderer={(countdown) => {
                             if (countdown.completed) {
                               return (
-                                <Trans>Refresh page to update status</Trans>
+                                <span
+                                  data-marker={marker('refresh-notification')()}
+                                >
+                                  <Trans>Refresh page to update status</Trans>
+                                </span>
                               );
                             }
 
                             const { minutes, days, hours, seconds } = countdown;
 
+                            const renderedUnlockEventAmount = (
+                              <span className={styles.amount}>
+                                <span>(</span>
+                                <NumberFormat value={nextUnlockEvent.amount} />
+                                <span className={styles.symbol}>
+                                  {tokenSymbol}
+                                </span>
+                                <span>)</span>
+                              </span>
+                            );
+
                             if (days) {
                               return (
-                                <Trans>
-                                  {`in ${days} days ${hours}:${minutes}:${seconds}`}
-                                </Trans>
+                                <span data-marker={marker('countdown-days')()}>
+                                  <Trans>
+                                    in{' '}
+                                    <Plural
+                                      value={days}
+                                      one="1 day"
+                                      two="# days"
+                                      few="# days"
+                                      many="# days"
+                                      other="# days"
+                                      zero="0 days"
+                                    />{' '}
+                                    {hours}:{minutes}:{seconds}
+                                  </Trans>
+                                </span>
                               );
                             }
 
                             return (
-                              <Trans>{`in ${hours}:${minutes}:${seconds}`}</Trans>
+                              <span data-marker={marker('countdown')()}>
+                                <Trans>
+                                  in {hours}:{minutes}:{seconds}
+                                </Trans>
+                                {renderedUnlockEventAmount}
+                              </span>
                             );
                           }}
                           date={new Date(nextUnlockEvent.date)}
                         />
-                        <span className={styles.amount}>
-                          <span>(</span>
-                          <NumberFormat value={nextUnlockEvent.amount} />
-                          <span className={styles.symbol}>{tokenSymbol}</span>
-                          <span>)</span>
-                        </span>
                       </span>
                     </Trans>
                   </span>
@@ -123,6 +149,7 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                   <Trans>Unlock schedule</Trans>
                 </Title>
                 <UnlockEventsTable
+                  marker={marker}
                   tokenSymbol={tokenSymbol}
                   dataState={state.dataState}
                   unlockEvents={unlockEvents}

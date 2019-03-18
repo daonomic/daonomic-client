@@ -5,21 +5,17 @@ import { walletBalance } from '~/domains/business/wallet-balance';
 
 import * as WalletBalanceTypes from '~/domains/business/wallet-balance/types';
 
-/**
- * @todo response types  ??
- */
-
 export async function makeWithdraw({
   locks,
 }: {|
   locks: WalletBalanceTypes.Lock[],
-|}): Promise<any> {
+|}): Promise<void> {
   try {
     walletBalance.setState({
       withdrawingState: 'loading',
     });
 
-    const responses = await Promise.all(
+    await Promise.all(
       locks.map(async (lock) => {
         const transaction = await walletBalanceApi.createWithdrawTransaction(
           lock.address,
@@ -30,7 +26,7 @@ export async function makeWithdraw({
           to: transaction.to,
         });
 
-        return transactionsService.wait({
+        await transactionsService.wait({
           id: transaction.id,
           txHash,
         });
@@ -40,8 +36,6 @@ export async function makeWithdraw({
     walletBalance.setState({
       withdrawingState: 'loaded',
     });
-
-    return responses;
   } catch (error) {
     walletBalance.setState({
       withdrawingState: 'failed',

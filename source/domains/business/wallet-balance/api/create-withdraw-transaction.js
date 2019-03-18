@@ -2,15 +2,12 @@
 import { apiClient } from '~/domains/app/api-client';
 
 import * as AddressTypes from '~/domains/business/address/types';
-
-/**
- * @todo response types  ??
- */
+import * as TransactionsTypes from '~/domains/business/transactions/types';
 
 export async function createWithdrawTransaction(
   address: AddressTypes.Address,
-): Promise<any> {
+): Promise<TransactionsTypes.Transaction> {
   return apiClient
-    .get(`/locks/${address}/release`)
+    .post(`/locks/${address}/release`)
     .then((response) => response.data);
 }
