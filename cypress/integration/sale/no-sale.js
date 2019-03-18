@@ -241,87 +241,83 @@ describe('No public sale', () => {
       .find('tbody tr')
       .should('have.length', 6);
 
-    cy.wait(5000);
+    cy.wait(5000).then(() => {
+      balanceOverview.getNextUnlockDate().should('not.to.contain', '1 day');
+      balanceOverview.getCountdownDays().should('not.be.visible');
+      balanceOverview.getCountdown().should('be.visible');
 
-    balanceOverview.getNextUnlockDate().should('not.to.contain', '1 day');
-    balanceOverview.getCountdownDays().should('not.be.visible');
-    balanceOverview.getCountdown().should('be.visible');
+      const closestEvent = Date.now() + 1000 * 5;
 
-    const closestEvent = Date.now() + 5000;
-
-    const balanceResponseWithClosestEvent = {
-      balance: 100,
-      totalReceived: 100,
-      locks: [
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 25000,
-            released: 15000,
-            vested: 20000,
-          },
-          unlockEvents: [
+      cy.route({
+        method: 'GET',
+        url: '**/balance',
+        delay: 500,
+        status: 200,
+        response: {
+          balance: 100,
+          totalReceived: 100,
+          locks: [
             {
-              date: Date.now() + day + 7000,
-              amount: 1000,
+              address: 'very long long long address',
+              balance: {
+                total: 25000,
+                released: 15000,
+                vested: 20000,
+              },
+              unlockEvents: [
+                {
+                  date: Date.now() + day + 7000,
+                  amount: 1234,
+                },
+                {
+                  date: closestEvent,
+                  amount: 1500,
+                },
+                {
+                  date: Date.now() + day + 8000,
+                  amount: 1200,
+                },
+              ],
             },
             {
-              date: closestEvent,
-              amount: 1500,
-            },
-            {
-              date: Date.now() + day + 8000,
-              amount: 1000,
+              address: 'very long long long address',
+              balance: {
+                total: 20000,
+                released: 5000,
+                vested: 6000,
+              },
+              unlockEvents: [
+                {
+                  date: Date.now() + day + 9000,
+                  amount: 1300,
+                },
+                {
+                  date: Date.now() + day + 10000,
+                  amount: 1400,
+                },
+                {
+                  date: Date.now() + day + 11000,
+                  amount: 1500,
+                },
+              ],
             },
           ],
         },
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 20000,
-            released: 5000,
-            vested: 6000,
-          },
-          unlockEvents: [
-            {
-              date: Date.now() + day + 9000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + day + 10000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + day + 11000,
-              amount: 1000,
-            },
-          ],
-        },
-      ],
-    };
+      }).as('nextBalanceRequest');
 
-    cy.route({
-      method: 'GET',
-      url: '**/balance',
-      delay: 500,
-      status: 200,
-      response: balanceResponseWithClosestEvent,
-    }).as('nextBalanceRequest');
+      cy.wait('@nextBalanceRequest');
 
-    cy.wait('@nextBalanceRequest');
+      balanceOverview.getRoot().should('be.visible');
 
-    balanceOverview.getRoot().should('be.visible');
+      balanceOverview.getWithdrawButton().should('be.visible');
+      balanceOverview
+        .getNextUnlockDate()
+        .should('have.attr', 'data-raw-value')
+        .and('equal', String(closestEvent));
 
-    balanceOverview.getWithdrawButton().should('be.visible');
-    balanceOverview
-      .getNextUnlockDate()
-      .should('have.attr', 'data-raw-value')
-      .and('equal', String(closestEvent));
+      balanceOverview.getNextUnlockDate().should('be.visible');
 
-    balanceOverview.getNextUnlockDate().should('be.visible');
-
-    cy.wait(3000);
-
-    balanceOverview.getRefreshNotification().should('be.visible');
+      balanceOverview.getRefreshNotification().should('be.visible');
+    });
   });
 });
