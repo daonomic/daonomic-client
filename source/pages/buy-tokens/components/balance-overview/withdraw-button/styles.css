@@ -1,0 +1,8 @@
+.error {
+  margin-left: 10px;
+  color: var(--color-danger);
+}
+
+.button {
+  vertical-align: middle;
+}

@@ -5,7 +5,8 @@ import React from 'react';
 import { Trans, NumberFormat, Plural } from '@lingui/macro';
 import Countdown from 'react-countdown-now';
 import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
-import { Panel, Button } from '@daonomic/ui';
+import { Panel } from '@daonomic/ui';
+import { WithdrawButton } from './withdraw-button';
 import { getMarker } from '~/utils/get-marker';
 import { UnlockEventsTable } from './unlock-events-table';
 import { Title } from './title';
@@ -13,11 +14,12 @@ import styles from './styles.css';
 
 export type Props = {|
   tokenSymbol: string,
+  onWithdraw: () => mixed,
 |};
 
 const marker = getMarker('balance-overview');
 
-export function BalanceOverview({ tokenSymbol }: Props) {
+export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
   return (
     <WalletBalanceProvider>
       {({
@@ -60,14 +62,13 @@ export function BalanceOverview({ tokenSymbol }: Props) {
                   </Trans>
                 </span>
                 <span className={styles.symbol}>{tokenSymbol}</span>
-                <Button
-                  size="s"
-                  className={styles.withdraw}
-                  disabled
-                  data-marker={marker('withdraw-button')()}
-                >
-                  <Trans>Withdraw</Trans>
-                </Button>
+                <div className={styles.withdrawButton}>
+                  <WithdrawButton
+                    data-marker={marker('withdraw-button')()}
+                    onClick={onWithdraw}
+                    withdrawingState={state.withdrawingState}
+                  />
+                </div>
               </li>
               {nextUnlockEvent && (
                 <li className={styles.item}>

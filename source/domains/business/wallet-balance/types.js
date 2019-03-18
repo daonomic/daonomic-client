@@ -19,6 +19,7 @@ export type Lock = {|
 |};
 
 export type State = {|
+  withdrawingState: DataStateTypes.DataState,
   dataState: DataStateTypes.DataState,
   balance: number,
   totalReceived: number,
