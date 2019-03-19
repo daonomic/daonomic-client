@@ -7,6 +7,13 @@ import { balanceOverview } from '../../objects/balanceOverview';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
 
+function multiplyUnlockEvent(unlockEvent, multiplier) {
+  return {
+    date: unlockEvent.date * multiplier,
+    amount: unlockEvent.amount * multiplier,
+  };
+}
+
 describe('No public sale', () => {
   beforeEach(() => {
     cy.server();
@@ -46,7 +53,7 @@ describe('No public sale', () => {
     balanceOverview.getRoot().should('not.be.visible');
   });
 
-  it('Should display balance with locked', () => {
+  it('Should display wallet balance and locked tokens balance', () => {
     cy.server();
 
     const balanceResponse = {
@@ -125,7 +132,7 @@ describe('No public sale', () => {
       .and('equal', String(balanceResponse.balance));
   });
 
-  it('Should display balance without locked', () => {
+  it('Should display wallet balance without locked tokens balance', () => {
     cy.fillUserData({ address: testUserAddress });
 
     balance.getRoot().should('be.visible');
@@ -138,10 +145,12 @@ describe('No public sale', () => {
       .and('equal', '0');
   });
 
-  it.only('Should display balance overview with unlock events', () => {
+  it('Should display balance overview with unlock events', () => {
     const day = 1000 * 60 * 60 * 24;
-    const nextUnlockEventTimestamp = Date.now() + day + 6000;
-
+    const nextUnlockEvent = {
+      date: Date.now() + day + 6000,
+      amount: 1000,
+    };
     const balanceResponse = {
       balance: 100,
       totalReceived: 100,
@@ -154,18 +163,9 @@ describe('No public sale', () => {
             vested: 20000,
           },
           unlockEvents: [
-            {
-              date: nextUnlockEventTimestamp,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + day + 7000,
-              amount: 1500,
-            },
-            {
-              date: Date.now() + day + 8000,
-              amount: 1000,
-            },
+            nextUnlockEvent,
+            multiplyUnlockEvent(nextUnlockEvent, 2),
+            multiplyUnlockEvent(nextUnlockEvent, 3),
           ],
         },
         {
@@ -176,18 +176,9 @@ describe('No public sale', () => {
             vested: 6000,
           },
           unlockEvents: [
-            {
-              date: Date.now() + day + 9000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + day + 10000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + day + 11000,
-              amount: 1000,
-            },
+            multiplyUnlockEvent(nextUnlockEvent, 4),
+            multiplyUnlockEvent(nextUnlockEvent, 5),
+            multiplyUnlockEvent(nextUnlockEvent, 6),
           ],
         },
       ],
@@ -224,12 +215,17 @@ describe('No public sale', () => {
 
     balanceOverview.getWithdrawButton().should('be.visible');
 
-    balanceOverview.getNextUnlockDate().should('be.visible');
-    balanceOverview.getNextUnlockDate().should('contain', '1 day');
     balanceOverview
       .getNextUnlockDate()
+      .should('be.visible')
+      .should('contain', '1 day')
       .should('have.attr', 'data-raw-value')
-      .and('equal', String(nextUnlockEventTimestamp));
+      .and('equal', String(nextUnlockEvent.date));
+    balanceOverview
+      .getNextUnlockAmount()
+      .should('be.visible')
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(nextUnlockEvent.amount));
 
     balanceOverview.getRefreshNotification().should('not.be.visible');
     balanceOverview.getUnlocksTable().should('be.visible');
@@ -246,7 +242,10 @@ describe('No public sale', () => {
       balanceOverview.getCountdownDays().should('not.be.visible');
       balanceOverview.getCountdown().should('be.visible');
 
-      const closestEvent = Date.now() + 1000 * 5;
+      const nextUnlockEvent2 = {
+        date: Date.now() + 1000 * 5,
+        amount: 2000,
+      };
 
       cy.route({
         method: 'GET',
@@ -265,18 +264,9 @@ describe('No public sale', () => {
                 vested: 20000,
               },
               unlockEvents: [
-                {
-                  date: Date.now() + day + 7000,
-                  amount: 1234,
-                },
-                {
-                  date: closestEvent,
-                  amount: 1500,
-                },
-                {
-                  date: Date.now() + day + 8000,
-                  amount: 1200,
-                },
+                multiplyUnlockEvent(nextUnlockEvent2, 2),
+                nextUnlockEvent2,
+                multiplyUnlockEvent(nextUnlockEvent2, 3),
               ],
             },
             {
@@ -287,18 +277,9 @@ describe('No public sale', () => {
                 vested: 6000,
               },
               unlockEvents: [
-                {
-                  date: Date.now() + day + 9000,
-                  amount: 1300,
-                },
-                {
-                  date: Date.now() + day + 10000,
-                  amount: 1400,
-                },
-                {
-                  date: Date.now() + day + 11000,
-                  amount: 1500,
-                },
+                multiplyUnlockEvent(nextUnlockEvent2, 4),
+                multiplyUnlockEvent(nextUnlockEvent2, 5),
+                multiplyUnlockEvent(nextUnlockEvent2, 6),
               ],
             },
           ],
@@ -312,10 +293,14 @@ describe('No public sale', () => {
       balanceOverview.getWithdrawButton().should('be.visible');
       balanceOverview
         .getNextUnlockDate()
+        .should('be.visible')
         .should('have.attr', 'data-raw-value')
-        .and('equal', String(closestEvent));
-
-      balanceOverview.getNextUnlockDate().should('be.visible');
+        .and('equal', String(nextUnlockEvent2.date));
+      balanceOverview
+        .getNextUnlockAmount()
+        .should('be.visible')
+        .should('have.attr', 'data-raw-value')
+        .and('equal', String(nextUnlockEvent2.amount));
 
       balanceOverview.getRefreshNotification().should('be.visible');
     });

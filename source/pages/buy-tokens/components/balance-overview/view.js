@@ -94,7 +94,11 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                             const { minutes, days, hours, seconds } = countdown;
 
                             const renderedUnlockEventAmount = (
-                              <span className={styles.amount}>
+                              <span
+                                data-marker={marker('next-unlock-amount')()}
+                                data-raw-value={nextUnlockEvent.amount}
+                                className={styles.amount}
+                              >
                                 <span>(</span>
                                 <NumberFormat value={nextUnlockEvent.amount} />
                                 <span className={styles.symbol}>
@@ -119,7 +123,8 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                                       zero="0 days"
                                     />{' '}
                                     {hours}:{minutes}:{seconds}
-                                  </Trans>
+                                  </Trans>{' '}
+                                  {renderedUnlockEventAmount}
                                 </span>
                               );
                             }
@@ -128,7 +133,7 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                               <span data-marker={marker('countdown')()}>
                                 <Trans>
                                   in {hours}:{minutes}:{seconds}
-                                </Trans>
+                                </Trans>{' '}
                                 {renderedUnlockEventAmount}
                               </span>
                             );
