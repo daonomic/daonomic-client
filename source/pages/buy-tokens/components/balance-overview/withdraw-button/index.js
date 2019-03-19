@@ -9,14 +9,19 @@ import styles from './styles.css';
 
 type Props = {
   withdrawingState: DataStateTypes.DataState,
+  disabled: boolean,
 };
 
 export function WithdrawButton(props: Props) {
-  const { withdrawingState, ...restProps } = props;
+  const { withdrawingState, disabled, ...restProps } = props;
 
   return (
     <span className={styles.button}>
-      <Button size="s" disabled={withdrawingState === 'loading'} {...restProps}>
+      <Button
+        size="s"
+        disabled={withdrawingState === 'loading' || disabled}
+        {...restProps}
+      >
         <Trans>Withdraw</Trans>
       </Button>
       {withdrawingState === 'failed' && (
