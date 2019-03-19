@@ -12,8 +12,7 @@ export function init(auth: IAuth, kyc: KycStore, token: TokenStore) {
     if (
       auth.isAuthenticated &&
       token.state.dataState === 'loaded' &&
-      token.sale &&
-      (token.sale.data.features || []).includes('REFERRAL')
+      (token.state.data.features || []).includes('REFERRAL')
     ) {
       referralProgramStore.setSupport({ isSupported: true });
     }

@@ -56,7 +56,7 @@ export function Balance(props: Props) {
 
                 <p className={styles.balance}>
                   <span
-                    data-marker={marker('locked')()}
+                    data-marker={marker('locked-balance')()}
                     data-raw-value={lockedBalance}
                   >
                     <NumberFormat value={lockedBalance} />

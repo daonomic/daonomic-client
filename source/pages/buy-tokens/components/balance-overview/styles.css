@@ -8,6 +8,10 @@
   font-size: inherit;
 }
 
+.item > * {
+  vertical-align: middle;
+}
+
 .item:not(:last-child) {
   margin-bottom: 0.5em;
 }
@@ -17,7 +21,8 @@
   opacity: 0.8;
 }
 
-.withdraw {
+.withdrawButton {
+  display: inline-block;
   margin-left: 0.5em;
 }
 

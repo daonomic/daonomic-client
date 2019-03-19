@@ -34,7 +34,7 @@ msgstr "После завершения платежа токены будут �
 msgid "Already have an account?"
 msgstr "Уже есть аккаунт?"
 
-#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:53
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:51
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
 msgid "Amount"
 msgstr "Количество"
@@ -112,7 +112,7 @@ msgstr "Создание нового пароля"
 msgid "Create wallet"
 msgstr "Создание кошелька"
 
-#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:37
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:35
 #: source/pages/buy-tokens/components/transactions/view.js:55
 msgid "Date"
 msgstr "Дата"
@@ -173,7 +173,7 @@ msgstr "Не удалось загрузить статистику"
 msgid "Failed to load transactions"
 msgstr "Не удалось загрузить транзакции"
 
-#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:28
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:26
 msgid "Failed to load unlock events"
 msgstr "Не удалось загрузить события разлочки"
 
@@ -233,14 +233,14 @@ msgid "New password have been created"
 msgstr "Новый пароль создан"
 
 #: source/pages/buy-tokens/components/balance-overview/view.js:78
-msgid "Next unlock event: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
-msgstr "Следующая разблокировка: <0><1/><2><3>(</3>{0,number}<4>{tokenSymbol}</4><5>)</5></2></0>"
+msgid "Next unlock event: <0><1/></0>"
+msgstr "Следующая разблокировка: <0><1/></0>"
 
 #: source/pages/buy-tokens/components/transactions/view.js:48
 msgid "No transactions found"
 msgstr "Транзакции не найдены"
 
-#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:27
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:25
 msgid "No unlock events found"
 msgstr "Не удалось найти события разлочки"
 
@@ -270,7 +270,7 @@ msgstr "Пароли должны совпадать"
 msgid "Payment Instruction"
 msgstr "Инструкция по оплате"
 
-#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:63
+#: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:61
 msgid "Percentage"
 msgstr "Доля"
 
@@ -323,7 +323,7 @@ msgstr "Реферальная ссылка"
 msgid "Referral will become available after the KYC approval."
 msgstr "Партнёрская программа станет доступна после прохождения KYC."
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:85
+#: source/pages/buy-tokens/components/balance-overview/view.js:88
 msgid "Refresh page to update status"
 msgstr "Обновите страницу, чтобы увидеть статус"
 
@@ -421,7 +421,7 @@ msgstr "Информация о транзакции"
 msgid "Transactions"
 msgstr "Транзакции"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:122
+#: source/pages/buy-tokens/components/balance-overview/view.js:148
 msgid "Unlock schedule"
 msgstr "Расписание разлочек"
 
@@ -495,11 +495,11 @@ msgstr "Регистрация"
 msgid "createEthWalletTitle"
 msgstr "Создание кошелька Ethereum"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:93
-msgid "in {days} days {hours}:{minutes}:{seconds}"
-msgstr "через {days} дней {hours}:{minutes}:{seconds}"
+#: source/pages/buy-tokens/components/balance-overview/view.js:109
+msgid "in {days, plural, one {1 day} two {# days} few {# days} many {# days} other {# days} zero {0 days}} {hours}:{minutes}:{seconds}"
+msgstr "in {days} {days, plural, one {1 день} two {# дня} few {# дня} many {# дней} other {# дней} zero {0 дней}} {hours}:{minutes}:{seconds}"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:100
+#: source/pages/buy-tokens/components/balance-overview/view.js:128
 msgid "in {hours}:{minutes}:{seconds}"
 msgstr "через {hours}:{minutes}:{seconds}"
 

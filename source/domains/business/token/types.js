@@ -4,4 +4,5 @@ export type Data = {|
   address: string,
   name: string,
   symbol: string,
+  features?: string[],
 |};

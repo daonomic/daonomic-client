@@ -10,6 +10,10 @@ class Balance {
   getAmount() {
     return cy.get(this.marker('amount')());
   }
+
+  getLockedBalance() {
+    return cy.get(this.marker('locked-balance')());
+  }
 }
 
 export const balance = new Balance();
