@@ -5,7 +5,7 @@ import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
 import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 
-describe.skip('Referral', () => {
+describe('Referral', () => {
   let currentIco = null;
   let currentUser = null;
 
