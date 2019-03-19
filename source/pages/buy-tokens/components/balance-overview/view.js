@@ -65,6 +65,7 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                 <div className={styles.withdrawButton}>
                   <WithdrawButton
                     data-marker={marker('withdraw-button')()}
+                    disabled={locksAvailable === 0}
                     onClick={onWithdraw}
                     withdrawingState={state.withdrawingState}
                   />
