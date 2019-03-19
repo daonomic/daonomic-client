@@ -39,11 +39,11 @@ msgstr "Уже есть аккаунт?"
 msgid "Amount"
 msgstr "Количество"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:55
+#: source/pages/buy-tokens/components/balance-overview/view.js:57
 msgid "Available: <0>{locksAvailable,number}</0>"
 msgstr "Доступно: <0>{locksAvailable,number}</0>"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:33
+#: source/pages/buy-tokens/components/balance-overview/view.js:35
 msgid "Balance Statistics"
 msgstr "Статистика по балансу"
 
@@ -65,10 +65,6 @@ msgstr "Куплено"
 #: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:63
 msgid "Buy"
 msgstr "Купить"
-
-#: source/components/header/components/navigation/view.js:23
-msgid "Buy tokens"
-msgstr "Покупка токенов"
 
 #: source/pages/faq/components/email-us/index.js:20
 msgid "Can’t find what are you looking for?"
@@ -207,7 +203,7 @@ msgstr "Инструкции по сбросу пароля отправлены
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
 #: source/pages/buy-tokens/components/payment-method/address/index.js:27
 #: source/pages/buy-tokens/components/referral-program/view.js:23
-#: source/pages/buy-tokens/view.js:49
+#: source/pages/buy-tokens/view.js:55
 #: source/pages/referral/components/referral-link/view.js:23
 #: source/pages/referral/components/referral-statistics/view.js:20
 msgid "Loading..."
@@ -224,6 +220,10 @@ msgstr "Войти"
 msgid "Log Out"
 msgstr "Выйти"
 
+#: source/components/header/components/navigation/view.js:23
+msgid "Manage tokens"
+msgstr "Управление токенами"
+
 #: source/components/auth/create-new-password/index.js:80
 msgid "New password"
 msgstr "Новый пароль"
@@ -232,7 +232,7 @@ msgstr "Новый пароль"
 msgid "New password have been created"
 msgstr "Новый пароль создан"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:78
+#: source/pages/buy-tokens/components/balance-overview/view.js:79
 msgid "Next unlock event: <0><1/></0>"
 msgstr "Следующая разблокировка: <0><1/></0>"
 
@@ -323,7 +323,7 @@ msgstr "Реферальная ссылка"
 msgid "Referral will become available after the KYC approval."
 msgstr "Партнёрская программа станет доступна после прохождения KYC."
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:88
+#: source/pages/buy-tokens/components/balance-overview/view.js:89
 msgid "Refresh page to update status"
 msgstr "Обновите страницу, чтобы увидеть статус"
 
@@ -356,8 +356,9 @@ msgstr "Отправить инструкцию"
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
+#: source/pages/buy-tokens/components/balance-overview/withdraw-button/index.js:24
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
-#: source/pages/buy-tokens/view.js:34
+#: source/pages/buy-tokens/view.js:35
 msgid "Something went wrong"
 msgstr "Что-то пошло не так"
 
@@ -409,7 +410,7 @@ msgstr "Распродажа начнётся через {days, plural, one {1 �
 msgid "Tokens sold"
 msgstr "Продано"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:41
+#: source/pages/buy-tokens/components/balance-overview/view.js:43
 msgid "Total received: <0>{0,number}</0>"
 msgstr "Всего получено: <0>{0,number}</0>"
 
@@ -421,7 +422,7 @@ msgstr "Информация о транзакции"
 msgid "Transactions"
 msgstr "Транзакции"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:148
+#: source/pages/buy-tokens/components/balance-overview/view.js:149
 msgid "Unlock schedule"
 msgstr "Расписание разлочек"
 
@@ -445,7 +446,7 @@ msgstr "На проверке"
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr "Нам нужно "
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:69
+#: source/pages/buy-tokens/components/balance-overview/withdraw-button/index.js:20
 msgid "Withdraw"
 msgstr "Снять средства"
 
@@ -495,11 +496,11 @@ msgstr "Регистрация"
 msgid "createEthWalletTitle"
 msgstr "Создание кошелька Ethereum"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:109
+#: source/pages/buy-tokens/components/balance-overview/view.js:110
 msgid "in {days, plural, one {1 day} two {# days} few {# days} many {# days} other {# days} zero {0 days}} {hours}:{minutes}:{seconds}"
 msgstr "in {days} {days, plural, one {1 день} two {# дня} few {# дня} many {# дней} other {# дней} zero {0 дней}} {hours}:{minutes}:{seconds}"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:128
+#: source/pages/buy-tokens/components/balance-overview/view.js:129
 msgid "in {hours}:{minutes}:{seconds}"
 msgstr "через {hours}:{minutes}:{seconds}"
 

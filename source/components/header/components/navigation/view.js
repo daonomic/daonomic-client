@@ -20,7 +20,7 @@ export class HeaderNavigation extends React.Component<Props> {
       {
         routeName: 'buyTokens',
         marker: this.marker('buy-tokens')(),
-        content: <Trans>Buy tokens</Trans>,
+        content: <Trans>Manage tokens</Trans>,
       },
     ];
 
