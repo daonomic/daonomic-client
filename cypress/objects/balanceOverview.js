@@ -23,6 +23,10 @@ class BalanceOverview {
     return cy.get(this.marker('next-unlock-date')());
   }
 
+  getNextUnlockAmount() {
+    return cy.get(this.marker('next-unlock-amount')());
+  }
+
   getUnlocksTable() {
     return cy.get(this.marker('unlocks-table')());
   }
