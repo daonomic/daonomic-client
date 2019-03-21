@@ -7,7 +7,7 @@ import wallet from '../../support/web3-mock/wallet';
 
 describe('Simple KYC flow', () => {
   beforeEach(() => {
-    cy.createUser().then(({ email, password }) => {
+    cy.createInvestor().then(({ email, password }) => {
       cy.login({ email, password });
     });
   });

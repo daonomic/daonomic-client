@@ -35,7 +35,7 @@ describe('Referral', () => {
       .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
       .then((ico) => {
         currentIco = ico;
-        return cy.createUser({ ico });
+        return cy.createInvestor({ ico });
       })
       .then((user) => {
         currentUser = user;

@@ -1,4 +1,4 @@
-import { testKycServerUrl } from '../../../config';
+import { baseKycServerUrl } from '../../../config';
 
 Cypress.Commands.add('getInternalKycParams', ({ fields }) => {
   return {
@@ -6,7 +6,7 @@ Cypress.Commands.add('getInternalKycParams', ({ fields }) => {
     whitelist: {
       provider: 'SELF_SERVICE',
       selfService: {
-        serverUrl: testKycServerUrl,
+        serverUrl: baseKycServerUrl,
         fields,
       },
     },

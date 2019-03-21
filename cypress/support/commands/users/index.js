@@ -1,2 +1,2 @@
 import './get-current-user';
-import './create-user';
+import './create-investor';
