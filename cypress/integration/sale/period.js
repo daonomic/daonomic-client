@@ -18,7 +18,7 @@ describe('Sale period', () => {
       ...data,
       sale: assoc('period', salePeriod, data.sale),
     })).then((ico) => {
-      cy.createUser({ ico })
+      cy.createInvestor({ ico })
         .then(({ email, password }) => cy.login({ ico, email, password }))
         .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
     });
@@ -38,7 +38,7 @@ describe('Sale period', () => {
       ...data,
       sale: assoc('period', salePeriod, data.sale),
     })).then((ico) => {
-      cy.createUser({ ico })
+      cy.createInvestor({ ico })
         .then(({ email, password }) => cy.login({ ico, email, password }))
         .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
     });
@@ -49,7 +49,7 @@ describe('Sale period', () => {
   });
 
   it('Should show payment method if sale is active', () => {
-    cy.createUser()
+    cy.createInvestor()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
 

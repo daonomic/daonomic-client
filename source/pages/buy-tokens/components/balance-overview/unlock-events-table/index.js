@@ -50,10 +50,10 @@ export function UnlockEventsTable(props: Props) {
           id: 'amount',
           name: <Trans>Amount</Trans>,
           render: (unlockEvent: WalletBalanceTypes.UnlockEvent) => (
-            <React.Fragment>
+            <span data-raw-value={unlockEvent.amount}>
               <NumberFormat value={unlockEvent.amount} />
               <span className={styles.symbol}>{tokenSymbol}</span>
-            </React.Fragment>
+            </span>
           ),
         },
         {

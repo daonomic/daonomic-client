@@ -1,6 +1,8 @@
+import { baseTestApiUrl } from '../../config';
+
 export function getEmailLetter({ account, content }) {
   return cy
-    .request('POST', 'http://ops:9090/mails/waitOne', {
+    .request('POST', `${baseTestApiUrl}/mails/waitOne`, {
       email: account,
       content,
     })

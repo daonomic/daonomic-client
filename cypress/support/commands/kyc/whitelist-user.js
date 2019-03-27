@@ -1,10 +1,11 @@
+import { baseAdminApiUrl } from '../../../config';
 import { sendTransaction } from '../../transactions';
 
 Cypress.Commands.add('whitelistUser', ({ ico, userId }) => {
   return cy
     .request({
       method: 'POST',
-      url: `http://ops:9092/v1/tokens/${ico.realmId}/whitelist/set`,
+      url: `${baseAdminApiUrl}/tokens/${ico.realmId}/whitelist/set`,
       body: {
         userId,
         allowed: true,
@@ -16,7 +17,7 @@ Cypress.Commands.add('whitelistUser', ({ ico, userId }) => {
     })
     .then(
       ({ id, txHash }) =>
-        cy.request('POST', `http://ops:9092/v1/transactions/${id}/wait`, {
+        cy.request('POST', `${baseAdminApiUrl}/transactions/${id}/wait`, {
           txHash,
         }),
       { timeout: 1000 * 20 },

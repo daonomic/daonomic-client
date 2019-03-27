@@ -1,10 +1,10 @@
-import { testKycProviderUrl } from '../../../config';
+import { baseTestApiUrl } from '../../../config';
 
 Cypress.Commands.add('createExternalKycProvider', ({ jurisdiction }) => {
   return cy
-    .request('POST', 'http://ops:9090/providers', {
+    .request('POST', `${baseTestApiUrl}/providers`, {
       name: 'Test KYC provider',
-      url: testKycProviderUrl,
+      url: `${baseTestApiUrl}/providers/external`,
       jurisdiction,
     })
     .then(({ body }) => body);

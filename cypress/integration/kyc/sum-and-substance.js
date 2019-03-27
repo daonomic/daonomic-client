@@ -7,7 +7,7 @@ describe('Sum & Substance KYC flow', () => {
     cy.getSumAndSubstanceKycParams()
       .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
       .then((ico) => {
-        return cy.createUser({ ico }).then((user) => {
+        return cy.createInvestor({ ico }).then((user) => {
           cy.login({ ico, email: user.email, password: user.password });
         });
       });

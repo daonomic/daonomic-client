@@ -34,7 +34,7 @@ describe('Internal KYC flow', () => {
       .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
       .then((ico) => {
         currentIco = ico;
-        cy.createUser({ ico }).then((user) => {
+        cy.createInvestor({ ico }).then((user) => {
           currentUser = user;
           cy.login({ ico, email: user.email, password: user.password });
         });

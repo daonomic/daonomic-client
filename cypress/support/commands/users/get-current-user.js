@@ -1,4 +1,4 @@
-import { createUser } from '../../server-api';
+import { createInvestor } from '../../server-api';
 
 let currentUser;
 
@@ -10,7 +10,7 @@ Cypress.Commands.add('getCurrentUser', () => {
   return cy
     .wrap(null)
     .then(cy.getCurrentIco.bind(cy))
-    .then(({ realmId }) => createUser({ realmId }))
+    .then(({ realmId }) => createInvestor({ realmId }))
     .then((user) => {
       currentUser = user;
       return user;

@@ -10,7 +10,7 @@ describe('Immediate tokens purchase with Web3', () => {
   });
 
   it('Should be able to purchase tokens through exchange form', () => {
-    cy.createUser()
+    cy.createInvestor()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: wallet.getAddressString() }));
 
@@ -47,7 +47,7 @@ describe('Immediate tokens purchase with Web3', () => {
       wallet.getAddressString(),
     );
 
-    cy.createUser()
+    cy.createInvestor()
       .then(({ email, password }) => cy.login({ email, password }))
       .then(() => cy.fillUserData({ address: differentUserAddress }));
 
