@@ -4,30 +4,73 @@ export type Form = {|
   uiSchema: {},
 |};
 
-type StateNotSet = {| status: 'NOT_SET', countryRequired: boolean |};
-type StateExternalKyc = {| status: 'EXTERNAL_KYC', url: string |};
+export type AllowedStatusCodes =
+  | 'NOT_SET'
+  | 'EXTERNAL_KYC'
+  | 'INTERNAL_KYC'
+  | 'CIVIC_KYC'
+  | 'SUM_SUB_KYC'
+  | 'ON_REVIEW'
+  | 'DENIED'
+  | 'PROCESSING'
+  | 'ALLOWED';
+
+type StateBase = {|
+  countryRequired?: boolean,
+  config?: {},
+  reason?: string,
+  applicationId?: string,
+  url?: string,
+|};
+
+type StateNotSet = {|
+  ...StateBase,
+  status: 'NOT_SET',
+  countryRequired: boolean,
+|};
+
+type StateExternalKyc = {|
+  ...StateBase,
+  status: 'EXTERNAL_KYC',
+|};
+
 type StateInternalKyc = {|
+  ...StateBase,
   status: 'INTERNAL_KYC',
-  url: string,
   form: Form,
 |};
+
 type StateCivicKyc = {|
+  ...StateBase,
   status: 'CIVIC_KYC',
-  url: string,
-  applicationId: string,
 |};
+
 type StateSumAndSubstanceKyc = {|
+  ...StateBase,
   status: 'SUM_SUB_KYC',
-  config: {},
 |};
-type StateOnReview = {| status: 'ON_REVIEW' |};
+
+type StateOnReview = {|
+  ...StateBase,
+  status: 'ON_REVIEW',
+|};
+
 type StateDenied = {|
+  ...StateBase,
   status: 'DENIED',
   reason?: string,
-  childStatus?: StateInternalKyc | StateExternalKyc,
+  childStatus?: StateInternalKyc | StateExternalKyc | StateSumAndSubstanceKyc,
 |};
-type StateProcessing = {| status: 'PROCESSING' |};
-type StateAllowed = {| status: 'ALLOWED' |};
+
+type StateProcessing = {|
+  ...StateBase,
+  status: 'PROCESSING',
+|};
+
+type StateAllowed = {|
+  ...StateBase,
+  status: 'ALLOWED',
+|};
 
 export type State =
   | StateNotSet
