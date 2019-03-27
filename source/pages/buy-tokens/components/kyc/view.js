@@ -69,16 +69,14 @@ export class KycView extends React.Component<Props> {
     }
   };
 
-  renderContent = (status: KycTypes.AllowedStatusCodes, reason?: string) => {
+  renderContent = (state: KycTypes.State, reason?: string) => {
     const { kycState } = this.props;
 
     if (kycState.dataState !== 'loaded') return null;
 
-    const kycData = kycState.data;
-
-    switch (status) {
+    switch (state.status) {
       case 'NOT_SET': {
-        if (typeof kycData.countryRequired === 'undefined') return null;
+        if (typeof state.countryRequired === 'undefined') return null;
         return (
           <Panel>
             <Title sub={reason}>
@@ -86,7 +84,7 @@ export class KycView extends React.Component<Props> {
             </Title>
 
             <UserDataForm
-              countryRequired={kycData.countryRequired}
+              countryRequired={state.countryRequired}
               onSubmit={this.props.onSubmitUserData}
             />
           </Panel>
@@ -94,10 +92,10 @@ export class KycView extends React.Component<Props> {
       }
 
       case 'DENIED': {
-        if (kycData.childStatus) {
+        if (state.childStatus) {
           return this.renderContent(
-            kycData.childStatus.status,
-            kycData.childStatus.reason,
+            state.childStatus,
+            state.childStatus.reason,
           );
         }
         return (
@@ -109,7 +107,7 @@ export class KycView extends React.Component<Props> {
               className={cn(styles.error)}
             >
               <Trans>Sorry, your data was denied.</Trans> <br />
-              {kycData.reason && <Trans>Denial reason: {kycData.reason}</Trans>}
+              {state.reason && <Trans>Denial reason: {state.reason}</Trans>}
             </p>
           </Panel>
         );
@@ -119,7 +117,7 @@ export class KycView extends React.Component<Props> {
         return (
           <Panel>
             <VerifyIdentityTitle sub={reason} />
-            {this.renderForm(kycData)}
+            {this.renderForm(state)}
           </Panel>
         );
       }
@@ -128,7 +126,7 @@ export class KycView extends React.Component<Props> {
         return (
           <Panel data-marker={this.exteralKycMarker()}>
             <VerifyIdentityTitle sub={reason} />
-            {this.renderForm(kycData)}
+            {this.renderForm(state)}
           </Panel>
         );
       }
@@ -138,8 +136,8 @@ export class KycView extends React.Component<Props> {
           <Panel>
             <VerifyIdentityTitle sub={reason} />
             <CivicKycForm
-              action={kycData.url}
-              applicationId={kycData.applicationId}
+              action={state.url}
+              applicationId={state.applicationId}
             />
           </Panel>
         );
@@ -149,7 +147,7 @@ export class KycView extends React.Component<Props> {
         return (
           <Panel>
             <VerifyIdentityTitle sub={reason} />
-            <SumsubKycForm configuration={kycData.config} />
+            <SumsubKycForm configuration={state.config} />
           </Panel>
         );
       }
@@ -208,7 +206,7 @@ export class KycView extends React.Component<Props> {
       }
 
       default: {
-        (status: empty);
+        (state.status: empty);
         return null;
       }
     }
@@ -217,12 +215,8 @@ export class KycView extends React.Component<Props> {
   render() {
     const { kycState } = this.props;
 
-    if (kycState.dataState !== 'loaded') {
-      return null;
-    }
+    if (kycState.dataState !== 'loaded') return null;
 
-    const kycData = kycState.data;
-
-    return this.renderContent(kycData.status);
+    return this.renderContent(kycState.data);
   }
 }
