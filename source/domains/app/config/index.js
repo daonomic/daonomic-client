@@ -8,7 +8,7 @@ export const environment: 'development' | 'staging' | 'production' =
 const realms = {
   development: '',
   staging: '5c8fb92adfe5224664edfa11',
-  production: '',
+  production: '5c9b6e124c76b06a3c608658',
 };
 
 export const config = {
