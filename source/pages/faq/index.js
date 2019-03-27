@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import cns from 'classnames';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import { Panel } from '@daonomic/ui';
@@ -11,8 +12,8 @@ import styles from './faq.css';
 
 type Props = {
   entries: {|
-    question: string,
-    answer: string,
+    title: string,
+    questions: {| answer: string, question: string |}[],
   |}[],
 };
 
@@ -27,21 +28,36 @@ export class FaqPage extends React.PureComponent<Props> {
     return (
       <div>
         <Panel>
-          <Heading tagName="h1" size="normal" className={styles.title}>
+          <Heading
+            tagName="h1"
+            size="normal"
+            className={cns(styles.title, styles.padded)}
+          >
             <Trans>Frequently asked questions</Trans>
           </Heading>
 
-          <div className={styles.list}>
-            {entries.map(({ question, answer }) => (
-              <Spoiler key={question} title={question}>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: answer,
-                  }}
-                />
-              </Spoiler>
-            ))}
-          </div>
+          {entries.map((section) => (
+            <section key={section.title} className={styles.section}>
+              <Heading
+                tagName="h2"
+                size="normal"
+                className={cns(styles.subtitle, styles.padded)}
+              >
+                {section.title}
+              </Heading>
+              <div className={styles.list}>
+                {section.questions.map(({ question, answer }) => (
+                  <Spoiler key={question} title={question}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: answer,
+                      }}
+                    />
+                  </Spoiler>
+                ))}
+              </div>
+            </section>
+          ))}
         </Panel>
 
         <EmailUs />

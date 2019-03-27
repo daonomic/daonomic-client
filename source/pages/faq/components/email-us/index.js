@@ -16,7 +16,7 @@ export class EmailUs extends React.PureComponent<Props> {
 
     return (
       <Panel>
-        <Text align="center" element="p">
+        <Text style={{ marginBottom: 0 }} align="center" element="p">
           <Trans>Can’t find what are you looking for?</Trans>{' '}
           <a href={`mailto:${config.contactEmail}`} className={textStyles.link}>
             <Trans>Email us</Trans>
