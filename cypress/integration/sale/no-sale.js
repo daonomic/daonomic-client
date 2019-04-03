@@ -1,11 +1,16 @@
 import { testUserAddress } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
+import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
 import { tokenPrice } from '../../objects/token-price';
 import { balance } from '../../objects/balance';
 import { balanceOverview } from '../../objects/balanceOverview';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
+
+/**
+ * Also known as 'Private sale'
+ */
 
 function multiplyUnlockEvent(unlockEvent, multiplier) {
   return {
@@ -14,39 +19,82 @@ function multiplyUnlockEvent(unlockEvent, multiplier) {
   };
 }
 
+const simpleInternalFields = [
+  {
+    name: 'terms',
+    label: 'Agree with the terms and conditions',
+    type: 'BOOLEAN',
+    required: true,
+  },
+];
+
+const privatePoolName = 'Private Sale 01';
+
+const simplePrivatePool = {
+  name: privatePoolName,
+  startType: 'DIRECT',
+  amount: 10000,
+};
+
 describe('No public sale', () => {
   let currentUser = null;
 
   beforeEach(() => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      url: '**/config',
-      delay: 500,
-      status: 200,
-      response: 'fixture:api/config/no-sale.json',
-    }).as('configRequest');
+    cy.createIco((data) => ({
+      ...data,
+      kyc: {
+        provider: 'SELF_SERVICE',
+      },
+      pools: {
+        pools: [simplePrivatePool],
+      },
+      sale: {
+        type: 'PRIVATE',
+      },
+    }))
+      .then((ico) =>
+        cy
+          .getInternalKycParams({
+            fields: simpleInternalFields,
+          })
+          .then((internalParams) =>
+            cy
+              .updateTokenKyc(ico.realmId, ico.adminData.token, internalParams)
+              .then(() => ico),
+          ),
+      )
+      .then((ico) => {
+        cy.createUser({ ico }).then((user) => {
+          currentUser = user;
 
-    cy.createUser().then((user) => {
-      currentUser = user;
-      cy.login({ email: user.email, password: user.password });
-    });
+          cy.login({
+            ico: user.ico,
+            email: user.email,
+            password: user.password,
+          });
+        });
+      })
+      .then(() => {
+        cy.fillUserData({ address: testUserAddress });
+
+        // extendedKycForm.getRoot().should('be.visible');
+        // extendedKycForm.getCheckbox({ name: 'terms' }).click();
+        // extendedKycForm.getSubmit().click();
+      })
+      .then(() => {
+        // cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
+      });
   });
 
   afterEach(() => {
     cy.logout();
   });
 
-  it('Should allow passing KYC, but should not show payment and token price widgets after approval', () => {
+  it('Should not show payment and token price widgets after login', () => {
     tokenPrice.getRoot().should('not.exist');
     transactions.getRoot().should('not.exist');
     userDataForm.getRoot().should('be.visible');
     balance.getRoot().should('be.visible');
-
-    cy.fillUserData({ address: testUserAddress });
-    cy.fillExtendedKycForm();
-
-    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     userDataForm.getRoot().should('not.exist');
     paymentMethod.getRoot().should('not.exist');
@@ -59,7 +107,15 @@ describe('No public sale', () => {
     balanceOverview.getRoot().should('not.be.visible');
   });
 
-  it('Should display wallet balance and locked tokens balance', () => {
+  it.only('Should display wallet balance and locked tokens balance', () => {
+    cy.createHolder(currentUser.ico, {
+      name: privatePoolName,
+      address: testUserAddress,
+      amount: 1000,
+    }).then((holder) => {
+      console.log(holder);
+    });
+
     cy.server();
 
     const balanceResponse = {
