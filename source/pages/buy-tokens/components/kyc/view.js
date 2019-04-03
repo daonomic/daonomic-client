@@ -3,6 +3,7 @@ import * as React from 'react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 import cn from 'classnames';
+import { config } from '~/domains/app/config';
 import { Spinner, Input, Panel, Badge } from '@daonomic/ui';
 import { Title } from './title';
 import { getMarker } from '~/utils/get-marker';
@@ -75,8 +76,26 @@ export class KycView extends React.Component<Props> {
     if (kycState.dataState !== 'loaded') return null;
 
     switch (state.status) {
+      case 'KYC_NOT_CONFIGURED': {
+        return (
+          <Panel className={styles.unconfigured}>
+            <Title>
+              <Trans>KYC is not configured</Trans>
+            </Title>
+            <p>
+              Please{' '}
+              <a href={`mailto:${config.contactEmail}?subject=Enable KYC Form`}>
+                contact support
+              </a>{' '}
+              to enable KYC form
+            </p>
+          </Panel>
+        );
+      }
+
       case 'NOT_SET': {
         if (typeof state.countryRequired === 'undefined') return null;
+
         return (
           <Panel>
             <Title sub={reason}>
@@ -155,7 +174,7 @@ export class KycView extends React.Component<Props> {
       case 'ON_REVIEW': {
         return (
           <Panel>
-            <Badge color="danger">
+            <Badge color="danger" className={styles.badge}>
               <Trans>Waiting for review</Trans>
             </Badge>
             <p

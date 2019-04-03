@@ -39,11 +39,11 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:55
+#: source/pages/buy-tokens/components/balance-overview/view.js:57
 msgid "Available: <0>{locksAvailable,number}</0>"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:33
+#: source/pages/buy-tokens/components/balance-overview/view.js:35
 msgid "Balance Statistics"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Congrats! Referral code <0>{0}</0> is applied and you will get bonus for tokens purchase."
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:188
+#: source/pages/buy-tokens/components/kyc/view.js:204
 msgid "Congrats! Your data is approved and now being processed. Please wait a bit, usually it takes 1-2 minutes."
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:111
+#: source/pages/buy-tokens/components/kyc/view.js:129
 msgid "Denial reason: {0}"
 msgstr ""
 
@@ -202,6 +202,10 @@ msgstr ""
 msgid "Instructions to reset your password have been sent to you. Please check your email."
 msgstr ""
 
+#: source/pages/buy-tokens/components/kyc/view.js:83
+msgid "KYC is not configured"
+msgstr ""
+
 #: source/components/external-select/index.js:59
 #: source/components/json-schema-form/external-select/index.js:68
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
@@ -232,7 +236,7 @@ msgstr ""
 msgid "New password have been created"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:78
+#: source/pages/buy-tokens/components/balance-overview/view.js:80
 msgid "Next unlock event: <0><1/></0>"
 msgstr ""
 
@@ -272,10 +276,6 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:61
 msgid "Percentage"
-msgstr ""
-
-#: source/pages/buy-tokens/components/kyc/view.js:108
-msgid "Please, fix and resubmit your data."
 msgstr ""
 
 #: source/components/footer/index.js:42
@@ -323,7 +323,7 @@ msgstr ""
 msgid "Referral will become available after the KYC approval."
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:88
+#: source/pages/buy-tokens/components/balance-overview/view.js:90
 msgid "Refresh page to update status"
 msgstr ""
 
@@ -356,6 +356,7 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
+#: source/pages/buy-tokens/components/balance-overview/withdraw-button/index.js:29
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
 #: source/pages/buy-tokens/view.js:34
 msgid "Something went wrong"
@@ -367,7 +368,7 @@ msgstr ""
 msgid "Something went wrong, please try again"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:106
+#: source/pages/buy-tokens/components/kyc/view.js:128
 msgid "Sorry, your data was denied."
 msgstr ""
 
@@ -409,7 +410,7 @@ msgstr ""
 msgid "Tokens sold"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:41
+#: source/pages/buy-tokens/components/balance-overview/view.js:43
 msgid "Total received: <0>{0,number}</0>"
 msgstr ""
 
@@ -421,15 +422,15 @@ msgstr ""
 msgid "Transactions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:148
+#: source/pages/buy-tokens/components/balance-overview/view.js:155
 msgid "Unlock schedule"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:27
+#: source/pages/buy-tokens/components/kyc/view.js:28
 msgid "Verify Your Identity"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:59
+#: source/pages/buy-tokens/components/kyc/view.js:60
 msgid "Verify identity"
 msgstr ""
 
@@ -437,15 +438,15 @@ msgstr ""
 msgid "Verify identity with Civic"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:162
+#: source/pages/buy-tokens/components/kyc/view.js:178
 msgid "Waiting for review"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:46
+#: source/pages/buy-tokens/components/kyc/view.js:47
 msgid "We need to verify your identity before you get access to token sale. Please click the link below and fill the opened form. Your data will be reviewed and then approved or denied."
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:69
+#: source/pages/buy-tokens/components/balance-overview/withdraw-button/index.js:25
 msgid "Withdraw"
 msgstr ""
 
@@ -457,13 +458,13 @@ msgstr ""
 msgid "You have no referees"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:86
+#: source/pages/buy-tokens/components/kyc/view.js:102
 msgid "Your Ethereum wallet"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:79
-#: source/pages/buy-tokens/components/kyc/view.js:174
-#: source/pages/buy-tokens/components/kyc/view.js:203
+#: source/pages/buy-tokens/components/kyc/view.js:190
+#: source/pages/buy-tokens/components/kyc/view.js:219
 msgid "Your Ethereum wallet address"
 msgstr ""
 
@@ -475,7 +476,7 @@ msgstr ""
 msgid "Your balance"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/view.js:168
+#: source/pages/buy-tokens/components/kyc/view.js:184
 msgid "Your data is being reviewed. Please, wait for approval."
 msgstr ""
 
@@ -495,23 +496,11 @@ msgstr "Sign Up"
 msgid "createEthWalletTitle"
 msgstr "Create Ethereum Wallet"
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:109
+#: source/pages/buy-tokens/components/balance-overview/view.js:115
 msgid "in {days, plural, one {1 day} two {# days} few {# days} many {# days} other {# days} zero {0 days}} {hours}:{minutes}:{seconds}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/balance-overview/view.js:109
-#~ msgid "in {days} days {hours}:{minutes}:{seconds}"
-#~ msgstr ""
-
-#: source/pages/buy-tokens/components/balance-overview/view.js:109
-#~ msgid "in {days} {days, plural, one {1 day} other {# days}} {hours}:{minutes}:{seconds}"
-#~ msgstr ""
-
-#: source/pages/buy-tokens/components/balance-overview/view.js:109
-#~ msgid "in {days} {days, plural, one {1 day} two {# days} few {# days} many {# days} other {# days} zero {0 days}} {hours}:{minutes}:{seconds}"
-#~ msgstr ""
-
-#: source/pages/buy-tokens/components/balance-overview/view.js:128
+#: source/pages/buy-tokens/components/balance-overview/view.js:135
 msgid "in {hours}:{minutes}:{seconds}"
 msgstr ""
 

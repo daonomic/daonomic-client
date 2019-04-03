@@ -13,7 +13,8 @@ export type AllowedStatusCodes =
   | 'ON_REVIEW'
   | 'DENIED'
   | 'PROCESSING'
-  | 'ALLOWED';
+  | 'ALLOWED'
+  | 'KYC_NOT_CONFIGURED';
 
 type StateBase = {|
   countryRequired?: boolean,
@@ -72,6 +73,11 @@ type StateAllowed = {|
   status: 'ALLOWED',
 |};
 
+type StateNotConfigured = {|
+  ...StateBase,
+  status: 'KYC_NOT_CONFIGURED',
+|};
+
 export type State =
   | StateNotSet
   | StateExternalKyc
@@ -81,4 +87,5 @@ export type State =
   | StateOnReview
   | StateProcessing
   | StateDenied
-  | StateAllowed;
+  | StateAllowed
+  | StateNotConfigured;

@@ -32,3 +32,11 @@
   margin: 1em auto 0;
   text-align: center;
 }
+
+.unconfigured p {
+  margin-bottom: 0;
+}
+
+.badge {
+  margin-bottom: 10px;
+}
