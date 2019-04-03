@@ -15,7 +15,10 @@ describe('Sign up page', () => {
 
   it('should not sign up with already used email', () => {
     cy.getCurrentUser().then(({ email }) => {
-      signUpPage.getEmail().type(email);
+      signUpPage
+        .getEmail()
+        .clear()
+        .type(email);
       signUpPage.getSubmitButton().click();
       signUpPage.getError().should('contain', 'Email is occupied');
     });
@@ -24,7 +27,10 @@ describe('Sign up page', () => {
   it('should sign up with new email and prefill registered email on sign in page', () => {
     const testEmail = 'test@example.com';
 
-    signUpPage.getEmail().type(testEmail);
+    signUpPage
+      .getEmail()
+      .clear()
+      .type(testEmail);
     signUpPage.getSubmitButton().click();
     signUpPage.getSuccessMessage().should('be.visible');
 

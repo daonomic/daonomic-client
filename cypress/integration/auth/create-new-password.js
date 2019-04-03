@@ -9,7 +9,10 @@ describe('Create new password page', () => {
       .then(({ email }) => {
         cy.visit(passwordResetPage.getUrl());
         cy.initApplication();
-        passwordResetPage.getEmail().type(email);
+        passwordResetPage
+          .getEmail()
+          .clear()
+          .type(email);
         passwordResetPage.getSubmitButton().click();
         passwordResetPage.getSuccessMessage().should('be.visible');
 
@@ -27,16 +30,28 @@ describe('Create new password page', () => {
   });
 
   it("should show error if passwords don't match", () => {
-    createNewPasswordPage.getPassword().type('1');
-    createNewPasswordPage.getPassword2().type('2');
+    createNewPasswordPage
+      .getPassword()
+      .clear()
+      .type('1');
+    createNewPasswordPage
+      .getPassword2()
+      .clear()
+      .type('2');
     createNewPasswordPage.getSubmitButton().click();
     createNewPasswordPage.getError().should('be.visible');
   });
 
   it('should show success message after submitting valid passwords', () => {
     cy.getCurrentUser().then(({ password }) => {
-      createNewPasswordPage.getPassword().type(password);
-      createNewPasswordPage.getPassword2().type(password);
+      createNewPasswordPage
+        .getPassword()
+        .clear()
+        .type(password);
+      createNewPasswordPage
+        .getPassword2()
+        .clear()
+        .type(password);
       createNewPasswordPage.getSubmitButton().click();
       createNewPasswordPage.getSuccessMessage().should('be.visible');
     });

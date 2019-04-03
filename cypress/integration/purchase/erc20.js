@@ -7,9 +7,21 @@ describe('Tokens purchase via ERC20', () => {
   });
 
   it('should have ERC20 payment method', () => {
+    let currentUser = null;
+
     cy.createUser()
-      .then(({ email, password }) => cy.login({ email, password }))
-      .then(() => cy.fillUserData({ address: wallet.getAddressString() }))
+      .then((user) => {
+        currentUser = user;
+        return cy.login({ email: user.email, password: user.password });
+      })
+      .then(() => {
+        cy.fillUserData({ address: wallet.getAddressString() });
+        cy.fillExtendedKycForm();
+        cy.whitelistUser({
+          ico: currentUser.ico,
+          userId: currentUser.id,
+        });
+      })
       .then(() => {
         paymentMethod.getSelect().should('be.visible');
         paymentMethod.address.getRoot().should('be.visible');

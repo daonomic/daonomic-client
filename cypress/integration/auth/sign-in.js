@@ -15,16 +15,28 @@ describe('Sign in page', () => {
   });
 
   it('should not login with invalid credentials', () => {
-    signInPage.getEmail().type('example@example.com');
-    signInPage.getPassword().type('1234567890');
+    signInPage
+      .getEmail()
+      .clear()
+      .type('example@example.com');
+    signInPage
+      .getPassword()
+      .clear()
+      .type('1234567890');
     signInPage.getSubmitButton().click();
     signInPage.getError().should('contain', 'Invalid Credentials');
   });
 
   it('should login with valid credentials', () => {
     cy.getCurrentUser().then(({ email, password }) => {
-      signInPage.getEmail().type(email);
-      signInPage.getPassword().type(password);
+      signInPage
+        .getEmail()
+        .clear()
+        .type(email);
+      signInPage
+        .getPassword()
+        .clear()
+        .type(password);
       signInPage.getSubmitButton().click();
       header.getRoot().should('be.visible');
       header.getLogoutButton().click();

@@ -13,7 +13,10 @@ describe('Password reset page', () => {
   it('should show error if trying to reset unknown user password', () => {
     cy.visit(passwordResetPage.getUrl());
     cy.initApplication();
-    passwordResetPage.getEmail().type('unknown@example.com');
+    passwordResetPage
+      .getEmail()
+      .clear()
+      .type('unknown@example.com');
     passwordResetPage.getSubmitButton().click();
     passwordResetPage.getError().should('be.visible');
   });
@@ -22,7 +25,10 @@ describe('Password reset page', () => {
     cy.visit(passwordResetPage.getUrl());
     cy.initApplication();
     cy.getCurrentUser().then(({ email }) => {
-      passwordResetPage.getEmail().type(email);
+      passwordResetPage
+        .getEmail()
+        .clear()
+        .type(email);
       passwordResetPage.getSubmitButton().click();
       passwordResetPage.getSuccessMessage().should('be.visible');
     });

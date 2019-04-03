@@ -1,14 +1,16 @@
 import { sendTransaction } from '../../../transactions';
 import { tokenForm } from './fixtures/token-form';
 import { saleForm } from './fixtures/sale-form';
-import { marketingForm } from './fixtures/marketing-form';
+import { jurisdictionForm } from './fixtures/jurisdiction-form';
+import { poolsForm } from './fixtures/pools-form';
 import { kycForm } from './fixtures/kyc-form';
 
 const defaultIcoData = {
-  kyc: kycForm,
   token: tokenForm,
   sale: saleForm,
-  mail: marketingForm,
+  jurisdiction: jurisdictionForm,
+  pools: poolsForm,
+  kyc: kycForm,
 };
 
 Cypress.Commands.add('createIco', (getIcoData = () => defaultIcoData) => {

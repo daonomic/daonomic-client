@@ -6,9 +6,12 @@ import { navigation } from '../../objects/navigation';
 import wallet from '../../support/web3-mock/wallet';
 
 describe('Simple KYC flow', () => {
+  let currentUser = null;
+
   beforeEach(() => {
-    cy.createUser().then(({ email, password }) => {
-      cy.login({ email, password });
+    cy.createUser().then((user) => {
+      currentUser = user;
+      cy.login({ email: user.email, password: user.password });
     });
   });
 
@@ -18,6 +21,7 @@ describe('Simple KYC flow', () => {
 
   it('should prefill address with web3 wallet address', () => {
     userDataForm.getRoot().should('be.visible');
+
     userDataForm.getAddress().then(($el) => {
       cy.wrap($el.val().toLowerCase()).should(
         'equal',
@@ -28,6 +32,13 @@ describe('Simple KYC flow', () => {
 
   it('should save address and show payment methods', () => {
     cy.fillUserData({ address: testUserAddress });
+    cy.fillExtendedKycForm();
+
+    cy.whitelistUser({
+      ico: currentUser.ico,
+      userId: currentUser.id,
+    });
+
     paymentMethod.getRoot().should('be.visible');
   });
 

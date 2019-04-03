@@ -15,6 +15,8 @@ function multiplyUnlockEvent(unlockEvent, multiplier) {
 }
 
 describe('No public sale', () => {
+  let currentUser = null;
+
   beforeEach(() => {
     cy.server();
     cy.route({
@@ -25,8 +27,9 @@ describe('No public sale', () => {
       response: 'fixture:api/config/no-sale.json',
     }).as('configRequest');
 
-    cy.createUser().then(({ email, password }) => {
-      cy.login({ email, password });
+    cy.createUser().then((user) => {
+      currentUser = user;
+      cy.login({ email: user.email, password: user.password });
     });
   });
 
@@ -41,6 +44,9 @@ describe('No public sale', () => {
     balance.getRoot().should('be.visible');
 
     cy.fillUserData({ address: testUserAddress });
+    cy.fillExtendedKycForm();
+
+    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     userDataForm.getRoot().should('not.exist');
     paymentMethod.getRoot().should('not.exist');
@@ -116,6 +122,9 @@ describe('No public sale', () => {
     }).as('balanceRequest');
 
     cy.fillUserData({ address: testUserAddress });
+    cy.fillExtendedKycForm();
+
+    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     cy.wait('@balanceRequest');
 
@@ -134,6 +143,9 @@ describe('No public sale', () => {
 
   it('Should display wallet balance without locked tokens balance', () => {
     cy.fillUserData({ address: testUserAddress });
+    cy.fillExtendedKycForm();
+
+    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     balance.getRoot().should('be.visible');
     balance.getLockedBalance().should('not.be.visible');
@@ -193,6 +205,9 @@ describe('No public sale', () => {
     }).as('balanceRequest');
 
     cy.fillUserData({ address: testUserAddress });
+    cy.fillExtendedKycForm();
+
+    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     cy.wait('@balanceRequest');
 
@@ -218,7 +233,6 @@ describe('No public sale', () => {
     balanceOverview
       .getNextUnlockDate()
       .should('be.visible')
-      .should('contain', '1 day')
       .should('have.attr', 'data-raw-value')
       .and('equal', String(nextUnlockEvent.date));
     balanceOverview

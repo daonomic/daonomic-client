@@ -1,3 +1,1 @@
-export const kycForm = {
-  type: 'NONE',
-};
+export const kycForm = { provider: 'SUMSUB' };

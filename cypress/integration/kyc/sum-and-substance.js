@@ -4,10 +4,23 @@ import { navigation } from '../../objects/navigation';
 
 describe('Sum & Substance KYC flow', () => {
   beforeEach(() => {
-    cy.getSumAndSubstanceKycParams()
-      .then((kyc) => cy.createIco((data) => ({ ...data, kyc })))
+    cy.createIco((data) => ({
+      ...data,
+      kyc: {
+        provider: 'SUMSUB',
+      },
+    }))
+      .then((ico) =>
+        cy
+          .getSumAndSubstanceKycParams()
+          .then((sumsubParams) =>
+            cy
+              .updateTokenKyc(ico.realmId, ico.adminData.token, sumsubParams)
+              .then(() => ico),
+          ),
+      )
       .then((ico) => {
-        return cy.createUser({ ico }).then((user) => {
+        cy.createUser({ ico }).then((user) => {
           cy.login({ ico, email: user.email, password: user.password });
         });
       });
@@ -19,6 +32,7 @@ describe('Sum & Substance KYC flow', () => {
 
   it('should show Sum & Substance integration widget', () => {
     cy.fillUserData({ address: testUserAddress });
+
     sumAndSubstanceKycForm.getRoot().should('be.visible');
     sumAndSubstanceKycForm.getError().should('not.exist');
     sumAndSubstanceKycForm.getIframe().should('be.visible');

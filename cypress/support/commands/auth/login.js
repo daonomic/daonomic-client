@@ -6,8 +6,14 @@ Cypress.Commands.add('login', ({ ico, email, password }) => {
   cy.reload();
   cy.initApplication({ ico });
   signInPage.getForm().should('be.visible');
-  signInPage.getEmail().type(email);
-  signInPage.getPassword().type(password);
+  signInPage
+    .getEmail()
+    .clear()
+    .type(email);
+  signInPage
+    .getPassword()
+    .clear()
+    .type(password);
   signInPage.getSubmitButton().click();
   header.getRoot().should('be.visible');
 });

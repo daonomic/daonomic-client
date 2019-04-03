@@ -5,8 +5,14 @@ Cypress.Commands.add('fillSecurityUserData', ({ address }) => {
   userDataForm.getResidency().should('be.enabled');
 
   userDataForm.getAddress().clear();
-  userDataForm.getAddress().type(address);
-  userDataForm.getConfirmationAddress().type(address);
+  userDataForm
+    .getAddress()
+    .clear()
+    .type(address);
+  userDataForm
+    .getConfirmationAddress()
+    .clear()
+    .type(address);
   userDataForm.getResidency().select('Canada');
   userDataForm.getSubmit().click();
 });
