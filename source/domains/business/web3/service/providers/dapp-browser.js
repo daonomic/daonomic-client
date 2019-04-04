@@ -5,37 +5,40 @@ import { promisify } from '~/utils/promisify';
 import type { IWeb3Service } from '~/domains/business/web3/types';
 
 export class DappWeb3Service implements IWeb3Service {
-  web3: any = new Web3(
-    Web3.givenProvider || (window.web3 && window.web3.currentProvider),
-  );
+  web3instance: any;
+
+  get web3() {
+    if (!this.web3instance) {
+      this.web3instance = new Web3(
+        Web3.givenProvider || (window.web3 && window.web3.currentProvider),
+      );
+    }
+
+    return this.web3instance;
+  }
 
   getNetworkId = () => {
     return this.web3.eth.net.getId();
   };
 
-  getWalletAddress = (): Promise<string> => {
+  getWalletAddress = () => {
     return this.web3.eth.getAccounts().then((accounts) => accounts[0]);
   };
 
-  signMessage = async (message: string): Promise<string> => {
+  signMessage = async (message) => {
     const walletAddress = await this.getWalletAddress();
 
     return this.web3.eth.personal.sign(message, walletAddress);
   };
 
-  estimateGas = ({ to, data }: {| to: string, data: string |}) => {
+  estimateGas = ({ to, data }) => {
     return this.web3.eth.estimateGas({
       to,
       data,
     });
   };
 
-  sendTransaction = async (options: {|
-    to: string,
-    data: string,
-    value?: number,
-    gas?: ?number,
-  |}) => {
+  sendTransaction = async (options) => {
     const sendTransaction = promisify(
       this.web3.eth.sendTransaction.bind(this.web3.eth),
     );
@@ -44,11 +47,11 @@ export class DappWeb3Service implements IWeb3Service {
     return sendTransaction({ ...options, from: walletAddress });
   };
 
-  createContract = (abi: {}[], address: string) => {
+  createContract = (abi, address) => {
     return new this.web3.eth.Contract(abi, address);
   };
 
-  setDefaultAddress = (address: string) => {
+  setDefaultAddress = (address) => {
     this.web3.eth.defaultAccount = address;
   };
 }

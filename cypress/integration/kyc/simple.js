@@ -19,17 +19,6 @@ describe('Simple KYC flow', () => {
     cy.logout();
   });
 
-  it('should prefill address with web3 wallet address', () => {
-    userDataForm.getRoot().should('be.visible');
-
-    userDataForm.getAddress().then(($el) => {
-      cy.wrap($el.val().toLowerCase()).should(
-        'equal',
-        wallet.getAddressString().toLowerCase(),
-      );
-    });
-  });
-
   it('should save address and show payment methods', () => {
     cy.fillUserData({ address: testUserAddress });
     cy.fillExtendedKycForm();
