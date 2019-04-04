@@ -30,8 +30,8 @@ Cypress.Commands.add('createIco', (getIcoData = () => defaultIcoData) => {
     )
     .then(({ body }) => {
       return {
-        saleId: (body.transaction.sale || {}).id,
-        realmId: body.transaction.token.id,
+        saleId: body.transaction.sale && body.transaction.sale.id,
+        realmId: body.transaction.token && body.transaction.token.id,
         adminData: body.loginResponse,
       };
     });
