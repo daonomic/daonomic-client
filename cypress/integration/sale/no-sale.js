@@ -1,7 +1,6 @@
 import { testUserAddress } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
-// import { extendedKycForm } from '../../objects/kyc/extended-kyc-form';
 import { tokenPrice } from '../../objects/token-price';
 import { balance } from '../../objects/balance';
 import { balanceOverview } from '../../objects/balanceOverview';
