@@ -7,46 +7,86 @@ import { balanceOverview } from '../../objects/balanceOverview';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
 
-function multiplyUnlockEvent(unlockEvent, multiplier) {
-  return {
-    date: unlockEvent.date * multiplier,
-    amount: unlockEvent.amount * multiplier,
-  };
+function getDateWithOffset(offset) {
+  return new Date(new Date().getTime() + offset).toISOString();
 }
 
 describe('No public sale', () => {
   let currentUser = null;
+  let pools = [];
+
+  const simpleInternalFields = [
+    {
+      name: 'terms',
+      label: 'Agree with the terms and conditions',
+      type: 'BOOLEAN',
+      required: true,
+    },
+  ];
 
   beforeEach(() => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      url: '**/config',
-      delay: 500,
-      status: 200,
-      response: 'fixture:api/config/no-sale.json',
-    }).as('configRequest');
-
-    cy.createUser().then((user) => {
-      currentUser = user;
-      cy.login({ email: user.email, password: user.password });
+    pools.push({
+      name: 'Private Sale 01',
+      startType: 'FIXED',
+      amount: 25000,
+      start: getDateWithOffset(15000),
     });
+
+    pools.push({
+      name: 'Private Sale 02',
+      startType: 'FIXED',
+      amount: 25000,
+      start: getDateWithOffset(86815000),
+    });
+
+    cy.createIco((data) => ({
+      ...data,
+      kyc: {
+        provider: 'SELF_SERVICE',
+      },
+      pools: {
+        pools,
+      },
+      sale: {
+        type: 'PRIVATE',
+      },
+    }))
+      .then((ico) =>
+        cy
+          .getInternalKycParams({
+            fields: simpleInternalFields,
+          })
+          .then((internalParams) =>
+            cy
+              .updateTokenKyc(ico.realmId, ico.adminData.token, internalParams)
+              .then(() => ico),
+          ),
+      )
+      .then((ico) => {
+        cy.createUser({ ico }).then((user) => {
+          currentUser = user;
+
+          cy.login({
+            ico: user.ico,
+            email: user.email,
+            password: user.password,
+          });
+        });
+      })
+      .then(() => {
+        cy.fillUserData({ address: testUserAddress });
+      });
   });
 
   afterEach(() => {
     cy.logout();
   });
 
-  it('Should allow passing KYC, but should not show payment and token price widgets after approval', () => {
+  it('Should not show payment and token price widgets after login', () => {
     tokenPrice.getRoot().should('not.exist');
     transactions.getRoot().should('not.exist');
     userDataForm.getRoot().should('be.visible');
     balance.getRoot().should('be.visible');
-
-    cy.fillUserData({ address: testUserAddress });
-    cy.fillExtendedKycForm();
-
-    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
 
     userDataForm.getRoot().should('not.exist');
     paymentMethod.getRoot().should('not.exist');
@@ -60,93 +100,37 @@ describe('No public sale', () => {
   });
 
   it('Should display wallet balance and locked tokens balance', () => {
-    cy.server();
+    const holders = [
+      {
+        name: pools[0].name,
+        address: testUserAddress,
+        amount: 1000,
+      },
+      {
+        name: pools[1].name,
+        address: testUserAddress,
+        amount: 1500,
+      },
+    ];
 
-    const balanceResponse = {
-      balance: 100,
-      totalReceived: 100,
-      locks: [
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 25000,
-            released: 15000,
-            vested: 20000,
-          },
-          unlockEvents: [
-            {
-              date: Date.now() + 5000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + 86405000,
-              amount: 1500,
-            },
-            {
-              date: Date.now() + 10000,
-              amount: 1000,
-            },
-          ],
-        },
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 20000,
-            released: 5000,
-            vested: 6000,
-          },
-          unlockEvents: [
-            {
-              date: Date.now() + 6000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + 10000,
-              amount: 1000,
-            },
-            {
-              date: Date.now() + 7000,
-              amount: 1000,
-            },
-          ],
-        },
-      ],
-    };
-
-    cy.route({
-      method: 'GET',
-      url: '**/balance',
-      delay: 500,
-      status: 200,
-      response: balanceResponse,
-    }).as('balanceRequest');
-
-    cy.fillUserData({ address: testUserAddress });
-    cy.fillExtendedKycForm();
-
-    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
-
-    cy.wait('@balanceRequest');
+    Promise.all(
+      holders.map((holder) => cy.createHolder(currentUser.ico, holder)),
+    );
 
     balance.getRoot().should('be.visible');
     balance.getLockedBalance().should('be.visible');
     balance
       .getLockedBalance()
       .should('have.attr', 'data-raw-value')
-      .and('equal', '25000');
+      .and('equal', String(holders[0].amount + holders[1].amount));
     balance.getAmount().should('be.visible');
     balance
       .getAmount()
       .should('have.attr', 'data-raw-value')
-      .and('equal', String(balanceResponse.balance));
+      .and('equal', String(0));
   });
 
   it('Should display wallet balance without locked tokens balance', () => {
-    cy.fillUserData({ address: testUserAddress });
-    cy.fillExtendedKycForm();
-
-    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
-
     balance.getRoot().should('be.visible');
     balance.getLockedBalance().should('not.be.visible');
     balance.getAmount().should('be.visible');
@@ -154,62 +138,26 @@ describe('No public sale', () => {
     balance
       .getAmount()
       .should('have.attr', 'data-raw-value')
-      .and('equal', '0');
+      .and('equal', String(0));
   });
 
   it('Should display balance overview with unlock events', () => {
-    const day = 1000 * 60 * 60 * 24;
-    const nextUnlockEvent = {
-      date: Date.now() + day + 6000,
-      amount: 1000,
-    };
-    const balanceResponse = {
-      balance: 100,
-      totalReceived: 100,
-      locks: [
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 25000,
-            released: 15000,
-            vested: 20000,
-          },
-          unlockEvents: [
-            nextUnlockEvent,
-            multiplyUnlockEvent(nextUnlockEvent, 2),
-            multiplyUnlockEvent(nextUnlockEvent, 3),
-          ],
-        },
-        {
-          address: 'very long long long address',
-          balance: {
-            total: 20000,
-            released: 5000,
-            vested: 6000,
-          },
-          unlockEvents: [
-            multiplyUnlockEvent(nextUnlockEvent, 4),
-            multiplyUnlockEvent(nextUnlockEvent, 5),
-            multiplyUnlockEvent(nextUnlockEvent, 6),
-          ],
-        },
-      ],
-    };
+    const holders = [
+      {
+        name: pools[0].name,
+        address: testUserAddress,
+        amount: 1000,
+      },
+      {
+        name: pools[1].name,
+        address: testUserAddress,
+        amount: 1500,
+      },
+    ];
 
-    cy.route({
-      method: 'GET',
-      url: '**/balance',
-      delay: 500,
-      status: 200,
-      response: balanceResponse,
-    }).as('balanceRequest');
-
-    cy.fillUserData({ address: testUserAddress });
-    cy.fillExtendedKycForm();
-
-    cy.whitelistUser({ ico: currentUser.ico, userId: currentUser.id });
-
-    cy.wait('@balanceRequest');
+    Promise.all(
+      holders.map((holder) => cy.createHolder(currentUser.ico, holder)),
+    );
 
     balanceOverview.getRoot().should('be.visible');
 
@@ -217,29 +165,42 @@ describe('No public sale', () => {
     balanceOverview
       .getTotalReceived()
       .should('have.attr', 'data-raw-value')
-      .and('equal', String(balanceResponse.totalReceived));
+      .and('equal', String(holders[0].amount + holders[1].amount));
 
     balanceOverview.getWithdrawButton().should('be.visible');
 
     balanceOverview.getAvailable().should('be.visible');
 
     balanceOverview
+      .getUnlocksTable()
+      .find('tbody tr')
+      .should('have.length', 2);
+
+    balanceOverview
       .getAvailable()
       .should('have.attr', 'data-raw-value')
-      .and('equal', '6000');
+      .and('equal', String(0));
 
     balanceOverview.getWithdrawButton().should('be.visible');
 
-    balanceOverview
-      .getNextUnlockDate()
-      .should('be.visible')
-      .should('have.attr', 'data-raw-value')
-      .and('equal', String(nextUnlockEvent.date));
+    balanceOverview.getNextUnlockDate().should('be.visible');
+    balanceOverview.getRefreshNotification().should('not.be.visible');
+
     balanceOverview
       .getNextUnlockAmount()
       .should('be.visible')
       .should('have.attr', 'data-raw-value')
-      .and('equal', String(nextUnlockEvent.amount));
+      .and('equal', String(holders[0].amount));
+
+    balanceOverview.getRefreshNotification().should('be.visible');
+
+    balanceOverview
+      .getNextUnlockAmount()
+      .should('be.visible')
+      .should('have.attr', 'data-raw-value')
+      .and('equal', String(holders[1].amount));
+
+    balanceOverview.getNextUnlockDate().should('to.contain', '1 day');
 
     balanceOverview.getRefreshNotification().should('not.be.visible');
     balanceOverview.getUnlocksTable().should('be.visible');
@@ -249,74 +210,8 @@ describe('No public sale', () => {
     balanceOverview
       .getUnlocksTable()
       .find('tbody tr')
-      .should('have.length', 6);
+      .should('have.length', 1);
 
-    cy.wait(5000).then(() => {
-      balanceOverview.getNextUnlockDate().should('not.to.contain', '1 day');
-      balanceOverview.getCountdownDays().should('not.be.visible');
-      balanceOverview.getCountdown().should('be.visible');
-
-      const nextUnlockEvent2 = {
-        date: Date.now() + 1000 * 5,
-        amount: 2000,
-      };
-
-      cy.route({
-        method: 'GET',
-        url: '**/balance',
-        delay: 500,
-        status: 200,
-        response: {
-          balance: 100,
-          totalReceived: 100,
-          locks: [
-            {
-              address: 'very long long long address',
-              balance: {
-                total: 25000,
-                released: 15000,
-                vested: 20000,
-              },
-              unlockEvents: [
-                multiplyUnlockEvent(nextUnlockEvent2, 2),
-                nextUnlockEvent2,
-                multiplyUnlockEvent(nextUnlockEvent2, 3),
-              ],
-            },
-            {
-              address: 'very long long long address',
-              balance: {
-                total: 20000,
-                released: 5000,
-                vested: 6000,
-              },
-              unlockEvents: [
-                multiplyUnlockEvent(nextUnlockEvent2, 4),
-                multiplyUnlockEvent(nextUnlockEvent2, 5),
-                multiplyUnlockEvent(nextUnlockEvent2, 6),
-              ],
-            },
-          ],
-        },
-      }).as('nextBalanceRequest');
-
-      cy.wait('@nextBalanceRequest');
-
-      balanceOverview.getRoot().should('be.visible');
-
-      balanceOverview.getWithdrawButton().should('be.visible');
-      balanceOverview
-        .getNextUnlockDate()
-        .should('be.visible')
-        .should('have.attr', 'data-raw-value')
-        .and('equal', String(nextUnlockEvent2.date));
-      balanceOverview
-        .getNextUnlockAmount()
-        .should('be.visible')
-        .should('have.attr', 'data-raw-value')
-        .and('equal', String(nextUnlockEvent2.amount));
-
-      balanceOverview.getRefreshNotification().should('be.visible');
-    });
+    balanceOverview.getWithdrawButton().should('be.visible');
   });
 });
