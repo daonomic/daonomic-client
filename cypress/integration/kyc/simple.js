@@ -1,9 +1,7 @@
 import { testUserAddress } from '../../config';
-import { userDataForm } from '../../objects/kyc/user-data-form';
 import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 import { navigation } from '../../objects/navigation';
-import wallet from '../../support/web3-mock/wallet';
 
 describe('Simple KYC flow', () => {
   let currentUser = null;

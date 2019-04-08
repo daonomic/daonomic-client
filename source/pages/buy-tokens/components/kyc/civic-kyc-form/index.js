@@ -61,9 +61,11 @@ export const CivicKycForm = observer(
     };
 
     handleClickVerify = () => {
-      this.civicSip.value.signup({
+      const { value } = this.civicSip;
+
+      value.signup({
         style: 'popup',
-        scopeRequest: this.civicSip.value.ScopeRequests.BASIC_SIGNUP,
+        scopeRequest: value.ScopeRequests.PROOF_OF_IDENTITY,
       });
     };
 
