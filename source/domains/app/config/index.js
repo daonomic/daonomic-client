@@ -6,7 +6,7 @@ export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
 const realms = {
-  development: '',
+  development: '5ca72a3e020d887d5b80c494',
   staging: '5c8fb92adfe5224664edfa11',
   production: '',
 };

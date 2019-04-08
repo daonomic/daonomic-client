@@ -33,7 +33,6 @@ class PaymentMethodView extends React.Component<Props> {
         <Heading className={styles.title} tagName="h2" size="normal">
           <Trans>Step 2: Buy tokens</Trans>
         </Heading>
-
         <PaymentMethodSelect marker={this.marker} sale={sale} />
         <Panel.Separator />
         {sale.payment.selectedMethod && (

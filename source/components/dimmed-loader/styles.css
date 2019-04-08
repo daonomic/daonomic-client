@@ -1,0 +1,32 @@
+.wrapper {
+  position: relative;
+}
+
+.dimmer {
+  cursor: wait;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  overflow: hidden;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  visibility: hidden;
+  transition: 0.2s all ease-in-out;
+  background: transparent;
+}
+
+.dimmer_active {
+  appearance: initial;
+  visibility: visible;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.dimmer_rounded {
+  border-radius: 8px;
+}

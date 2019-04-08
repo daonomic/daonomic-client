@@ -11,11 +11,11 @@ export function getBuyRate({
   qty: number,
 }): Promise<KyberNetworkGetBuyRateResponse> {
   return kyberNetworkClient
-    .get(`/currencies`, {
+    .get(`/buy_rate`, {
       params: {
         id,
         qty: String(qty),
       },
     })
-    .then((response) => response.data);
+    .then((response) => response.data.data[0]);
 }

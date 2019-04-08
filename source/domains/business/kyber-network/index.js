@@ -1,2 +1,2 @@
 export { kyberNetworkService } from './service';
-export * as kyberNetworkApi from './api';
+export { kyberNetworkApi } from './api';

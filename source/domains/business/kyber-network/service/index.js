@@ -1,19 +1,25 @@
 // @flow
 
-import * as kyberNetworkApi from '../api';
+import { kyberNetworkApi } from '../api';
 import type { IKyberNetworkService } from '../types';
 
 class KyberNetworkService implements IKyberNetworkService {
   getAvailableCurrencies = () => {
-    return kyberNetworkApi.getAvailableCurrencies();
+    const currencies = kyberNetworkApi.getAvailableCurrencies();
+
+    return currencies;
   };
 
-  getSellRates = ({ id, qty }) => {
-    return kyberNetworkApi.getSellRate({ id, qty });
+  getSellRate = async ({ id, qty }) => {
+    const sellRate = await kyberNetworkApi.getSellRate({ id, qty });
+
+    return sellRate.dst_qty[0];
   };
 
-  getBuyRate = ({ id, qty }) => {
-    return kyberNetworkApi.getBuyRate({ id, qty });
+  getBuyRate = async ({ id, qty }) => {
+    const buyRate = await kyberNetworkApi.getBuyRate({ id, qty });
+
+    return buyRate.src_qty[0];
   };
 }
 

@@ -31,7 +31,7 @@ export type KyberNetworkGetBuyRateResponse = {|
 |};
 
 export interface IKyberNetworkService {
-  getSellRates: ({
+  getSellRate: ({
     id: string,
     qty: number,
   }) => Promise<KyberNetworkGetBuyRateResponse>;

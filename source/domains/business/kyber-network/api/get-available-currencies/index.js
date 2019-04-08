@@ -6,5 +6,5 @@ import type { KyberNetworkGetAvailableCurrenciesResponse } from '~/domains/busin
 export function getAvailableCurrencies(): Promise<KyberNetworkGetAvailableCurrenciesResponse> {
   return kyberNetworkClient
     .get(`/currencies`)
-    .then((response) => response.data);
+    .then((response) => response.data.data);
 }

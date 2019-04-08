@@ -3,6 +3,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
+import { kyberNetworkContext } from '~/domains/business/kyber-network/context';
 import { Select } from '@daonomic/ui';
 import styles from './styles.css';
 
@@ -25,24 +26,43 @@ export const PaymentMethodSelect: React.ComponentType<Props> = observer(
 
     return (
       <div className={styles.root}>
-        <label className={styles.label} htmlFor={selectId}>
-          <Trans>I want to pay with</Trans>
-        </label>
+        <kyberNetworkContext.Consumer>
+          {(kyberNetwork) => {
+            // $FlowFixMe
+            const currencies = kyberNetwork.currencies.data;
 
-        <Select
-          data-marker={marker('select')()}
-          id={selectId}
-          value={selectedPaymentMethod.id}
-          onChange={(event: SyntheticInputEvent<HTMLSelectElement>) => {
-            sale.payment.setMethod(event.target.value);
+            if (!currencies) {
+              return (
+                <p>
+                  <Trans>Loading..</Trans>
+                </p>
+              );
+            }
+
+            return (
+              <React.Fragment>
+                <label className={styles.label} htmlFor={selectId}>
+                  <Trans>I want to pay with</Trans>
+                </label>
+                <Select
+                  data-marker={marker('select')()}
+                  id={selectId}
+                  value={selectedPaymentMethod.id}
+                  onChange={(event: SyntheticInputEvent<HTMLSelectElement>) => {
+                    sale.payment.setMethod(event.target.value);
+                  }}
+                >
+                  {currencies &&
+                    currencies.map((currency) => (
+                      <option key={currency.id} value={currency.id}>
+                        {currency.symbol}
+                      </option>
+                    ))}
+                </Select>
+              </React.Fragment>
+            );
           }}
-        >
-          {sale.data.paymentMethods.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </Select>
+        </kyberNetworkContext.Consumer>
       </div>
     );
   },

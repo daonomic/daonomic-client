@@ -7,7 +7,7 @@ import { TwoColumnsLayout } from '~/components/two-columns-layout';
 import { Heading } from '~/components/heading';
 import { Kyc } from './components/kyc';
 import { WalletBalanceProvider } from '~/providers/wallet-balance-provider';
-import { PaymentMethod } from './components/payment-method';
+import { PaymentMethod } from './components/payment-method-B';
 import { TokenPrice } from './components/token-price';
 import { Balance } from './components/balance';
 import { BalanceOverview } from './components/balance-overview';
