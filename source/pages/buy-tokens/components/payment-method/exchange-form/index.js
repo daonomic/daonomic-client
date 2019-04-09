@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import debounce from 'debounce-fn';
+import { web3Service } from '~/domains/business/web3/service';
 import { paymentService } from '~/domains/business/payment';
 import { ExchangeFormView } from './view';
 
@@ -9,9 +10,9 @@ import type { ImmediatePurchaseStore } from '~/domains/business/immediate-purcha
 import * as DataStateTypes from '~/domains/data/data-state/types';
 
 type InjectedProps = {|
-  isImmediatePurchaseAvailable: boolean,
-  checkImmediatePurchaseAvailability(): mixed,
   buyTokens({ costInEthers: number }): mixed,
+  checkImmediatePurchaseAvailability(): Promise<{ isAvailable: boolean }>,
+  isImmediatePurchaseAvailable: boolean,
 |};
 
 type ExternalProps = {|
@@ -24,6 +25,7 @@ type Props = InjectedProps & ExternalProps;
 
 type State = {|
   amount: number,
+  displayWeb3NotificationModal: boolean,
   bonus: DataStateTypes.LoadableData<number>,
 |};
 
@@ -32,6 +34,7 @@ class ExchangeFormContainer extends React.Component<Props, State> {
 
   state = {
     amount: 0,
+    displayWeb3NotificationModal: false,
     bonus: { dataState: 'idle' },
   };
 
@@ -41,10 +44,6 @@ class ExchangeFormContainer extends React.Component<Props, State> {
         this.costPrecision,
       ),
     );
-  }
-
-  componentDidMount() {
-    this.props.checkImmediatePurchaseAvailability();
   }
 
   loadBonus = debounce(
@@ -95,14 +94,41 @@ class ExchangeFormContainer extends React.Component<Props, State> {
     );
   };
 
-  handleBuy = () => {
-    this.props.buyTokens({ costInEthers: this.cost });
+  handleBuy = async (): Promise<void> => {
+    const {
+      checkImmediatePurchaseAvailability,
+      buyTokens,
+      isImmediatePurchaseAvailable,
+    } = this.props;
+
+    if (!web3Service || !web3Service.isWeb3Installed) {
+      this.handleWeb3Notification(true);
+      return;
+    }
+
+    if (!isImmediatePurchaseAvailable) {
+      const { isAvailable } = await checkImmediatePurchaseAvailability();
+
+      if (isAvailable) {
+        await buyTokens({ costInEthers: this.cost });
+      }
+    } else {
+      await buyTokens({ costInEthers: this.cost });
+    }
+  };
+
+  handleWeb3Notification = (open: boolean): void => {
+    return this.setState({
+      displayWeb3NotificationModal: open,
+    });
   };
 
   render() {
     return (
       <ExchangeFormView
         amount={this.state.amount}
+        handleWeb3Notification={this.handleWeb3Notification}
+        displayWeb3NotificationModal={this.state.displayWeb3NotificationModal}
         cost={this.cost}
         costPrecision={this.costPrecision}
         bonus={
@@ -110,7 +136,6 @@ class ExchangeFormContainer extends React.Component<Props, State> {
         }
         onChangeAmount={this.handleChangeAmount}
         onChangeCost={this.handleChangeCost}
-        isBuyButtonVisible={this.props.isImmediatePurchaseAvailable}
         isKyber={this.props.paymentMethodId === 'ERC20'}
         onBuy={this.handleBuy}
       />

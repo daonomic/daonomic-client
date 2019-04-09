@@ -1,11 +1,13 @@
 // @flow
 import Web3 from 'web3';
 import { promisify } from '~/utils/promisify';
+import { isWeb3Installed } from '~/utils/is-web3-installed';
 
 import type { IWeb3Service } from '~/domains/business/web3/types';
 
 export class DappWeb3Service implements IWeb3Service {
   web3instance: any;
+  isWeb3Installed: boolean = isWeb3Installed();
 
   get web3() {
     if (!this.web3instance) {

@@ -2,7 +2,7 @@
 import * as React from 'react';
 // $FlowFixMe
 import { Trans, Plural } from '@lingui/macro';
-import { Form, Input, Button } from '@daonomic/ui';
+import { Form, Input, Button, Modal } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
 import { KyberButton } from '~/components/kyber-button';
 
@@ -11,11 +11,12 @@ type Props = {|
   cost: number,
   costPrecision: number,
   bonus: ?number,
-  isBuyButtonVisible?: boolean,
   isKyber?: boolean,
+  displayWeb3NotificationModal: boolean,
+  handleWeb3Notification: (open: boolean) => void,
   onChangeAmount(number): void,
   onChangeCost(number): void,
-  onBuy(): void,
+  onBuy(): Promise<void>,
 |};
 
 function getInputNumberValue(input: HTMLInputElement): number {
@@ -33,16 +34,12 @@ export class ExchangeFormView extends React.Component<Props> {
     this.props.onChangeCost(getInputNumberValue(event.target));
   };
 
-  handleSubmit = (event: Event) => {
+  handleSubmit = (event: Event): void => {
     event.preventDefault();
     this.props.onBuy();
   };
 
-  renderSubmitButton = () => {
-    if (!this.props.isBuyButtonVisible) {
-      return null;
-    }
-
+  renderSubmitButton = (): React.Node => {
     let button = (
       <Button
         data-marker={this.marker('buy')()}
@@ -72,48 +69,81 @@ export class ExchangeFormView extends React.Component<Props> {
     );
   };
 
+  renderModal = (): React.Node => {
+    const { displayWeb3NotificationModal, handleWeb3Notification } = this.props;
+
+    if (!displayWeb3NotificationModal) {
+      return null;
+    }
+
+    return (
+      <Modal
+        isOpen
+        title={<Trans>Attention</Trans>}
+        onClose={() => {
+          handleWeb3Notification(false);
+        }}
+      >
+        <p>
+          <Trans>
+            To work with your wallet, you must install web3-driver. For example,
+            we recommend{' '}
+            <a href="" target="blank">
+              Metamask
+            </a>
+          </Trans>
+        </p>
+      </Modal>
+    );
+  };
+
   render() {
     return (
-      <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Field>
-            <Input
-              data-marker={this.marker('amount')()}
-              type="number"
-              step="any"
-              min="0"
-              description={
-                this.props.bonus && (
-                  <Plural
-                    value={this.props.bonus}
-                    one="You will receive # bonus token!"
-                    other="You will receive # bonus tokens!"
-                  />
-                )
-              }
-              label={<Trans>Amount</Trans>}
-              value={String(this.props.amount)}
-              onChange={this.handleChangeAmount}
-            />
-          </Form.Field>
+      <React.Fragment>
+        {this.renderModal()}
+        <Form data-marker={this.marker()} onSubmit={this.handleSubmit}>
+          <Form.Group>
+            <Form.Field>
+              <Input
+                data-marker={this.marker('amount')()}
+                type="number"
+                step="any"
+                min="0"
+                description={
+                  this.props.bonus && (
+                    <Plural
+                      value={this.props.bonus}
+                      one="You will receive # bonus token!"
+                      other="You will receive # bonus tokens!"
+                    />
+                  )
+                }
+                label={<Trans>Amount</Trans>}
+                value={String(this.props.amount)}
+                onChange={this.handleChangeAmount}
+              />
+            </Form.Field>
 
-          <Form.Field>
-            <Input
-              data-marker={this.marker('cost')()}
-              type="number"
-              min={parseFloat(`0.${'0'.repeat(this.props.costPrecision - 1)}1`)}
-              step={parseFloat(
-                `0.${'0'.repeat(this.props.costPrecision - 1)}1`,
-              )}
-              label={<Trans>Cost</Trans>}
-              value={String(this.props.cost)}
-              onChange={this.handleChangeCost}
-            />
-          </Form.Field>
+            <Form.Field>
+              <Input
+                data-marker={this.marker('cost')()}
+                type="number"
+                min={parseFloat(
+                  `0.${'0'.repeat(this.props.costPrecision - 1)}1`,
+                )}
+                step={parseFloat(
+                  `0.${'0'.repeat(this.props.costPrecision - 1)}1`,
+                )}
+                label={<Trans>Cost</Trans>}
+                value={String(this.props.cost)}
+                onChange={this.handleChangeCost}
+              />
+            </Form.Field>
 
-          {this.renderSubmitButton()}
-        </Form.Group>
-      </Form>
+            {this.renderSubmitButton()}
+          </Form.Group>
+        </Form>
+      </React.Fragment>
     );
   }
 }
