@@ -31,6 +31,7 @@ export class ImmediatePurchaseStore {
 
   loadSaleContractAddress = async () => {
     await tokenService.loadData();
+
     const { sale } = tokenStore;
 
     if (sale) {
@@ -46,8 +47,8 @@ export class ImmediatePurchaseStore {
     }
 
     try {
-      const userWalletAddress = web3Service.getWalletAddress();
-      const isAvailable = userWalletAddress !== '';
+      const userWalletAddress = await web3Service.getWalletAddress();
+      const isAvailable = !!userWalletAddress;
 
       runInAction(() => {
         this.isAvailable = isAvailable;
@@ -59,6 +60,7 @@ export class ImmediatePurchaseStore {
         message: 'Check immediate purchase availability',
       });
       raven.captureException(error);
+
       runInAction(() => {
         this.isAvailable = false;
       });
@@ -100,15 +102,22 @@ export class ImmediatePurchaseStore {
         ],
         this.saleContractAddress,
       );
-      const userWalletAddress = await web3Service.getWalletAddress();
 
+      const userWalletAddress = await web3Service.getWalletAddress();
       const userAddress = getUserAddress();
 
-      await contract.methods.buyTokens(getUserAddress()).send({
+      const value = Web3.utils.toWei(String(costInEthers));
+
+      await contract.methods.buyTokens(userAddress).send({
         from: userWalletAddress || userAddress,
-        value: Web3.utils.toWei(String(costInEthers)),
+        value,
       });
     } catch (error) {
+      raven.captureBreadcrumb({
+        message: 'Token buying',
+      });
+      raven.captureException(error);
+
       console.error(error); // eslint-disable-line no-console
     }
   };

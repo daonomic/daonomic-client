@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { auth } from '~/domains/business/auth';
+import { Modal } from '@daonomic/ui';
 import { tokenStore, tokenService } from '~/domains/business/token';
 import { userDataService } from '~/domains/business/user-data';
 import { kyc, kycService } from '~/domains/business/kyc';
@@ -14,6 +15,7 @@ import { actualizeRealmId } from '~/domains/app/config';
 
 export function init() {
   actualizeRealmId();
+
   kycService.init(auth);
   userDataService.init(auth);
   referralProgramService.init(auth, kyc, tokenStore);
@@ -21,9 +23,11 @@ export function init() {
   walletBalanceService.init();
   transactionsService.init();
 
-  const renderTarget = document.getElementById('app');
+  const appNodeIdentifier = 'app';
+  const renderTarget = document.getElementById(appNodeIdentifier);
 
   if (renderTarget) {
     ReactDOM.render(<Root stores={stores} />, renderTarget);
+    Modal.setAppElement(`#${appNodeIdentifier}`);
   }
 }
