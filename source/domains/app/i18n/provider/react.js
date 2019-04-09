@@ -31,3 +31,11 @@ export class I18nProvider extends React.Component<Props> {
     );
   }
 }
+
+export const withI18Provider = (Component: React.ComponentType<mixed>) => {
+  return (props: mixed) => (
+    <I18nProvider>
+      <Component {...props} />
+    </I18nProvider>
+  );
+};

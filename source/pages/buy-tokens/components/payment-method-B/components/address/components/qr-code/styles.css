@@ -1,0 +1,11 @@
+.root {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+  border: 1px solid var(--color-borders);
+
+  @media (--desktop) {
+    margin-bottom: 0;
+    border: 0;
+  }
+}

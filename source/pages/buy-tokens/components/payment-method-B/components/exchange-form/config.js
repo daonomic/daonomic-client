@@ -6,6 +6,7 @@ export const initialContextValue = {
   buyTokens: async () => {},
   getSellRateToEth: async () => {},
   loadBonus: async () => {},
+  reset: () => {},
   bonus: {
     dataState: 'idle',
   },

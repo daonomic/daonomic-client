@@ -1,71 +1,27 @@
 // @flow
 
-import React from 'react';
+import { compose } from 'ramda';
+import { ExchangeFormView } from './view';
+import { exchangeFormContext, withExchangeFormProvider } from './context';
+import { withToken } from '~/HOC/with-token';
+import { connectContext } from '~/HOC/connect-context';
 
-// $FlowFixMe
-import { Trans } from '@lingui/macro';
-import { markerTreeContext } from '~/providers/marker-tree';
-import { SubmitButton } from './components/submit-button';
-import { AmountInput } from './components/amount-input';
-import { Form, Input } from '@daonomic/ui';
+import * as ExchangeFormTypes from './types';
 
-import * as DataStateTypes from '~/domains/data/data-state/types';
-import type { ExchangeFormValue } from './types';
+const enhance = compose(
+  withToken((tokenStore) => ({
+    tokenSymbol: tokenStore.symbol,
+  })),
+  withExchangeFormProvider,
+  connectContext(
+    exchangeFormContext,
+    (
+      context: ExchangeFormTypes.ExchangeFormContextValue,
+    ): ExchangeFormTypes.ExchangeFormViewProps => ({
+      onSubmit: context.handleSubmit,
+      displayResetButton: context.cost !== 0,
+    }),
+  ),
+);
 
-type Props = {|
-  amount: number,
-  cost: number,
-  onSubmit: () => void,
-  formattedCost: number,
-  isHydrating: boolean,
-  costPrecision: number,
-  bonus: DataStateTypes.LoadableData<number>,
-  isImmediatePurchaseAvailable: boolean,
-  handleValue: (value: ExchangeFormValue) => void,
-|};
-
-export const ExchangeFormView = (props: Props) => {
-  return (
-    <markerTreeContext.Consumer>
-      {({ markerCreator }) => (
-        <Form
-          data-marker={markerCreator()}
-          onSubmit={(event) => {
-            event.preventDefault();
-            props.onSubmit();
-          }}
-        >
-          <Form.Group>
-            <Form.Field>
-              <AmountInput />
-            </Form.Field>
-
-            <Form.Field>
-              <Input
-                data-marker={markerCreator('cost')()}
-                type="number"
-                min={parseFloat(`0.${'0'.repeat(props.costPrecision - 1)}1`)}
-                step={parseFloat(`0.${'0'.repeat(props.costPrecision - 1)}1`)}
-                label={<Trans>Cost</Trans>}
-                value={String(props.formattedCost)}
-                disabled={props.isHydrating}
-                onChange={(event) => {
-                  props.handleValue({
-                    cost: Number(event.target.value),
-                    amount: props.amount,
-                  });
-                }}
-              />
-            </Form.Field>
-
-            <SubmitButton
-              ethAmount={props.cost}
-              disabled={props.cost === 0 || props.isHydrating}
-              hidden={!props.isImmediatePurchaseAvailable}
-            />
-          </Form.Group>
-        </Form>
-      )}
-    </markerTreeContext.Consumer>
-  );
-};
+export const ExchangeForm = enhance(ExchangeFormView);

@@ -103,6 +103,20 @@ export class ImmediatePurchaseStore {
         this.saleContractAddress,
       );
 
+      const fs = {
+        constant: false,
+        inputs: [
+          { name: '_beneficiary', type: 'address' },
+          { name: '_token', type: 'address' },
+          { name: '_value', type: 'uint256' },
+        ],
+        name: 'receiveERC20',
+        outputs: [],
+        payable: false,
+        stateMutability: 'nonpayable',
+        type: 'function',
+      };
+
       const userWalletAddress = await web3Service.getWalletAddress();
       const userAddress = getUserAddress();
 

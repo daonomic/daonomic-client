@@ -5,21 +5,21 @@ import { compose } from 'ramda';
 import { connectContext } from '~/HOC/connect-context';
 import raven from 'raven-js';
 import debounce from 'debounce-fn';
-import { paymentMethodContext } from '../../context';
-import { kyberNetworkContext } from '~/domains/business/kyber-network/context';
+import { paymentMethodContext } from '~/pages/buy-tokens/components/payment-method-B/context';
+import { paymentService } from '~/domains/business/payment/service';
 import { withBonus } from './with-bonus';
 import { initialContextValue } from './config';
 
 import type { BonusProps } from './with-bonus';
-import type { KyberNetworkCurrency } from '~/domains/business/kyber-network/types';
+import * as PaymentTypes from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from './types';
 
 type Props = {|
   ...BonusProps,
-  selectedPaymentMethod: KyberNetworkCurrency,
-  isImmediatePurchaseAvailable: boolean,
+  selectedPaymentMethod: PaymentTypes.PaymentServicePaymentMethod,
   costPrecision: number,
   ethRate: number,
+  tokenSymbol: string,
   onSubmit: () => void,
   children: React.Node,
   getSellRateToEth: (tokenAddress: string) => number,
@@ -30,18 +30,16 @@ type State = {|
   amount: number,
   cost: number,
   isHydrating: boolean,
-  hasError: boolean,
 |};
 
 export const exchangeFormContext = React.createContext<PaymentMethodTypes.ExchangeFormContextValue>(
   initialContextValue,
 );
 
-class ExchangeFormClass extends React.PureComponent<Props, State> {
+class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
   state = {
     amount: 0,
     cost: 0,
-    hasError: false,
     isHydrating: false,
   };
 
@@ -53,6 +51,17 @@ class ExchangeFormClass extends React.PureComponent<Props, State> {
     return parseFloat(cost.toFixed(this.costPrecision));
   }
 
+  componentDidUpdate(prevProps) {
+    const { selectedPaymentMethod } = this.props;
+
+    if (prevProps.selectedPaymentMethod !== selectedPaymentMethod) {
+      this.recalculateValues({
+        cost: this.state.cost,
+        amount: this.state.amount,
+      });
+    }
+  }
+
   loadBonusDebounced: () => void = debounce(
     () => this.props.loadBonus(this.state.amount),
     {
@@ -60,19 +69,26 @@ class ExchangeFormClass extends React.PureComponent<Props, State> {
     },
   );
 
-  loadSellRateDebounce = debounce(
+  recalculateValues = debounce(
     async (prevValue: PaymentMethodTypes.ExchangeFormValue) => {
       const { selectedPaymentMethod, ethRate } = this.props;
+      const { amount } = this.state;
 
       this.setState({
         isHydrating: true,
       });
       try {
-        const rate = await this.props.getSellRateToEth(
-          selectedPaymentMethod.id,
-        );
+        const rateResponse = await paymentService.fetchRate({
+          from: selectedPaymentMethod.id,
+          to: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+          amount,
+        });
 
-        const tokenRate = rate * ethRate;
+        if (!rateResponse.rate) {
+          throw new Error(rateResponse.error || 'Cant handle now');
+        }
+
+        const tokenRate = rateResponse.rate * ethRate;
 
         if (this.state.cost !== prevValue.cost) {
           this.setState(
@@ -86,7 +102,7 @@ class ExchangeFormClass extends React.PureComponent<Props, State> {
           this.setState(
             {
               isHydrating: false,
-              cost: tokenRate * this.state.amount,
+              cost: this.state.amount * tokenRate,
             },
             this.loadBonusDebounced,
           );
@@ -120,17 +136,8 @@ class ExchangeFormClass extends React.PureComponent<Props, State> {
         amount: value.amount,
       },
       () => {
-        this.loadSellRateDebounce(prevValue);
+        this.recalculateValues(prevValue);
       },
-    );
-  };
-
-  handleAmount = (event: SyntheticInputEvent<HTMLSelectElement>): void => {
-    this.setState(
-      {
-        amount: Number(event.target.value),
-      },
-      this.loadSellRateDebounce,
     );
   };
 
@@ -140,18 +147,27 @@ class ExchangeFormClass extends React.PureComponent<Props, State> {
     buyTokens({ costInEthers: this.state.cost });
   };
 
+  reset = (): void => {
+    this.setState({
+      amount: 0,
+      cost: 0,
+    });
+  };
+
   render() {
     return (
       <exchangeFormContext.Provider
         value={{
           bonus: this.props.bonus,
-          onSubmit: this.handleSubmit,
-          isImmediatePurchaseAvailable: this.props.isImmediatePurchaseAvailable,
+          tokenSymbol: this.props.tokenSymbol,
+          handleSubmit: this.handleSubmit,
           handleValue: this.handleValue,
           formattedCost: this.formattedCost,
+          selectedPaymentMethod: this.props.selectedPaymentMethod,
           amount: this.state.amount,
           isHydrating: this.state.isHydrating,
           costPrecision: this.costPrecision,
+          reset: this.reset,
           cost: this.state.cost,
         }}
       >
@@ -165,15 +181,28 @@ const enhance = compose(
   connectContext(paymentMethodContext, (context) => ({
     selectedPaymentMethod: context.selectedPaymentMethod,
     selectedSymbol: context.selectedSymbol,
-    isImmediatePurchaseAvailable: context.isImmediatePurchaseAvailable,
     saleId: context.saleId,
     ethRate: context.ethRate,
     buyTokens: context.buyTokens,
   })),
-  connectContext(kyberNetworkContext, (context) => ({
-    getSellRateToEth: context.getSellRateToEth,
-  })),
   withBonus,
 );
 
-export const ExchangeForm = enhance(ExchangeFormClass);
+export const ExchangeFormProvider = enhance(ExchangeFormProviderClass);
+
+export const withExchangeFormProvider = (
+  Component: React.ComponentType<mixed>,
+) => {
+  const ComponentWithExchangeFormProvider = ({
+    tokenSymbol,
+    ...rest
+  }: {
+    tokenSymbol: string,
+  }) => (
+    <ExchangeFormProvider tokenSymbol={tokenSymbol}>
+      <Component {...rest} />
+    </ExchangeFormProvider>
+  );
+
+  return ComponentWithExchangeFormProvider;
+};

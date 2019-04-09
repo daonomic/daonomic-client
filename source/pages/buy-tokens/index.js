@@ -3,7 +3,6 @@ import { inject, observer } from 'mobx-react';
 import { kycService } from '~/domains/business/kyc';
 import { compose } from 'ramda';
 import { userDataService } from '~/domains/business/user-data';
-import { withKyberNetworkProvider } from '~/domains/business/kyber-network/context';
 import { BuyTokensPageView } from './view';
 
 import { TokenStore } from '~/domains/business/token/store';
@@ -32,7 +31,6 @@ const mapStoreToProps = ({
 });
 
 const enhance = compose(
-  withKyberNetworkProvider,
   inject(mapStoreToProps),
   observer,
 );

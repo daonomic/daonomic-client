@@ -4,47 +4,55 @@ import * as React from 'react';
 import { connectContext } from '~/HOC/connect-context';
 import { inject } from 'mobx-react';
 import { compose } from 'ramda';
-import { kyberNetworkContext } from '~/domains/business/kyber-network/context';
+import { availablePaymentMethodsContext } from '~/providers/available-payment-methods';
 
 import type { RootStore } from '~/domains/app/stores';
 import type { SaleStore } from '~/domains/business/sale/store';
-import * as KyberNetworkTypes from '~/domains/business/kyber-network/types';
+import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
+import type { AvailablePaymentMethodsContextValue } from '~/providers/available-payment-methods/types';
 
 type State = {|
-  selectedPaymentMethod: ?KyberNetworkTypes.KyberNetworkCurrency,
+  selectedPaymentMethod: ?PaymentServicePaymentMethod,
 |};
 
-type ImmediatePurchaseInjectedProps = {|
+type InjectedProps = {|
   isImmediatePurchaseAvailable: boolean,
+  purchasingTokenSymbol: ?string,
   checkImmediatePurchaseAvailability: () => mixed,
   buyTokens: ({ costInEthers: number }) => mixed,
 |};
 
-type PaymentMethodContextValue = {|
+export type PaymentMethodContextValue = {|
   ...State,
-  ...ImmediatePurchaseInjectedProps,
+  ...InjectedProps,
   saleId: ?string,
-  selectPaymentMethod?: (key: ?KyberNetworkTypes.KyberNetworkCurrency) => void,
+  selectPaymentMethod?: (key: ?PaymentServicePaymentMethod) => void,
   selectedSymbol: ?string,
   ethRate: ?number,
+  selectedMethodAddress: ?string,
+  isKyber: boolean,
   sale: ?SaleStore,
 |};
 
 type Props = {|
-  ...ImmediatePurchaseInjectedProps,
+  ...InjectedProps,
   sale: SaleStore,
   children: React.Node | ((store: PaymentMethodContextValue) => React.Node),
-  currencies: KyberNetworkTypes.KyberNetworkCurrency[],
+  currencies: PaymentServicePaymentMethod[],
+  purchasingTokenSymbol: string,
 |};
 
 const initialValue: PaymentMethodContextValue = {
   selectedPaymentMethod: null,
   selectedSymbol: null,
+  isKyber: false,
   isImmediatePurchaseAvailable: false,
   checkImmediatePurchaseAvailability: () => {},
   buyTokens: () => {},
+  purchasingTokenSymbol: null,
   saleId: null,
   sale: null,
+  selectedMethodAddress: null,
   ethRate: null,
 };
 
@@ -62,7 +70,7 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
 
     if (!selectedPaymentMethod) return null;
 
-    return selectedPaymentMethod.symbol;
+    return selectedPaymentMethod.token;
   }
 
   get isKyber() {
@@ -90,14 +98,6 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
     return ethMethod.rate;
   }
 
-  isERC20 = (symbol: string): boolean => {
-    const { currencies } = this.props;
-
-    if (!currencies) return false;
-
-    return currencies.indexOf(symbol) !== -1;
-  };
-
   get isImmediatePurchaseAvailable() {
     const { isImmediatePurchaseAvailable } = this.props;
     const symbol = this.selectedSymbol;
@@ -109,8 +109,22 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
     );
   }
 
+  get selectedMethodAddress(): ?string {
+    const { selectedPaymentMethod } = this.state;
+
+    return selectedPaymentMethod && selectedPaymentMethod.id;
+  }
+
+  isERC20 = (symbol: string): boolean => {
+    const { currencies } = this.props;
+
+    if (!currencies) return false;
+
+    return currencies.indexOf(symbol) !== -1;
+  };
+
   selectPaymentMethod = (
-    selectedPaymentMethod: ?KyberNetworkTypes.KyberNetworkCurrency,
+    selectedPaymentMethod: ?PaymentServicePaymentMethod,
   ): void => {
     if (!selectedPaymentMethod) return;
     this.setState({
@@ -128,10 +142,13 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
           selectPaymentMethod: this.selectPaymentMethod,
           saleId: sale.data && sale.data.id,
           selectedSymbol: this.selectedSymbol,
+          purchasingTokenSymbol: this.props.purchasingTokenSymbol,
           ethRate: this.ethRate,
+          selectedMethodAddress: this.selectedMethodAddress,
           sale: sale,
           checkImmediatePurchaseAvailability: this.props
             .checkImmediatePurchaseAvailability,
+          isKyber: this.isKyber,
           isImmediatePurchaseAvailable: this.isImmediatePurchaseAvailable,
           buyTokens: this.props.buyTokens,
         }}
@@ -142,22 +159,24 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
   };
 }
 
-const mapGlobalStoreToProps = (
-  store: RootStore,
-): ImmediatePurchaseInjectedProps => {
+const mapGlobalStoreToProps = (store: RootStore): InjectedProps => {
   return {
     isImmediatePurchaseAvailable: store.immediatePurchase.isAvailable,
     checkImmediatePurchaseAvailability:
       store.immediatePurchase.checkAvailability,
     buyTokens: store.immediatePurchase.buyTokens,
+    purchasingTokenSymbol: store.token.symbol,
   };
 };
 
 const enhance = compose(
-  connectContext(kyberNetworkContext, (context) => ({
-    currencies: context.currencies.data,
-    isLoaded: context.currencies.dataState === 'loaded',
-  })),
+  connectContext(
+    availablePaymentMethodsContext,
+    (context: AvailablePaymentMethodsContextValue) => ({
+      currencies: context.allowedCurrencies,
+      isLoaded: context.currencies.dataState === 'loaded',
+    }),
+  ),
   inject(mapGlobalStoreToProps),
 );
 

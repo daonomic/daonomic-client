@@ -1,52 +1,52 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Input } from '@daonomic/ui';
 import { markerTreeContext } from '~/providers/marker-tree';
 
 // $FlowFixMe
 import { Trans, Plural } from '@lingui/macro';
 
-import * as DataStateTypes from '~/domains/data/data-state/types';
-import type { ExchangeFormValue } from '../../types';
+import type { AmountInputProps } from './types';
 
-export type ExternalProps = {
-  isHydrating: boolean,
-  bonus: DataStateTypes.LoadableData<number>,
-  amount: number,
-  handleValue: (value: ExchangeFormValue) => void,
-  cost: number,
-};
+export class AmountInputView extends React.PureComponent<AmountInputProps> {
+  handleChange = (event: SyntheticInputEvent<HTMLSelectElement>): void => {
+    const { handleValue, cost } = this.props;
 
-export const AmountInputView = (props: ExternalProps) => {
-  return (
-    <markerTreeContext.Consumer>
-      {({ markerCreator }) => (
-        <Input
-          data-marker={markerCreator('amount')()}
-          type="number"
-          step="any"
-          disabled={props.isHydrating}
-          min="0"
-          description={
-            props.bonus.data && (
-              <Plural
-                value={props.bonus.data}
-                one="You will receive # bonus token!"
-                other="You will receive # bonus tokens!"
-              />
-            )
-          }
-          label={<Trans>Amount</Trans>}
-          value={String(props.amount)}
-          onChange={(event) => {
-            props.handleValue({
-              amount: Number(event.target.value),
-              cost: props.cost,
-            });
-          }}
-        />
-      )}
-    </markerTreeContext.Consumer>
-  );
-};
+    handleValue({
+      amount: Number(event.target.value),
+      cost,
+    });
+  };
+
+  render() {
+    const { isHydrating, bonus, amount, tokenSymbol } = this.props;
+
+    return (
+      <markerTreeContext.Consumer>
+        {({ markerCreator }) => (
+          <Input
+            data-marker={markerCreator('amount')()}
+            type="number"
+            step="any"
+            disabled={isHydrating}
+            min="0"
+            placeholder={`Enter amount of ${tokenSymbol}`}
+            description={
+              bonus.data && (
+                <Plural
+                  value={bonus.data}
+                  one="You will receive # bonus token!"
+                  other="You will receive # bonus tokens!"
+                />
+              )
+            }
+            label={<Trans>Amount</Trans>}
+            value={amount === 0 ? '' : String(amount)}
+            onChange={this.handleChange}
+          />
+        )}
+      </markerTreeContext.Consumer>
+    );
+  }
+}

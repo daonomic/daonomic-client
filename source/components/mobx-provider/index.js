@@ -12,6 +12,6 @@ type MobxProviderProps = {
   stores: {},
 };
 
-export function MobxProvider(props: MobxProviderProps) {
+export const MobxProvider = (props: MobxProviderProps) => {
   return <Provider {...props.stores}>{props.children}</Provider>;
-}
+};

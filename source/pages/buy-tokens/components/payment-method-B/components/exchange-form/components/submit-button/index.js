@@ -1,55 +1,22 @@
 // @flow
 
-import React from 'react';
-import { markerTreeContext } from '~/providers/marker-tree';
-import { Form, Button } from '@daonomic/ui';
-// $FlowFixMe
-import { Trans } from '@lingui/macro';
-import { KyberButton } from '~/components/kyber-button';
+import * as React from 'react';
+import { compose } from 'ramda';
+import { connectContext } from '~/HOC/connect-context';
+import { SubmitButtonView } from './view';
+import { exchangeFormContext } from '~/pages/buy-tokens/components/payment-method-B/components/exchange-form/context';
 
-type Props = {|
-  hidden?: boolean,
-  isKyber?: boolean,
-  ethAmount: number,
-  disabled?: boolean,
-|};
+import type { SubmitButtonProps } from './types';
+import type { ExchangeFormContextValue } from '~/pages/buy-tokens/components/payment-method-B/components/exchange-form/types';
 
-export function SubmitButton(props: Props) {
-  if (props.hidden) return null;
+const enhance = compose(
+  connectContext(
+    exchangeFormContext,
+    (context: ExchangeFormContextValue): SubmitButtonProps => ({
+      disabled: context.isHydrating || !context.cost,
+      ethAmount: context.cost,
+    }),
+  ),
+);
 
-  let button = (
-    <markerTreeContext.Consumer>
-      {({ markerCreator }) => (
-        <Button
-          data-marker={markerCreator('buy')()}
-          type="submit"
-          disabled={props.disabled}
-        >
-          <Trans>Buy</Trans>
-        </Button>
-      )}
-    </markerTreeContext.Consumer>
-  );
-
-  if (props.isKyber) {
-    button = (
-      <markerTreeContext.Consumer>
-        {({ markerCreator }) => (
-          <KyberButton
-            data-marker={markerCreator('buy-erc20')()}
-            ethAmount={props.ethAmount}
-            disabled={props.disabled} 
-          >
-            <Trans>Buy</Trans>
-          </KyberButton>
-        )}
-      </markerTreeContext.Consumer>
-    );
-  }
-
-  return (
-    <Form.Field withGhostLabel style={{ flex: '0 0 auto' }}>
-      {button}
-    </Form.Field>
-  );
-}
+export const SubmitButton: React.ComponentType<{}> = enhance(SubmitButtonView);

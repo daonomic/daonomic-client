@@ -8,32 +8,46 @@ import styles from './styles.css';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 
-import * as KyberNetworkTypes from '~/domains/business/kyber-network/types';
+import * as PaymentTypes from '~/domains/business/payment/types';
 
 type Props = {|
-  currencies: KyberNetworkTypes.KyberNetworkCurrency[],
+  currencies: PaymentTypes.PaymentServicePaymentMethod[],
   isLoaded: boolean,
+  purchasingTokenSymbol: string,
   onSelect: (
-    nextPaymentMethod: ?KyberNetworkTypes.KyberNetworkCurrency,
+    nextPaymentMethod: ?PaymentTypes.PaymentServicePaymentMethod,
   ) => void,
-  selectedPaymentMethod: KyberNetworkTypes.KyberNetworkCurrency,
+  selectedPaymentMethod: PaymentTypes.PaymentServicePaymentMethod,
 |};
 
 export class PaymentMethodSelectView extends React.PureComponent<Props> {
-  componentDidUpdate(prevProps: Props) {
-    const { onSelect, currencies, selectedPaymentMethod } = this.props;
+  componentDidMount() {
+    const { isLoaded, currencies, onSelect } = this.props;
 
-    if (!prevProps.currencies && !selectedPaymentMethod && currencies) {
+    if (isLoaded) {
       onSelect(currencies[0]);
     }
   }
+  componentDidUpdate(prevProps: Props) {
+    const { onSelect, isLoaded, selectedPaymentMethod } = this.props;
+
+    if (prevProps.isLoaded !== isLoaded && !selectedPaymentMethod) {
+      onSelect(this.props.currencies[0]);
+    }
+  }
+
+  handleChange = (event: SyntheticInputEvent<HTMLSelectElement>) => {
+    const { onSelect, currencies } = this.props;
+
+    onSelect(currencies.find((currency) => currency.id === event.target.value));
+  };
 
   render() {
     const {
       currencies,
       isLoaded,
-      onSelect,
       selectedPaymentMethod,
+      purchasingTokenSymbol,
     } = this.props;
 
     const selectId = 'payment-method';
@@ -43,14 +57,14 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
     const renderOptions = (options) =>
       options.map((option) => (
         <option key={option.id} value={option.id}>
-          {option.symbol}
+          {option.token}
         </option>
       ));
 
     return (
       <div className={styles.root}>
         <label className={styles.label} htmlFor={selectId}>
-          <Trans>I want to pay with</Trans>
+          <Trans>I want buy {purchasingTokenSymbol} with</Trans>
         </label>
         <markerTreeContext.Consumer>
           {({ markerCreator }) => (
@@ -58,13 +72,7 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
               id={selectId}
               data-marker={markerCreator('select')}
               value={(selectedPaymentMethod || {}).id}
-              onChange={(event: SyntheticInputEvent<HTMLSelectElement>) => {
-                onSelect(
-                  currencies.find(
-                    (currency) => currency.id === event.target.value,
-                  ),
-                );
-              }}
+              onChange={this.handleChange}
             >
               {currencies && renderOptions(currencies)}
             </Select>
