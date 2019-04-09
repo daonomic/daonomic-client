@@ -3,27 +3,28 @@
 import React from 'react';
 import { Select } from '@daonomic/ui';
 import { markerTreeContext } from '~/providers/marker-tree';
+import styles from './styles.css';
 
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
-
-import styles from './styles.css';
 
 import * as KyberNetworkTypes from '~/domains/business/kyber-network/types';
 
 type Props = {|
   currencies: KyberNetworkTypes.KyberNetworkCurrency[],
   isLoaded: boolean,
-  onSelect: (nextPaymentMethod: string) => void,
-  selectedPaymentMethod: string,
+  onSelect: (
+    nextPaymentMethod: ?KyberNetworkTypes.KyberNetworkCurrency,
+  ) => void,
+  selectedPaymentMethod: KyberNetworkTypes.KyberNetworkCurrency,
 |};
 
 export class PaymentMethodSelectView extends React.PureComponent<Props> {
   componentDidUpdate(prevProps: Props) {
     const { onSelect, currencies, selectedPaymentMethod } = this.props;
 
-    if (!prevProps.currencies && currencies && !selectedPaymentMethod) {
-      onSelect(currencies[0].id);
+    if (!prevProps.currencies && !selectedPaymentMethod && currencies) {
+      onSelect(currencies[0]);
     }
   }
 
@@ -56,9 +57,13 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
             <Select
               id={selectId}
               data-marker={markerCreator('select')}
-              value={selectedPaymentMethod}
+              value={(selectedPaymentMethod || {}).id}
               onChange={(event: SyntheticInputEvent<HTMLSelectElement>) => {
-                onSelect(event.target.value);
+                onSelect(
+                  currencies.find(
+                    (currency) => currency.id === event.target.value,
+                  ),
+                );
               }}
             >
               {currencies && renderOptions(currencies)}

@@ -1,70 +1,71 @@
 // @flow
 
 import React from 'react';
-import { compose } from 'ramda';
-import { connectContext } from '~/HOC/connect-context';
-import { ExchangeFormView } from './view';
-import { paymentMethodContext } from '../../context';
+
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
+import { markerTreeContext } from '~/providers/marker-tree';
+import { SubmitButton } from './components/submit-button';
+import { AmountInput } from './components/amount-input';
+import { Form, Input } from '@daonomic/ui';
+
+import * as DataStateTypes from '~/domains/data/data-state/types';
+import type { ExchangeFormValue } from './types';
 
 type Props = {|
-  selectedPaymentMethod: string,
-|};
-
-type State = {|
   amount: number,
   cost: number,
+  onSubmit: () => void,
+  formattedCost: number,
+  isHydrating: boolean,
+  costPrecision: number,
+  bonus: DataStateTypes.LoadableData<number>,
+  isImmediatePurchaseAvailable: boolean,
+  handleValue: (value: ExchangeFormValue) => void,
 |};
 
-class ExchangeFormClass extends React.PureComponent<Props, State> {
-  state = {
-    amount: 0,
-    cost: 0,
-  };
+export const ExchangeFormView = (props: Props) => {
+  return (
+    <markerTreeContext.Consumer>
+      {({ markerCreator }) => (
+        <Form
+          data-marker={markerCreator()}
+          onSubmit={(event) => {
+            event.preventDefault();
+            props.onSubmit();
+          }}
+        >
+          <Form.Group>
+            <Form.Field>
+              <AmountInput />
+            </Form.Field>
 
-  handleCost = (event: SyntheticInputEvent<HTMLSelectElement>): void => {
-    const nextCost = Number(event.target.value);
+            <Form.Field>
+              <Input
+                data-marker={markerCreator('cost')()}
+                type="number"
+                min={parseFloat(`0.${'0'.repeat(props.costPrecision - 1)}1`)}
+                step={parseFloat(`0.${'0'.repeat(props.costPrecision - 1)}1`)}
+                label={<Trans>Cost</Trans>}
+                value={String(props.formattedCost)}
+                disabled={props.isHydrating}
+                onChange={(event) => {
+                  props.handleValue({
+                    cost: Number(event.target.value),
+                    amount: props.amount,
+                  });
+                }}
+              />
+            </Form.Field>
 
-    this.setState({
-      amount: this.calculateAmount(nextCost),
-      cost: nextCost,
-    });
-  };
-
-  handleAmount = (event: SyntheticInputEvent<HTMLSelectElement>): void => {
-    const nextAmount = Number(event.target.value);
-
-    this.setState({
-      cost: this.calculateCost(nextAmount),
-      amount: nextAmount,
-    });
-  };
-
-  calculateAmount = (nextCost: number): number => {
-    return;
-  };
-
-  calculateCost = (nextAmount: number): number => {
-    return;
-  };
-
-  render() {
-    const { cost, amount } = this.state;
-
-    return (
-      <ExchangeFormView
-        handleCost={this.handleCost}
-        handleAmount={this.handleAmount}
-        cost={cost}
-        amount={amount}
-      />
-    );
-  }
-}
-
-const enhance = compose(
-  connectContext(paymentMethodContext, (context) => ({
-    selectedPaymentMethod: context.selectedPaymentMethod,
-  })),
-);
-
-export const ExchangeForm = enhance(ExchangeFormClass);
+            <SubmitButton
+              ethAmount={props.cost}
+              disabled={props.cost === 0 || props.isHydrating}
+              hidden={!props.isImmediatePurchaseAvailable}
+            />
+          </Form.Group>
+        </Form>
+      )}
+    </markerTreeContext.Consumer>
+  );
+};

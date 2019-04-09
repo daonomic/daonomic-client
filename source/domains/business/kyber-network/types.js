@@ -41,3 +41,4 @@ export interface IKyberNetworkService {
   }) => Promise<KyberNetworkGetBuyRateResponse>;
   getAvailableCurrencies: () => Promise<KyberNetworkGetAvailableCurrenciesResponse>;
 }
+
