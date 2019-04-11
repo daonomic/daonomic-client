@@ -8,16 +8,14 @@ import styles from './styles.css';
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 
-import * as PaymentTypes from '~/domains/business/payment/types';
+import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 
 type Props = {|
-  currencies: PaymentTypes.PaymentServicePaymentMethod[],
+  currencies: PaymentServicePaymentMethod[],
   isLoaded: boolean,
   purchasingTokenSymbol: string,
-  onSelect: (
-    nextPaymentMethod: ?PaymentTypes.PaymentServicePaymentMethod,
-  ) => void,
-  selectedPaymentMethod: PaymentTypes.PaymentServicePaymentMethod,
+  onSelect: (nextPaymentMethod: ?PaymentServicePaymentMethod) => void,
+  selectedPaymentMethod: PaymentServicePaymentMethod,
 |};
 
 export class PaymentMethodSelectView extends React.PureComponent<Props> {
@@ -39,7 +37,9 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
   handleChange = (event: SyntheticInputEvent<HTMLSelectElement>) => {
     const { onSelect, currencies } = this.props;
 
-    onSelect(currencies.find((currency) => currency.id === event.target.value));
+    onSelect(
+      currencies.find((currency) => currency.token === event.target.value),
+    );
   };
 
   render() {
@@ -56,8 +56,8 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
 
     const renderOptions = (options) =>
       options.map((option) => (
-        <option key={option.id} value={option.id}>
-          {option.token}
+        <option key={option.token} value={option.token}>
+          {option.label}
         </option>
       ));
 
@@ -71,7 +71,7 @@ export class PaymentMethodSelectView extends React.PureComponent<Props> {
             <Select
               id={selectId}
               data-marker={markerCreator('select')}
-              value={(selectedPaymentMethod || {}).id}
+              value={(selectedPaymentMethod || {}).token}
               onChange={this.handleChange}
             >
               {currencies && renderOptions(currencies)}

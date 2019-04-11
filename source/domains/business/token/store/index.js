@@ -16,6 +16,9 @@ export class TokenStore {
   @observable
   sale: ?SaleStore = null;
 
+  @observable
+  contracts: TokenTypes.ContractProxies;
+
   @computed
   get symbol(): string {
     return this.state.dataState === 'loaded' ? this.state.data.symbol : '';
@@ -29,6 +32,11 @@ export class TokenStore {
   @action
   setSale = (sale: SaleStore) => {
     this.sale = sale;
+  };
+
+  @action
+  setContracts = (contracts: TokenTypes.ContractProxies) => {
+    this.contracts = contracts;
   };
 
   @action

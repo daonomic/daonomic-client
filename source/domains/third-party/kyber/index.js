@@ -31,7 +31,7 @@ export function getKyberWidgetUrl({
   saleAddress,
   buyerAddress,
 }: {|
-  amount: number,
+  amount: string,
   saleAddress: string,
   buyerAddress: string,
 |}) {

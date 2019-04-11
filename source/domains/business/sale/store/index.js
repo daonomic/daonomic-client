@@ -26,6 +26,15 @@ export class SaleStore {
   }
 
   @computed
+  get address(): string {
+    return this.data.address;
+  }
+
+  get publicPrices(): ?(SaleTypes.SalePublicPrice[]) {
+    return (this.payment || {}).publicPrices;
+  }
+
+  @computed
   get isFinished(): boolean {
     if (this.data.endDate) {
       return this.data.endDate <= Date.now();

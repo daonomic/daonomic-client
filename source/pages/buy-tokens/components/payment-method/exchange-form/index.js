@@ -157,7 +157,6 @@ export const ExchangeForm: React.ComponentType<ExternalProps> = inject(
         (immediatePurchase.isAvailable && paymentMethodId === 'ETH') ||
         paymentMethodId === 'ERC20',
       checkImmediatePurchaseAvailability: immediatePurchase.checkAvailability,
-      buyTokens: immediatePurchase.buyTokens,
     };
   },
 )(observer(ExchangeFormContainer));

@@ -1,113 +1,52 @@
 // @flow
 
 import * as React from 'react';
-import { paymentService } from '~/domains/business/payment';
-import { initialValue } from './config';
+import { compose } from 'ramda';
+import { inject, observer } from 'mobx-react';
 
 import type { AvailablePaymentMethodsContextValue } from './types';
-import * as DataStateTypes from '~/domains/data/data-state/types';
-import * as PaymentTypes from '~/domains/business/payment/types';
-
-type State = {|
-  currencies: DataStateTypes.LoadableData<
-    PaymentTypes.PaymentServicePaymentMethod[],
-  >,
-|};
+import type { TokenStore } from '~/domains/business/token/store';
+import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 
 export const availablePaymentMethodsContext: React.Context<AvailablePaymentMethodsContextValue> = React.createContext(
-  initialValue,
+  {
+    paymentMethods: null,
+    defaultPaymentMethod: null,
+  },
 );
 
 type Props = {|
+  paymentMethods: ?(PaymentServicePaymentMethod[]),
   children:
     | React.Node
     | ((store: AvailablePaymentMethodsContextValue) => React.Node),
 |};
 
-export class AvailablePaymentMethodsProvider extends React.PureComponent<
-  Props,
-  State,
-> {
-  state = {
-    currencies: { dataState: 'idle' },
-  };
+const AvailablePaymentMethodsProviderFunc = (props: Props) => {
+  return (
+    <availablePaymentMethodsContext.Provider
+      value={{
+        paymentMethods: props.paymentMethods,
+        defaultPaymentMethod:
+          props.paymentMethods &&
+          props.paymentMethods.find((method) => method.default),
+      }}
+    >
+      {props.children}
+    </availablePaymentMethodsContext.Provider>
+  );
+};
 
-  get allowedCurrencies(): ?(PaymentTypes.PaymentServicePaymentMethod[]) {
-    const { currencies } = this.state;
+const enhance = compose(
+  observer,
+  inject(({ token }: { token: TokenStore }) => ({
+    paymentMethods: token && ((token.sale || {}).data || {}).paymentMethods,
+  })),
+);
 
-    if (currencies.dataState === 'loaded') {
-      return currencies.data;
-    }
-
-    return null;
-  }
-
-  get hasError(): boolean {
-    const { dataState } = this.state.currencies;
-
-    return dataState === 'failed';
-  }
-
-  get isLoading(): boolean {
-    const { dataState } = this.state.currencies;
-
-    return dataState === 'loading';
-  }
-
-  get isLoaded(): boolean {
-    const { dataState } = this.state.currencies;
-
-    return dataState === 'loaded';
-  }
-
-  componentDidMount() {
-    const { dataState } = this.state.currencies;
-
-    if (dataState !== 'loaded') {
-      this.loadCurrencies();
-    }
-  }
-
-  componentDidCatch(error: mixed) {
-    // eslint-disable-next-line
-    console.error(error);
-
-    this.setState({
-      currencies: { dataState: 'failed' },
-    });
-  }
-
-  loadCurrencies = async () => {
-    const paymentMethodsResponse = await paymentService.fetchPaymentMethods();
-
-    if (!paymentMethodsResponse.currencies) {
-      throw new Error('Cant load currencies');
-    }
-
-    this.setState({
-      currencies: {
-        dataState: 'loaded',
-        data: paymentMethodsResponse.currencies,
-      },
-    });
-  };
-
-  render() {
-    return (
-      <availablePaymentMethodsContext.Provider
-        value={{
-          currencies: this.state.currencies,
-          isLoading: this.isLoading,
-          hasError: this.hasError,
-          allowedCurrencies: this.allowedCurrencies,
-          isLoaded: this.isLoaded,
-        }}
-      >
-        {this.props.children}
-      </availablePaymentMethodsContext.Provider>
-    );
-  }
-}
+export const AvailablePaymentMethodsProvider = enhance(
+  AvailablePaymentMethodsProviderFunc,
+);
 
 export const withAvailablePaymentMethodsProvider = (
   Component: React.ComponentType<mixed>,

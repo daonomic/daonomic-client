@@ -7,6 +7,7 @@ import { auth } from '~/domains/business/auth';
 import { kyc } from '~/domains/business/kyc';
 
 import type { SaleStore } from '~/domains/business/sale/store';
+import * as SaleTypes from '~/domains/business/sale/types';
 import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
 
 class PaymentStoreState {
@@ -29,7 +30,7 @@ export class PaymentStore {
   );
 
   @computed
-  get publicPrices(): { rate: number, label: string }[] {
+  get publicPrices(): SaleTypes.SalePublicPrice[] {
     return this.sale.data.paymentMethods
       .filter((method) => method.id !== 'ERC20')
       .map(({ id, rate }) => ({

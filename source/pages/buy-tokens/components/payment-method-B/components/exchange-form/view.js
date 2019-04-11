@@ -2,11 +2,16 @@
 
 import React from 'react';
 import { markerTreeContext } from '~/providers/marker-tree';
+
+// $FlowFixMe
+import { Trans } from '@lingui/macro';
+
 import { SubmitButton } from './components/submit-button';
 import { AmountInput } from './components/amount-input';
 import { CostInput } from './components/cost-input';
 import { ResetButton } from './components/reset-button';
 import { Form } from '@daonomic/ui';
+import style from './style.css';
 
 import type { ExchangeFormViewProps } from './types';
 
@@ -19,7 +24,7 @@ export class ExchangeFormView extends React.PureComponent<ExchangeFormViewProps>
   };
 
   render() {
-    const { displayResetButton } = this.props;
+    const { displayResetButton, hasFetchError } = this.props;
 
     return (
       <markerTreeContext.Consumer>
@@ -39,6 +44,11 @@ export class ExchangeFormView extends React.PureComponent<ExchangeFormViewProps>
               </Form.Group>
             </Form>
             {displayResetButton && <ResetButton />}
+            {hasFetchError && (
+              <p className={style.error}>
+                <Trans>Something went wrong</Trans>
+              </p>
+            )}
           </React.Fragment>
         )}
       </markerTreeContext.Consumer>

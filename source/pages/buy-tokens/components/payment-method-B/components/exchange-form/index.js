@@ -20,6 +20,7 @@ const enhance = compose(
     ): ExchangeFormTypes.ExchangeFormViewProps => ({
       onSubmit: context.handleSubmit,
       displayResetButton: context.cost !== 0,
+      hasFetchError: context.hasFetchError,
     }),
   ),
 );

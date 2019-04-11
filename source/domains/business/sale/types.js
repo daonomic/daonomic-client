@@ -11,3 +11,8 @@ export type Data = {|
   address: string,
   paymentMethods: PaymentMethodTypes.Data[],
 |};
+
+export type SalePublicPrice = {|
+  rate: number,
+  label: string,
+|};

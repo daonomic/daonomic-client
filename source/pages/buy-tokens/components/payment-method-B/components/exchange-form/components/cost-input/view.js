@@ -39,7 +39,7 @@ export class CostInputView extends React.PureComponent<CostInputProps> {
             value={formattedCost === 0 ? '' : String(formattedCost)}
             placeholder={
               selectedPaymentMethod
-                ? `Estimated cost in ${selectedPaymentMethod.token}`
+                ? `Estimated cost in ${selectedPaymentMethod.id}`
                 : 'Select tokens..'
             }
             disabled={isHydrating}

@@ -6,3 +6,7 @@ export type Data = {|
   symbol: string,
   features?: string[],
 |};
+
+export type ContractProxies = {
+  [key: string]: string,
+};

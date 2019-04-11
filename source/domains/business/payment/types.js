@@ -1,49 +1,49 @@
 // @flow
 
 export type PaymentServicePaymentMethod = {|
-  id: string,
-  token: string,
-  label: string,
-  price: string,
-  rate: string,
-  raised: string,
-  sold: string,
-  bonus: string,
+  id: string, // symbol
+  label: string, // full label
+  token: string, // address
+  default: boolean,
+  price: number,
+  rate: number,
+  raised: number,
+  sold: number,
+  conversionRate: number,
+  category: 'ETH' | 'SIDECHAIN' | 'ERC20' | 'KYBER_NETWORK',
+  kyberNetwork: boolean,
+  decimals: number,
+  bonus?: string,
 |};
 
 type PaymentServiceFetchRateTypeSuccess = {|
   rate: number,
+  price: number,
+  conversionRate: number,
 |};
 
 type PaymentServiceFetchRateTypeError = {|
-  error: string,
+  reason: string,
 |};
 
 export type PaymentServiceFetchRateType =
   | PaymentServiceFetchRateTypeSuccess
   | PaymentServiceFetchRateTypeError;
 
-type PaymentServiceFetchPaymentMethodsResponseSuccess = {|
-  currencies: PaymentServicePaymentMethod[],
+export type PaymentServiceFetchRateData = {|
+  address: string,
+  amount: number,
 |};
-
-type PaymentServiceFetchPaymentMethodsResponseError = {|
-  reason: string,
-|};
-
-export type PaymentServiceFetchPaymentMethodsResponse =
-  | PaymentServiceFetchPaymentMethodsResponseSuccess
-  | PaymentServiceFetchPaymentMethodsResponseError;
-
 export interface IPaymentService {
   determineBonus: (data: {|
     saleId: string,
     amount: number,
   |}) => Promise<number>;
-  fetchRate: (data: {|
-    to: string,
-    from: string,
-    amount: number,
-  |}) => Promise<PaymentServiceFetchRateType>;
-  fetchPaymentMethods: () => Promise<PaymentServiceFetchPaymentMethodsResponse>;
+  fetchRate: (
+    data: {|
+      address: string,
+      amount: number,
+    |},
+    saleId: string,
+  ) => Promise<PaymentServiceFetchRateType>;
 }

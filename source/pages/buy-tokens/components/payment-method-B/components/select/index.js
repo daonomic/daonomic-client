@@ -7,14 +7,14 @@ import { PaymentMethodSelectView } from './view';
 import { connectContext } from '~/HOC/connect-context';
 
 import type { AvailablePaymentMethodsContextValue } from '~/providers/available-payment-methods/types';
-import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/context';
+import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/types';
 
 const enhance = compose(
   connectContext(
     availablePaymentMethodsContext,
     (context: AvailablePaymentMethodsContextValue) => ({
-      currencies: context.allowedCurrencies,
-      isLoaded: context.isLoaded,
+      currencies: context.paymentMethods,
+      isLoaded: !!context.paymentMethods,
     }),
   ),
   connectContext(

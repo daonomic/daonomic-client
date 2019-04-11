@@ -5,56 +5,26 @@ import { connectContext } from '~/HOC/connect-context';
 import { inject } from 'mobx-react';
 import { compose } from 'ramda';
 import { availablePaymentMethodsContext } from '~/providers/available-payment-methods';
+import { publicPricesContext } from '~/providers/public-prices';
+import { initialValue } from './config';
 
 import type { RootStore } from '~/domains/app/stores';
-import type { SaleStore } from '~/domains/business/sale/store';
+import type { PaymentMethodContextValue } from './types';
 import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 import type { AvailablePaymentMethodsContextValue } from '~/providers/available-payment-methods/types';
+import type { SalePublicPrice } from '~/domains/business/sale/types';
 
 type State = {|
   selectedPaymentMethod: ?PaymentServicePaymentMethod,
 |};
 
-type InjectedProps = {|
-  isImmediatePurchaseAvailable: boolean,
-  purchasingTokenSymbol: ?string,
-  checkImmediatePurchaseAvailability: () => mixed,
-  buyTokens: ({ costInEthers: number }) => mixed,
-|};
-
-export type PaymentMethodContextValue = {|
-  ...State,
-  ...InjectedProps,
-  saleId: ?string,
-  selectPaymentMethod?: (key: ?PaymentServicePaymentMethod) => void,
-  selectedSymbol: ?string,
-  ethRate: ?number,
-  selectedMethodAddress: ?string,
-  isKyber: boolean,
-  sale: ?SaleStore,
-|};
-
 type Props = {|
-  ...InjectedProps,
-  sale: SaleStore,
+  purchasingTokenSymbol: ?string,
+  publicPrices: ?(SalePublicPrice[]),
   children: React.Node | ((store: PaymentMethodContextValue) => React.Node),
   currencies: PaymentServicePaymentMethod[],
   purchasingTokenSymbol: string,
 |};
-
-const initialValue: PaymentMethodContextValue = {
-  selectedPaymentMethod: null,
-  selectedSymbol: null,
-  isKyber: false,
-  isImmediatePurchaseAvailable: false,
-  checkImmediatePurchaseAvailability: () => {},
-  buyTokens: () => {},
-  purchasingTokenSymbol: null,
-  saleId: null,
-  sale: null,
-  selectedMethodAddress: null,
-  ethRate: null,
-};
 
 export const paymentMethodContext: React.Context<PaymentMethodContextValue> = React.createContext(
   initialValue,
@@ -70,57 +40,25 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
 
     if (!selectedPaymentMethod) return null;
 
-    return selectedPaymentMethod.token;
-  }
-
-  get isKyber() {
-    const { currencies } = this.props;
-    const { selectedPaymentMethod } = this.state;
-
-    if (!currencies || !selectedPaymentMethod) return false;
-
-    return (
-      currencies.map((curr) => curr.id).indexOf(selectedPaymentMethod.id) !== -1
-    );
-  }
-
-  get ethRate(): number {
-    const { payment } = this.props.sale;
-
-    if (!payment.publicPrices) return 0;
-
-    const ethMethod = payment.publicPrices.find(
-      (method) => method.label === 'ETH',
-    );
-
-    if (!ethMethod) return 0;
-
-    return ethMethod.rate;
-  }
-
-  get isImmediatePurchaseAvailable() {
-    const { isImmediatePurchaseAvailable } = this.props;
-    const symbol = this.selectedSymbol;
-
-    if (!symbol) return false;
-
-    return (
-      (isImmediatePurchaseAvailable && symbol === 'ETH') || this.isERC20(symbol)
-    );
+    return selectedPaymentMethod.id;
   }
 
   get selectedMethodAddress(): ?string {
     const { selectedPaymentMethod } = this.state;
 
-    return selectedPaymentMethod && selectedPaymentMethod.id;
+    return selectedPaymentMethod && selectedPaymentMethod.token;
   }
 
-  isERC20 = (symbol: string): boolean => {
-    const { currencies } = this.props;
+  getPublicPrice = (symbol: string): ?number => {
+    const { publicPrices } = this.props;
 
-    if (!currencies) return false;
+    if (!publicPrices) return null;
 
-    return currencies.indexOf(symbol) !== -1;
+    const method = publicPrices.find((method) => method.label === symbol);
+
+    if (!method) return 0;
+
+    return method.rate;
   };
 
   selectPaymentMethod = (
@@ -133,24 +71,15 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
   };
 
   render = () => {
-    const { sale } = this.props;
-
     return (
       <paymentMethodContext.Provider
         value={{
           selectedPaymentMethod: this.state.selectedPaymentMethod,
           selectPaymentMethod: this.selectPaymentMethod,
-          saleId: sale.data && sale.data.id,
           selectedSymbol: this.selectedSymbol,
           purchasingTokenSymbol: this.props.purchasingTokenSymbol,
-          ethRate: this.ethRate,
+          getPublicPrice: this.getPublicPrice,
           selectedMethodAddress: this.selectedMethodAddress,
-          sale: sale,
-          checkImmediatePurchaseAvailability: this.props
-            .checkImmediatePurchaseAvailability,
-          isKyber: this.isKyber,
-          isImmediatePurchaseAvailable: this.isImmediatePurchaseAvailable,
-          buyTokens: this.props.buyTokens,
         }}
       >
         {this.props.children}
@@ -159,24 +88,25 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
   };
 }
 
-const mapGlobalStoreToProps = (store: RootStore): InjectedProps => {
-  return {
-    isImmediatePurchaseAvailable: store.immediatePurchase.isAvailable,
-    checkImmediatePurchaseAvailability:
-      store.immediatePurchase.checkAvailability,
-    buyTokens: store.immediatePurchase.buyTokens,
-    purchasingTokenSymbol: store.token.symbol,
-  };
-};
+type InjectedProps = {|
+  purchasingTokenSymbol: ?string,
+|};
+
+const mapGlobalStoreToProps = (store: RootStore): InjectedProps => ({
+  purchasingTokenSymbol: store.token.symbol,
+});
 
 const enhance = compose(
   connectContext(
     availablePaymentMethodsContext,
     (context: AvailablePaymentMethodsContextValue) => ({
-      currencies: context.allowedCurrencies,
-      isLoaded: context.currencies.dataState === 'loaded',
+      currencies: context.paymentMethods,
+      isLoaded: !!context.paymentMethods,
     }),
   ),
+  connectContext(publicPricesContext, (context) => ({
+    publicPrices: context.publicPrices,
+  })),
   inject(mapGlobalStoreToProps),
 );
 
@@ -184,7 +114,7 @@ export const PaymentMethodProvider = enhance(PaymentMethodProviderClass);
 
 export const withPaymentMethodProvider = (Component: any) => {
   return (props: Props) => (
-    <PaymentMethodProvider sale={props.sale}>
+    <PaymentMethodProvider>
       <Component {...props} />
     </PaymentMethodProvider>
   );

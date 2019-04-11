@@ -6,7 +6,7 @@ import { connectContext } from '~/HOC/connect-context';
 import { paymentMethodContext } from '~/pages/buy-tokens/components/payment-method-B/context';
 import { compose } from 'ramda';
 
-import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/context';
+import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/types';
 
 const enhance = compose(
   connectContext(

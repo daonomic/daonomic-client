@@ -3,32 +3,53 @@
 import * as React from 'react';
 import { compose } from 'ramda';
 import { connectContext } from '~/HOC/connect-context';
+import { inject } from 'mobx-react';
 import raven from 'raven-js';
 import debounce from 'debounce-fn';
 import { paymentMethodContext } from '~/pages/buy-tokens/components/payment-method-B/context';
 import { paymentService } from '~/domains/business/payment/service';
 import { withBonus } from './with-bonus';
+import { purchaseHooksContext } from '~/providers/purchase-hooks';
 import { initialContextValue } from './config';
 
-import type { BonusProps } from './with-bonus';
-import * as PaymentTypes from '~/domains/business/payment/types';
+import type { TokenStore } from '~/domains/business/token/store';
+import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/types';
+import type { PurchaseHooksContextValue } from '~/providers/purchase-hooks/types';
+import type { LoadableData } from '~/domains/data/data-state/types';
+import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from './types';
 
-type Props = {|
-  ...BonusProps,
-  selectedPaymentMethod: PaymentTypes.PaymentServicePaymentMethod,
+export type ExternalProps = {|
+  loadBonus: (amount: number) => void,
+  bonus: LoadableData<number>,
+  saleAddress: string,
+  selectedPaymentMethod: PaymentServicePaymentMethod,
   costPrecision: number,
   ethRate: number,
   tokenSymbol: string,
+  buyInEth: ({
+    cost: number,
+  }) => Promise<void>,
+  buyInErc20: ({|
+    cost: number,
+    paymentMethod: PaymentServicePaymentMethod,
+  |}) => Promise<void>,
+  buyInKyber: ({|
+    cost: number,
+    paymentMethod: PaymentServicePaymentMethod,
+  |}) => Promise<void>,
+  getPublicPrice: (symbol: string) => ?number,
   onSubmit: () => void,
   children: React.Node,
+  saleAddress: string,
+  saleId: string,
   getSellRateToEth: (tokenAddress: string) => number,
-  buyTokens: ({ costInEthers: number }) => mixed,
 |};
 
 type State = {|
   amount: number,
   cost: number,
+  hasFetchError: boolean,
   isHydrating: boolean,
 |};
 
@@ -36,11 +57,15 @@ export const exchangeFormContext = React.createContext<PaymentMethodTypes.Exchan
   initialContextValue,
 );
 
-class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
+class ExchangeFormProviderClass extends React.PureComponent<
+  ExternalProps,
+  State,
+> {
   state = {
     amount: 0,
     cost: 0,
     isHydrating: false,
+    hasFetchError: false,
   };
 
   costPrecision: number = 6;
@@ -71,30 +96,43 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
 
   recalculateValues = debounce(
     async (prevValue: PaymentMethodTypes.ExchangeFormValue) => {
-      const { selectedPaymentMethod, ethRate } = this.props;
+      const { selectedPaymentMethod, saleId, getPublicPrice } = this.props;
+
       const { amount } = this.state;
 
       this.setState({
         isHydrating: true,
+        hasFetchError: false,
       });
       try {
-        const rateResponse = await paymentService.fetchRate({
-          from: selectedPaymentMethod.id,
-          to: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-          amount,
-        });
+        let rate;
 
-        if (!rateResponse.rate) {
-          throw new Error(rateResponse.error || 'Cant handle now');
+        if (!selectedPaymentMethod.kyberNetwork) {
+          rate = getPublicPrice(selectedPaymentMethod.id);
+        } else {
+          const rateResponse = await paymentService.fetchRate(
+            {
+              address: selectedPaymentMethod.token,
+              amount,
+            },
+            saleId,
+          );
+
+          if (!rateResponse.rate) {
+            throw new Error('Cant make request now');
+          }
+          rate = rateResponse.rate;
         }
 
-        const tokenRate = rateResponse.rate * ethRate;
+        if (!rate) {
+          throw new Error('Cant perform calculation');
+        }
 
         if (this.state.cost !== prevValue.cost) {
           this.setState(
             {
               isHydrating: false,
-              amount: this.state.cost / tokenRate,
+              amount: this.state.cost * rate,
             },
             this.loadBonusDebounced,
           );
@@ -102,7 +140,7 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
           this.setState(
             {
               isHydrating: false,
-              cost: this.state.amount * tokenRate,
+              cost: this.state.amount / rate,
             },
             this.loadBonusDebounced,
           );
@@ -111,6 +149,7 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
         this.setState(
           {
             isHydrating: false,
+            hasFetchError: true,
           },
           () => {
             raven.captureBreadcrumb({
@@ -142,9 +181,27 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
   };
 
   handleSubmit = (): void => {
-    const { buyTokens } = this.props;
+    const { selectedPaymentMethod } = this.props;
 
-    buyTokens({ costInEthers: this.state.cost });
+    if (!selectedPaymentMethod) {
+      return;
+    }
+
+    if (!selectedPaymentMethod.category === 'ETH') {
+      this.props.buyInEth({
+        cost: this.state.cost,
+      });
+    } else if (selectedPaymentMethod.category === 'ERC20') {
+      this.props.buyInErc20({
+        cost: this.state.cost,
+        paymentMethod: selectedPaymentMethod,
+      });
+    } else if (selectedPaymentMethod.category === 'KYBER_NETWORK') {
+      this.props.buyInKyber({
+        cost: this.state.cost,
+        paymentMethod: selectedPaymentMethod,
+      });
+    }
   };
 
   reset = (): void => {
@@ -162,6 +219,7 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
           tokenSymbol: this.props.tokenSymbol,
           handleSubmit: this.handleSubmit,
           handleValue: this.handleValue,
+          hasFetchError: this.state.hasFetchError,
           formattedCost: this.formattedCost,
           selectedPaymentMethod: this.props.selectedPaymentMethod,
           amount: this.state.amount,
@@ -178,12 +236,25 @@ class ExchangeFormProviderClass extends React.PureComponent<Props, State> {
 }
 
 const enhance = compose(
-  connectContext(paymentMethodContext, (context) => ({
-    selectedPaymentMethod: context.selectedPaymentMethod,
-    selectedSymbol: context.selectedSymbol,
-    saleId: context.saleId,
-    ethRate: context.ethRate,
-    buyTokens: context.buyTokens,
+  connectContext(
+    paymentMethodContext,
+    (context: PaymentMethodContextValue) => ({
+      selectedPaymentMethod: context.selectedPaymentMethod,
+      selectedSymbol: context.selectedSymbol,
+      getPublicPrice: context.getPublicPrice,
+    }),
+  ),
+  connectContext(
+    purchaseHooksContext,
+    (context: PurchaseHooksContextValue) => ({
+      buyInEth: context.buyInEth,
+      buyInErc20: context.buyInErc20,
+      buyInKyber: context.buyInKyber,
+    }),
+  ),
+  inject(({ token }: $Exact<{ token: TokenStore }>) => ({
+    saleAddress: (token.sale || {}).data.address,
+    saleId: (token.sale || {}).data.id,
   })),
   withBonus,
 );

@@ -9,19 +9,21 @@ import { Trans } from '@lingui/macro';
 
 import type { SubmitButtonProps } from './types';
 
-export const SubmitButtonView = (props: SubmitButtonProps) => {
-  return (
-    <markerTreeContext.Consumer>
-      {({ markerCreator }) => (
-        <Button
-          type="submit"
-          data-marker={markerCreator('buy')()}
-          disabled={props.disabled}
-          design="primary"
-        >
-          <Trans>Buy</Trans>
-        </Button>
-      )}
-    </markerTreeContext.Consumer>
-  );
-};
+export class SubmitButtonView extends React.PureComponent<SubmitButtonProps> {
+  render() {
+    return (
+      <markerTreeContext.Consumer>
+        {({ markerCreator }) => (
+          <Button
+            type="submit"
+            data-marker={markerCreator('buy')()}
+            disabled={this.props.disabled}
+            design="primary"
+          >
+            <Trans>Buy</Trans>
+          </Button>
+        )}
+      </markerTreeContext.Consumer>
+    );
+  }
+}

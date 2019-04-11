@@ -6,7 +6,7 @@ export const environment: 'development' | 'staging' | 'production' =
   globalDaonomicConfig.environment || process.env.ENVIRONMENT;
 
 const realms = {
-  development: '5ca72a3e020d887d5b80c494',
+  development: '5caf39e8020d886df228a94e',
   staging: '5c8fb92adfe5224664edfa11',
   production: '',
 };
@@ -37,6 +37,7 @@ export const config = {
     },
   ],
   kyberWidgetUrl: 'https://kyber.daonomic.io',
+  web3AppNodeUrl: 'http://ops:9092/v1/node',
   defaultPollingInterval: 3000,
 };
 

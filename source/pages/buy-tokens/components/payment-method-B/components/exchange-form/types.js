@@ -14,6 +14,7 @@ export type ExchangeFormContextValue = {|
   handleValue: (value: ExchangeFormValue) => void,
   formattedCost: number,
   amount: number,
+  hasFetchError: boolean,
   isHydrating: boolean,
   reset: () => void,
   tokenSymbol: string,
@@ -25,4 +26,5 @@ export type ExchangeFormContextValue = {|
 export type ExchangeFormViewProps = {|
   onSubmit: () => void,
   displayResetButton: boolean,
+  hasFetchError: boolean,
 |};

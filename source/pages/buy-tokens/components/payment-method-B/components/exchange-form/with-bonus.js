@@ -13,11 +13,11 @@ type State = {|
 export type BonusProps = {|
   loadBonus: (amount: number) => void,
   bonus: DataStateTypes.LoadableData<number>,
-  saleId: string,
+  saleAddress: string,
 |};
 
 type ExternalProps = {|
-  saleId: string,
+  saleAddress: string,
 |};
 
 export const withBonus = (Component: React.ComponentType<BonusProps>) =>
@@ -40,7 +40,7 @@ export const withBonus = (Component: React.ComponentType<BonusProps>) =>
           try {
             const bonus = await paymentService.determineBonus({
               amount,
-              saleId: this.props.saleId,
+              saleId: this.props.saleAddress,
             });
 
             this.setState({
