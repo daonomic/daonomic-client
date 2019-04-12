@@ -15,9 +15,13 @@ export type ExchangeFormContextValue = {|
   formattedCost: number,
   amount: number,
   hasFetchError: boolean,
+  kyberTermsChecked: boolean,
   isHydrating: boolean,
+  isMaySubmit: boolean,
+  handleKyberTermsCheckedState: (checked: boolean) => void,
   reset: () => void,
   tokenSymbol: string,
+  isKyber: boolean,
   selectedPaymentMethod: ?PaymentTypes.PaymentServicePaymentMethod,
   costPrecision: number,
   cost: number,
@@ -26,5 +30,7 @@ export type ExchangeFormContextValue = {|
 export type ExchangeFormViewProps = {|
   onSubmit: () => void,
   displayResetButton: boolean,
+  handleKyberTermsCheckedState: (checked: boolean) => void,
+  isKyber: boolean,
   hasFetchError: boolean,
 |};

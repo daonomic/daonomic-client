@@ -12,7 +12,14 @@ const enhance = compose(
   connectContext(
     purchaseHooksContext,
     (context: PurchaseHooksContextValue): KyberTransactionProcessProps => ({
-      status: context.status,
+      transactionStatus: context.transactionStatus,
+      isProcessing: context.isProcessing,
+      error: context.error,
+      resetKyberTransactionState: () => {
+        if (typeof context.resetState === 'function') {
+          context.resetState();
+        }
+      },
     }),
   ),
 );

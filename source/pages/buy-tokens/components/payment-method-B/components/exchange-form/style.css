@@ -1,3 +1,11 @@
 .error {
   color: var(--color-danger);
 }
+
+.kyber {
+  margin-top: 15px;
+}
+
+.kyber p {
+  margin: 0;
+}

@@ -51,6 +51,7 @@ type State = {|
   cost: number,
   hasFetchError: boolean,
   isHydrating: boolean,
+  kyberTermsChecked: boolean,
 |};
 
 export const exchangeFormContext = React.createContext<PaymentMethodTypes.ExchangeFormContextValue>(
@@ -63,6 +64,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
 > {
   state = {
     amount: 0,
+    kyberTermsChecked: false,
     cost: 0,
     isHydrating: false,
     hasFetchError: false,
@@ -74,6 +76,28 @@ class ExchangeFormProviderClass extends React.PureComponent<
     const { cost } = this.state;
 
     return parseFloat(cost.toFixed(this.costPrecision));
+  }
+
+  get isKyber() {
+    const { selectedPaymentMethod } = this.props;
+
+    return (
+      !!selectedPaymentMethod &&
+      selectedPaymentMethod.category === 'KYBER_NETWORK'
+    );
+  }
+
+  get isMaySubmit() {
+    const maySubmitBase =
+      this.state.cost !== 0 &&
+      !this.state.isHydrating &&
+      !this.state.hasFetchError;
+
+    if (this.isKyber) {
+      return this.state.kyberTermsChecked && maySubmitBase;
+    }
+
+    return maySubmitBase;
   }
 
   componentDidUpdate(prevProps) {
@@ -107,7 +131,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
       try {
         let rate;
 
-        if (!selectedPaymentMethod.kyberNetwork) {
+        if (!selectedPaymentMethod.category === 'KYBER_NETWORK') {
           rate = getPublicPrice(selectedPaymentMethod.id);
         } else {
           const rateResponse = await paymentService.fetchRate(
@@ -186,8 +210,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
     if (!selectedPaymentMethod) {
       return;
     }
-
-    if (!selectedPaymentMethod.category === 'ETH') {
+    if (selectedPaymentMethod.category === 'ETH') {
       this.props.buyInEth({
         cost: this.state.cost,
       });
@@ -211,6 +234,12 @@ class ExchangeFormProviderClass extends React.PureComponent<
     });
   };
 
+  handleKyberTermsCheckedState = (kyberTermsChecked: boolean) => {
+    this.setState({
+      kyberTermsChecked,
+    });
+  };
+
   render() {
     return (
       <exchangeFormContext.Provider
@@ -224,7 +253,11 @@ class ExchangeFormProviderClass extends React.PureComponent<
           selectedPaymentMethod: this.props.selectedPaymentMethod,
           amount: this.state.amount,
           isHydrating: this.state.isHydrating,
+          isMaySubmit: this.isMaySubmit,
+          isKyber: this.isKyber,
           costPrecision: this.costPrecision,
+          handleKyberTermsCheckedState: this.handleKyberTermsCheckedState,
+          kyberTermsChecked: this.state.kyberTermsChecked,
           reset: this.reset,
           cost: this.state.cost,
         }}

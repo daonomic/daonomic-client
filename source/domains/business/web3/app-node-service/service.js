@@ -6,7 +6,6 @@ export class AppNodeWeb3Service {
   web3: any = new Web3(config.web3AppNodeUrl);
 
   createContract = (abi: {}[], address: string): any => {
-    console.log(config.web3AppNodeUrl);
     return new this.web3.eth.Contract(abi, address);
   };
 }

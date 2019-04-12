@@ -82,7 +82,7 @@ const config = {
         test: /\.svg$/,
         loader: 'url-loader',
         options: {
-          limit: 100000,
+          limit: 8,
           mimetype: 'image/svg+xml',
         },
       },

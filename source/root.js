@@ -6,6 +6,7 @@ import { hot } from 'react-hot-loader';
 import { CurrentPage } from '~/components/current-page';
 import { withMobxProvider } from '~/HOC/with-mobx-provider';
 import { withI18Provider } from '~/domains/app/i18n';
+import { withKyberTransactionStatusModal } from '~/HOC/with-kyber-transaction-status-modal';
 import { withPurchaseHooksProvider } from '~/providers/purchase-hooks';
 import { withPublicPricesProvider } from '~/providers/public-prices';
 import { withContractProxiesProvider } from '~/providers/contract-proxies';
@@ -18,6 +19,7 @@ const enhance = compose(
   withPublicPricesProvider,
   withContractProxiesProvider,
   withPurchaseHooksProvider,
+  withKyberTransactionStatusModal,
 );
 
 export const Root = enhance(CurrentPage);

@@ -17,6 +17,7 @@ export const config = {
   contactEmail: 'dev@0v1se.com',
   termsOfServiceUrl: 'terms.url',
   daonomicUrl: 'https://daonomic.io',
+  kyberNetworkTerms: 'https://files.kyber.network/tac.html',
   faq: [
     {
       question: 'How Can I invest?',

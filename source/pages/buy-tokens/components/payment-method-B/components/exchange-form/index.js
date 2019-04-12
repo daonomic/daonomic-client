@@ -21,6 +21,8 @@ const enhance = compose(
       onSubmit: context.handleSubmit,
       displayResetButton: context.cost !== 0,
       hasFetchError: context.hasFetchError,
+      isKyber: context.isKyber,
+      handleKyberTermsCheckedState: context.handleKyberTermsCheckedState,
     }),
   ),
 );

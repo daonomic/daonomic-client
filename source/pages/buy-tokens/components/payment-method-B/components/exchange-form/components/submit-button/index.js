@@ -13,8 +13,8 @@ const enhance = compose(
   connectContext(
     exchangeFormContext,
     (context: ExchangeFormContextValue): SubmitButtonProps => ({
-      disabled: context.isHydrating || !context.cost || context.hasFetchError,
-      ethAmount: context.cost,
+      disabled: !context.isMaySubmit,
+      isKyber: context.isKyber,
     }),
   ),
 );

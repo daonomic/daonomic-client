@@ -6,20 +6,40 @@ export type PurchaseHooksTransactionState =
   | 'idle'
   | 'allowance_checking'
   | 'approving'
-  | 'sending'
+  | 'balance_checking'
+  | 'transfer'
   | 'transfered';
 
+export type PurchaseHooksTransactionStatus =
+  | {
+      state: 'idle',
+    }
+  | {
+      state: PurchaseHooksTransactionState,
+      chain: PurchaseHooksTransactionState[],
+    };
+
+export type PurchaseHooksBuyInEthFunction = ({|
+  cost: number,
+|}) => Promise<void>;
+
+export type PurchaseHooksBuyInErc20Function = ({|
+  cost: number,
+  paymentMethod: PaymentServicePaymentMethod,
+|}) => Promise<void>;
+
+export type PurchaseHooksBuyInKyberFunction = ({|
+  cost: number,
+  paymentMethod: PaymentServicePaymentMethod,
+|}) => Promise<void>;
+
 export type PurchaseHooksContextValue = {|
-  buyInEth: ?({
-    cost: number,
-  }) => Promise<void>,
-  buyInErc20: ?({|
-    cost: number,
-    paymentMethod: PaymentServicePaymentMethod,
-  |}) => Promise<void>,
-  buyInKyber: ?({|
-    cost: number,
-    paymentMethod: PaymentServicePaymentMethod,
-  |}) => Promise<void>,
-  status: PurchaseHooksTransactionState,
+  buyInEth: ?PurchaseHooksBuyInEthFunction,
+  buyInErc20: ?PurchaseHooksBuyInErc20Function,
+  buyInKyber: ?PurchaseHooksBuyInKyberFunction,
+  transactionStatus: PurchaseHooksTransactionStatus,
+  resetState: ?() => void,
+  error: ?Error,
+  isProcessing: boolean,
+  mayPerformPurchase: boolean,
 |};

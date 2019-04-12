@@ -17,25 +17,38 @@ export const availablePaymentMethodsContext: React.Context<AvailablePaymentMetho
 
 type Props = {|
   paymentMethods: ?(PaymentServicePaymentMethod[]),
+  ethPaymentMethod: ?PaymentServicePaymentMethod,
   children:
     | React.Node
     | ((store: AvailablePaymentMethodsContextValue) => React.Node),
 |};
 
-const AvailablePaymentMethodsProviderFunc = (props: Props) => {
-  return (
-    <availablePaymentMethodsContext.Provider
-      value={{
-        paymentMethods: props.paymentMethods,
-        defaultPaymentMethod:
-          props.paymentMethods &&
-          props.paymentMethods.find((method) => method.default),
-      }}
-    >
-      {props.children}
-    </availablePaymentMethodsContext.Provider>
-  );
-};
+class AvailablePaymentMethodsProviderFunc extends React.PureComponent<Props> {
+  get ethPaymentMethod(): ?PaymentServicePaymentMethod {
+    const { paymentMethods } = this.props;
+
+    return (
+      paymentMethods && paymentMethods.find((method) => method.id === 'ETH')
+    );
+  }
+
+  render() {
+    const { paymentMethods, children } = this.props;
+
+    return (
+      <availablePaymentMethodsContext.Provider
+        value={{
+          paymentMethods: paymentMethods,
+          ethPaymentMethod: this.ethPaymentMethod,
+          defaultPaymentMethod:
+            paymentMethods && paymentMethods.find((method) => method.default),
+        }}
+      >
+        {children}
+      </availablePaymentMethodsContext.Provider>
+    );
+  }
+}
 
 const enhance = compose(
   observer,

@@ -1,0 +1,21 @@
+.heading {
+  margin-bottom: 20px;
+  @media (--desktop) {
+    margin-bottom: 34px;
+  }
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.continue {
+  margin-top: 15px;
+  @media (--desktop) {
+    margin-top: 24px;
+  }
+}

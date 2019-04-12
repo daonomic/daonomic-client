@@ -4,7 +4,6 @@ import * as React from 'react';
 import { Panel } from '@daonomic/ui';
 import { PaymentMethodHeading } from './components/heading';
 import { PaymentMethodSelect } from './components/select';
-import { PaymentMethodAddress } from './components/address';
 import { PaymentInstruction } from './components/instruction';
 import { ExchangeForm } from './components/exchange-form';
 import { paymentMethodContext } from './context';
@@ -28,9 +27,6 @@ export const PaymentMethodView = () => {
           )
         }
       </paymentMethodContext.Consumer>
-      <section className={styles.address}>
-        <PaymentMethodAddress />
-      </section>
       <Panel.Separator />
       <section>
         <PaymentInstruction />
