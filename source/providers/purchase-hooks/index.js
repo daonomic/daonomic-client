@@ -76,6 +76,8 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
 
   buyInEth = async ({ cost }: { cost: number }) => {
     try {
+      throw new Error('This is test error. Perfomed when buying ETH');
+
       if (!this.mayPerformPurchase) {
         throw new Error('Another transaction already in process');
       }
@@ -160,8 +162,20 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
 
   buyInKyber = async ({ cost, paymentMethod }) => {
     const { contractProxies, saleAddress, defaultPaymentMethod } = this.props;
+    const chain = [
+      'idle',
+      'balance_checking',
+      'allowance_checking',
+      'approving',
+      'transfer',
+      'transfered',
+    ];
 
     try {
+      if (!this.mayPerformPurchase) {
+        throw new Error('Another transaction already in process');
+      }
+
       if (!web3Service || !appNodeWeb3Service) {
         throw new Error('No web3Service');
       }
@@ -169,8 +183,18 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
       await this.asyncSetState({
         isProcessing: true,
         transactionStatus: {
-          state: 'allowance_checking',
-          chain: ['allowance_checking', 'approving', 'transfer', 'transfered'],
+          state: 'idle',
+          chain,
+        },
+      });
+
+      const userAddress =
+        (await web3Service.getWalletAddress()) || getUserAddress();
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'balance_checking',
+          chain,
         },
       });
 
@@ -179,21 +203,39 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
         decimals: paymentMethod.decimals,
       });
 
-      // web3Service.createBatch(); // @todo batch transaction ?
+      const userBalance = await immediatePurchaseService.getBalanceOfErc20({
+        walletAddress: userAddress,
+        tokenAddress: paymentMethod.token,
+      });
+
+      if (userBalance < costInWei) {
+        throw new Error(`You don't have enough ${paymentMethod.id} tokens`);
+      }
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'allowance_checking',
+          chain,
+        },
+      });
 
       const contract = await appNodeWeb3Service.createContract(
         [abiGeneratorService.createAllowanceAbi()],
         paymentMethod.token,
       );
 
-      const userAddress =
-        (await web3Service.getWalletAddress()) || getUserAddress();
-
       const allowed = await contract.methods
         .allowance(userAddress, contractProxies.kyberWrapper)
         .call();
 
       if (allowed < costInWei) {
+        await this.asyncSetState({
+          transactionStatus: {
+            state: 'approving',
+            chain,
+          },
+        });
+
         const approveContract = await web3Service.createContract(
           [abiGeneratorService.createApproveAbi()],
           paymentMethod.token,
@@ -205,6 +247,13 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
             from: userAddress,
           });
       }
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'transfer',
+          chain,
+        },
+      });
 
       const transferContract = await web3Service.createContract(
         [abiGeneratorService.createTradeAndBuyAbi()],
@@ -226,6 +275,13 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
           from: userAddress,
           value: 0,
         });
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'transfered',
+          chain,
+        },
+      });
     } catch (error) {
       this.setState(
         {

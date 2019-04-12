@@ -17,6 +17,7 @@ export const config = {
   contactEmail: 'dev@0v1se.com',
   termsOfServiceUrl: 'terms.url',
   daonomicUrl: 'https://daonomic.io',
+  sentryDsn: 'https://0e3f2eb6dbc24f62b7e78dd20da897b4@sentry.io/1437614',
   kyberNetworkTerms: 'https://files.kyber.network/tac.html',
   faq: [
     {
