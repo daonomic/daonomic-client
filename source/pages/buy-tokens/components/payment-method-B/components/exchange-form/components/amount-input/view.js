@@ -5,7 +5,7 @@ import { Input } from '@daonomic/ui';
 import { markerTreeContext } from '~/providers/marker-tree';
 
 // $FlowFixMe
-import { Trans, Plural } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 
 import type { AmountInputProps } from './types';
 
@@ -20,7 +20,7 @@ export class AmountInputView extends React.PureComponent<AmountInputProps> {
   };
 
   render() {
-    const { isHydrating, bonus, amount, tokenSymbol } = this.props;
+    const { isHydrating, amount, tokenSymbol } = this.props;
 
     return (
       <markerTreeContext.Consumer>
@@ -32,15 +32,6 @@ export class AmountInputView extends React.PureComponent<AmountInputProps> {
             disabled={isHydrating}
             min="0"
             placeholder={`Enter amount of ${tokenSymbol}`}
-            description={
-              bonus.data && (
-                <Plural
-                  value={bonus.data}
-                  one="You will receive # bonus token!"
-                  other="You will receive # bonus tokens!"
-                />
-              )
-            }
             label={<Trans>Amount</Trans>}
             value={amount === 0 ? '' : String(amount)}
             onChange={this.handleChange}

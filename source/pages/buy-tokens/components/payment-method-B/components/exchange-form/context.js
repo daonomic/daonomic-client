@@ -8,20 +8,16 @@ import raven from 'raven-js';
 import debounce from 'debounce-fn';
 import { paymentMethodContext } from '~/pages/buy-tokens/components/payment-method-B/context';
 import { paymentService } from '~/domains/business/payment/service';
-import { withBonus } from './with-bonus';
 import { purchaseHooksContext } from '~/providers/purchase-hooks';
 import { initialContextValue } from './config';
 
 import type { TokenStore } from '~/domains/business/token/store';
 import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/types';
 import type { PurchaseHooksContextValue } from '~/providers/purchase-hooks/types';
-import type { LoadableData } from '~/domains/data/data-state/types';
 import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from './types';
 
 export type ExternalProps = {|
-  loadBonus: (amount: number) => void,
-  bonus: LoadableData<number>,
   saleAddress: string,
   selectedPaymentMethod: PaymentServicePaymentMethod,
   costPrecision: number,
@@ -111,13 +107,6 @@ class ExchangeFormProviderClass extends React.PureComponent<
     }
   }
 
-  loadBonusDebounced: () => void = debounce(
-    () => this.props.loadBonus(this.state.amount),
-    {
-      wait: 300,
-    },
-  );
-
   recalculateValues = debounce(
     async (prevValue: PaymentMethodTypes.ExchangeFormValue) => {
       const { selectedPaymentMethod, saleId, getPublicPrice } = this.props;
@@ -153,21 +142,15 @@ class ExchangeFormProviderClass extends React.PureComponent<
         }
 
         if (this.state.cost !== prevValue.cost) {
-          this.setState(
-            {
-              isHydrating: false,
-              amount: this.state.cost * rate,
-            },
-            this.loadBonusDebounced,
-          );
+          this.setState({
+            isHydrating: false,
+            amount: this.state.cost * rate,
+          });
         } else {
-          this.setState(
-            {
-              isHydrating: false,
-              cost: this.state.amount / rate,
-            },
-            this.loadBonusDebounced,
-          );
+          this.setState({
+            isHydrating: false,
+            cost: this.state.amount / rate,
+          });
         }
       } catch (error) {
         this.setState(
@@ -244,7 +227,6 @@ class ExchangeFormProviderClass extends React.PureComponent<
     return (
       <exchangeFormContext.Provider
         value={{
-          bonus: this.props.bonus,
           tokenSymbol: this.props.tokenSymbol,
           handleSubmit: this.handleSubmit,
           handleValue: this.handleValue,
@@ -289,7 +271,6 @@ const enhance = compose(
     saleAddress: (token.sale || {}).data.address,
     saleId: (token.sale || {}).data.id,
   })),
-  withBonus,
 );
 
 export const ExchangeFormProvider = enhance(ExchangeFormProviderClass);

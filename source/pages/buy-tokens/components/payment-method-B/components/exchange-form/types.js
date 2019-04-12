@@ -1,6 +1,5 @@
 // @flow
 
-import * as DataStateTypes from '~/domains/data/data-state/types';
 import * as PaymentTypes from '~/domains/business/payment/types';
 
 export type ExchangeFormValue = {|
@@ -9,7 +8,6 @@ export type ExchangeFormValue = {|
 |};
 
 export type ExchangeFormContextValue = {|
-  bonus: DataStateTypes.LoadableData<number>,
   handleSubmit: () => void,
   handleValue: (value: ExchangeFormValue) => void,
   formattedCost: number,

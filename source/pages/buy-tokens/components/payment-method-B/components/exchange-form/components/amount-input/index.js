@@ -14,7 +14,6 @@ const enhance = compose(
     exchangeFormContext,
     (context: ExchangeFormContextValue): AmountInputProps => ({
       isHydrating: context.isHydrating,
-      bonus: context.bonus,
       amount: context.amount,
       handleValue: context.handleValue,
       cost: context.cost,
