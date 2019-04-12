@@ -133,16 +133,19 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
           chain,
         },
       });
+
+      return true;
     } catch (error) {
-      this.setState(
-        {
-          error,
-          transactionStatus: {
-            state: 'idle',
-          },
+      await this.asyncSetState({
+        error,
+        transactionStatus: {
+          state: 'idle',
         },
-        () => logError(error),
-      );
+      });
+
+      logError(error);
+
+      return false;
     }
   };
 
@@ -274,16 +277,19 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
           chain,
         },
       });
+
+      return true;
     } catch (error) {
-      this.setState(
-        {
-          error,
-          transactionStatus: {
-            state: 'idle',
-          },
+      await this.asyncSetState({
+        error,
+        transactionStatus: {
+          state: 'idle',
         },
-        () => logError(error),
-      );
+      });
+
+      logError(error);
+
+      return false;
     }
   };
 
@@ -403,16 +409,19 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
         .send({
           from: userAddress,
         });
+
+      return true;
     } catch (error) {
-      this.setState(
-        {
-          error,
-          transactionStatus: {
-            state: 'idle',
-          },
+      await this.asyncSetState({
+        error,
+        transactionStatus: {
+          state: 'idle',
         },
-        () => logError(error),
-      );
+      });
+
+      logError(error);
+
+      return false;
     }
   };
 

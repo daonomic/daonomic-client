@@ -13,7 +13,7 @@ import { initialContextValue } from './config';
 
 import type { TokenStore } from '~/domains/business/token/store';
 import type { PaymentMethodContextValue } from '~/pages/buy-tokens/components/payment-method-B/types';
-import type { PurchaseHooksContextValue } from '~/providers/purchase-hooks/types';
+import * as PurchaseHooksTypes from '~/providers/purchase-hooks/types';
 import type { PaymentServicePaymentMethod } from '~/domains/business/payment/types';
 import * as PaymentMethodTypes from './types';
 
@@ -22,18 +22,11 @@ export type ExternalProps = {|
   selectedPaymentMethod: PaymentServicePaymentMethod,
   costPrecision: number,
   ethRate: number,
+  purchasingTokenSymbol: string,
   tokenSymbol: string,
-  buyInEth: ({
-    cost: number,
-  }) => Promise<void>,
-  buyInErc20: ({|
-    cost: number,
-    paymentMethod: PaymentServicePaymentMethod,
-  |}) => Promise<void>,
-  buyInKyber: ({|
-    cost: number,
-    paymentMethod: PaymentServicePaymentMethod,
-  |}) => Promise<void>,
+  buyInEth: PurchaseHooksTypes.PurchaseHooksBuyInEthFunction,
+  buyInErc20: PurchaseHooksTypes.PurchaseHooksBuyInErc20Function,
+  buyInKyber: PurchaseHooksTypes.PurchaseHooksBuyInKyberFunction,
   getPublicPrice: (symbol: string) => ?number,
   onSubmit: () => void,
   children: React.Node,
@@ -47,7 +40,7 @@ type State = {|
   cost: number,
   hasFetchError: boolean,
   isHydrating: boolean,
-  isDone: boolean,
+  lastTransaction: ?PaymentMethodTypes.PurchaseTransactionData,
   kyberTermsChecked: boolean,
 |};
 
@@ -64,7 +57,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
     kyberTermsChecked: false,
     cost: 0,
     isHydrating: false,
-    isDone: false,
+    lastTransaction: null,
     hasFetchError: false,
   };
 
@@ -122,7 +115,10 @@ class ExchangeFormProviderClass extends React.PureComponent<
       try {
         let rate;
 
-        if (!selectedPaymentMethod.category === 'KYBER_NETWORK') {
+        if (
+          selectedPaymentMethod.category !== 'KYBER_NETWORK' &&
+          selectedPaymentMethod.category !== 'KYBER_NETWORK_ETH'
+        ) {
           rate = getPublicPrice(selectedPaymentMethod.id);
         } else {
           const rateResponse = await paymentService.fetchRate(
@@ -191,45 +187,49 @@ class ExchangeFormProviderClass extends React.PureComponent<
 
   handleSubmit = async (): Promise<void> => {
     const { selectedPaymentMethod } = this.props;
+    const { category } = selectedPaymentMethod;
 
     if (!selectedPaymentMethod) {
       throw new Error('No payment method selected');
     }
 
-    if (selectedPaymentMethod.category === 'ETH') {
-      const transaction = {
+    let isPurchased = false;
+
+    if (category === 'ETH') {
+      isPurchased = await this.props.buyInEth({
         cost: this.state.cost,
-      }
-
-      await this.props.buyInEth(transaction);
-
-      this.reset(transaction);
-    } else if (selectedPaymentMethod.category === 'ERC20') {
-      const transaction = {
+      });
+    } else if (category === 'ERC20') {
+      isPurchased = await this.props.buyInErc20({
         cost: this.state.cost,
         paymentMethod: selectedPaymentMethod,
-      }
-
-      await this.props.buyInErc20(transaction);
-
-      this.reset(transaction);
-    } else if (selectedPaymentMethod.category === 'KYBER_NETWORK' || selectedPaymentMethod.category === 'KYBER_NETWORK_ETH') {
-      const transaction = {
+      });
+    } else if (
+      category === 'KYBER_NETWORK' ||
+      category === 'KYBER_NETWORK_ETH'
+    ) {
+      isPurchased = await this.props.buyInKyber({
         cost: this.state.cost,
         paymentMethod: selectedPaymentMethod,
-      }
+      });
+    }
 
-      await this.props.buyInKyber(transaction);
-
-      this.reset(transaction);
+    if (isPurchased) {
+      this.reset({
+        cost: this.state.cost,
+        amount: this.state.amount,
+        paymentMethod: selectedPaymentMethod,
+      });
     }
   };
 
-  reset = (isDone: boolean = false): void => {
+  reset = (
+    lastTransaction: ?PaymentMethodTypes.PurchaseTransactionData,
+  ): void => {
     this.setState({
       amount: 0,
       cost: 0,
-      lastTransaction: ,
+      lastTransaction,
     });
   };
 
@@ -246,14 +246,15 @@ class ExchangeFormProviderClass extends React.PureComponent<
           tokenSymbol: this.props.tokenSymbol,
           handleSubmit: this.handleSubmit,
           handleValue: this.handleValue,
-          isDone: this.state.isDone,
           hasFetchError: this.state.hasFetchError,
           formattedCost: this.formattedCost,
           selectedPaymentMethod: this.props.selectedPaymentMethod,
           amount: this.state.amount,
           isHydrating: this.state.isHydrating,
+          purchasingTokenSymbol: this.props.purchasingTokenSymbol,
           isMaySubmit: this.isMaySubmit,
           isKyber: this.isKyber,
+          lastTransaction: this.state.lastTransaction,
           costPrecision: this.costPrecision,
           handleKyberTermsCheckedState: this.handleKyberTermsCheckedState,
           kyberTermsChecked: this.state.kyberTermsChecked,
@@ -274,11 +275,12 @@ const enhance = compose(
       selectedPaymentMethod: context.selectedPaymentMethod,
       selectedSymbol: context.selectedSymbol,
       getPublicPrice: context.getPublicPrice,
+      purchasingTokenSymbol: context.purchasingTokenSymbol,
     }),
   ),
   connectContext(
     purchaseHooksContext,
-    (context: PurchaseHooksContextValue) => ({
+    (context: PurchaseHooksTypes.PurchaseHooksContextValue) => ({
       buyInEth: context.buyInEth,
       buyInErc20: context.buyInErc20,
       buyInKyber: context.buyInKyber,

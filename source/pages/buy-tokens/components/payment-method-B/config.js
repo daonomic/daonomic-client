@@ -8,4 +8,5 @@ export const initialValue: PaymentMethodContextValue = {
   purchasingTokenSymbol: null,
   getPublicPrice: () => {},
   selectedMethodAddress: null,
+  displayAddress: false,
 };

@@ -22,6 +22,7 @@ const enhance = compose(
       displayResetButton: context.cost !== 0,
       hasFetchError: context.hasFetchError,
       isKyber: context.isKyber,
+      hasLastTransaction: !!context.lastTransaction,
       handleKyberTermsCheckedState: context.handleKyberTermsCheckedState,
     }),
   ),

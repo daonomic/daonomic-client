@@ -1,4 +1,5 @@
 //@flow
+
 import * as React from 'react';
 import cn from 'classnames';
 import styles from './styles.css';
@@ -8,8 +9,7 @@ export type Props = {
   className?: string,
 };
 
-// payment.state.selectedMethodAddressQRCode
-export function QrCode({ qrCodeUrl, className, ...restProps }: Props) {
+export const QrCode = ({ qrCodeUrl, className, ...restProps }: Props) => {
   return (
     <img
       {...restProps}
@@ -18,4 +18,4 @@ export function QrCode({ qrCodeUrl, className, ...restProps }: Props) {
       alt="QR code"
     />
   );
-}
+};

@@ -21,17 +21,17 @@ export type PurchaseHooksTransactionStatus =
 
 export type PurchaseHooksBuyInEthFunction = ({|
   cost: number,
-|}) => Promise<void>;
+|}) => Promise<boolean>;
 
 export type PurchaseHooksBuyInErc20Function = ({|
   cost: number,
   paymentMethod: PaymentServicePaymentMethod,
-|}) => Promise<void>;
+|}) => Promise<boolean>;
 
 export type PurchaseHooksBuyInKyberFunction = ({|
   cost: number,
   paymentMethod: PaymentServicePaymentMethod,
-|}) => Promise<void>;
+|}) => Promise<boolean>;
 
 export type PurchaseHooksContextValue = {|
   buyInEth: ?PurchaseHooksBuyInEthFunction,

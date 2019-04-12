@@ -7,17 +7,25 @@ export type ExchangeFormValue = {|
   cost: number,
 |};
 
+export type PurchaseTransactionData = {|
+  cost: number,
+  amount: number,
+  paymentMethod: PaymentTypes.PaymentServicePaymentMethod,
+|};
+
 export type ExchangeFormContextValue = {|
-  handleSubmit: () => void,
+  handleSubmit: () => Promise<void>,
   handleValue: (value: ExchangeFormValue) => void,
   formattedCost: number,
+  lastTransaction: ?PurchaseTransactionData,
   amount: number,
   hasFetchError: boolean,
   kyberTermsChecked: boolean,
   isHydrating: boolean,
+  purchasingTokenSymbol: string,
   isMaySubmit: boolean,
   handleKyberTermsCheckedState: (checked: boolean) => void,
-  reset: () => void,
+  reset: (lastTransaction: ?PurchaseTransactionData) => void,
   tokenSymbol: string,
   isKyber: boolean,
   selectedPaymentMethod: ?PaymentTypes.PaymentServicePaymentMethod,
@@ -26,9 +34,10 @@ export type ExchangeFormContextValue = {|
 |};
 
 export type ExchangeFormViewProps = {|
-  onSubmit: () => void,
+  onSubmit: () => Promise<void>,
   displayResetButton: boolean,
   handleKyberTermsCheckedState: (checked: boolean) => void,
   isKyber: boolean,
+  hasLastTransaction: boolean,
   hasFetchError: boolean,
 |};

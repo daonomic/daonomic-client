@@ -5,11 +5,14 @@ import { Panel } from '@daonomic/ui';
 import { PaymentMethodHeading } from './components/heading';
 import { PaymentMethodSelect } from './components/select';
 import { PaymentInstruction } from './components/instruction';
+import { PaymentMethodAddress } from './components/address';
 import { ExchangeForm } from './components/exchange-form';
 import { paymentMethodContext } from './context';
 import styles from './styles.css';
 
-export const PaymentMethodView = () => {
+import type { PaymentMethodProps } from './types';
+
+export const PaymentMethodView = (props: PaymentMethodProps) => {
   return (
     <Panel>
       <section className={styles.title}>
@@ -27,6 +30,11 @@ export const PaymentMethodView = () => {
           )
         }
       </paymentMethodContext.Consumer>
+      {props.displayAddress && (
+        <section className={styles.address}>
+          <PaymentMethodAddress />
+        </section>
+      )}
       <Panel.Separator />
       <section>
         <PaymentInstruction />

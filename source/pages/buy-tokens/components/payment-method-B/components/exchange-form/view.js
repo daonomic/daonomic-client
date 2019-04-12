@@ -13,6 +13,7 @@ import { SubmitButton } from './components/submit-button';
 import { AmountInput } from './components/amount-input';
 import { CostInput } from './components/cost-input';
 import { ResetButton } from './components/reset-button';
+import { LastTransaction } from './components/last-transaction';
 import { Form, Checkbox } from '@daonomic/ui';
 import style from './style.css';
 
@@ -31,6 +32,7 @@ export class ExchangeFormView extends React.PureComponent<ExchangeFormViewProps>
       displayResetButton,
       hasFetchError,
       isKyber,
+      hasLastTransaction,
       handleKyberTermsCheckedState,
     } = this.props;
 
@@ -38,6 +40,11 @@ export class ExchangeFormView extends React.PureComponent<ExchangeFormViewProps>
       <markerTreeContext.Consumer>
         {({ markerCreator }) => (
           <React.Fragment>
+            {hasLastTransaction && (
+              <section className={style.last_transaction}>
+                <LastTransaction />
+              </section>
+            )}
             <Form data-marker={markerCreator()} onSubmit={this.onSubmit}>
               <Form.Group>
                 <Form.Field>

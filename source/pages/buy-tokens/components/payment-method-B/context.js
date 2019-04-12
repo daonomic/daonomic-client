@@ -49,6 +49,16 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
     return selectedPaymentMethod && selectedPaymentMethod.token;
   }
 
+  get displayAddress(): boolean {
+    const { selectedPaymentMethod } = this.state;
+
+    return (
+      !!selectedPaymentMethod &&
+      (selectedPaymentMethod.category === 'ETH' ||
+        selectedPaymentMethod.category === 'SIDECHAIN')
+    );
+  }
+
   getPublicPrice = (symbol: string): ?number => {
     const { publicPrices } = this.props;
 
@@ -74,6 +84,7 @@ class PaymentMethodProviderClass extends React.PureComponent<Props, State> {
     return (
       <paymentMethodContext.Provider
         value={{
+          displayAddress: this.displayAddress,
           selectedPaymentMethod: this.state.selectedPaymentMethod,
           selectPaymentMethod: this.selectPaymentMethod,
           selectedSymbol: this.selectedSymbol,

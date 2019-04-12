@@ -5,7 +5,6 @@
   border: 1px solid var(--color-borders);
 
   @media (--desktop) {
-    margin-left: 50px;
     margin-bottom: 0;
     border: 0;
   }

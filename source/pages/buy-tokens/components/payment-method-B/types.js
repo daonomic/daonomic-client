@@ -7,6 +7,11 @@ export type PaymentMethodContextValue = {|
   selectedPaymentMethod: ?PaymentServicePaymentMethod,
   selectPaymentMethod?: (key: ?PaymentServicePaymentMethod) => void,
   selectedSymbol: ?string,
+  displayAddress: boolean,
   selectedMethodAddress: ?string,
   getPublicPrice: (symbol: string) => ?number,
+|};
+
+export type PaymentMethodProps = {|
+  displayAddress: boolean,
 |};
