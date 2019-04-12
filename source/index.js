@@ -12,7 +12,5 @@ if (process.env.E2E_TEST) {
     init();
   });
 } else {
-  initRaven(() => {
-    init();
-  });
+  init();
 }

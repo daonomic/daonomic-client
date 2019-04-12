@@ -31,7 +31,7 @@ export class Item extends React.PureComponent<Props> {
         <div className={styles.icon}>
           <CheckCircle svgClassName={styles.svg} />
         </div>
-        <div classNamse={styles.content}>
+        <div className={styles.content}>
           <p>{processTable[id]}</p>
         </div>
       </div>

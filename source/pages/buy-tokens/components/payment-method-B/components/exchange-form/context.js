@@ -47,6 +47,7 @@ type State = {|
   cost: number,
   hasFetchError: boolean,
   isHydrating: boolean,
+  isDone: boolean,
   kyberTermsChecked: boolean,
 |};
 
@@ -63,6 +64,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
     kyberTermsChecked: false,
     cost: 0,
     isHydrating: false,
+    isDone: false,
     hasFetchError: false,
   };
 
@@ -187,33 +189,47 @@ class ExchangeFormProviderClass extends React.PureComponent<
     );
   };
 
-  handleSubmit = (): void => {
+  handleSubmit = async (): Promise<void> => {
     const { selectedPaymentMethod } = this.props;
 
     if (!selectedPaymentMethod) {
-      return;
+      throw new Error('No payment method selected');
     }
+
     if (selectedPaymentMethod.category === 'ETH') {
-      this.props.buyInEth({
+      const transaction = {
         cost: this.state.cost,
-      });
+      }
+
+      await this.props.buyInEth(transaction);
+
+      this.reset(transaction);
     } else if (selectedPaymentMethod.category === 'ERC20') {
-      this.props.buyInErc20({
+      const transaction = {
         cost: this.state.cost,
         paymentMethod: selectedPaymentMethod,
-      });
-    } else if (selectedPaymentMethod.category === 'KYBER_NETWORK') {
-      this.props.buyInKyber({
+      }
+
+      await this.props.buyInErc20(transaction);
+
+      this.reset(transaction);
+    } else if (selectedPaymentMethod.category === 'KYBER_NETWORK' || selectedPaymentMethod.category === 'KYBER_NETWORK_ETH') {
+      const transaction = {
         cost: this.state.cost,
         paymentMethod: selectedPaymentMethod,
-      });
+      }
+
+      await this.props.buyInKyber(transaction);
+
+      this.reset(transaction);
     }
   };
 
-  reset = (): void => {
+  reset = (isDone: boolean = false): void => {
     this.setState({
       amount: 0,
       cost: 0,
+      lastTransaction: ,
     });
   };
 
@@ -230,6 +246,7 @@ class ExchangeFormProviderClass extends React.PureComponent<
           tokenSymbol: this.props.tokenSymbol,
           handleSubmit: this.handleSubmit,
           handleValue: this.handleValue,
+          isDone: this.state.isDone,
           hasFetchError: this.state.hasFetchError,
           formattedCost: this.formattedCost,
           selectedPaymentMethod: this.props.selectedPaymentMethod,

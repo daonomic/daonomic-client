@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { compose } from 'ramda';
-import raven from 'raven-js';
+import { logError } from '~/utils/log-error';
 import { inject } from 'mobx-react';
 import { appNodeWeb3Service } from '~/domains/business/web3/app-node-service';
 import { web3Service } from '~/domains/business/web3/service';
@@ -76,16 +76,6 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
 
   buyInEth = async ({ cost }: { cost: number }) => {
     try {
-      throw new Error('This is test error. Perfomed when buying ETH');
-
-      if (!this.mayPerformPurchase) {
-        throw new Error('Another transaction already in process');
-      }
-
-      if (!web3Service) {
-        throw new Error('No web3Service');
-      }
-
       const chain = ['idle', 'balance_checking', 'transfer', 'transfered'];
 
       await this.asyncSetState({
@@ -95,6 +85,14 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
           chain,
         },
       });
+
+      if (!this.mayPerformPurchase) {
+        throw new Error('Another transaction already in process');
+      }
+
+      if (!web3Service) {
+        throw new Error('No web3Service');
+      }
 
       const userAddress =
         (await web3Service.getWalletAddress()) || getUserAddress();
@@ -143,14 +141,7 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
             state: 'idle',
           },
         },
-        () => {
-          raven.captureBreadcrumb({
-            message: 'Buying tokens by ETH',
-          });
-          raven.captureException(error);
-
-          console.error(error);
-        },
+        () => logError(error),
       );
     }
   };
@@ -162,6 +153,7 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
 
   buyInKyber = async ({ cost, paymentMethod }) => {
     const { contractProxies, saleAddress, defaultPaymentMethod } = this.props;
+
     const chain = [
       'idle',
       'balance_checking',
@@ -290,12 +282,7 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
             state: 'idle',
           },
         },
-        () => {
-          raven.captureBreadcrumb({
-            message: 'Buying tokens by Kyber conversion',
-          });
-          raven.captureException(error);
-        },
+        () => logError(error),
       );
     }
   };
@@ -311,40 +298,100 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
     cost: number,
     paymentMethod: PaymentServicePaymentMethod,
   |}) => {
-    const { saleAddress } = this.props;
+    const { saleAddress, contractProxies } = this.props;
 
-    if (!web3Service || !appNodeWeb3Service) {
-      throw new Error('No web3Service');
-    }
-
-    const costInWei = toWei({
-      cost,
-      decimals: paymentMethod.decimals,
-    });
-
-    const contract = await appNodeWeb3Service.createContract(
-      [abiGeneratorService.createAllowanceAbi()],
-      paymentMethod.token,
-    );
-
-    const userAddress =
-      (await web3Service.getWalletAddress()) || getUserAddress();
+    const chain = [
+      'idle',
+      'balance_checking',
+      'allowance_checking',
+      'approving',
+      'transfer',
+      'transfered',
+    ];
 
     try {
+      if (!this.mayPerformPurchase) {
+        throw new Error('Another transaction already in process');
+      }
+
+      if (!web3Service || !appNodeWeb3Service) {
+        throw new Error('No web3Service');
+      }
+
+      await this.asyncSetState({
+        isProcessing: true,
+        transactionStatus: {
+          state: 'idle',
+          chain,
+        },
+      });
+
+      const userAddress =
+        (await web3Service.getWalletAddress()) || getUserAddress();
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'balance_checking',
+          chain,
+        },
+      });
+
+      const costInWei = toWei({
+        cost,
+        decimals: paymentMethod.decimals,
+      });
+
+      const userBalance = await immediatePurchaseService.getBalanceOfErc20({
+        walletAddress: userAddress,
+        tokenAddress: paymentMethod.token,
+      });
+
+      if (userBalance < costInWei) {
+        throw new Error(`You don't have enough ${paymentMethod.id} tokens`);
+      }
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'allowance_checking',
+          chain,
+        },
+      });
+
+      const contract = await appNodeWeb3Service.createContract(
+        [abiGeneratorService.createAllowanceAbi()],
+        paymentMethod.token,
+      );
+
       const allowed = await contract.methods
-        .allowance(userAddress, saleAddress)
+        .allowance(userAddress, contractProxies.kyberWrapper)
         .call();
 
       if (allowed < costInWei) {
+        await this.asyncSetState({
+          transactionStatus: {
+            state: 'approving',
+            chain,
+          },
+        });
+
         const approveContract = await web3Service.createContract(
           [abiGeneratorService.createApproveAbi()],
           paymentMethod.token,
         );
 
-        await approveContract.methods.approve(saleAddress, costInWei).send({
-          from: userAddress,
-        });
+        await approveContract.methods
+          .approve(contractProxies.kyberWrapper, costInWei)
+          .send({
+            from: userAddress,
+          });
       }
+
+      await this.asyncSetState({
+        transactionStatus: {
+          state: 'transfer',
+          chain,
+        },
+      });
 
       const transferContract = await web3Service.createContract(
         [abiGeneratorService.createReceiveErc20Abi()],
@@ -352,18 +399,20 @@ class PurchaseHooksProviderClass extends React.PureComponent<Props, State> {
       );
 
       await transferContract.methods
-        .receiveERC20(userAddress, saleAddress, costInWei)
+        .receiveERC20(userAddress, paymentMethod.token, costInWei)
         .send({
           from: userAddress,
-          value: costInWei,
         });
     } catch (error) {
-      raven.captureBreadcrumb({
-        message: 'Buying tokens by ERC20',
-      });
-      raven.captureException(error);
-
-      console.log(error);
+      this.setState(
+        {
+          error,
+          transactionStatus: {
+            state: 'idle',
+          },
+        },
+        () => logError(error),
+      );
     }
   };
 

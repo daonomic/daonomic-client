@@ -81,7 +81,7 @@ export const KyberTransactionProcessView = (
                 <Item
                   id={item}
                   isCurrent={currentIndex === index}
-                  isPassed={index < currentIndex}
+                  isPassed={index <= currentIndex}
                 />
               </div>
             ))}
