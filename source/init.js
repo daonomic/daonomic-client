@@ -10,10 +10,10 @@ import { referralProgramService } from '~/domains/business/referral-program';
 import { walletBalanceService } from '~/domains/business/wallet-balance';
 import { transactionsService } from '~/domains/business/transactions';
 import { Root } from '~/root';
-import { actualizeRealmId } from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 
 export function init() {
-  actualizeRealmId();
+  config.actualizeRealmId();
 
   kycService.init(auth);
   userDataService.init(auth);

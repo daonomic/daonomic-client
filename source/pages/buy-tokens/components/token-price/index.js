@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react';
+
 // $FlowFixMe
 import { Trans, NumberFormat } from '@lingui/macro';
+
 import { observer } from 'mobx-react';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
-import styles from './token-price.css';
+import styles from './styles.css';
 
 import type { SaleStore } from '~/domains/business/sale/store';
 
@@ -16,20 +18,22 @@ export type Props = {|
 
 const marker = getMarker('token-price');
 
-function TokenPriceView({ tokenSymbol, sale }: Props) {
-  if (sale.notLimited && sale.payment.publicPrices.length === 0) {
+const TokenPriceView = ({ tokenSymbol, sale }: Props) => {
+  const { paymentMethods } = sale;
+
+  if (sale.notLimited || !paymentMethods) {
     return null;
   }
 
   return (
     <Panel data-marker={marker()} className={styles.root}>
-      {sale.payment.publicPrices.length === 0 ? null : (
+      {paymentMethods.length === 0 ? null : (
         <div className={styles.section}>
           <h3 className={styles.title}>
             <Trans>Token price</Trans>
           </h3>
 
-          {sale.payment.publicPrices.map(({ rate, label }) => (
+          {paymentMethods.map(({ rate, label }) => (
             <p key={label} className={styles.price}>
               1 {label} ={' '}
               <Badge>
@@ -60,6 +64,6 @@ function TokenPriceView({ tokenSymbol, sale }: Props) {
       )}
     </Panel>
   );
-}
+};
 
 export const TokenPrice: React.ComponentType<Props> = observer(TokenPriceView);

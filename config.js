@@ -1,8 +1,14 @@
 const path = require('path');
+
+// eslint-disable-next-line
 const gitRev = require('git-rev-sync');
 
 const sourceDir = path.resolve(__dirname, './source');
 const defaultNodeEnv = 'production';
+
+const sentryConfigFile =
+  process.env.SENTRY_PROPERTIES_PATH ||
+  path.resolve(__dirname, 'sentry.properties');
 
 module.exports = {
   paths: {
@@ -10,19 +16,17 @@ module.exports = {
     assetsDir: path.resolve(sourceDir, './assets'),
     buildDir: path.resolve(__dirname, './build'),
     e2eTestsDir: path.resolve(__dirname, './cypress'),
-    sentryConfigFile:
-      process.env.SENTRY_PROPERTIES_PATH ||
-      path.resolve(__dirname, 'sentry.properties'),
+    sentryConfigFile,
   },
   defaultNodeEnv,
   nodeEnv: process.env.NODE_ENV || defaultNodeEnv,
   devServerPort: process.env.PORT || 3000,
   api: process.env.ENVIRONMENT || 'production',
   isAnalyzeModeEnabled: process.env.ANALYZE || false,
-  areSourcemapsEnabled: Boolean(process.env.ENABLE_SOURCEMAPS),
-  uploadSourceMapsToSentry: Boolean(process.env.UPLOAD_SOURCEMAPS_TO_SENTRY),
+  areSourcemapsEnabled: !!process.env.ENABLE_SOURCEMAPS,
+  uploadSourceMapsToSentry: !!process.env.UPLOAD_SOURCEMAPS_TO_SENTRY,
   themeImportDeclaration: `@import "${sourceDir}/domains/app/config/styles/theme.css";`,
   globalStylesImportDeclaration: `@import "${sourceDir}/global.css";`,
-  e2eTest: Boolean(process.env.E2E_TEST),
+  e2eTest: !!process.env.E2E_TEST,
   release: gitRev.short(),
 };

@@ -7,6 +7,8 @@ import { walletGenerator } from '~/domains/business/wallet-generator';
 import { immediatePurchase } from '~/domains/business/immediate-purchase';
 import { userData } from '~/domains/business/user-data';
 import { kyc } from '~/domains/business/kyc';
+import { tokenPurchase } from '~/domains/business/token-purchase';
+import { tokenExchangeCalculations } from '~/domains/business/token-exchange-calculations';
 import { referralProgramStore } from '~/domains/business/referral-program';
 import { transactionsStore } from '~/domains/business/transactions';
 
@@ -17,7 +19,9 @@ export const stores = {
   auth,
   immediatePurchase,
   token: tokenStore,
+  tokenExchangeCalculations,
   userData,
+  tokenPurchase,
   kyc,
   referralProgramStore,
   transactionsStore,

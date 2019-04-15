@@ -1,5 +1,5 @@
 // @flow
-import * as PaymentMethodTypes from '~/domains/business/payment-method/types';
+import * as PaymentTypes from '~/domains/business/payment/types';
 
 export type Data = {|
   id: string,
@@ -9,10 +9,5 @@ export type Data = {|
   sold: number,
   total: number,
   address: string,
-  paymentMethods: PaymentMethodTypes.Data[],
-|};
-
-export type SalePublicPrice = {|
-  rate: number,
-  label: string,
+  paymentMethods: PaymentTypes.PaymentServicePaymentMethod[],
 |};

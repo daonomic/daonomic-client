@@ -1,13 +1,15 @@
 // @flow
 import { observable, action, computed } from 'mobx';
 
-import { type SaleStore } from '~/domains/business/sale/store';
+import type { SaleStore } from '~/domains/business/sale/store';
 import * as DataStateTypes from '~/domains/data/data-state/types';
 import * as TokenTypes from '~/domains/business/token/types';
 
-type State = DataStateTypes.LoadableData<TokenTypes.Data>;
+type State = DataStateTypes.LoadableData<TokenTypes.Token>;
 
 const initialState: State = { dataState: 'idle' };
+
+// @todo interface typings
 
 export class TokenStore {
   @observable
@@ -22,6 +24,11 @@ export class TokenStore {
   @computed
   get symbol(): string {
     return this.state.dataState === 'loaded' ? this.state.data.symbol : '';
+  }
+
+  @computed
+  get saleAddress(): ?string {
+    return (this.sale || {}).address;
   }
 
   @action

@@ -1,5 +1,5 @@
 // @flow
-import { environment } from '~/domains/app/config';
+import { env } from '~/domains/app/config';
 
 const productionApiUrl = 'https://api.daonomic.io/v1';
 const productionKyberNetworkUrl = 'https://api.kyber.network';
@@ -7,7 +7,7 @@ const productionKyberNetworkUrl = 'https://api.kyber.network';
 export let baseApiUrl = productionApiUrl;
 export let baseKyberNetworkUrl = productionKyberNetworkUrl;
 
-switch (environment) {
+switch (env) {
   case 'production': {
     baseApiUrl = productionApiUrl;
     baseKyberNetworkUrl = productionKyberNetworkUrl;

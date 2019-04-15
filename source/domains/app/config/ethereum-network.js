@@ -1,7 +1,10 @@
 // @flow
-import { environment } from '~/domains/app/config';
+import { env } from '~/domains/app/config';
+
 export type EthereumNetworkId = '1' | '3' | '17';
+
 type EthereumNetworkName = 'Main' | 'Ropsten' | 'Dev';
+
 export type EthereumNetwork = {|
   id: EthereumNetworkId,
   name: EthereumNetworkName,
@@ -24,7 +27,7 @@ const ethereumNetworkNamesById: {
 let expectedEthereumNetworkId: EthereumNetworkId =
   ethereumNetworkIds.production;
 
-switch (environment) {
+switch (env) {
   case 'production': {
     expectedEthereumNetworkId = ethereumNetworkIds.production;
     break;
@@ -41,7 +44,7 @@ switch (environment) {
   }
 
   default: {
-    (environment: empty);
+    (env: empty);
   }
 }
 

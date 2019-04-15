@@ -1,5 +1,5 @@
 // @flow
-export type Data = {|
+export type Token = {|
   id: string,
   address: string,
   name: string,
