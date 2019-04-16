@@ -87,7 +87,7 @@ export class PaymentMethodSelectView extends React.PureComponent<PaymentMethodSe
           {({ markerCreator }) => (
             <Select
               id={selectId}
-              data-marker={markerCreator('select')}
+              data-marker={markerCreator('select')()}
               value={selectedPaymentMethod && selectedPaymentMethod.token}
               onChange={this.handleChange}
             >

@@ -78,17 +78,22 @@ export class ExchangeFormView extends React.PureComponent<ExchangeFormViewProps>
                     </a>
                   </Trans>
                 </p>
-                <Checkbox
-                  required
-                  onChange={(event) =>
-                    handleIsAgreeWithKyberTerms(event.target.checked)
-                  }
-                  label={i18n._(
-                    t`I have read and agree to the <a href="${
-                      config.kyberNetworkTerms
-                    }" target="_blank" rel="noopener noreferrer">Terms of kyber.network service</a>`,
+                <markerTreeContext.Consumer>
+                  {({ markerCreator }) => (
+                    <Checkbox
+                      required
+                      data-marker={markerCreator('kyber-network-checkbox')()}
+                      onChange={(event) =>
+                        handleIsAgreeWithKyberTerms(event.target.checked)
+                      }
+                      label={i18n._(
+                        t`I have read and agree to the <a href="${
+                          config.kyberNetworkTerms
+                        }" target="_blank" rel="noopener noreferrer">Terms of kyber.network service</a>`,
+                      )}
+                    />
                   )}
-                />
+                </markerTreeContext.Consumer>
               </div>
             )}
           </React.Fragment>

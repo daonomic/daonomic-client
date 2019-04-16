@@ -13,6 +13,7 @@ import { PaymentMethodAddress } from './components/address';
 import { ExchangeForm } from './components/exchange-form';
 
 import styles from './styles.css';
+import { markerTreeContext } from '~/providers/marker-tree';
 
 export type PaymentMethodProps = {
   shouldDisplayAddress: boolean,
@@ -21,29 +22,33 @@ export type PaymentMethodProps = {
 
 export const PaymentMethodView = (props: PaymentMethodProps) => {
   return (
-    <Panel>
-      <section className={styles.title}>
-        <Heading tagName="h2" size="normal">
-          <Trans>Step 2: Buy tokens</Trans>
-        </Heading>
-      </section>
-      <section>
-        <PaymentMethodSelect />
-      </section>
-      {props.shouldDisplayExchangeForm && (
-        <section className={styles.exchange}>
-          <ExchangeForm />
-        </section>
+    <markerTreeContext.Consumer>
+      {({ markerCreator }) => (
+        <Panel data-marker={markerCreator()}>
+          <section className={styles.title}>
+            <Heading tagName="h2" size="normal">
+              <Trans>Step 2: Buy tokens</Trans>
+            </Heading>
+          </section>
+          <section>
+            <PaymentMethodSelect />
+          </section>
+          {props.shouldDisplayExchangeForm && (
+            <section className={styles.exchange}>
+              <ExchangeForm />
+            </section>
+          )}
+          {props.shouldDisplayAddress && (
+            <section className={styles.address}>
+              <PaymentMethodAddress />
+            </section>
+          )}
+          <Panel.Separator />
+          <section>
+            <PaymentInstruction />
+          </section>
+        </Panel>
       )}
-      {props.shouldDisplayAddress && (
-        <section className={styles.address}>
-          <PaymentMethodAddress />
-        </section>
-      )}
-      <Panel.Separator />
-      <section>
-        <PaymentInstruction />
-      </section>
-    </Panel>
+    </markerTreeContext.Consumer>
   );
 };

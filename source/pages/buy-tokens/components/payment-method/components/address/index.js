@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { PaymentMethodAddressView } from './view';
+import { withMarkerTreeProvider } from '~/providers/marker-tree';
 import { TokenPurchase } from '~/domains/business/token-purchase/store';
 import { compose } from 'ramda';
 
@@ -23,6 +24,7 @@ const getPaymentMethodAddress = (tokenPurchase: TokenPurchase): ?string => {
 };
 
 const enhance = compose(
+  withMarkerTreeProvider('payment-method-address'),
   inject(({ tokenPurchase }: {| tokenPurchase: TokenPurchase |}) => ({
     paymentMethodSymbol: getPaymentMethodSymbol(tokenPurchase),
     paymentMethodAddress: getPaymentMethodAddress(tokenPurchase),

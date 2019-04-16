@@ -3,6 +3,7 @@
 import { inject, observer } from 'mobx-react';
 import { compose } from 'ramda';
 import { ExchangeFormView } from './view';
+import { withMarkerTreeProvider } from '~/providers/marker-tree';
 import { TokenPurchase } from '~/domains/business/token-purchase/store';
 import { createMakePurchase } from '~/domains/business/token-purchase/action-creators/create-make-purchase';
 
@@ -10,6 +11,7 @@ import type { TokenExchangeCalculations } from '~/domains/business/token-exchang
 import type { TokenStore } from '~/domains/business/token/store';
 
 const enhance = compose(
+  withMarkerTreeProvider('exchange-form'),
   inject(
     ({
       token,
@@ -33,15 +35,6 @@ const enhance = compose(
     }),
   ),
   observer,
-  // withToken((tokenStore) => ({
-  //   tokenSymbol: tokenStore.symbol,
-  // })),
-  // onSubmit: context.handleSubmit,
-  // displayResetButton: context.cost !== 0,
-  // hasFetchError: context.hasFetchError,
-  // isKyber: context.isKyber,
-  // hasLastTransaction: !!context.lastTransaction,
-  // handleKyberTermsCheckedState: context.handleKyberTermsCheckedState,
 );
 
 export const ExchangeForm = enhance(ExchangeFormView);

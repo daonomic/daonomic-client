@@ -9,6 +9,8 @@ describe('Tokens purchase via ERC20', () => {
   it('should have ERC20 payment method', () => {
     let currentUser = null;
 
+    const DAIERC20 = '0x0000000000000000000000000000000000000108';
+
     cy.createUser()
       .then((user) => {
         currentUser = user;
@@ -26,16 +28,17 @@ describe('Tokens purchase via ERC20', () => {
         paymentMethod.getSelect().should('be.visible');
         paymentMethod.address.getRoot().should('be.visible');
 
-        paymentMethod.getSelect().select('ERC20');
-        paymentMethod.getSelect().should('have.value', 'ERC20');
+        paymentMethod.getSelect().select(DAIERC20);
+        paymentMethod.getSelect().should('have.value', DAIERC20);
         paymentMethod.address.getRoot().should('not.be.visible');
         paymentMethod.getInstruction().should('be.visible');
 
         paymentMethod.exchangeForm.getRoot().should('be.visible');
-        paymentMethod.exchangeForm.getAmount().should('be.visible');
         paymentMethod.exchangeForm.getCost().should('be.visible');
-        paymentMethod.exchangeForm.getErc20Buy().should('be.visible');
-        paymentMethod.exchangeForm.getErc20Buy().should('have.attr', 'href');
+        paymentMethod.exchangeForm.getAmount().should('be.visible');
+        paymentMethod.exchangeForm.getBuy().should('be.visible');
+
+        // @todo DAO-65
       });
   });
 });

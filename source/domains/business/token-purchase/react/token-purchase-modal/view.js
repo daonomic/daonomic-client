@@ -4,6 +4,7 @@ import React from 'react';
 import { Modal, Button } from '@daonomic/ui';
 import { Item } from './components/item';
 import { Heading } from '~/components/heading';
+import { markerTreeContext } from '~/providers/marker-tree';
 import styles from './styles.css';
 
 // $FlowFixMe
@@ -25,6 +26,22 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
     return null;
   }
 
+  const continueButton = (additionalProps) => (
+    <markerTreeContext.Consumer>
+      {({ markerCreator }) => (
+        <Button
+          design="primary"
+          data-marker={markerCreator('continue')()}
+          onClick={props.resetState}
+          size="m"
+          {...additionalProps}
+        >
+          <Trans>Continue work</Trans>
+        </Button>
+      )}
+    </markerTreeContext.Consumer>
+  );
+
   if (error) {
     return (
       <Modal
@@ -39,9 +56,7 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
               detailed info see in console
             </Trans>
           </p>
-          <Button design="primary" onClick={props.resetState} size="m">
-            <Trans>Continue</Trans>
-          </Button>
+          {continueButton()}
         </React.Fragment>
       </Modal>
     );
@@ -86,14 +101,9 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
           </Heading>
         )}
         <div className={styles.continue}>
-          <Button
-            design="primary"
-            disabled={transactionStatus.state !== 'transfered'}
-            onClick={props.resetState}
-            size="m"
-          >
-            <Trans>Continue work</Trans>
-          </Button>
+          {continueButton({
+            disabled: transactionStatus.state !== 'transfered',
+          })}
         </div>
       </React.Fragment>
     </Modal>

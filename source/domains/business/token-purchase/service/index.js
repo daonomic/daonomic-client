@@ -5,6 +5,7 @@ import { web3Service } from '~/domains/business/web3/service';
 import { appNodeWeb3Service } from '~/domains/business/web3/app-node-service';
 import { abiGeneratorService } from '~/domains/business/abi-generator/service';
 import { toWei } from '~/utils/to-wei';
+import { userData } from '~/domains/business/user-data/store';
 import { logger } from '~/domains/app/logger';
 import { tokenStore } from '~/domains/business/token/store';
 import { immediatePurchaseService } from '~/domains/business/immediate-purchase/service';
@@ -29,7 +30,9 @@ class TokenPurchaseService implements ITokenPurcahseService {
         throw new Error('No web3Service');
       }
 
-      const userAddress = await web3Service.getWalletAddress();
+      const web3UserAddress = await web3Service.getWalletAddress();
+      const userAddress = userData.model.address;
+
       const saleAddress = tokenStore.saleAddress;
 
       if (!saleAddress) {
@@ -37,7 +40,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       }
 
       const userBalance = await immediatePurchaseService.getBalanceOfEth({
-        walletAddress: userAddress,
+        walletAddress: web3UserAddress,
       });
 
       const costInWei = toWei({
@@ -60,7 +63,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       });
 
       await contract.methods.buyTokens(userAddress).send({
-        from: userAddress,
+        from: web3UserAddress,
         value: costInWei,
       });
 
@@ -114,7 +117,9 @@ class TokenPurchaseService implements ITokenPurcahseService {
         chain,
       });
 
-      const userAddress = await web3Service.getWalletAddress();
+      const web3UserAddress = await web3Service.getWalletAddress();
+      const userAddress = userData.model.address;
+
       const saleAddress = tokenStore.saleAddress;
 
       if (!saleAddress) {
@@ -127,7 +132,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       });
 
       const userBalance = await immediatePurchaseService.getBalanceOfErc20({
-        walletAddress: userAddress,
+        walletAddress: web3UserAddress,
         tokenAddress: paymentMethod.token,
       });
 
@@ -169,7 +174,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
         );
 
         await approveContract.methods.approve(kyberWrapper, costInWei).send({
-          from: userAddress,
+          from: web3UserAddress,
         });
       }
 
@@ -195,7 +200,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
           userAddress,
         )
         .send({
-          from: userAddress,
+          from: web3UserAddress,
           value: 0,
         });
 
@@ -237,7 +242,9 @@ class TokenPurchaseService implements ITokenPurcahseService {
         chain,
       });
 
-      const userAddress = await web3Service.getWalletAddress();
+      const web3UserAddress = await web3Service.getWalletAddress();
+      const userAddress = userData.model.address;
+
       const saleAddress = tokenStore.saleAddress;
 
       if (!saleAddress) {
@@ -250,7 +257,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       });
 
       const userBalance = await immediatePurchaseService.getBalanceOfErc20({
-        walletAddress: userAddress,
+        walletAddress: web3UserAddress,
         tokenAddress: paymentMethod.token,
       });
 
@@ -269,7 +276,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       );
 
       const allowed = await contract.methods
-        .allowance(userAddress, saleAddress)
+        .allowance(web3UserAddress, saleAddress)
         .call();
 
       if (allowed < costInWei) {
@@ -284,7 +291,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
         );
 
         await approveContract.methods.approve(saleAddress, costInWei).send({
-          from: userAddress,
+          from: web3UserAddress,
         });
       }
 
@@ -301,7 +308,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       await transferContract.methods
         .receiveERC20(userAddress, paymentMethod.token, costInWei)
         .send({
-          from: userAddress,
+          from: web3UserAddress,
         });
 
       return true;
