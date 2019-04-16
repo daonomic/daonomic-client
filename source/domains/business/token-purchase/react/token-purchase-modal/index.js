@@ -11,7 +11,9 @@ const enhance = compose(
     isProcessing: tokenPurchase.isProcessing,
     transactionStatus: tokenPurchase.transactionStatus,
     error: tokenPurchase.error,
-    resetTransaction: tokenPurchase.resetState,
+    resetState: () => {
+      tokenPurchase.resetState();
+    },
   })),
   observer,
 );

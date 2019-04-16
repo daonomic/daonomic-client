@@ -14,7 +14,7 @@ import type { ITokenPurcahseService } from '~/domains/business/token-purchase/ty
 class TokenPurchaseService implements ITokenPurcahseService {
   buyInEth = async ({ cost }) => {
     try {
-      const chain = ['idle', 'balance_checking', 'transfer', 'transfered'];
+      const chain = ['balance_checking', 'transfer', 'transfered'];
 
       if (!tokenPurchase.mayUserPerformTransaction) {
         throw new Error('Another transaction already in process');
@@ -84,7 +84,6 @@ class TokenPurchaseService implements ITokenPurcahseService {
       const sale = tokenStore.sale;
 
       const chain = [
-        'idle',
         'balance_checking',
         'allowance_checking',
         'approving',
@@ -111,7 +110,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       }
 
       await tokenPurchase.purchasingStart({
-        state: 'idle',
+        state: 'balance_checking',
         chain,
       });
 
@@ -121,11 +120,6 @@ class TokenPurchaseService implements ITokenPurcahseService {
       if (!saleAddress) {
         throw new Error('No sale address provided');
       }
-
-      await tokenPurchase.updateTransactionStatus({
-        state: 'balance_checking',
-        chain,
-      });
 
       const costInWei = toWei({
         cost,
@@ -223,7 +217,6 @@ class TokenPurchaseService implements ITokenPurcahseService {
   buyInErc20 = async ({ cost, paymentMethod }) => {
     try {
       const chain = [
-        'idle',
         'balance_checking',
         'allowance_checking',
         'approving',
@@ -240,7 +233,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
       }
 
       await tokenPurchase.purchasingStart({
-        state: 'idle',
+        state: 'balance_checking',
         chain,
       });
 
@@ -250,11 +243,6 @@ class TokenPurchaseService implements ITokenPurcahseService {
       if (!saleAddress) {
         throw new Error('No sale address provided');
       }
-
-      await tokenPurchase.updateTransactionStatus({
-        state: 'balance_checking',
-        chain,
-      });
 
       const costInWei = toWei({
         cost,

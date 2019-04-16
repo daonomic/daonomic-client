@@ -4,26 +4,37 @@
 
 .title {
   margin: 0;
-  padding-bottom: 12px;
+  margin-bottom: 12px;
   font-weight: 600;
   font-size: 16px;
+
+  @media (--desktop) {
+    margin-bottom: 20px;
+  }
+}
+
+.list {
+  list-style-type: none;
 }
 
 .price {
-  margin-bottom: 0;
+  margin-bottom: 15px;
   font-weight: 600;
-  padding-bottom: 10px;
+}
+
+.price:last-child {
+  margin-bottom: 0;
 }
 
 .sold {
-  padding-top: 10px;
+  margin-top: 10px;
 }
 
 .section:not(:last-child) {
-  padding-bottom: 14px;
+  margin-bottom: 14px;
   border-bottom: 1px solid var(--color-borders);
 }
 
 .section:not(:first-child) {
-  padding-top: 14px;
+  margin-top: 14px;
 }

@@ -8,7 +8,7 @@ type Props = {
   evalScripts?: 'always' | 'never',
   fallback?: () => React.Node,
   loading?: () => React.Node,
-  onInjected?: (error: any, svg: any) => void,
+  onInjected?: (error: Error, svg: any) => void,
   renumerateIRIElements?: boolean,
   svgClassName?: string,
   svgStyle?: {
@@ -21,4 +21,4 @@ type Props = {
 
 export function SVGInjector(props: Props) {
   return <ReactSVG {...props} />;
-} 
+}

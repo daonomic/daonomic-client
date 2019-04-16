@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { IconCross } from '~/components/icons/cross';
+import { i18n } from '~/domains/app/i18n';
 
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
@@ -26,10 +27,14 @@ export const LastTransactionView = (props: LastTransactionProps) => {
             {amount}
             {props.purchasingTokenSymbol}
           </b>{' '}
-          tokens. Tokens was added to your wallet automatically
+          tokens. Tokens were added to your wallet automatically
         </Trans>
       </p>
-      <button onClick={props.onClose} className={styles.close}>
+      <button
+        aria-label={i18n._(`Close alert`)}
+        onClick={props.onClose}
+        className={styles.close}
+      >
         <IconCross className={styles.icon} />
       </button>
     </div>

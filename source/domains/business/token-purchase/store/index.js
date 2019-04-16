@@ -60,9 +60,6 @@ export class TokenPurchase implements ITokenPurchase {
   @action
   purchasingAbort = (error) => {
     this.error = error;
-    this.transactionStatus = {
-      state: 'idle',
-    };
   };
 
   @action

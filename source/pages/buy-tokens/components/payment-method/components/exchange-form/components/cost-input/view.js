@@ -2,14 +2,13 @@
 
 import * as React from 'react';
 import { Input } from '@daonomic/ui';
+import { i18n } from '~/domains/app/i18n';
 import { markerTreeContext } from '~/providers/marker-tree';
 
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 
 import type { CostInputProps } from './types';
-
-// @todo translations for phrases
 
 const precision = 6;
 
@@ -29,8 +28,8 @@ export const CostInputView = (props: CostInputProps) => {
           value={formattedCost === 0 ? '' : String(formattedCost)}
           placeholder={
             paymentMethod
-              ? `Estimated cost in ${paymentMethod.id}`
-              : 'Select tokens..'
+              ? i18n._(`Estimated cost in ${paymentMethod.id}`)
+              : i18n._(`Select tokens..`)
           }
           disabled={isHydrating}
           onChange={onChange}

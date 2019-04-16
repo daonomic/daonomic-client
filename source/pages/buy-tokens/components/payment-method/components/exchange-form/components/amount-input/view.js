@@ -2,14 +2,13 @@
 
 import * as React from 'react';
 import { Input } from '@daonomic/ui';
+import { i18n } from '~/domains/app/i18n';
 import { markerTreeContext } from '~/providers/marker-tree';
 
 // $FlowFixMe
 import { Trans } from '@lingui/macro';
 
 import type { AmountInputProps } from './types';
-
-// @todo i18n phrases
 
 export const AmountInputView = (props: AmountInputProps) => {
   const { isHydrating, amount, tokenSymbol, onChange } = props;
@@ -23,7 +22,7 @@ export const AmountInputView = (props: AmountInputProps) => {
           step="any"
           disabled={isHydrating}
           min="0"
-          placeholder={`Enter amount of ${tokenSymbol}`}
+          placeholder={i18n._(`Enter amount of ${tokenSymbol}`)}
           label={<Trans>Amount</Trans>}
           value={amount === 0 ? '' : String(amount)}
           onChange={onChange}

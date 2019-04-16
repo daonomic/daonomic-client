@@ -32,17 +32,16 @@ const TokenPriceView = ({ tokenSymbol, sale }: Props) => {
           <Trans>Token price</Trans>
         </h3>
 
-        <ul className={styles.list}>
-          {paymentMethods.map((method) => (
-            <li key={method.id} className={styles.price}>
-              1 {method.id} ={' '}
+        {paymentMethods &&
+          paymentMethods.map(({ rate, label }) => (
+            <p key={label} className={styles.price}>
+              1 {label} ={' '}
               <Badge>
-                <NumberFormat value={method.rate} />
+                <NumberFormat value={rate} />
               </Badge>{' '}
               {tokenSymbol}
-            </li>
+            </p>
           ))}
-        </ul>
       </div>
 
       {sale.notLimited ? null : (
@@ -50,7 +49,9 @@ const TokenPriceView = ({ tokenSymbol, sale }: Props) => {
           <h3 className={styles.title}>
             <Trans>Tokens sold</Trans>
           </h3>
+
           <Meter value={sale.data.sold / sale.data.total || 0} />
+
           <p className={styles.sold}>
             <NumberFormat value={sale.data.sold} /> {tokenSymbol}{' '}
             <Text color="muted">

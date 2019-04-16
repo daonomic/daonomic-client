@@ -13,7 +13,7 @@ import type { TokenPurchaseTransactionStatus } from '~/domains/business/token-pu
 
 export type TokenPurchaseModalProps = {|
   transactionStatus: TokenPurchaseTransactionStatus,
-  resetTransactionState: () => void,
+  resetState: () => void,
   error: ?Error,
   isProcessing: boolean,
 |};
@@ -29,8 +29,8 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
     return (
       <Modal
         isOpen
-        title={<Trans>Oops. Unexpected error throwed</Trans>}
-        onClose={props.resetTransactionState}
+        title={<Trans>Oops. Unexpected error was thrown</Trans>}
+        onClose={props.resetState}
       >
         <React.Fragment>
           <p>
@@ -39,12 +39,8 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
               detailed info see in console
             </Trans>
           </p>
-          <Button
-            design="primary"
-            onClick={props.resetTransactionState}
-            size="m"
-          >
-            Continue
+          <Button design="primary" onClick={props.resetState} size="m">
+            <Trans>Continue</Trans>
           </Button>
         </React.Fragment>
       </Modal>
@@ -59,13 +55,13 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
     <Modal
       isOpen
       title={<Trans>Token purchasing</Trans>}
-      onClose={props.resetTransactionState}
+      onClose={props.resetState}
     >
       <React.Fragment>
         {transactionStatus.chain ? (
           <React.Fragment>
             <div className={styles.heading}>
-              <Heading size="large" tagName="h1">
+              <Heading size="large" tagName="h2">
                 <Trans>Your transaction is in progress</Trans>
               </Heading>
               <p>
@@ -85,7 +81,7 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
             ))}
           </React.Fragment>
         ) : (
-          <Heading size="large" tagName="h1" className={styles.heading}>
+          <Heading size="large" tagName="h2" className={styles.heading}>
             <Trans>No chain in progress.</Trans>
           </Heading>
         )}
@@ -93,7 +89,7 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
           <Button
             design="primary"
             disabled={transactionStatus.state !== 'transfered'}
-            onClick={props.resetTransactionState}
+            onClick={props.resetState}
             size="m"
           >
             <Trans>Continue work</Trans>
