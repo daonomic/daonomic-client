@@ -22,6 +22,10 @@ export class UserDataStore {
   @observable
   model = new UserDataModel();
 
+  get userAddress() {
+    return this.model.address;
+  }
+
   @action
   setDataState = (dataState: DataStateTypes.DataState) => {
     this.model.dataState = dataState;

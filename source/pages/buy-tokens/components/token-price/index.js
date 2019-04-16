@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react';
+
 // $FlowFixMe
 import { Trans, NumberFormat } from '@lingui/macro';
+
 import { observer } from 'mobx-react';
 import { Badge, Meter, Panel, Text } from '@daonomic/ui';
 import { getMarker } from '~/utils/get-marker';
-import styles from './token-price.css';
+import styles from './styles.css';
 
 import type { SaleStore } from '~/domains/business/sale/store';
 
@@ -16,39 +18,39 @@ export type Props = {|
 
 const marker = getMarker('token-price');
 
-function TokenPriceView({ tokenSymbol, sale }: Props) {
-  if (sale.notLimited && sale.payment.publicPrices.length === 0) {
+const TokenPriceView = ({ tokenSymbol, sale }: Props) => {
+  const { paymentMethods } = sale;
+
+  if (!paymentMethods) {
     return null;
   }
 
   return (
     <Panel data-marker={marker()} className={styles.root}>
-      {sale.payment.publicPrices.length === 0 ? null : (
-        <div className={styles.section}>
-          <h3 className={styles.title}>
-            <Trans>Token price</Trans>
-          </h3>
+      <div className={styles.section}>
+        <h3 className={styles.title}>
+          <Trans>Token price</Trans>
+        </h3>
 
-          {sale.payment.publicPrices.map(({ rate, label }) => (
-            <p key={label} className={styles.price}>
-              1 {label} ={' '}
+        <ul className={styles.list}>
+          {paymentMethods.map((method) => (
+            <li key={method.id} className={styles.price}>
+              1 {method.id} ={' '}
               <Badge>
-                <NumberFormat value={rate} />
+                <NumberFormat value={method.rate} />
               </Badge>{' '}
               {tokenSymbol}
-            </p>
+            </li>
           ))}
-        </div>
-      )}
+        </ul>
+      </div>
 
       {sale.notLimited ? null : (
         <div className={styles.section}>
           <h3 className={styles.title}>
             <Trans>Tokens sold</Trans>
           </h3>
-
           <Meter value={sale.data.sold / sale.data.total || 0} />
-
           <p className={styles.sold}>
             <NumberFormat value={sale.data.sold} /> {tokenSymbol}{' '}
             <Text color="muted">
@@ -60,6 +62,6 @@ function TokenPriceView({ tokenSymbol, sale }: Props) {
       )}
     </Panel>
   );
-}
+};
 
 export const TokenPrice: React.ComponentType<Props> = observer(TokenPriceView);

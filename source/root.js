@@ -1,18 +1,17 @@
 // @flow
-import * as React from 'react';
+
+import { compose } from 'ramda';
 import { hot } from 'react-hot-loader';
-import { MobxProvider } from '~/components/mobx-provider';
 import { CurrentPage } from '~/components/current-page';
-import { I18nProvider } from '~/domains/app/i18n';
+import { withMobxProvider } from '~/HOC/with-mobx-provider';
+import { withI18Provider } from '~/domains/app/i18n';
+import { withTokenPurchaseModal } from '~/domains/business/token-purchase/react';
 
-function RootView(props: { stores: {} }) {
-  return (
-    <I18nProvider>
-      <MobxProvider stores={props.stores}>
-        <CurrentPage />
-      </MobxProvider>
-    </I18nProvider>
-  );
-}
+const enhance = compose(
+  hot(module),
+  withI18Provider,
+  withMobxProvider,
+  withTokenPurchaseModal,
+);
 
-export const Root = hot(module)(RootView);
+export const Root = enhance(CurrentPage);

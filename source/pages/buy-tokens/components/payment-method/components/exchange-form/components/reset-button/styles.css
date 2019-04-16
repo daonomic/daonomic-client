@@ -1,0 +1,15 @@
+.button {
+  border: 0;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.button:hover {
+  text-decoration: underline;
+}

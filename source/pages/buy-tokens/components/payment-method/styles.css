@@ -2,6 +2,14 @@
   padding-bottom: 20px;
 
   @media (--desktop) {
-    padding-bottom: 34px;
+    padding-bottom: 20p;
   }
+}
+
+.exchange {
+  padding-top: 20px;
+}
+
+.address {
+  padding-top: 20px;
 }

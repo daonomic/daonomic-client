@@ -19,8 +19,8 @@ class ExchangeForm {
     return cy.get(this.marker('buy')());
   }
 
-  getErc20Buy() {
-    return cy.get(this.marker('buy-erc20')());
+  getKyberNetworkCheckbox() {
+    return cy.get(this.marker('kyber-network-checkbox')());
   }
 }
 

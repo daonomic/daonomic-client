@@ -10,11 +10,10 @@ import { referralProgramService } from '~/domains/business/referral-program';
 import { walletBalanceService } from '~/domains/business/wallet-balance';
 import { transactionsService } from '~/domains/business/transactions';
 import { Root } from '~/root';
-import { stores } from '~/domains/app/stores';
-import { actualizeRealmId } from '~/domains/app/config';
+import { config } from '~/domains/app/config';
 
 export function init() {
-  actualizeRealmId();
+  config.actualizeRealmId();
 
   kycService.init(auth);
   userDataService.init(auth);
@@ -27,7 +26,7 @@ export function init() {
   const renderTarget = document.getElementById(appNodeIdentifier);
 
   if (renderTarget) {
-    ReactDOM.render(<Root stores={stores} />, renderTarget);
+    ReactDOM.render(<Root />, renderTarget);
     Modal.setAppElement(`#${appNodeIdentifier}`);
   }
 }

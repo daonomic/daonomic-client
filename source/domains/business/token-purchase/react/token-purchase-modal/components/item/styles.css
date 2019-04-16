@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.content p {
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.svg {
+  width: 40px;
+  height: 40px;
+  opacity: 0.1;
+  margin-right: 20px;
+}
+
+.root_passed .svg {
+  opacity: 1;
+}
+
+.root_passed .svg * {
+  fill: var(--color-primary) !important;
+}
+.root_current .content p,
+.root_passed .content p {
+  opacity: 1;
+}
+
+.root_current p {
+  font-weight: bold;
+}

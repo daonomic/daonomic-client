@@ -1,26 +1,22 @@
-// @flow
+//@flow
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { KyberButton as KyberButtonView } from './view';
+import { Button } from '@daonomic/ui';
+import kyberLogo from './kyber.svg';
+import styles from './styles.css';
 
-import { TokenStore } from '~/domains/business/token/store';
-import type { UserDataStore } from '~/domains/business/user-data/store';
-import type { Props } from './view';
-
-type ExternalProps = {
-  ethAmount: number,
+export type Props = {
   children: React.Node,
 };
 
-export const KyberButton: React.ComponentType<ExternalProps> = inject(
-  ({
-    token,
-    userData,
-  }: {|
-    token: TokenStore,
-    userData: UserDataStore,
-  |}): $Diff<Props, ExternalProps> => ({
-    saleAddress: token.sale ? token.sale.data.address : '',
-    buyerAddress: userData.model.address,
-  }),
-)(observer(KyberButtonView));
+export class KyberButton extends React.Component<Props> {
+  render() {
+    const { children, ...restProps } = this.props;
+
+    return (
+      <Button {...restProps}>
+        <img className={styles.logo} src={kyberLogo} alt="" />
+        {children}
+      </Button>
+    );
+  }
+}

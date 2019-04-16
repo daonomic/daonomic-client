@@ -1,0 +1,1 @@
+export { abiGeneratorService } from './service';

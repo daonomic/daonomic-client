@@ -1,6 +1,6 @@
-import raven from 'raven-js';
 import { config } from '~/domains/app/config';
 import { init } from './init';
+import { initRaven } from './init-raven';
 
 if (process.env.E2E_TEST) {
   window.daonomic = {
@@ -8,11 +8,7 @@ if (process.env.E2E_TEST) {
     init,
   };
 } else if (process.env.NODE_ENV === 'production') {
-  raven
-    .config('https://478b6a4ba91e4cacb4243a953781f896@sentry.io/1194582')
-    .install();
-
-  raven.context(() => {
+  initRaven(() => {
     init();
   });
 } else {

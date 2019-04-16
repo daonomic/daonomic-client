@@ -1,15 +1,12 @@
 // @flow
 import { observable, computed } from 'mobx';
-import { PaymentStore } from '~/domains/business/payment/store';
 
 import * as SaleTypes from '~/domains/business/sale/types';
+import * as PaymentTypes from '~/domains/business/payment/types';
 
 export class SaleStore {
   @observable
   data: SaleTypes.Data;
-
-  @observable
-  payment: PaymentStore;
 
   @computed
   get notLimited() {
@@ -18,25 +15,48 @@ export class SaleStore {
 
   @computed
   get isStarted(): boolean {
-    if (this.data.startDate) {
-      return this.data.startDate <= Date.now();
-    } else {
-      return true;
+    const { startDate } = this.data;
+
+    if (startDate) {
+      return startDate <= Date.now();
     }
+    return true;
+  }
+
+  @computed
+  get address(): string {
+    return this.data.address;
   }
 
   @computed
   get isFinished(): boolean {
     if (this.data.endDate) {
       return this.data.endDate <= Date.now();
-    } else {
-      return false;
     }
+    return false;
+  }
+
+  @computed
+  get paymentMethods(): ?(PaymentTypes.PaymentServicePaymentMethod[]) {
+    if (this.data && this.data.paymentMethods) {
+      return this.data.paymentMethods;
+    }
+    return null;
+  }
+
+  @computed
+  get defaultPaymentMethod(): ?PaymentTypes.PaymentServicePaymentMethod {
+    const methods = this.paymentMethods;
+
+    if (methods) {
+      return methods.find((method) => method.default);
+    }
+
+    return null;
   }
 
   constructor({ data }: {| data: SaleTypes.Data |}) {
     this.data = data;
-    this.payment = new PaymentStore({ sale: this });
   }
 }
 
