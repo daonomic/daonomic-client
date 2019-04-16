@@ -25,7 +25,11 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/instruction/view.js:24
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:83
+msgid "After last step, your wallet will be automatically updated"
+msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/components/instruction/view.js:27
 msgid "After your payment will be completed you will get tokens to the selected ethereum address <0/>"
 msgstr ""
 
@@ -35,12 +39,24 @@ msgid "Already have an account?"
 msgstr ""
 
 #: source/pages/buy-tokens/components/balance-overview/unlock-events-table/index.js:51
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:94
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/components/amount-input/view.js:25
 msgid "Amount"
+msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/components/address/view.js:32
+msgid "An error occured: {0}"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:16
+msgid "Authorize contract to transfer your tokens"
 msgstr ""
 
 #: source/pages/buy-tokens/components/balance-overview/view.js:57
 msgid "Available: <0>{locksAvailable,number}</0>"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:13
+msgid "Awaiting for start"
 msgstr ""
 
 #: source/pages/buy-tokens/components/balance-overview/view.js:35
@@ -61,8 +77,7 @@ msgstr ""
 msgid "Bought"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:52
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:63
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/components/submit-button/view.js:25
 msgid "Buy"
 msgstr ""
 
@@ -74,8 +89,20 @@ msgstr ""
 msgid "Can’t find what are you looking for?"
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:15
+msgid "Checking allowance"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:14
+msgid "Checking balance"
+msgstr ""
+
 #: source/components/auth/create-new-password/index.js:93
 msgid "Confirm new password"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:18
+msgid "Confirmation awaiting"
 msgstr ""
 
 #: source/components/auth/signup/index.js:76
@@ -86,6 +113,10 @@ msgstr ""
 msgid "Congrats! Your data is approved and now being processed. Please wait a bit, usually it takes 1-2 minutes."
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:39
+msgid "Continue work"
+msgstr ""
+
 #: source/components/copy-to-clipboard/index.js:51
 msgid "Copied"
 msgstr ""
@@ -94,7 +125,7 @@ msgstr ""
 msgid "Copy"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:108
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/components/cost-input/view.js:27
 msgid "Cost"
 msgstr ""
 
@@ -147,6 +178,10 @@ msgstr ""
 msgid "Enter the email address you used when you joined and we’ll send you instructions to reset your password."
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:54
+msgid "Error description: {0}. More detailed info see in console"
+msgstr ""
+
 #: source/components/copy-to-clipboard/index.js:55
 msgid "Failed to copy"
 msgstr ""
@@ -190,9 +225,14 @@ msgstr ""
 msgid "Frequently asked questions"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/select/index.js:29
-msgid "I want to pay with"
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/view.js:90
+msgid "I have read and agree to the <a href=\"{0}\" target=\"_blank\" rel=\"noopener noreferrer\">Terms of kyber.network service</a>"
 msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/components/select/view.js:84
+msgid "I want buy {purchasingTokenSymbol} with"
+msgstr ""
+
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:62
 msgid "In order to recieve tokens you need to give your Ethereum Wallet Address."
@@ -206,10 +246,14 @@ msgstr ""
 msgid "KYC is not configured"
 msgstr ""
 
+#: source/components/dimmed-loader/index.js:33
+msgid "Loading.."
+msgstr ""
+
 #: source/components/external-select/index.js:59
 #: source/components/json-schema-form/external-select/index.js:68
-#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:72
-#: source/pages/buy-tokens/components/payment-method/address/index.js:27
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:74
+#: source/pages/buy-tokens/components/payment-method/components/address/view.js:37
 #: source/pages/buy-tokens/components/referral-program/view.js:23
 #: source/pages/buy-tokens/view.js:49
 #: source/pages/referral/components/referral-link/view.js:23
@@ -228,6 +272,10 @@ msgstr ""
 msgid "Log Out"
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:17
+msgid "Make a purchase"
+msgstr ""
+
 #: source/components/auth/create-new-password/index.js:80
 msgid "New password"
 msgstr ""
@@ -240,6 +288,10 @@ msgstr ""
 msgid "Next unlock event: <0><1/></0>"
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:101
+msgid "No chain in progress."
+msgstr ""
+
 #: source/pages/buy-tokens/components/transactions/view.js:48
 msgid "No transactions found"
 msgstr ""
@@ -250,6 +302,10 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/user-data-form/view.js:67
 msgid "Note: address could not be changed after approval!"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:49
+msgid "Oops. Unexpected error was thrown"
 msgstr ""
 
 #: source/components/auth/signin/index.js:92
@@ -270,7 +326,7 @@ msgstr ""
 msgid "Passwords should match"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/instruction/view.js:20
+#: source/pages/buy-tokens/components/payment-method/components/instruction/view.js:23
 msgid "Payment Instruction"
 msgstr ""
 
@@ -331,6 +387,10 @@ msgstr ""
 msgid "Registration date"
 msgstr ""
 
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/components/reset-button/index.js:24
+msgid "Reset calculations"
+msgstr ""
+
 #: source/components/auth/reset-password/index.js:100
 msgid "Reset instructions sent"
 msgstr ""
@@ -343,9 +403,6 @@ msgstr ""
 msgid "Select residency"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/address/index.js:44
-msgid "Send funds to this {0} address:"
-msgstr ""
 
 #: source/components/auth/reset-password/index.js:89
 msgid "Send reset instructions"
@@ -358,12 +415,13 @@ msgstr ""
 
 #: source/pages/buy-tokens/components/balance-overview/withdraw-button/index.js:29
 #: source/pages/buy-tokens/components/kyc/extended-kyc-form/index.js:65
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/view.js:64
 #: source/pages/buy-tokens/view.js:34
 msgid "Something went wrong"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:59
-#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:78
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:80
 #: source/pages/buy-tokens/components/kyc/sumsub-kyc-form/index.js:61
 msgid "Something went wrong, please try again"
 msgstr ""
@@ -384,7 +442,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: source/pages/buy-tokens/components/payment-method/index.js:34
+#: source/pages/buy-tokens/components/payment-method/view.js:30
 msgid "Step 2: Buy tokens"
 msgstr ""
 
@@ -394,19 +452,33 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/components/item/process-table.js:19
+msgid "Success!"
+msgstr ""
+
 #: source/components/footer/index.js:28
 msgid "Terms of Service"
 msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/index.js:29
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/view.js:70
+msgid "This transaction will be provided by <0>Kyber Network</0>"
+msgstr ""
+
+#: source/pages/buy-tokens/components/token-price/index.js:32
+#: source/pages/buy-tokens/components/token-price/view.js:32
 msgid "Token price"
+msgstr ""
+
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:72
+msgid "Token purchasing"
 msgstr ""
 
 #: source/pages/buy-tokens/components/sale-period-guard/index.js:45
 msgid "Token sale starts in {days, plural, one {1 day} other {# days}} {hours, plural, one {1 hour} other {# hours}} {minutes, plural, one {1 minute} other {# minutes}} {seconds, plural, one {1 second} other {# seconds}}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/index.js:47
+#: source/pages/buy-tokens/components/token-price/index.js:55
+#: source/pages/buy-tokens/components/token-price/view.js:50
 msgid "Tokens sold"
 msgstr ""
 
@@ -434,7 +506,7 @@ msgstr ""
 msgid "Verify identity"
 msgstr ""
 
-#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:75
+#: source/pages/buy-tokens/components/kyc/civic-kyc-form/index.js:77
 msgid "Verify identity with Civic"
 msgstr ""
 
@@ -454,8 +526,16 @@ msgstr ""
 msgid "Withdrawed {0,number} {tokenSymbol}"
 msgstr ""
 
+#: source/pages/buy-tokens/components/payment-method/components/address/view.js:49
+msgid "You can purchase tokens via direct transfer to wallet. Send funds to this <0>{paymentMethodSymbol}</0> address:"
+msgstr ""
+
 #: source/pages/referral/view.js:65
 msgid "You have no referees"
+msgstr ""
+
+#: source/pages/buy-tokens/components/payment-method/components/exchange-form/components/last-transaction/view.js:24
+msgid "You just successfully purchased <0>{amount} {0}</0> tokens. Tokens were added to your wallet automatically"
 msgstr ""
 
 #: source/pages/buy-tokens/components/kyc/view.js:102
@@ -484,6 +564,10 @@ msgstr ""
 msgid "Your residency"
 msgstr ""
 
+#: source/domains/business/token-purchase/react/token-purchase-modal/view.js:80
+msgid "Your transaction is in progress"
+msgstr ""
+
 #: source/components/auth/signin/index.js:68
 msgid "auth.loginHeading"
 msgstr "Log In"
@@ -504,10 +588,7 @@ msgstr ""
 msgid "in {hours}:{minutes}:{seconds}"
 msgstr ""
 
-#: source/pages/buy-tokens/components/token-price/index.js:55
+#: source/pages/buy-tokens/components/token-price/index.js:61
+#: source/pages/buy-tokens/components/token-price/view.js:58
 msgid "soldOf"
 msgstr "of"
-
-#: source/pages/buy-tokens/components/payment-method/exchange-form/view.js:87
-msgid "{0, plural, one {You will receive # bonus token!} other {You will receive # bonus tokens!}}"
-msgstr ""
