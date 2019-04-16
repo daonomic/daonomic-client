@@ -35,3 +35,13 @@
 .root_current p {
   font-weight: bold;
 }
+
+.root_loadable.root_current .icon {
+  animation: blinker 0.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

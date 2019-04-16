@@ -15,7 +15,12 @@ import type { ITokenPurcahseService } from '~/domains/business/token-purchase/ty
 class TokenPurchaseService implements ITokenPurcahseService {
   buyInEth = async ({ cost }) => {
     try {
-      const chain = ['balance_checking', 'transfer', 'transfered'];
+      const chain = [
+        'balance_checking',
+        'transfer',
+        'awaiting_confirmation',
+        'transfered',
+      ];
 
       if (!tokenPurchase.mayUserPerformTransaction) {
         throw new Error('Another transaction already in process');
@@ -62,10 +67,18 @@ class TokenPurchaseService implements ITokenPurcahseService {
         chain,
       });
 
-      await contract.methods.buyTokens(userAddress).send({
-        from: web3UserAddress,
-        value: costInWei,
-      });
+      await contract.methods
+        .buyTokens(userAddress)
+        .send({
+          from: web3UserAddress,
+          value: costInWei,
+        })
+        .on('transactionHash', () => {
+          tokenPurchase.updateTransactionStatus({
+            state: 'awaiting_confirmation',
+            chain,
+          });
+        });
 
       await tokenPurchase.updateTransactionStatus({
         state: 'transfered',
@@ -91,6 +104,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
         'allowance_checking',
         'approving',
         'transfer',
+        'awaiting_confirmation',
         'transfered',
       ];
 
@@ -162,12 +176,12 @@ class TokenPurchaseService implements ITokenPurcahseService {
         .allowance(userAddress, kyberWrapper)
         .call();
 
-      if (allowed < costInWei) {
-        await tokenPurchase.updateTransactionStatus({
-          state: 'approving',
-          chain,
-        });
+      await tokenPurchase.updateTransactionStatus({
+        state: 'approving',
+        chain,
+      });
 
+      if (allowed < costInWei) {
         const approveContract = await web3Service.createContract(
           [abiGeneratorService.createApproveAbi()],
           paymentMethod.token,
@@ -202,6 +216,12 @@ class TokenPurchaseService implements ITokenPurcahseService {
         .send({
           from: web3UserAddress,
           value: 0,
+        })
+        .on('transactionHash', () => {
+          tokenPurchase.updateTransactionStatus({
+            state: 'awaiting_confirmation',
+            chain,
+          });
         });
 
       await tokenPurchase.updateTransactionStatus({
@@ -226,6 +246,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
         'allowance_checking',
         'approving',
         'transfer',
+        'awaiting_confirmation',
         'transfered',
       ];
 
@@ -279,12 +300,12 @@ class TokenPurchaseService implements ITokenPurcahseService {
         .allowance(web3UserAddress, saleAddress)
         .call();
 
-      if (allowed < costInWei) {
-        await tokenPurchase.updateTransactionStatus({
-          state: 'approving',
-          chain,
-        });
+      await tokenPurchase.updateTransactionStatus({
+        state: 'approving',
+        chain,
+      });
 
+      if (allowed < costInWei) {
         const approveContract = await web3Service.createContract(
           [abiGeneratorService.createApproveAbi()],
           paymentMethod.token,
@@ -309,7 +330,18 @@ class TokenPurchaseService implements ITokenPurcahseService {
         .receiveERC20(userAddress, paymentMethod.token, costInWei)
         .send({
           from: web3UserAddress,
+        })
+        .on('transactionHash', () => {
+          tokenPurchase.updateTransactionStatus({
+            state: 'awaiting_confirmation',
+            chain,
+          });
         });
+
+      await tokenPurchase.updateTransactionStatus({
+        state: 'transfered',
+        chain,
+      });
 
       return true;
     } catch (error) {

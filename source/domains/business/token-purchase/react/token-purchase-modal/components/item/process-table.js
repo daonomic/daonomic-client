@@ -15,5 +15,6 @@ export const processTable: {
   allowance_checking: i18n._(t`Checking allowance`),
   approving: i18n._(t`Authorize contract to transfer your tokens`),
   transfer: i18n._(t`Make a purchase`),
+  awaiting_confirmation: i18n._(t`Confirmation awaiting`),
   transfered: i18n._(t`Success!`),
 };

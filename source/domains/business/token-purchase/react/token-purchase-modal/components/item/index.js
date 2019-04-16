@@ -14,11 +14,12 @@ type Props = {|
   id: TokenPurchaseTransactionState,
   isPassed: boolean,
   isCurrent: boolean,
+  isLoadable: boolean,
 |};
 
 export class Item extends React.PureComponent<Props> {
   render() {
-    const { id, isPassed, isCurrent } = this.props;
+    const { id, isPassed, isCurrent, isLoadable } = this.props;
 
     return (
       <div
@@ -26,6 +27,7 @@ export class Item extends React.PureComponent<Props> {
           styles.root,
           { [styles.root_passed]: isPassed },
           { [styles.root_current]: isCurrent },
+          { [styles.root_loadable]: isLoadable },
         )}
       >
         <div className={styles.icon}>

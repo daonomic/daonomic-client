@@ -8,6 +8,7 @@ export type TokenPurchaseTransactionState =
   | 'approving'
   | 'balance_checking'
   | 'transfer'
+  | 'awaiting_confirmation'
   | 'transfered';
 
 export type TokenPurchaseTransactionStatus =

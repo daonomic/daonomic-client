@@ -89,6 +89,7 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
               <div className={styles.item} key={index}>
                 <Item
                   id={item}
+                  isLoadable={['awaiting_confirmation'].indexOf(item) !== -1}
                   isCurrent={currentIndex === index}
                   isPassed={index <= currentIndex}
                 />
