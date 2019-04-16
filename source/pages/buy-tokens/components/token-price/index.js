@@ -33,15 +33,19 @@ const TokenPriceView = ({ tokenSymbol, sale }: Props) => {
         </h3>
 
         <ul className={styles.list}>
-          {paymentMethods.map((method) => (
-            <li key={method.id} className={styles.price}>
-              1 {method.id} ={' '}
-              <Badge>
-                <NumberFormat value={method.rate} />
-              </Badge>{' '}
-              {tokenSymbol}
-            </li>
-          ))}
+          {paymentMethods
+            .filter(
+              (paymentMethods) => paymentMethods.category !== 'KYBER_NETWORK',
+            )
+            .map((method) => (
+              <li key={method.id} className={styles.price}>
+                1 {method.id} ={' '}
+                <Badge>
+                  <NumberFormat value={method.rate} />
+                </Badge>{' '}
+                {tokenSymbol}
+              </li>
+            ))}
         </ul>
       </div>
 
