@@ -28,7 +28,20 @@ export class TokenStore {
 
   @computed
   get saleAddress(): ?string {
-    return (this.sale || {}).address;
+    if (this.sale) {
+      return this.sale.address;
+    }
+
+    return null;
+  }
+
+  @computed
+  get saleId(): ?string {
+    if (this.sale) {
+      return this.sale.data.id;
+    }
+
+    return null;
   }
 
   @action

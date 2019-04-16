@@ -34,6 +34,19 @@ export type PaymentServiceFetchRateData = {|
   address: string,
   amount: number,
 |};
+
+type PaymentServiceFetchFundAddressSuccess = {|
+  address: string,
+|};
+
+type PaymentServiceFetchFundAddressError = {|
+  reason: string,
+|};
+
+export type PaymentServiceFetchFundAddress =
+  | PaymentServiceFetchFundAddressError
+  | PaymentServiceFetchFundAddressSuccess;
+
 export interface IPaymentService {
   determineBonus: (data: {|
     saleId: string,
@@ -46,4 +59,8 @@ export interface IPaymentService {
     |},
     saleId: string,
   ) => Promise<PaymentServiceFetchRateType>;
+  fetchFundAddress: ({|
+    saleId: string,
+    paymentAddress: string,
+  |}) => Promise<PaymentServiceFetchFundAddress>;
 }
