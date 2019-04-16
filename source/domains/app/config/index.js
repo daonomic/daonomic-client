@@ -12,6 +12,12 @@ const realms = {
   production: '',
 };
 
+const web3AppNodeUrls = {
+  development: 'http://ops:9092/v1/node',
+  staging: 'https://dev-app.daonomic.io/v1/node',
+  production: 'https://app.daonomic.io/v1/node',
+};
+
 class Config {
   realmId = defaultConfig.realm || realms[env] || realms.production;
   contactEmail = 'dev@0v1se.com';
@@ -20,7 +26,7 @@ class Config {
   sentryDsn = 'https://0e3f2eb6dbc24f62b7e78dd20da897b4@sentry.io/1437614';
   kyberNetworkTerms = 'https://files.kyber.network/tac.html';
   kyberWidgetUrl = 'https://kyber.daonomic.io';
-  web3AppNodeUrl = 'http://ops:9092/v1/node';
+  web3AppNodeUrl = web3AppNodeUrls[env];
   defaultPollingInterval = 3000;
 
   actualizeRealmId = () => {
