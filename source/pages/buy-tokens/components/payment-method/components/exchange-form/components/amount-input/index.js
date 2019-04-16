@@ -72,7 +72,6 @@ const enhance = compose(
       return {
         cost: tokenExchangeCalculations.state.cost,
         amount: tokenExchangeCalculations.state.amount,
-        isHydrating: tokenExchangeCalculations.state.isHydrating,
         tokenSymbol: token.symbol,
         paymentMethod: tokenPurchase.selectedPaymentMethod,
         onChange: (event: SyntheticInputEvent<HTMLSelectElement>) => {

@@ -11,7 +11,7 @@ import { Trans } from '@lingui/macro';
 import type { AmountInputProps } from './types';
 
 export const AmountInputView = (props: AmountInputProps) => {
-  const { isHydrating, amount, tokenSymbol, onChange } = props;
+  const { amount, tokenSymbol, onChange } = props;
 
   return (
     <markerTreeContext.Consumer>
@@ -20,7 +20,6 @@ export const AmountInputView = (props: AmountInputProps) => {
           data-marker={markerCreator('amount')()}
           type="number"
           step="any"
-          disabled={isHydrating}
           min="0"
           placeholder={i18n._(`Enter amount of ${tokenSymbol}`)}
           label={<Trans>Amount</Trans>}

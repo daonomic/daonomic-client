@@ -13,7 +13,7 @@ import type { CostInputProps } from './types';
 const precision = 6;
 
 export const CostInputView = (props: CostInputProps) => {
-  const { cost, onChange, isHydrating, paymentMethod } = props;
+  const { cost, onChange, paymentMethod } = props;
   const formattedCost = parseFloat(cost.toFixed(precision));
 
   return (
@@ -31,7 +31,6 @@ export const CostInputView = (props: CostInputProps) => {
               ? i18n._(`Estimated cost in ${paymentMethod.id}`)
               : i18n._(`Select tokens..`)
           }
-          disabled={isHydrating}
           onChange={onChange}
         />
       )}
