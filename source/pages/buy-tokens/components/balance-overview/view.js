@@ -62,14 +62,15 @@ export function BalanceOverview({ tokenSymbol, onWithdraw }: Props) {
                   </Trans>
                 </span>
                 <span className={styles.symbol}>{tokenSymbol}</span>
-                <div className={styles.withdrawButton}>
-                  <WithdrawButton
-                    data-marker={marker('withdraw-button')()}
-                    disabled={locksAvailable === 0}
-                    onClick={onWithdraw}
-                    withdrawingState={state.withdrawingState}
-                  />
-                </div>
+                {locksAvailable !== 0 && (
+                  <div className={styles.withdrawButton}>
+                    <WithdrawButton
+                      data-marker={marker('withdraw-button')()}
+                      onClick={onWithdraw}
+                      withdrawingState={state.withdrawingState}
+                    />
+                  </div>
+                )}
               </li>
               {nextUnlockEvent && (
                 <li className={styles.item}>
