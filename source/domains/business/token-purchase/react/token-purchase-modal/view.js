@@ -15,7 +15,11 @@ import type { TokenPurchaseTransactionStatus } from '~/domains/business/token-pu
 export type TokenPurchaseModalProps = {|
   transactionStatus: TokenPurchaseTransactionStatus,
   resetState: () => void,
-  error: ?Error,
+  error: ?{|
+    error: Error,
+    failedState: TokenPurchaseTransactionStatus,
+  |},
+  isDone: boolean,
   isProcessing: boolean,
 |};
 
@@ -24,42 +28,6 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
 
   if (!props.isProcessing || transactionStatus.state === 'idle') {
     return null;
-  }
-
-  const continueButton = (additionalProps) => (
-    <markerTreeContext.Consumer>
-      {({ markerCreator }) => (
-        <Button
-          design="primary"
-          data-marker={markerCreator('continue')()}
-          onClick={props.resetState}
-          size="m"
-          {...additionalProps}
-        >
-          <Trans>Continue work</Trans>
-        </Button>
-      )}
-    </markerTreeContext.Consumer>
-  );
-
-  if (error) {
-    return (
-      <Modal
-        isOpen
-        title={<Trans>Oops. Unexpected error was thrown</Trans>}
-        onClose={props.resetState}
-      >
-        <React.Fragment>
-          <p>
-            <Trans>
-              Error description: {error.message || 'Unknown error'}. More
-              detailed info see in console
-            </Trans>
-          </p>
-          {continueButton()}
-        </React.Fragment>
-      </Modal>
-    );
   }
 
   const currentIndex =
@@ -89,9 +57,14 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
               <div className={styles.item} key={index}>
                 <Item
                   id={item}
-                  isLoadable={['awaiting_confirmation'].indexOf(item) !== -1}
+                  isLoading={
+                    ['awaiting_confirmation', 'awaiting_approving'].indexOf(
+                      item,
+                    ) !== -1
+                  }
                   isCurrent={currentIndex === index}
-                  isPassed={index <= currentIndex}
+                  isPassed={index < currentIndex}
+                  isFailed={!!error && item === error.failedState}
                 />
               </div>
             ))}
@@ -101,10 +74,28 @@ export const TokenPurchaseModalView = (props: TokenPurchaseModalProps) => {
             <Trans>No chain in progress.</Trans>
           </Heading>
         )}
+        {props.error && (
+          <p>
+            <Trans>
+              Transaction failed. See details in console or contact us for
+              support
+            </Trans>
+          </p>
+        )}
         <div className={styles.continue}>
-          {continueButton({
-            disabled: transactionStatus.state !== 'transfered',
-          })}
+          <markerTreeContext.Consumer>
+            {({ markerCreator }) => (
+              <Button
+                design="primary"
+                data-marker={markerCreator('continue')()}
+                onClick={props.resetState}
+                size="m"
+                disabled={!props.isDone && !props.error}
+              >
+                <Trans>Continue work</Trans>
+              </Button>
+            )}
+          </markerTreeContext.Consumer>
         </div>
       </React.Fragment>
     </Modal>

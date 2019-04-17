@@ -9,7 +9,7 @@ export type TokenPurchaseTransactionState =
   | 'balance_checking'
   | 'transfer'
   | 'awaiting_confirmation'
-  | 'transfered';
+  | 'awaiting_approving';
 
 export type TokenPurchaseTransactionStatus =
   | {
@@ -28,7 +28,7 @@ export type TokenPurchaseTransactionData = {|
 
 export interface ITokenPurchase {
   transactionStatus: TokenPurchaseTransactionStatus;
-  error: ?Error;
+  error: ?{| error: Error, failedState: TokenPurchaseTransactionState |};
   isProcessing: boolean;
   isAgreeWithKyberTerms: boolean;
   handleIsAgreeWithKyberTerms: (isAgreeWithKyberTerms: boolean) => void;

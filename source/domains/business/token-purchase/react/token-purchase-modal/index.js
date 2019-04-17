@@ -13,6 +13,7 @@ const enhance = compose(
     isProcessing: tokenPurchase.isProcessing,
     transactionStatus: tokenPurchase.transactionStatus,
     error: tokenPurchase.error,
+    isDone: tokenPurchase.isDone,
     resetState: () => {
       tokenPurchase.resetState();
     },

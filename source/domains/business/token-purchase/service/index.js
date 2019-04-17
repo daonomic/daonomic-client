@@ -15,12 +15,7 @@ import type { ITokenPurcahseService } from '~/domains/business/token-purchase/ty
 class TokenPurchaseService implements ITokenPurcahseService {
   buyInEth = async ({ cost }) => {
     try {
-      const chain = [
-        'balance_checking',
-        'transfer',
-        'awaiting_confirmation',
-        'transfered',
-      ];
+      const chain = ['balance_checking', 'transfer', 'awaiting_confirmation'];
 
       if (!tokenPurchase.mayUserPerformTransaction) {
         throw new Error('Another transaction already in process');
@@ -80,10 +75,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
           });
         });
 
-      await tokenPurchase.updateTransactionStatus({
-        state: 'transfered',
-        chain,
-      });
+      await tokenPurchase.purchasingDone();
 
       return true;
     } catch (error) {
@@ -103,9 +95,9 @@ class TokenPurchaseService implements ITokenPurcahseService {
         'balance_checking',
         'allowance_checking',
         'approving',
+        'awaiting_approving',
         'transfer',
         'awaiting_confirmation',
-        'transfered',
       ];
 
       if (!tokenPurchase.mayUserPerformTransaction) {
@@ -187,9 +179,17 @@ class TokenPurchaseService implements ITokenPurcahseService {
           paymentMethod.token,
         );
 
-        await approveContract.methods.approve(kyberWrapper, costInWei).send({
-          from: web3UserAddress,
-        });
+        await approveContract.methods
+          .approve(kyberWrapper, costInWei)
+          .send({
+            from: web3UserAddress,
+          })
+          .on('transactionHash', () => {
+            tokenPurchase.updateTransactionStatus({
+              state: 'awaiting_approving',
+              chain,
+            });
+          });
       }
 
       await tokenPurchase.updateTransactionStatus({
@@ -224,10 +224,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
           });
         });
 
-      await tokenPurchase.updateTransactionStatus({
-        state: 'transfered',
-        chain,
-      });
+      await tokenPurchase.purchasingDone();
 
       return true;
     } catch (error) {
@@ -245,9 +242,9 @@ class TokenPurchaseService implements ITokenPurcahseService {
         'balance_checking',
         'allowance_checking',
         'approving',
+        'awaiting_approving',
         'transfer',
         'awaiting_confirmation',
-        'transfered',
       ];
 
       if (!tokenPurchase.mayUserPerformTransaction) {
@@ -311,9 +308,17 @@ class TokenPurchaseService implements ITokenPurcahseService {
           paymentMethod.token,
         );
 
-        await approveContract.methods.approve(saleAddress, costInWei).send({
-          from: web3UserAddress,
-        });
+        await approveContract.methods
+          .approve(saleAddress, costInWei)
+          .send({
+            from: web3UserAddress,
+          })
+          .on('transactionHash', () => {
+            tokenPurchase.updateTransactionStatus({
+              state: 'awaiting_approving',
+              chain,
+            });
+          });
       }
 
       await tokenPurchase.updateTransactionStatus({
@@ -338,10 +343,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
           });
         });
 
-      await tokenPurchase.updateTransactionStatus({
-        state: 'transfered',
-        chain,
-      });
+      await tokenPurchase.purchasingDone();
 
       return true;
     } catch (error) {

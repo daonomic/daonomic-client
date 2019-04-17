@@ -3,6 +3,7 @@
 import * as React from 'react';
 import cns from 'classnames';
 import { CheckCircle } from '~/components/icons/check-circle';
+import { IconFail } from '@daonomic/ui';
 
 // $FlowFixMe
 import { processTable } from './process-table';
@@ -14,29 +15,29 @@ type Props = {|
   id: TokenPurchaseTransactionState,
   isPassed: boolean,
   isCurrent: boolean,
-  isLoadable: boolean,
+  isLoading: boolean,
+  isFailed: boolean,
 |};
 
-export class Item extends React.PureComponent<Props> {
-  render() {
-    const { id, isPassed, isCurrent, isLoadable } = this.props;
-
-    return (
-      <div
-        className={cns(
-          styles.root,
-          { [styles.root_passed]: isPassed },
-          { [styles.root_current]: isCurrent },
-          { [styles.root_loadable]: isLoadable },
-        )}
-      >
-        <div className={styles.icon}>
-          <CheckCircle svgClassName={styles.svg} />
-        </div>
-        <div className={styles.content}>
-          <p>{processTable[id]}</p>
-        </div>
-      </div>
-    );
-  }
-}
+export const Item = (props: Props) => (
+  <div
+    className={cns(
+      styles.root,
+      { [styles.root_passed]: props.isPassed },
+      { [styles.root_current]: props.isCurrent },
+      { [styles.root_loadable]: props.isLoading },
+      { [styles.root_failed]: props.isFailed },
+    )}
+  >
+    <div className={styles.icon}>
+      {!props.isFailed ? (
+        <CheckCircle svgClassName={styles.svg} />
+      ) : (
+        <IconFail size={80} />
+      )}
+    </div>
+    <div className={styles.content}>
+      <p>{processTable[props.id]}</p>
+    </div>
+  </div>
+);

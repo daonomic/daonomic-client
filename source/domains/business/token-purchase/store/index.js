@@ -24,6 +24,9 @@ export class TokenPurchase implements ITokenPurchase {
   @observable
   isAgreeWithKyberTerms = false;
 
+  @observable
+  isDone = false;
+
   @computed
   get mayUserPerformTransaction() {
     return !this.isProcessing;
@@ -59,7 +62,10 @@ export class TokenPurchase implements ITokenPurchase {
 
   @action
   purchasingAbort = (error) => {
-    this.error = error;
+    this.error = {
+      error,
+      failedState: this.transactionStatus.state,
+    };
   };
 
   @action
@@ -70,16 +76,23 @@ export class TokenPurchase implements ITokenPurchase {
     this.error = null;
     this.isProcessing = false;
     this.lastTransaction = lastTransaction;
+    this.isDone = false;
   };
 
   @action
   closeLastTransaction = () => {
     this.lastTransaction = null;
+    this.isDone = false;
   };
 
   @action
   handleIsAgreeWithKyberTerms = (isAgreeWithKyberTerms) => {
     this.isAgreeWithKyberTerms = isAgreeWithKyberTerms;
+  };
+
+  @action
+  purchasingDone = () => {
+    this.isDone = true;
   };
 }
 

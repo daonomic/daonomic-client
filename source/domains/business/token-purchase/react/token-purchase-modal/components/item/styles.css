@@ -13,11 +13,15 @@
   margin-bottom: 4px;
 }
 
-.svg {
-  width: 40px;
-  height: 40px;
-  opacity: 0.1;
+.icon {
+  width: 37px;
   margin-right: 20px;
+}
+
+.svg {
+  width: 35px;
+  height: 35px;
+  opacity: 0.1;
 }
 
 .root_passed .svg {
@@ -27,6 +31,7 @@
 .root_passed .svg * {
   fill: var(--color-primary) !important;
 }
+
 .root_current .content p,
 .root_passed .content p {
   opacity: 1;
@@ -44,4 +49,8 @@
   50% {
     opacity: 0;
   }
+}
+
+.root_failed {
+  color: var(--color-danger);
 }
