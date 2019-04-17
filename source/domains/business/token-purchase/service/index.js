@@ -209,7 +209,7 @@ class TokenPurchaseService implements ITokenPurcahseService {
           paymentMethod.token,
           costInWei,
           defaultPaymentMethod.token,
-          0,
+          '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
           Math.round(paymentMethod.conversionRate * 0.97 * Math.pow(10, 18)),
           userAddress,
         )
