@@ -147,7 +147,7 @@ describe('No public sale', () => {
       .and('equal', String(0));
   });
 
-  it.only('Should display balance overview with unlock events', () => {
+  it('Should display balance overview with unlock events', () => {
     const holders = [
       {
         name: pools[0].name,
@@ -180,25 +180,17 @@ describe('No public sale', () => {
     balanceOverview
       .getUnlocksTable()
       .find('tbody tr')
-      .should('have.length', 2);
+      .should('have.length', 1);
 
     balanceOverview
       .getAvailable()
       .should('have.attr', 'data-raw-value')
-      .and('equal', String(0));
+      .and('equal', String(1000));
 
     balanceOverview.getWithdrawButton().should('be.visible');
 
     balanceOverview.getNextUnlockDate().should('be.visible');
     balanceOverview.getRefreshNotification().should('not.be.visible');
-
-    balanceOverview
-      .getNextUnlockAmount()
-      .should('be.visible')
-      .should('have.attr', 'data-raw-value')
-      .and('equal', String(holders[0].amount));
-
-    balanceOverview.getRefreshNotification().should('be.visible');
 
     balanceOverview
       .getNextUnlockAmount()
