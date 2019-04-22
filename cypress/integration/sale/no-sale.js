@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { userDataForm } from '../../objects/kyc/user-data-form';
 import { paymentMethod } from '../../objects/payment-method';
 import { tokenPrice } from '../../objects/token-price';
@@ -7,9 +7,8 @@ import { balanceOverview } from '../../objects/balanceOverview';
 import { kycView } from '../../objects/kyc';
 import { transactions } from '../../objects/transactions';
 
-function getDateWithOffset(offset) {
-  return new Date(new Date().getTime() + offset).toISOString();
-}
+const getDateWithOffset = (baseTime, offset) =>
+  new Date(baseTime + offset).toISOString();
 
 describe('No public sale', () => {
   let currentUser = null;
@@ -25,60 +24,67 @@ describe('No public sale', () => {
   ];
 
   beforeEach(() => {
-    pools.push({
-      name: 'Private Sale 01',
-      startType: 'FIXED',
-      amount: 25000,
-      start: getDateWithOffset(15000),
-    });
-
-    pools.push({
-      name: 'Private Sale 02',
-      startType: 'FIXED',
-      amount: 25000,
-      start: getDateWithOffset(86815000),
-    });
-
-    cy.createIco((data) => ({
-      ...data,
-      kyc: {
-        provider: 'SELF_SERVICE',
-      },
-      pools: {
-        pools,
-      },
-      sale: {
-        type: 'PRIVATE',
-      },
-    }))
-      .then((ico) =>
-        cy
-          .getInternalKycParams({
-            fields: simpleInternalFields,
-          })
-          .then((internalParams) =>
-            cy
-              .updateTokenKyc(ico.realmId, ico.adminData.token, internalParams)
-              .then(() => ico),
-          ),
-      )
-      .then((ico) => {
-        cy.createUser({ ico }).then((user) => {
-          currentUser = user;
-
-          cy.login({
-            ico: user.ico,
-            email: user.email,
-            password: user.password,
-          });
-        });
-      })
-      .then(() => {
-        cy.fillUserData({ address: testUserAddress });
+    cy.getCurrentNetworkTime().then((baseTime) => {
+      pools.push({
+        name: 'Private Sale 01',
+        startType: 'FIXED',
+        amount: 25000,
+        start: getDateWithOffset(baseTime, 20000),
       });
+
+      pools.push({
+        name: 'Private Sale 02',
+        startType: 'FIXED',
+        amount: 25000,
+        start: getDateWithOffset(baseTime, 86815000),
+      });
+
+      cy.createIco((data) => ({
+        ...data,
+        kyc: {
+          provider: 'SELF_SERVICE',
+        },
+        pools: {
+          pools,
+        },
+        sale: {
+          type: 'PRIVATE',
+        },
+      }))
+        .then((ico) =>
+          cy
+            .getInternalKycParams({
+              fields: simpleInternalFields,
+            })
+            .then((internalParams) =>
+              cy
+                .updateTokenKyc(
+                  ico.realmId,
+                  ico.adminData.token,
+                  internalParams,
+                )
+                .then(() => ico),
+            ),
+        )
+        .then((ico) => {
+          cy.createUser({ ico }).then((user) => {
+            currentUser = user;
+
+            cy.login({
+              ico: user.ico,
+              email: user.email,
+              password: user.password,
+            });
+          });
+        })
+        .then(() => {
+          cy.fillUserData({ address: config.testUserAddress });
+        });
+    });
   });
 
   afterEach(() => {
+    pools = [];
     cy.logout();
   });
 
@@ -103,12 +109,12 @@ describe('No public sale', () => {
     const holders = [
       {
         name: pools[0].name,
-        address: testUserAddress,
+        address: config.testUserAddress,
         amount: 1000,
       },
       {
         name: pools[1].name,
-        address: testUserAddress,
+        address: config.testUserAddress,
         amount: 1500,
       },
     ];
@@ -141,16 +147,16 @@ describe('No public sale', () => {
       .and('equal', String(0));
   });
 
-  it('Should display balance overview with unlock events', () => {
+  it.only('Should display balance overview with unlock events', () => {
     const holders = [
       {
         name: pools[0].name,
-        address: testUserAddress,
+        address: config.testUserAddress,
         amount: 1000,
       },
       {
         name: pools[1].name,
-        address: testUserAddress,
+        address: config.testUserAddress,
         amount: 1500,
       },
     ];
@@ -211,7 +217,5 @@ describe('No public sale', () => {
       .getUnlocksTable()
       .find('tbody tr')
       .should('have.length', 1);
-
-    balanceOverview.getWithdrawButton().should('be.visible');
   });
 });

@@ -1,10 +1,10 @@
-import { testKycServerUrl } from '../../../config';
+import { config } from '../../../config';
 
 Cypress.Commands.add('getInternalKycParams', ({ fields }) => {
   return {
     provider: 'SELF_SERVICE',
     selfService: {
-      serverUrl: testKycServerUrl,
+      serverUrl: config.testKycServerUrl,
       fields,
     },
   };

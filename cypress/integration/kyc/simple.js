@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 import { navigation } from '../../objects/navigation';
@@ -18,7 +18,7 @@ describe('Simple KYC flow', () => {
   });
 
   it('should save address and show payment methods', () => {
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
     cy.fillExtendedKycForm();
 
     cy.whitelistUser({
@@ -31,7 +31,7 @@ describe('Simple KYC flow', () => {
 
   it('should hide wallet creation page after saving user address', () => {
     navigation.getCreateWalletLink().should('be.visible');
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
     navigation.getCreateWalletLink().should('not.be.visible');
   });
 
@@ -45,7 +45,7 @@ describe('Simple KYC flow', () => {
       response: { status: 'DENIED' },
     }).as('kycStatusRequest');
 
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
     cy.wait('@kycStatusRequest');
     kycView.getDenialAnnotation().should('be.visible');
   });

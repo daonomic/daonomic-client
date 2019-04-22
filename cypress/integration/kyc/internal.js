@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { kycView } from '../../objects/kyc';
 import { paymentMethod } from '../../objects/payment-method';
 import { navigation } from '../../objects/navigation';
@@ -20,7 +20,7 @@ describe('Internal KYC flow', () => {
   it('should save KYC data, show review annotation, show payment methods and hide wallet creation page after confirmation', () => {
     navigation.getCreateWalletLink().should('be.visible');
 
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
     cy.fillExtendedKycForm();
 
     kycView.getReviewAnnotation().should('be.visible');

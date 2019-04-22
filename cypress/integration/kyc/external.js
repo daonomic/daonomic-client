@@ -1,4 +1,4 @@
-import { testKycProviderUrl, testUserAddress } from '../../config';
+import { config } from '../../config';
 import { externalKyc } from '../../objects/kyc/external-kyc';
 import { navigation } from '../../objects/navigation';
 
@@ -25,12 +25,12 @@ describe.skip('External KYC flow', () => {
   it('should show external kyc link and hide wallet creation page', () => {
     navigation.getCreateWalletLink().should('be.visible');
 
-    cy.fillSecurityUserData({ address: testUserAddress });
+    cy.fillSecurityUserData({ address: config.testUserAddress });
 
     navigation.getCreateWalletLink().should('not.exist');
     externalKyc.getRoot().should('be.visible');
     externalKyc.getLink().then(($el) => {
-      cy.wrap($el.attr('href').startsWith(testKycProviderUrl)).should(
+      cy.wrap($el.attr('href').startsWith(config.testKycProviderUrl)).should(
         'be',
         true,
       );

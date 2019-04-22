@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { paymentMethod } from '../../objects/payment-method';
 import { balance } from '../../objects/balance';
 import { transactions } from '../../objects/transactions';
@@ -55,7 +55,7 @@ describe('Immediate tokens purchase with Web3', () => {
   });
 
   it('should be able to purchase tokens through exchange form with different address', () => {
-    const differentUserAddress = testUserAddress;
+    const differentUserAddress = config.testUserAddress;
 
     cy.wrap(differentUserAddress).should(
       'not.equal',

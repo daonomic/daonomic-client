@@ -1,4 +1,4 @@
-import * as serverAPI from '../../server-api';
+import { api } from '../../../api';
 
 Cypress.Commands.add('createUser', ({ ico } = {}) => {
   let icoPromise;
@@ -10,7 +10,7 @@ Cypress.Commands.add('createUser', ({ ico } = {}) => {
   }
 
   return icoPromise.then((ico) =>
-    serverAPI.createUser({ realmId: ico.realmId }).then((user) => ({
+    api.user.createUser({ realmId: ico.realmId }).then((user) => ({
       ...user,
       ico,
     })),

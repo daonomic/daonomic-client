@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { navigation } from '../../objects/navigation';
 import { referralPage } from '../../objects/pages/referral';
 import { paymentMethod } from '../../objects/payment-method';
@@ -25,7 +25,7 @@ const internalFields = [
 ];
 
 function passKyc(user) {
-  cy.fillUserData({ address: testUserAddress });
+  cy.fillUserData({ address: config.testUserAddress });
   cy.fillExtendedKycForm();
   cy.whitelistUser({ ico: user.ico, userId: user.id });
 

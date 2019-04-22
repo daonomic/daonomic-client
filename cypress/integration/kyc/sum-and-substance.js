@@ -1,4 +1,4 @@
-import { testUserAddress } from '../../config';
+import { config } from '../../config';
 import { sumAndSubstanceKycForm } from '../../objects/kyc/sum-and-substance-form';
 import { navigation } from '../../objects/navigation';
 
@@ -31,7 +31,7 @@ describe('Sum & Substance KYC flow', () => {
   });
 
   it('should show Sum & Substance integration widget', () => {
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
 
     sumAndSubstanceKycForm.getRoot().should('be.visible');
     sumAndSubstanceKycForm.getError().should('not.exist');
@@ -41,7 +41,7 @@ describe('Sum & Substance KYC flow', () => {
   it('should hide wallet creation page after filling user data', () => {
     navigation.getCreateWalletLink().should('be.visible');
 
-    cy.fillUserData({ address: testUserAddress });
+    cy.fillUserData({ address: config.testUserAddress });
 
     sumAndSubstanceKycForm.getRoot().should('be.visible');
     navigation.getCreateWalletLink().should('not.exist');
