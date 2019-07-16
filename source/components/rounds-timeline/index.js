@@ -7,12 +7,12 @@ const sampleTimeline = [
   {
     title: 'Rounds Timeline:',
     steps: [
-      { date: '28 Jan - 17 Feb', text: 'Seed Round' },
-      { date: '18 Feb - 10 Mar', text: 'Private A' },
-      { date: '11 Mar - 24 Mar', text: 'Private B' },
-      { date: '25 Mar -  7 Apr', text: 'Private C' },
-      { date: ' 8 Apr - 21 Apr', text: 'Private D' },
-      { date: '22 Apr -  5 May', text: 'Private E' },
+      { date: 'Jan 28 - Mar 31', text: 'Seed Round' },
+      { date: 'Apr 1 - Apr 28', text: 'Private A' },
+      { date: 'Apr 29 - May 26', text: 'Private B' },
+      { date: 'May 27 - Jun 23', text: 'Private C' },
+      { date: 'Jun 24 - Jul 21', text: 'Private D' },
+      { date: 'Jul 22 - Sep 1', text: 'Private E' },
     ].map((step) => {
       let [start, end] = step.date.split(' - ');
 
